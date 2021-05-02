@@ -1,0 +1,8 @@
+.BaseCardPage {
+    width: calc(100% - 320px);
+    height: 100%;
+    position: absolute;
+    top: 60px;
+    left: 320px;
+    overflow: auto;
+}

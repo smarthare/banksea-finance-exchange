@@ -1,0 +1,95 @@
+.BaseCardBundle {
+    background: #fff;
+    width: 306px;
+    height: 437px;
+    float: left;
+    margin-left: 50px;
+    margin-top: 60px;
+    border-radius: 8px;
+    border: 1px solid rgb(229, 232, 235);
+    position: relative;
+    transition: all 0.7s;
+    padding: 8px;
+}
+.BaseCardBundle:hover {
+    margin-top: 55px;
+    border: 1px solid #fff;
+    box-shadow: 1px 1px 6px 0px rgba(102,102,102,0.80);
+}
+.Name {
+    margin-top:60px;
+    font-size: 24px;
+}
+.Description {
+    font-size: 17px;
+}
+.assetsContent {
+    width: calc(100% - 8px);
+    position: absolute;
+    bottom: 20px;
+}
+.assets {
+    color: rgb(138, 147, 155);
+    position: relative;
+}
+.assets > span:nth-of-type(2){
+    position: absolute;
+    right: 8px;
+}
+.owner {
+    position: relative;
+}
+.owner > span:nth-of-type(2) {
+    position: absolute;
+    right: 8px;
+}
+
+.Name {
+  -webkit-line-clamp: 2; /* number of lines to show */
+}
+
+.Description {
+  -webkit-line-clamp: 4; /* number of lines to show */
+}
+
+.ThumbnailsContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.ThumbnailPrimary {
+  transition: all 0.3s ease;
+  @apply transform;
+  @apply top-0;
+  @apply rotate-0;
+  @apply shadow-xl;
+}
+
+.ThumbnailSecondary {
+  transition: all 0.3s ease;
+  @apply transform;
+  @apply top-0;
+  @apply -rotate-6;
+  @apply shadow-xl;
+}
+
+@screen md {
+  .ThumbnailImg {
+    -webkit-filter: grayscale(80%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(80%);
+    transition: all 0.3s ease;
+  }
+
+  .ThumbnailsContainer:hover .ThumbnailPrimary {
+    @apply rotate-6;
+    @apply -top-12;
+  }
+
+  .ThumbnailsContainer:hover .ThumbnailSecondary {
+    @apply top-12;
+  }
+
+  .BaseCardBundle:hover .ThumbnailImg {
+    filter: none;
+  }
+}

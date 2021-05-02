@@ -1,0 +1,33 @@
+.slideBar {
+    width: 320px;
+    position: fixed;
+    height: 100vh;
+    background: blueviolet;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    overflow: auto;
+}
+.category {
+    width: 90%;
+    margin-left: 5%;
+}
+.categoryItem {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    transition: all 0.6s;
+    border: 1px solid #fff;
+    border-radius: 8px;
+}
+.categoryItem > img {
+    width: 32px;
+    margin-left: 10px;
+}
+.categoryItem > span {
+    font-size: 18px;
+    margin-left: 15px;
+}
+.categoryItem:hover {
+    border: 1px solid rgb(229, 232, 235);
+}
