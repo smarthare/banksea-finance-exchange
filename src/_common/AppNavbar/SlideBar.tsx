@@ -9,12 +9,17 @@ import trading from '../../image/trading.png'
 import collectible from '../../image/collectible.png'
 import sport from '../../image/sports.png'
 import utility from '../../image/utility.png'
+import { PieChartFilled } from '@ant-design/icons'
 
 export const SlideBar = () => {
   const { Panel } = Collapse
   return (
     <div className={clsx(styles.slideBar)}>
-      <Collapse defaultActiveKey={['1']} accordion>
+      <Collapse
+        defaultActiveKey={['1']}
+        accordion
+        expandIcon={({ isActive }) => <PieChartFilled rotate={isActive ? 90 : 0} />}
+      >
         <Panel header="category" key="1">
           <div className={clsx(styles.category)}>
             <div className={clsx(styles.categoryItem)}>

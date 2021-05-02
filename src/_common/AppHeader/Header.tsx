@@ -1,14 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import './header.css'
+import styles from './header.module.css'
+import clsx from 'clsx'
 
 export const Header = () => {
   return (
-    <header className="header">
-      <div>
+    <header className={clsx(styles.header)}>
+      <div className={clsx(styles.headerTop)}>
         <Link to={{ pathname: '/' }}>
-          <h1 className="headerTitle">Banksy</h1>
+          <h4 className={clsx(styles.headerTitle)}>Banksy</h4>
         </Link>
+      </div>
+      <div className={clsx(styles.features)}>
+        <div className={clsx(styles.featuresItem)}>
+          <span>Sell</span>
+          <span>Auction</span>
+          <span>splitting</span>
+          <span>lend</span>
+          <span>Mortgage</span>
+          <span>LP mining</span>
+        </div>
       </div>
     </header>
   )
