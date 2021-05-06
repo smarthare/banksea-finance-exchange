@@ -1,14 +1,22 @@
 import React from 'react'
-import { OpenSeaAssetBundle } from 'opensea-js/lib/types'
 
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { AssetBundle } from '../../types/AssetBundle'
+import { Asset } from '../../types/Asset'
 
 export interface ModalBundleItemProps {
-  bundle: OpenSeaAssetBundle
+  bundle: AssetBundle
 }
 
 export const ModalBundleItem: React.FC<ModalBundleItemProps> = ({ bundle }) => {
-  const { name, description, assets } = bundle
+  const location = useLocation()
+
+  const search = new URLSearchParams(location.search)
+  search.delete('slug')
+
+  const { name } = bundle
+  const assets: Asset[] = bundle.assetQuantities.edges.map((edge) => edge.node.asset)
+  const description = assets[0].description
 
   return (
     <div
@@ -27,12 +35,7 @@ export const ModalBundleItem: React.FC<ModalBundleItemProps> = ({ bundle }) => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6" role="list">
           {assets.map((asset) => {
             return (
-              <a
-                href={asset.openseaLink}
-                target="_blank"
-                key={asset.tokenId}
-                rel="noreferrer"
-              >
+              <a target="_blank" key={asset.tokenId} rel="noreferrer">
                 <div
                   className="
                   bg-white
@@ -48,11 +51,7 @@ export const ModalBundleItem: React.FC<ModalBundleItemProps> = ({ bundle }) => {
                     transition-all
                   "
                 >
-                  <img
-                    src={asset.imageUrl}
-                    alt={asset.name}
-                    className="object-cover h-48 w-full"
-                  />
+                  <img src={asset.imageUrl} alt={asset.name} className="object-cover h-48 w-full" />
                 </div>
               </a>
             )
@@ -62,10 +61,11 @@ export const ModalBundleItem: React.FC<ModalBundleItemProps> = ({ bundle }) => {
       <Link
         to={{
           pathname: `/`,
+          search: search.toString()
         }}
         className="cursor-default"
       >
-        <div className="absolute top-0 left-0 w-full z-0 h-full"></div>
+        <div className="absolute top-0 left-0 w-full z-0 h-full" />
       </Link>
     </div>
   )

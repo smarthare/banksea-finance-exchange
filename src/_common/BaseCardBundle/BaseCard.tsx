@@ -4,7 +4,6 @@ import { OpenSeaAssetBundle } from 'opensea-js/lib/types'
 import styles from './BaseCard.module.css'
 
 import { Link } from 'react-router-dom'
-import BaseCardBundleThumbnails from './BaseCardBundleThumbnails'
 
 export interface BaseCardBundleProps {
   data: OpenSeaAssetBundle
@@ -29,7 +28,7 @@ export const BaseCard: React.FC<BaseCardBundleProps> = ({ data }) => {
             pathname: `/bundles/${slug}`,
           }}
         >
-          <BaseCardBundleThumbnails assets={assets} />
+          {/*<BaseCardBundleThumbnails assets={assets} />*/}
         </Link>
         {/* Body */}
         <div className="flex-auto">

@@ -1,10 +1,10 @@
 module.exports = {
   semi: false,
-  trailingComma: 'all',
+  trailingComma: "none",
   singleQuote: true,
-  printWidth: 90,
-  tabWidth: 2,
   "prettier/prettier": ["error", {
-    "endOfLine":"auto"
-  }]
+    "endOfLine": "auto"
+  }],
+  printWidth: 120,
+  tabWidth: 2,
 };

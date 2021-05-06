@@ -1,34 +1,27 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import { useBundlesPageData } from './bundlesPageData'
-
-import { BaseCard } from '../_common/BaseCardBundle/BaseCard'
-import { ModalBundleItem } from '../_common/ModalBundleItem/ModalBundleItem'
+import { useQueryOpenseaBundles } from './bundlesPageData'
 import './BaseCardPage.css'
-
-interface IRouteParams {
-  bundleSlug: string
-}
+import { BundleCard } from '../_common/BaseCardBundle/BundleCard'
+import ModalBundleItem from '../_common/ModalBundleItem/ModalBundleItem'
+import { useLocation } from 'react-router-dom'
 
 export const BundlesPage = () => {
-  const { bundleSlug } = useParams<IRouteParams>()
-  const { loading, error, data } = useBundlesPageData()
+  const category = new URLSearchParams(useLocation().search).get('category') ?? undefined
+  const bundleSlug = new URLSearchParams(useLocation().search).get('slug') ?? undefined
+
+  const { loading, bundles } = useQueryOpenseaBundles(category)
+
+  const bundleSelected = bundleSlug ? bundles?.find((bundle) => bundle.slug === bundleSlug) || null : null
 
   if (loading) return <p>Loading bundles...</p>
-  if (error) return <p role="alert">Error :( ({error.message})</p>
-
-  const { bundles } = data
-  const bundleSelected = bundleSlug
-    ? bundles.find((bundle) => bundle.slug === bundleSlug) || null
-    : null
 
   return (
     <div className="BaseCardPage">
       <div>
-        {data.bundles.map((bundle, index) => {
+        {bundles?.map((bundle, index) => {
           return (
             <div key={index}>
-              <BaseCard data={bundle} />
+              <BundleCard bundle={bundle} />
             </div>
           )
         })}

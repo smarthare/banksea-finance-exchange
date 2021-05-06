@@ -8,20 +8,20 @@ import AssetPage from './AssetPage/AssetPage'
 // import BundlePage from './BundlePage/BundlePage'
 import BundlesPage from './BundlesPage/BundlesPage'
 import './app.css'
-import SlideBar from './_common/AppNavbar/SlideBar'
+import SideBar from './_common/AppNavbar/SideBar'
 
 export const App = () => {
   return (
     <Router>
       <div>
         <Header />
-        <SlideBar />
+        <SideBar />
         <div className="app">
           <Switch>
             <Route exact path="/">
               <BundlesPage />
             </Route>
-            <Route path="/bundles/:bundleSlug">
+            <Route path="/bundles">
               <BundlesPage />
             </Route>
             <Route path="/assets/:assetId">

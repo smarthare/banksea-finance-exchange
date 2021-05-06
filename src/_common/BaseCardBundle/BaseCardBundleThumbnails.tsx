@@ -1,17 +1,15 @@
 import clsx from 'clsx'
 import React from 'react'
 import styles from './BaseCard.module.css'
-import { OpenSeaAsset } from 'opensea-js/lib/types'
 
 import BaseCardBundleMedia from './BaseCardBundleMedia'
+import { Asset } from '../../types/Asset'
 
 export interface BaseCardBundleThumbnailsProps {
-  assets: OpenSeaAsset[]
+  assets: Asset[]
 }
 
-export const BaseCardBundleThumbnails: React.FC<BaseCardBundleThumbnailsProps> = ({
-  assets,
-}) => {
+export const BaseCardBundleThumbnails: React.FC<BaseCardBundleThumbnailsProps> = ({ assets }) => {
   const firstAsset = assets[0]
   const secondAsset = assets[1] || undefined
   const numAssetsMore = Math.max(assets.length - 1, 0)
@@ -24,7 +22,7 @@ export const BaseCardBundleThumbnails: React.FC<BaseCardBundleThumbnailsProps> =
           `
         h-40 md:h-32 lg:w-40 xl:w-48
         bg-white shadow-md overflow-hidden rounded relative z-20
-      `,
+      `
         )}
       >
         <BaseCardBundleMedia src={firstAsset.imageUrl} className={styles.ThumbnailImg} />
@@ -34,7 +32,7 @@ export const BaseCardBundleThumbnails: React.FC<BaseCardBundleThumbnailsProps> =
           styles.ThumbnailSecondary,
           `
         lg:w-40 xl:w-48 h-32
-        bg-white shadow-md overflow-hidden rounded absolute top-0 z-0`,
+        bg-white shadow-md overflow-hidden rounded absolute top-0 z-0`
         )}
       >
         {numAssetsMore && (
@@ -49,10 +47,8 @@ export const BaseCardBundleThumbnails: React.FC<BaseCardBundleThumbnailsProps> =
                 opacity-80
                 z-10
               "
-            ></div>
-            <span className="absolute right-2 bottom-2 text-xs z-20 font-semibold">
-              +{numAssetsMore}
-            </span>
+            />
+            <span className="absolute right-2 bottom-2 text-xs z-20 font-semibold">+{numAssetsMore}</span>
           </>
         )}
         <BaseCardBundleMedia src={secondAsset.imageUrl} className={styles.ThumbnailImg} />
