@@ -1,14 +1,11 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import AppFooter from './_common/AppFooter/AppFooter'
 import Header from './_common/AppHeader/Header'
-
-import AssetPage from './AssetPage/AssetPage'
-// import BundlePage from './BundlePage/BundlePage'
-import BundlesPage from './BundlesPage/BundlesPage'
 import './app.css'
 import SideBar from './_common/AppNavbar/SideBar'
+import Routes from './routes'
 
 export const App = () => {
   return (
@@ -17,17 +14,7 @@ export const App = () => {
         <Header />
         <SideBar />
         <div className="app">
-          <Switch>
-            <Route exact path="/">
-              <BundlesPage />
-            </Route>
-            <Route path="/bundles">
-              <BundlesPage />
-            </Route>
-            <Route path="/assets/:assetId">
-              <AssetPage />
-            </Route>
-          </Switch>
+          <Routes />
         </div>
         <AppFooter />
       </div>

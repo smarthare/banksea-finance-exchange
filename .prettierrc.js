@@ -1,10 +1,15 @@
 module.exports = {
   semi: false,
-  trailingComma: "none",
+  trailingComma: 'none',
   singleQuote: true,
-  "prettier/prettier": ["error", {
-    "endOfLine": "auto"
-  }],
+  'prettier/prettier': [
+    'error',
+    {
+      endOfLine: 'auto'
+    }
+  ],
   printWidth: 120,
   tabWidth: 2,
-};
+  jsxBracketSameLine: false,
+  arrowParens: 'avoid'
+}

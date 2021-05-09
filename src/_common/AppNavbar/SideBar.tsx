@@ -68,6 +68,7 @@ export const SideBar = () => {
             </div>*/}
             {categories.map((category) => (
               <Link
+                key={category.key}
                 to={{
                   pathname: '/bundles',
                   search: `?category=${category.key}`

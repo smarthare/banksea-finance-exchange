@@ -31,7 +31,9 @@ export const BundleCard: React.FC<BundleCardProps> = ({ bundle }) => {
         {/* Body */}
         <div className="flex-auto">
           <div className="flex flex-wrap">
-            <h3 className={clsx(styles.Name, 'mb-4 h-14 flex-auto break-all')}>{name}</h3>
+            <Link to={{ pathname: `/bundle/${slug}` }}>
+              <h3 className={clsx(styles.Name, 'mb-4 h-14 flex-auto break-all')}>{name}</h3>
+            </Link>
           </div>
           <p className={clsx(styles.Description, 'text-sm text-gray-500 break-all overflow-ellipsis')}>{description}</p>
         </div>
