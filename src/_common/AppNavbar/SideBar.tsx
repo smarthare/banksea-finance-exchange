@@ -1,66 +1,29 @@
 import React from 'react'
 import clsx from 'clsx'
 import styles from './SlideBar.module.css'
-import { Collapse } from 'antd'
-import art from '../../image/art.png'
-import domain from '../../image/domin.png'
-import virtual from '../../image/virtual.png'
-import trading from '../../image/trading.png'
-import collectible from '../../image/collectible.png'
-import sport from '../../image/sports.png'
-import utility from '../../image/utility.png'
+import { Collapse, Radio, RadioChangeEvent } from 'antd'
 import { PieChartFilled } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
+import { useCurrentPlatform, useLocationQuery } from '../../utils'
+import { CATEGORIES, PLATFORMS } from '../../constants'
 
 export const SideBar = () => {
   const { Panel } = Collapse
 
-  const categories = [
-    {
-      name: 'Art',
-      img: art,
-      key: 'art',
-      background: '#dfe6e9'
-    },
-    {
-      name: 'Domain Names',
-      img: domain,
-      key: 'domain-names'
-    },
-    {
-      name: 'Virtual Worlds',
-      img: virtual,
-      key: 'virtual-worlds'
-    },
-    {
-      name: 'Trading Cards',
-      img: trading,
-      key: 'trading-cards'
-    },
-    {
-      name: 'Collectibles',
-      img: collectible,
-      key: 'collectibles'
-    },
-    {
-      name: 'Sports',
-      img: sport,
-      key: 'sports'
-    },
-    {
-      name: 'Utility',
-      img: utility,
-      key: 'utility'
-    }
-  ]
-  const platforms = [
-    {
-      name: 'Opensea'
-    },
-    {
-      name: 'Solible'
-    }
-  ]
+  const history = useHistory()
+  const location = useLocation()
+  const currentCategory = useLocationQuery('category')
+  const { platform } = useCurrentPlatform()
+
+  const handlePlatformChange = (e: RadioChangeEvent) => {
+    const params = new URLSearchParams(location.search)
+    params.set('platform', e.target.value)
+
+    // copy object
+    const newLocation = { ...location }
+    newLocation.search = params.toString()
+    history.push(newLocation)
+  }
 
   return (
     <div className={clsx(styles.slideBar)}>
@@ -68,17 +31,12 @@ export const SideBar = () => {
         <h4 className={clsx(styles.headerTitle)}>Banksy</h4>
       </Link>
       <Collapse
-        defaultActiveKey={['1']}
-        accordion
+        defaultActiveKey={['categories', 'platforms']}
         expandIcon={({ isActive }) => <PieChartFilled rotate={isActive ? 90 : 0} />}
       >
-        <Panel header="category" key="1">
+        <Panel header="Categories" key="categories">
           <div className={clsx(styles.category)}>
-            {/* <div className={clsx(styles.categoryItem)}>
-              <img src={utility} alt="" />
-              <span>Utility</span>
-            </div>*/}
-            {categories.map(category => (
+            {CATEGORIES.map(category => (
               <Link
                 key={category.key}
                 to={{
@@ -89,7 +47,9 @@ export const SideBar = () => {
                 <div
                   key={category.key}
                   className={clsx(styles.categoryItem)}
-                  style={{ background: `${category.background}` }}
+                  style={{
+                    background: currentCategory == category.key ? '#dfe6e9' : ''
+                  }}
                 >
                   <img src={category.img} alt="" />
                   <span>{category.name}</span>
@@ -98,23 +58,15 @@ export const SideBar = () => {
             ))}
           </div>
         </Panel>
-      </Collapse>
-      <Collapse
-        defaultActiveKey={['1']}
-        accordion
-        expandIcon={({ isActive }) => <PieChartFilled rotate={isActive ? 90 : 0} />}
-      >
-        <Panel header="platform" key="1">
-          <div className={clsx(styles.platforms)}>
-            {/* <div className={clsx(styles.categoryItem)}>
-              <img src={utility} alt="" />
-              <span>Utility</span>
-            </div>*/}
-            {platforms.map(platform => (
-              <div className={clsx(styles.platformsItem)}>
-                <span>{platform.name}</span>
-              </div>
-            ))}
+        <Panel header="Platforms" key="platforms">
+          <div className={styles.platforms}>
+            <Radio.Group defaultValue={platform} onChange={handlePlatformChange}>
+              {PLATFORMS.map(platform => (
+                <Radio.Button value={platform.name} className={styles.platformsItem}>
+                  {platform.name}
+                </Radio.Button>
+              ))}
+            </Radio.Group>
           </div>
         </Panel>
       </Collapse>

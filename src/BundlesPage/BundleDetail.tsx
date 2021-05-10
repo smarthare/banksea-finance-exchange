@@ -51,7 +51,7 @@ const carouselContentStyle = {
 const DescriptionContainer = styled.div`
   width: 22rem;
   padding: 15px 8px;
-  box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.8);
+  box-shadow: 1px 1px 6px 0 rgba(102, 102, 102, 0.8);
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 `
@@ -61,7 +61,7 @@ const PriceContainer = styled.div`
   padding: 10px 15px;
   margin-top: 20px;
   border-radius: 8px;
-  box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.8);
+  box-shadow: 1px 1px 6px 0 rgba(102, 102, 102, 0.8);
 
   p:nth-of-type(1) {
     font-size: 20px;
@@ -92,7 +92,7 @@ const ListingsContainer = styled.div`
   padding: 10px 15px;
   margin-top: 20px;
   border-radius: 8px;
-  box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.8);
+  box-shadow: 1px 1px 6px 0 rgba(102, 102, 102, 0.8);
 
   p {
     font-size: 20px;
@@ -111,7 +111,7 @@ const ItemsContainer = styled.div`
   padding: 10px 15px;
   margin-top: 20px;
   border-radius: 8px;
-  box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.8);
+  box-shadow: 1px 1px 6px 0 rgba(102, 102, 102, 0.8);
 
   .items {
     font-size: 20px;
@@ -150,7 +150,7 @@ const AssetItemCard: React.FC<{ asset: OpenSeaAsset }> = ({ asset }) => {
       <div className="itemCardContainer-text">
         <p
           style={{ cursor: 'pointer' }}
-          onClick={() => window.open(`https://opensea.io/collection/${asset.collection.name}`)}
+          onClick={() => window.open(`https://opensea.io/collection/${asset.collection.slug}`)}
         >
           {asset.collection.name}
         </p>
@@ -170,7 +170,7 @@ const BundleDetailPage: React.FC = () => {
 
   const getBundle = useCallback(async () => {
     setBundle(await openSeaService.api.getBundle({ slug }))
-  }, [])
+  }, [slug])
 
   useEffect(() => {
     getBundle()

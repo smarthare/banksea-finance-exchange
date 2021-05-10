@@ -35,7 +35,7 @@ export const ModalBundleItem: React.FC<ModalBundleItemProps> = ({ bundle }) => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6" role="list">
           {assets.map(asset => {
             return (
-              <a target="_blank" key={asset.tokenId} rel="noreferrer">
+              <a target="_blank" key={asset.tokenId} rel="noreferrer" href={`/bundle/${bundle.slug}`}>
                 <div
                   className="
                   bg-white
