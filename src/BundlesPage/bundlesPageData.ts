@@ -533,7 +533,7 @@ fragment asset_url on AssetType {
 
     const result = await axios.post<OpenseaGraphQLApiResponse>(OPENSEA_GRAPHQL_API_URL, query)
 
-    setBundles(result.data.data.query.search.edges.map((edge) => edge.node.assetBundle))
+    setBundles(result.data.data.query.search.edges.map(edge => edge.node.assetBundle))
     setLoading(false)
   }, [category])
 

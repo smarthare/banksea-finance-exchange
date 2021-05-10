@@ -8,8 +8,8 @@ const authMiddleware = new ApolloLink((operation, forward) => {
     headers: {
       // authorization: localStorage.getItem('token') || null,
       'x-api-key': '0106d29713754b448f4513d7a66d0875',
-      'x-build-id': 'gA-1NpYxz96R_JcEek0bq',
-    },
+      'x-build-id': 'gA-1NpYxz96R_JcEek0bq'
+    }
   })
 
   return forward(operation)
@@ -17,7 +17,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: concat(authMiddleware, httpLink),
+  link: concat(authMiddleware, httpLink)
 })
 
 // const client = new ApolloClient({

@@ -6,15 +6,9 @@ export interface BaseCardBundleMediaProps {
   src: string
 }
 
-export const BaseCardBundleMedia: React.FC<BaseCardBundleMediaProps> = ({
-  className,
-  src,
-}) => {
+export const BaseCardBundleMedia: React.FC<BaseCardBundleMediaProps> = ({ className, src }) => {
   const isVideo = src && src.endsWith('.mp4')
-  const classNames = clsx(
-    className,
-    'absolute inset-0 w-full h-full object-cover rounded',
-  )
+  const classNames = clsx(className, 'absolute inset-0 w-full h-full object-cover rounded')
 
   return (
     <>

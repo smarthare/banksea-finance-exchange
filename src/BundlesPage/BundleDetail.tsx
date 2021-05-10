@@ -7,14 +7,18 @@ import { OpenSeaAsset, OpenSeaAssetBundle } from 'opensea-js/lib/types'
 import { useOrdersQuery, useQueryBundleCurrentPrice } from './bundlesPageData'
 import Column from 'antd/lib/table/Column'
 import { weiToString } from '../web3/utils'
+import './BundledDetail.css'
+import { Menu, Dropdown, Button } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
 
 const BundleDetailContainer = styled.div`
   width: calc(100% - 320px);
   height: 100%;
   position: absolute;
-  top: 110px;
+  top: 120px;
   left: 320px;
   display: flex;
+  overflow: auto;
 `
 
 const LeftArea = styled.div`
@@ -45,32 +49,105 @@ const carouselContentStyle = {
 }
 
 const DescriptionContainer = styled.div`
-  width: 80%;
-  border: #000c17 1px;
+  width: 22rem;
+  padding: 15px 8px;
+  box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.8);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 `
 
-const PriceContainer = styled.div``
+const PriceContainer = styled.div`
+  width: 700px;
+  padding: 10px 15px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.8);
 
-const BundleName = styled.div``
+  p:nth-of-type(1) {
+    font-size: 20px;
+    color: #95a5a6;
+  }
 
-const ListingsContainer = styled.div``
+  p:nth-of-type(2) {
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .dropDownButton {
+    width: 200px;
+    color: #fff;
+    border-radius: 8px;
+    font-weight: bold;
+    background: linear-gradient(to right, #74b9ff, #0984e3);
+  }
+`
+
+const BundleName = styled.div`
+  font-size: 38px;
+  font-weight: bold;
+`
+
+const ListingsContainer = styled.div`
+  width: 700px;
+  padding: 10px 15px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.8);
+
+  p {
+    font-size: 20px;
+    font-weight: bold;
+  }
+`
 
 const MakerAvatar = styled.img`
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
 `
 
-const ItemsContainer = styled.div``
+const ItemsContainer = styled.div`
+  width: 700px;
+  padding: 10px 15px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.8);
+
+  .items {
+    font-size: 20px;
+    font-weight: bold;
+  }
+`
 
 const ItemCardContainer = styled.div`
   display: flex;
+
+  .itemCardContainer-text {
+    margin-left: 20px;
+
+    p:nth-of-type(1) {
+      font-size: 17px;
+      color: #3498db;
+    }
+
+    p:nth-of-type(2) {
+      font-size: 17px;
+    }
+  }
 `
+const menu = (
+  <Menu>
+    <Menu.Item key="1">Splitting</Menu.Item>
+    <Menu.Item key="2">Lend</Menu.Item>
+    <Menu.Item key="3">mortgage</Menu.Item>
+  </Menu>
+)
 
 const AssetItemCard: React.FC<{ asset: OpenSeaAsset }> = ({ asset }) => {
   return (
     <ItemCardContainer>
-      <img src={asset.imageUrl} style={{ height: 50, width: 50 }} alt={asset.name} />
-      <div>
+      <img src={asset.imageUrl} style={{ height: 70, width: 70, borderRadius: 8 }} alt={asset.name} />
+      <div className="itemCardContainer-text">
         <p
           style={{ cursor: 'pointer' }}
           onClick={() => window.open(`https://opensea.io/collection/${asset.collection.name}`)}
@@ -106,9 +183,9 @@ const BundleDetailPage: React.FC = () => {
     const from = maker.user.publicUsername ?? maker.address(2, 8)
 
     return (
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         {namePrefix && <div style={{ marginRight: 8 }}>{namePrefix}</div>}
-        <a href={`https://opensea.io/accounts/${address}`} style={{ display: 'flex' }}>
+        <a href={`https://opensea.io/accounts/${address}`} className="createByImg">
           {imageUrl && <MakerAvatar src={imageUrl} alt={from} />}
           {from}
         </a>
@@ -133,18 +210,18 @@ const BundleDetailPage: React.FC = () => {
     <BundleDetailContainer>
       <LeftArea>
         <ImageContainer>
-          <Carousel style={{ height: '15rem', width: '15rem' }}>
+          <Carousel style={{ width: '22rem' }}>
             {bundle?.assets
               .map(asset => asset.imageUrl)
               .map((imgUrl, index) => (
                 <div style={carouselContentStyle} key={index}>
-                  <img src={imgUrl} style={{ height: '15rem' }} alt="" />
+                  <img src={imgUrl} style={{ height: '22rem', margin: 'auto' }} alt="" />
                 </div>
               ))}
           </Carousel>
           <DescriptionContainer>
-            <p>Bundle Description</p>
-            <p>{orders && orders.length > 0 && OrderMakerInfo(orders[0], 'Create by')}</p>
+            <p style={{ fontSize: '18px', fontWeight: 'bold' }}>Bundle Description</p>
+            <p className="createBy">{orders && orders.length > 0 && OrderMakerInfo(orders[0], 'Create by')}</p>
             <p>{bundle?.description}</p>
           </DescriptionContainer>
         </ImageContainer>
@@ -155,6 +232,11 @@ const BundleDetailPage: React.FC = () => {
           <PriceContainer>
             <p>Current Price</p>
             <p>Ξ {bundleCurrentPrice}</p>
+            <Dropdown className="dropDownButton" overlay={menu}>
+              <Button>
+                Buy Bundle <DownOutlined />
+              </Button>
+            </Dropdown>
           </PriceContainer>
         )}
         <ListingsContainer>
@@ -166,7 +248,7 @@ const BundleDetailPage: React.FC = () => {
           </Table>
         </ListingsContainer>
         <ItemsContainer>
-          <p>{bundle?.assets?.length} Items</p>
+          <p className="items">{bundle?.assets?.length} Items</p>
           {bundle?.assets?.map(asset => (
             <AssetItemCard asset={asset} key={asset.tokenId} />
           ))}

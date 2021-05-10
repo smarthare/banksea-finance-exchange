@@ -11,7 +11,7 @@ export const BundlesPage = () => {
 
   const { loading, bundles } = useQueryOpenseaBundles(category)
 
-  const bundleSelected = bundleSlug ? bundles?.find((bundle) => bundle.slug === bundleSlug) || null : null
+  const bundleSelected = bundleSlug ? bundles?.find(bundle => bundle.slug === bundleSlug) || null : null
 
   if (loading) return <p>Loading bundles...</p>
 

@@ -2,11 +2,16 @@
     width: 320px;
     position: fixed;
     height: 100vh;
-    background: linear-gradient(to bottom,blueviolet,#a29bfe);
-    position: absolute;
-    top: 60px;
+    background: #dfe6e9;
+    top: 0;
     left: 0;
     overflow: auto;
+}
+.headerTitle {
+  height: 48px;
+  color: blueviolet;
+  font-size: 24px;
+  margin-left: 20px;
 }
 .category {
     width: 90%;
@@ -32,4 +37,23 @@
 }
 .categoryItem:hover {
     border: 1px solid rgb(229, 232, 235);
+}
+.platforms {
+  width: 100%;
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+}
+.platformsItem {
+  width: 150px;
+  height: 50px;
+  border: 1px solid rgb(229, 232, 235);
+  border-radius: 4px;
+  margin-left: 20px;
+  line-height: 50px;
+  text-align: center;
+}
+.platformsItem:hover {
+  box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.80);
+  cursor: pointer;
 }

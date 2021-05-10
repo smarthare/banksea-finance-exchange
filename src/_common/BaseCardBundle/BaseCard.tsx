@@ -33,12 +33,12 @@ export const BaseCard: React.FC<BaseCardBundleProps> = ({ data }) => {
         {/* Body */}
         <div className="flex-auto">
           <div className="flex flex-wrap">
-            <h3 className={clsx(styles.Name, 'mb-4 h-14 flex-auto break-all')}>{name}</h3>
+            <h3 className={clsx(styles.Name)}>{name}</h3>
           </div>
           <p
             className={clsx(
               styles.Description,
-              'text-sm text-gray-500 break-all overflow-ellipsis',
+              'text-sm text-gray-500'
             )}
           >
             {description}

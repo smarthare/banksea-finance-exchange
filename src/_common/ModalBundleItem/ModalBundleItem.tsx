@@ -15,14 +15,14 @@ export const ModalBundleItem: React.FC<ModalBundleItemProps> = ({ bundle }) => {
   search.delete('slug')
 
   const { name } = bundle
-  const assets: Asset[] = bundle.assetQuantities.edges.map((edge) => edge.node.asset)
+  const assets: Asset[] = bundle.assetQuantities.edges.map(edge => edge.node.asset)
   const description = assets[0].description
 
   return (
     <div
       className="
        bg-black bg-opacity-70
-        fixed w-full h-full top-0 left-0 z-50 overflow-y-auto p-10 md:p-32
+        fixed w-full h-full top-0 left-0 z-50 p-10 md:p-32
         flex flex-col justify-start
         backdrop-filter backdrop-blur-md
       "
@@ -33,7 +33,7 @@ export const ModalBundleItem: React.FC<ModalBundleItemProps> = ({ bundle }) => {
         <p className="mb-10">{description}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6" role="list">
-          {assets.map((asset) => {
+          {assets.map(asset => {
             return (
               <a target="_blank" key={asset.tokenId} rel="noreferrer">
                 <div

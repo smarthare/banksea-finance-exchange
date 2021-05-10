@@ -13,18 +13,25 @@
 }
 
 .BaseCardBundle:hover {
-  margin-top: 115px;
   border: 1px solid #fff;
   box-shadow: 1px 1px 6px 0px rgba(102, 102, 102, 0.80);
 }
 
 .Name {
+  width: 250px;
   margin-top: 60px;
   font-size: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+  word-break: keep-all;
 }
 
 .Description {
   font-size: 17px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .assetsContent {

@@ -19,7 +19,8 @@ export const SideBar = () => {
     {
       name: 'Art',
       img: art,
-      key: 'art'
+      key: 'art',
+      background: '#dfe6e9'
     },
     {
       name: 'Domain Names',
@@ -52,9 +53,20 @@ export const SideBar = () => {
       key: 'utility'
     }
   ]
+  const platforms = [
+    {
+      name: 'Opensea'
+    },
+    {
+      name: 'Solible'
+    }
+  ]
 
   return (
     <div className={clsx(styles.slideBar)}>
+      <Link to={{ pathname: '/' }}>
+        <h4 className={clsx(styles.headerTitle)}>Banksy</h4>
+      </Link>
       <Collapse
         defaultActiveKey={['1']}
         accordion
@@ -66,7 +78,7 @@ export const SideBar = () => {
               <img src={utility} alt="" />
               <span>Utility</span>
             </div>*/}
-            {categories.map((category) => (
+            {categories.map(category => (
               <Link
                 key={category.key}
                 to={{
@@ -74,11 +86,34 @@ export const SideBar = () => {
                   search: `?category=${category.key}`
                 }}
               >
-                <div key={category.key} className={clsx(styles.categoryItem)}>
+                <div
+                  key={category.key}
+                  className={clsx(styles.categoryItem)}
+                  style={{ background: `${category.background}` }}
+                >
                   <img src={category.img} alt="" />
                   <span>{category.name}</span>
                 </div>
               </Link>
+            ))}
+          </div>
+        </Panel>
+      </Collapse>
+      <Collapse
+        defaultActiveKey={['1']}
+        accordion
+        expandIcon={({ isActive }) => <PieChartFilled rotate={isActive ? 90 : 0} />}
+      >
+        <Panel header="platform" key="1">
+          <div className={clsx(styles.platforms)}>
+            {/* <div className={clsx(styles.categoryItem)}>
+              <img src={utility} alt="" />
+              <span>Utility</span>
+            </div>*/}
+            {platforms.map(platform => (
+              <div className={clsx(styles.platformsItem)}>
+                <span>{platform.name}</span>
+              </div>
             ))}
           </div>
         </Panel>

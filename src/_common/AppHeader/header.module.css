@@ -1,6 +1,7 @@
 .header {
-    width: 100%;
+    width: calc(100% - 320px);
     position: fixed;
+    right: 0;
     background: #fff;
     z-index: 999;
     border-bottom: 1px solid rgb(229, 232, 235);
@@ -13,18 +14,17 @@
     height: 60px;
     display: flex;
     align-items: center;
+    position: relative;
 }
-.headerTitle {
-    color: blueviolet;
-    font-size: 24px;
-    margin-left: 20px;
+.userConnect {
+  margin-left: 100px;
 }
 .features {
     width: calc(100% - 320px);
     height: 49px;
-    position: absolute;
+    position: fixed;
     top: 61px;
-    left: 320px;
+    right: 0px;
     border-bottom: 1px solid rgb(229, 232, 235);
     display: flex;
     align-items: center;

@@ -16,7 +16,7 @@ export const BundleCard: React.FC<BundleCardProps> = ({ bundle }) => {
 
   const { name, assetQuantities, slug, orderData } = bundle
 
-  const assets = assetQuantities.edges.map((edge) => edge.node.asset)
+  const assets = assetQuantities.edges.map(edge => edge.node.asset)
   const description = assets[0].description
   const price = weiToString(orderData.bestAsk?.paymentAssetQuantity.quantity ?? undefined)
 
