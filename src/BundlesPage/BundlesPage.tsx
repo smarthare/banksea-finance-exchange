@@ -61,6 +61,7 @@ const OpenseaBundles: React.FC = () => {
 
 export const BundlesPage: React.FC = () => {
   const { platform } = useCurrentPlatform()
+  console.log(platform)
 
   return (
     <>

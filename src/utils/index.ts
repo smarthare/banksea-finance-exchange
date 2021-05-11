@@ -17,7 +17,7 @@ export const useCurrentPlatform = () => {
 
     const platform = params.get('platform')!
 
-    setPlatform(platform)
+    setPlatform(platform ?? PLATFORMS[0].name)
   }, [location])
 
   return {
