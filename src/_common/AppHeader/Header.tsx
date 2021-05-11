@@ -11,10 +11,10 @@ export const Header = () => {
     <header className={clsx(styles.header)}>
       <div className={clsx(styles.headerTop)}>
         <Space direction="vertical">
-          <Search placeholder="input search text" style={{ width: 500, marginLeft: 230 }} />
+          <Search style={{ width: 500, marginLeft: 230 }} />
         </Space>
-        <UserOutlined style={{ fontSize: '25px', color: '#636e72', position: 'absolute', right: 100 }} />
-        <WalletOutlined style={{ fontSize: '25px', color: '#636e72', position: 'absolute', right: 50 }} />
+        <UserOutlined style={{ fontSize: '25px', color: '#fff', position: 'absolute', right: 100 }} />
+        <WalletOutlined style={{ fontSize: '25px', color: '#fff', position: 'absolute', right: 50 }} />
       </div>
       <div className={clsx(styles.features)}>
         <div className={clsx(styles.featuresItem)}>

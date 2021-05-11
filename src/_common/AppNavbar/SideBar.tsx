@@ -2,10 +2,11 @@ import React from 'react'
 import clsx from 'clsx'
 import styles from './SlideBar.module.css'
 import { Collapse, Radio, RadioChangeEvent } from 'antd'
-import { PieChartFilled } from '@ant-design/icons'
+import { StarOutlined, DeploymentUnitOutlined } from '@ant-design/icons'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useCurrentPlatform, useLocationQuery } from '../../utils'
 import { CATEGORIES, PLATFORMS } from '../../constants'
+import './collapse.css'
 
 export const SideBar = () => {
   const { Panel } = Collapse
@@ -32,9 +33,11 @@ export const SideBar = () => {
       </Link>
       <Collapse
         defaultActiveKey={['categories', 'platforms']}
-        expandIcon={({ isActive }) => <PieChartFilled rotate={isActive ? 90 : 0} />}
+        expandIcon={({ isActive }) => (
+          <DeploymentUnitOutlined style={{ fontSize: '20px', color: '#fff' }} rotate={isActive ? 90 : 0} />
+        )}
       >
-        <Panel header="Categories" key="categories">
+        {/*<Panel header="Categories" key="categories">
           <div className={clsx(styles.category)}>
             {CATEGORIES.map(category => (
               <Link
@@ -57,7 +60,7 @@ export const SideBar = () => {
               </Link>
             ))}
           </div>
-        </Panel>
+        </Panel>*/}
         <Panel header="Platforms" key="platforms">
           <div className={styles.platforms}>
             <Radio.Group defaultValue={platform} onChange={handlePlatformChange}>
@@ -67,6 +70,23 @@ export const SideBar = () => {
                 </Radio.Button>
               ))}
             </Radio.Group>
+          </div>
+        </Panel>
+      </Collapse>
+      <Collapse
+        defaultActiveKey={['1']}
+        expandIcon={({ isActive }) => (
+          <StarOutlined style={{ fontSize: '20px', color: '#fff' }} rotate={isActive ? 90 : 0} />
+        )}
+      >
+        <Panel header="Status" key="Status">
+          <div className={styles.status}>
+            <div className={styles.statusItem}>For Sale</div>
+            <div className={styles.statusItem}>On Auction</div>
+            <div className={styles.statusItem}>Borrowing</div>
+            <div className={styles.statusItem}>Fragmentation</div>
+            <div className={styles.statusItem}>Mining</div>
+            <div className={styles.statusItem}>New</div>
           </div>
         </Panel>
       </Collapse>

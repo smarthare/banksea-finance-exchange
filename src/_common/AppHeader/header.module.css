@@ -2,10 +2,8 @@
     width: calc(100% - 320px);
     position: fixed;
     right: 0;
-    background: #fff;
+    background: #0c0e0d;
     z-index: 999;
-    border-bottom: 1px solid rgb(229, 232, 235);
-    box-shadow: 1px 1px 6px 0px rgba(102,102,102,0.30);
     display: flex;
     align-items: center;
 }
@@ -15,6 +13,7 @@
     display: flex;
     align-items: center;
     position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 .userConnect {
   margin-left: 100px;
@@ -23,12 +22,11 @@
     width: calc(100% - 320px);
     height: 49px;
     position: fixed;
-    top: 61px;
+    top: 60px;
     right: 0px;
-    border-bottom: 1px solid rgb(229, 232, 235);
     display: flex;
     align-items: center;
-    background: white;
+    background: #0c0e0d;
 }
 .featuresItem {
     margin-left: 20px;
@@ -38,10 +36,12 @@
     padding: 4px 16px;
     margin-left: 70px;
     border-radius: 4px;
-    font-size: 17px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    color: blueviolet;
+    color: #bfbfbf;
 }
 .featuresItem > span:hover {
-    background: #dfe6e9;
+    color: #fff;
+    background: #9ca3af;
 }
