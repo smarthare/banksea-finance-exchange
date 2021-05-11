@@ -58,9 +58,6 @@ export const PLATFORMS = [
     name: 'SuperRare'
   },
   {
-    name: 'Nifty'
-  },
-  {
-    name: 'Gateway'
+    name: 'Nifty Gateway'
   }
 ]

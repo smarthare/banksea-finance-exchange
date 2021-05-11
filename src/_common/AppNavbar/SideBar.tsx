@@ -6,6 +6,7 @@ import { StarOutlined, DeploymentUnitOutlined } from '@ant-design/icons'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useCurrentPlatform, useLocationQuery } from '../../utils'
 import { CATEGORIES, PLATFORMS } from '../../constants'
+import logo from '../../image/logo.png'
 import './collapse.css'
 
 export const SideBar = () => {
@@ -29,7 +30,10 @@ export const SideBar = () => {
   return (
     <div className={clsx(styles.slideBar)}>
       <Link to={{ pathname: '/' }}>
-        <h4 className={clsx(styles.headerTitle)}>Banksy</h4>
+        <div className={clsx(styles.slideBarLogo)}>
+          <img className={clsx(styles.logo)} src={logo} />
+          <h4 className={clsx(styles.headerTitle)}>Banksy</h4>
+        </div>
       </Link>
       <Collapse
         defaultActiveKey={['categories', 'platforms']}

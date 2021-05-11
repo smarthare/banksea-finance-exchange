@@ -7,11 +7,20 @@
     left: 0;
     overflow: auto;
 }
+.slideBarLogo {
+  display: flex;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+.slideBarLogo > img {
+  width: 50px;
+  height: 47px;
+}
 .headerTitle {
   height: 48px;
   color: #fff;
   font-size: 28px;
-  margin-left: 40px;
+  margin-left: 10px;
   line-height: 48px;
 }
 .category {

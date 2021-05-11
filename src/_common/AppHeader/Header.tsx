@@ -20,10 +20,10 @@ export const Header = () => {
         <div className={clsx(styles.featuresItem)}>
           <span>Sell</span>
           <span>Auction</span>
-          <span>splitting</span>
-          <span>lend</span>
+          <span>Splitting</span>
+          <span>Lend</span>
           <span>Mortgage</span>
-          <span>LP mining</span>
+          <span>LP Mining</span>
         </div>
       </div>
     </header>
