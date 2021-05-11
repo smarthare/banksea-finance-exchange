@@ -3,10 +3,11 @@ import React from 'react'
 import styles from './BaseCard.module.css'
 
 import BaseCardBundleMedia from './BaseCardBundleMedia'
-import { Asset } from '../../types/Asset'
+import { OpenSeaAsset } from 'opensea-js/lib/types'
 
 export interface BaseCardBundleThumbnailsProps {
-  assets: Asset[]
+  // assets: Asset[]
+  assets: OpenSeaAsset[]
 }
 
 export const BaseCardBundleThumbnails: React.FC<BaseCardBundleThumbnailsProps> = ({ assets }) => {

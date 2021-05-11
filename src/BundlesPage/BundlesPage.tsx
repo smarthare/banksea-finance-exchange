@@ -2,7 +2,6 @@ import React from 'react'
 import { useQueryOpenseaBundles } from './bundlesPageData'
 import './BaseCardPage.css'
 import { OpenseaBundleCard } from '../_common/BaseCardBundle/OpenseaBundleCard'
-import ModalBundleItem from '../_common/ModalBundleItem/ModalBundleItem'
 import { useLocation } from 'react-router-dom'
 import { useCurrentPlatform } from '../utils'
 import { USE_ALL_NFTS } from '../assets/SolibleNfts'
@@ -37,9 +36,9 @@ const OpenseaBundles: React.FC = () => {
 
   const { loading, bundles } = useQueryOpenseaBundles(category)
 
-  const bundleSlug = new URLSearchParams(useLocation().search).get('slug') ?? undefined
+  // const bundleSlug = new URLSearchParams(useLocation().search).get('slug') ?? undefined
 
-  const bundleSelected = bundleSlug ? bundles?.find(bundle => bundle.slug === bundleSlug) || null : null
+  // const bundleSelected = bundleSlug ? bundles?.find(bundle => bundle.slug === bundleSlug) || null : null
 
   if (loading) return <p>Loading bundles...</p>
 
@@ -55,7 +54,7 @@ const OpenseaBundles: React.FC = () => {
         })}
       </div>
 
-      {bundleSelected && <ModalBundleItem bundle={bundleSelected} />}
+      {/*{bundleSelected && <ModalBundleItem bundle={bundleSelected} />}*/}
     </div>
   )
 }

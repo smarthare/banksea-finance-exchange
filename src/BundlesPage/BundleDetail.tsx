@@ -1,15 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import { Carousel, Table } from 'antd'
+import { Carousel, Menu } from 'antd'
 import openSeaService from '../_services/openSeaService'
-import { OpenSeaAsset, OpenSeaAssetBundle } from 'opensea-js/lib/types'
-import { useOrdersQuery, useQueryBundleCurrentPrice } from './bundlesPageData'
-import Column from 'antd/lib/table/Column'
-import { weiToString } from '../web3/utils'
+import { OpenSeaAccount, OpenSeaAsset, OpenSeaAssetBundle } from 'opensea-js/lib/types'
 import './BundledDetail.css'
-import { Menu, Dropdown, Button } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
 
 const BundleDetailContainer = styled.div`
   width: calc(100% - 320px);
@@ -56,7 +51,7 @@ const DescriptionContainer = styled.div`
   border-bottom-right-radius: 4px;
 `
 
-const PriceContainer = styled.div`
+/*const PriceContainer = styled.div`
   width: 700px;
   padding: 10px 15px;
   margin-top: 20px;
@@ -80,7 +75,7 @@ const PriceContainer = styled.div`
     font-weight: bold;
     background: linear-gradient(to right, #74b9ff, #0984e3);
   }
-`
+`*/
 
 const BundleName = styled.div`
   font-size: 38px;
@@ -165,8 +160,9 @@ const BundleDetailPage: React.FC = () => {
 
   const [bundle, setBundle] = useState<OpenSeaAssetBundle | null>()
 
-  const { orders } = useOrdersQuery(slug)
-  const { bundleCurrentPrice } = useQueryBundleCurrentPrice(slug)
+  // const { orders } = useOrdersQuery(bundle)
+
+  // const { bundleCurrentPrice } = useQueryBundleCurrentPrice(slug)
 
   const getBundle = useCallback(async () => {
     setBundle(await openSeaService.api.getBundle({ slug }))
@@ -176,7 +172,7 @@ const BundleDetailPage: React.FC = () => {
     getBundle()
   }, [getBundle])
 
-  const OrderMakerInfo = (order: any, namePrefix?: string) => {
+  /*const OrderMakerInfo = (order: any, namePrefix?: string) => {
     const { maker } = order
     const { imageUrl } = maker
     const address = maker.user.publicUsername ?? maker.address
@@ -191,9 +187,26 @@ const BundleDetailPage: React.FC = () => {
         </a>
       </div>
     )
+  }*/
+
+  const BundleMakerInfo = (maker: OpenSeaAccount, namePrefix?: string) => {
+    // @ts-ignore
+    const imgUrl = maker['profile_img_url']
+    const address = maker.address
+    const from = maker?.user?.username ?? address.substring(2, 8)
+
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {namePrefix && <div style={{ marginRight: 8 }}>{namePrefix}</div>}
+        <a href={`https://opensea.io/accounts/${address}`} className="createByImg">
+          {imgUrl && <MakerAvatar src={imgUrl} alt={from} />}
+          {from}
+        </a>
+      </div>
+    )
   }
 
-  const getBundleListings = (ordersOfBundle: any[] | undefined) => {
+  /*const getBundleListings = (ordersOfBundle: any[] | undefined) => {
     return (
       ordersOfBundle?.map(order => {
         return {
@@ -204,7 +217,7 @@ const BundleDetailPage: React.FC = () => {
         }
       }) ?? []
     )
-  }
+  }*/
 
   return (
     <BundleDetailContainer>
@@ -221,14 +234,15 @@ const BundleDetailPage: React.FC = () => {
           </Carousel>
           <DescriptionContainer>
             <p style={{ fontSize: '18px', fontWeight: 'bold' }}>Bundle Description</p>
-            <p className="createBy">{orders && orders.length > 0 && OrderMakerInfo(orders[0], 'Create by')}</p>
+            {/*<p className="createBy">{orders && orders.length > 0 && OrderMakerInfo(orders[0], 'Create by')}</p>*/}
+            <p className="createBy">{bundle && BundleMakerInfo(bundle.maker, 'Create by')}</p>
             <p>{bundle?.description}</p>
           </DescriptionContainer>
         </ImageContainer>
       </LeftArea>
       <RightArea>
         <BundleName>{bundle?.name}</BundleName>
-        {bundleCurrentPrice && (
+        {/*{bundleCurrentPrice && (
           <PriceContainer>
             <p>Current Price</p>
             <p>Ξ {bundleCurrentPrice}</p>
@@ -238,15 +252,15 @@ const BundleDetailPage: React.FC = () => {
               </Button>
             </Dropdown>
           </PriceContainer>
-        )}
-        <ListingsContainer>
+        )}*/}
+        {/*<ListingsContainer>
           <p>Listings</p>
           <Table dataSource={getBundleListings(orders)} pagination={false} sticky={true} scroll={{ y: 200 }}>
             <Column title="From" dataIndex="from" key="from" />
             <Column title="Price" dataIndex="price" key="price" />
             <Column title="Expiration" dataIndex="expiration" key="expiration" />
           </Table>
-        </ListingsContainer>
+        </ListingsContainer>*/}
         <ItemsContainer>
           <p className="items">{bundle?.assets?.length} Items</p>
           {bundle?.assets?.map(asset => (

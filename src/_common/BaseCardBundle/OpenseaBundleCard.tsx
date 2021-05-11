@@ -4,21 +4,22 @@ import styles from './BaseCard.module.css'
 
 import { Link, useLocation } from 'react-router-dom'
 import BaseCardBundleThumbnails from './BaseCardBundleThumbnails'
-import { weiToString } from '../../web3/utils'
-import { AssetBundle } from '../../types/AssetBundle'
+import { OpenSeaAssetBundle } from 'opensea-js/lib/types'
 
 export interface BundleCardProps {
-  bundle: AssetBundle
+  bundle: OpenSeaAssetBundle
+  // bundle: AssetBundle
 }
 
 export const OpenseaBundleCard: React.FC<BundleCardProps> = ({ bundle }) => {
   const oldSearch = useLocation().search
 
-  const { name, assetQuantities, slug, orderData } = bundle
+  // const { name, assetQuantities, slug, orderData } = bundle
+  const { name, slug, assets, description } = bundle
 
-  const assets = assetQuantities.edges.map(edge => edge.node.asset)
-  const description = assets[0].description
-  const price = weiToString(orderData.bestAsk?.paymentAssetQuantity.quantity ?? undefined)
+  // const assets = assetQuantities.edges.map(edge => edge.node.asset)
+  // const description = assets[0].description
+  // const price = weiToString(orderData.bestAsk?.paymentAssetQuantity.quantity ?? undefined)
 
   return (
     <div className={clsx(styles.BaseCardBundle)} role="listitem">
@@ -42,7 +43,7 @@ export const OpenseaBundleCard: React.FC<BundleCardProps> = ({ bundle }) => {
       <div className={clsx(styles.assetsContent)}>
         <div className={clsx(styles.assets)}>
           <span>Assets:</span>
-          <span>{assets.length}</span>
+          {/*<span>{assets.length}</span>*/}
         </div>
         <div className={clsx(styles.owner)}>
           <span>Owner:</span>
@@ -50,7 +51,7 @@ export const OpenseaBundleCard: React.FC<BundleCardProps> = ({ bundle }) => {
         </div>
         <div className={clsx(styles.price)}>
           <span>Price:</span>
-          <span>{`Ξ  ${price}`}</span>
+          {/*<span>{`Ξ  ${price}`}</span>*/}
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import axios from 'axios'
-import { OpenseaGraphQLApiResponse } from '../types/OpenseaGraphQLApiResponse'
-import { AssetBundle } from '../types/AssetBundle'
 import { weiToString } from '../web3/utils'
+import openSeaService from '../_services/openSeaService'
+import { OpenSeaAssetBundle } from 'opensea-js/lib/types'
 
 const OPENSEA_GRAPHQL_API_URL = 'https://api.opensea.io/graphql/'
 
@@ -32,12 +32,13 @@ export type AssetSearchQueryVariables = {
 }
 
 export const useQueryOpenseaBundles = (category?: string) => {
-  const [bundles, setBundles] = useState<AssetBundle[]>()
+  // const [bundles, setBundles] = useState<AssetBundle[]>()
+  const [bundles, setBundles] = useState<OpenSeaAssetBundle[]>()
   const [loading, setLoading] = useState(false)
 
   const fetch = useCallback(async () => {
     setLoading(true)
-    const defaultVariables: AssetSearchQueryVariables = {
+    /* const defaultVariables: AssetSearchQueryVariables = {
       categories: [],
       chains: null,
       collection: null,
@@ -531,9 +532,13 @@ fragment asset_url on AssetType {
       variables: { ...defaultVariables, categories: category ? [category] : [] }
     }
 
-    const result = await axios.post<OpenseaGraphQLApiResponse>(OPENSEA_GRAPHQL_API_URL, query)
+    const result = await axios.post<OpenseaGraphQLApiResponse>(OPENSEA_GRAPHQL_API_URL, query, {
+      headers: {}
+    })
 
-    setBundles(result.data.data.query.search.edges.map(edge => edge.node.assetBundle))
+    setBundles(result.data.data.query.search.edges.map(edge => edge.node.assetBundle))*/
+
+    setBundles((await openSeaService.api.getBundles()).bundles)
     setLoading(false)
   }, [category])
 
@@ -547,11 +552,12 @@ fragment asset_url on AssetType {
   }
 }
 
-export const useOrdersQuery = (slug: string) => {
+// export const useOrdersQuery = (slug: string) => {
+export const useOrdersQuery = (bundle?: OpenSeaAssetBundle | null) => {
   const [orders, setOrders] = useState<any[]>()
 
   const fetch = useCallback(async () => {
-    console.log('use orders query')
+    /*console.log('use orders query')
     const id = 'OrdersQuery'
     const query = `query OrdersQuery(
   $cursor: String
@@ -914,8 +920,26 @@ fragment wallet_accountKey on AccountType {
       variables: { ...defaultVariables, makerAssetBundle: slug }
     })
 
-    setOrders(r.data.data.orders.edges.map((edge: any) => edge.node))
-  }, [slug])
+    setOrders(r.data.data.orders.edges.map((edge: any) => edge.node))*/
+    try {
+      if (bundle) {
+        openSeaService.api
+          .getOrders({
+            token_ids: bundle.assets.map(ass => ass.tokenId!),
+            bundled: true,
+            asset_contract_address: bundle.assetContract?.address
+          })
+          .then(({ orders }) => {
+            console.log(`orders: ${orders}`)
+
+            setOrders(orders)
+          })
+          .catch(_ => {
+            // setTimeout(fetch, 1200)
+          })
+      }
+    } catch (e) {}
+  }, [bundle])
 
   useEffect(() => {
     fetch()
