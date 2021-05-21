@@ -1,13 +1,28 @@
-// A configuration to owerwrite Create-React-App default files
-// Required for tailwindcss
-// https://tailwindcss.com/docs/guides/create-react-app
-// https://github.com/gsoft-inc/craco
-// const path = require('path')
+// const CracoAlias = require('craco-alias')
 
+const path = require('path')
+const resolve = dir => path.resolve(__dirname, dir)
 module.exports = {
   style: {
     postcss: {
-      plugins: [require('tailwindcss'), require('autoprefixer')],
-    },
+      plugins: [require('tailwindcss'), require('autoprefixer')]
+    }
   },
+  webpack: {
+    alias: {
+      '@': resolve('src')
+    }
+  }
+  // plugins: [
+  //   {
+  //     plugin: CracoAlias,
+  //     options: {
+  //       source: 'options',
+  //       baseUrl: './',
+  //       aliases: {
+  //         '@': './src/'
+  //       }
+  //     }
+  //   }
+  // ]
 }

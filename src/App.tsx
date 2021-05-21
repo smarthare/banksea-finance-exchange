@@ -1,24 +1,28 @@
 import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-
-import AppFooter from './_common/AppFooter/AppFooter'
-import Header from './_common/AppHeader/Header'
 import './app.css'
-import SideBar from './_common/AppNavbar/SideBar'
-import Routes from './routes'
+import { Layout } from 'antd'
+import AppHeader from './layout/AppHeader'
+import AppSideBar from './layout/AppSideBar'
+import routes from './routes'
+import { Route } from 'react-router-dom'
 
-export const App = () => {
+const App: React.FC = () => {
   return (
-    <Router>
-      <div>
-        <Header />
-        <SideBar />
-        <div className="app">
-          <Routes />
-        </div>
-        <AppFooter />
-      </div>
-    </Router>
+    <Layout>
+      <Layout.Header style={{ padding: 0, height: '82px' }}>
+        <AppHeader />
+      </Layout.Header>
+      <Layout>
+        <Layout.Sider>
+          <AppSideBar />
+        </Layout.Sider>
+        <Layout.Content style={{ backgroundColor: '#FAF9FA' }}>
+          {routes.map(route => (
+            <Route path={route.path} exact component={route.component} key={route.path} />
+          ))}
+        </Layout.Content>
+      </Layout>
+    </Layout>
   )
 }
 

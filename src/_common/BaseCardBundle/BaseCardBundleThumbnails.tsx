@@ -1,17 +1,14 @@
-import clsx from 'clsx'
 import React from 'react'
-import styles from './BaseCard.module.css'
 
-import BaseCardBundleMedia from './BaseCardBundleMedia'
-import { OpenSeaAsset } from 'opensea-js/lib/types'
+// import { OpenSeaAsset } from 'opensea-js/lib/types'
 
 export interface BaseCardBundleThumbnailsProps {
   // assets: Asset[]
-  assets: OpenSeaAsset[]
+  // assets: OpenSeaAsset[]
 }
 
-export const BaseCardBundleThumbnails: React.FC<BaseCardBundleThumbnailsProps> = ({ assets }) => {
-  const firstAsset = assets[0]
+export const BaseCardBundleThumbnails: React.FC<BaseCardBundleThumbnailsProps> = (/*{ assets }*/) => {
+  /* const firstAsset = assets[0]
   const secondAsset = assets[1] || undefined
   const numAssetsMore = Math.max(assets.length - 1, 0)
 
@@ -55,7 +52,8 @@ export const BaseCardBundleThumbnails: React.FC<BaseCardBundleThumbnailsProps> =
         <BaseCardBundleMedia src={secondAsset.imageUrl} className={styles.ThumbnailImg} />
       </div>
     </div>
-  )
+  )*/
+  return <></>
 }
 
 export default BaseCardBundleThumbnails

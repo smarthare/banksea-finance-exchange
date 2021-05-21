@@ -1,8 +1,5 @@
 import React from 'react'
-import { useQueryOpenseaBundles } from './bundlesPageData'
 import './BaseCardPage.css'
-import { OpenseaBundleCard } from '../_common/BaseCardBundle/OpenseaBundleCard'
-import { useLocation } from 'react-router-dom'
 import { useCurrentPlatform } from '../utils'
 import { USE_ALL_NFTS } from '../assets/SolibleNfts'
 import { SolibleAssetCard } from '../_common/BaseCardBundle/SolibleAssetCard'
@@ -32,26 +29,26 @@ const SolibleBundles: React.FC = () => {
 }
 
 const OpenseaBundles: React.FC = () => {
-  const category = new URLSearchParams(useLocation().search).get('category') ?? undefined
+  // const category = new URLSearchParams(useLocation().search).get('category') ?? undefined
 
-  const { loading, bundles } = useQueryOpenseaBundles(category)
+  // const { loading, bundles } = useQueryOpenseaBundles(category)
 
   // const bundleSlug = new URLSearchParams(useLocation().search).get('slug') ?? undefined
 
   // const bundleSelected = bundleSlug ? bundles?.find(bundle => bundle.slug === bundleSlug) || null : null
 
-  if (loading) return <p>Loading bundles...</p>
+  // if (loading) return <p>Loading bundles...</p>
 
   return (
     <div className="BaseCardPage">
       <div>
-        {bundles?.map((bundle, index) => {
-          return (
-            <div key={index}>
-              <OpenseaBundleCard bundle={bundle} />
-            </div>
-          )
-        })}
+        {/*{bundles?.map((bundle, index) => {*/}
+        {/*  return (*/}
+        {/*    <div key={index}>*/}
+        {/*      <OpenseaBundleCard bundle={bundle} />*/}
+        {/*    </div>*/}
+        {/*  )*/}
+        {/*})}*/}
       </div>
 
       {/*{bundleSelected && <ModalBundleItem bundle={bundleSelected} />}*/}

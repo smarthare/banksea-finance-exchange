@@ -23,7 +23,7 @@
     height: 49px;
     position: fixed;
     top: 60px;
-    right: 0px;
+    right: 0;
     display: flex;
     align-items: center;
     background: #0c0e0d;

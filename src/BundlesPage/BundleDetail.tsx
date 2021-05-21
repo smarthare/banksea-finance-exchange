@@ -1,11 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { useParams } from 'react-router-dom'
-import { Carousel, Menu } from 'antd'
-import openSeaService from '../_services/openSeaService'
-import { OpenSeaAccount, OpenSeaAsset, OpenSeaAssetBundle } from 'opensea-js/lib/types'
+import React from 'react'
+// import openSeaService from '../_services/openSeaService'
+// import { OpenSeaAccount, OpenSeaAsset, OpenSeaAssetBundle } from 'opensea-js/lib/types'
 import './BundledDetail.css'
-
+/*
 const BundleDetailContainer = styled.div`
   width: calc(100% - 320px);
   height: 100%;
@@ -49,7 +46,7 @@ const DescriptionContainer = styled.div`
   box-shadow: 1px 1px 6px 0 rgba(102, 102, 102, 0.8);
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-`
+`*/
 
 /*const PriceContainer = styled.div`
   width: 700px;
@@ -76,7 +73,7 @@ const DescriptionContainer = styled.div`
     background: linear-gradient(to right, #74b9ff, #0984e3);
   }
 `*/
-
+/*
 const BundleName = styled.div`
   font-size: 38px;
   font-weight: bold;
@@ -136,9 +133,9 @@ const menu = (
     <Menu.Item key="2">Lend</Menu.Item>
     <Menu.Item key="3">mortgage</Menu.Item>
   </Menu>
-)
+)*/
 
-const AssetItemCard: React.FC<{ asset: OpenSeaAsset }> = ({ asset }) => {
+/*const AssetItemCard: React.FC<{ asset: OpenSeaAsset }> = ({ asset }) => {
   return (
     <ItemCardContainer>
       <img src={asset.imageUrl} style={{ height: 70, width: 70, borderRadius: 8 }} alt={asset.name} />
@@ -172,7 +169,7 @@ const BundleDetailPage: React.FC = () => {
     getBundle()
   }, [getBundle])
 
-  /*const OrderMakerInfo = (order: any, namePrefix?: string) => {
+  /!*const OrderMakerInfo = (order: any, namePrefix?: string) => {
     const { maker } = order
     const { imageUrl } = maker
     const address = maker.user.publicUsername ?? maker.address
@@ -187,7 +184,7 @@ const BundleDetailPage: React.FC = () => {
         </a>
       </div>
     )
-  }*/
+  }*!/
 
   const BundleMakerInfo = (maker: OpenSeaAccount, namePrefix?: string) => {
     // @ts-ignore
@@ -206,7 +203,7 @@ const BundleDetailPage: React.FC = () => {
     )
   }
 
-  /*const getBundleListings = (ordersOfBundle: any[] | undefined) => {
+  /!*const getBundleListings = (ordersOfBundle: any[] | undefined) => {
     return (
       ordersOfBundle?.map(order => {
         return {
@@ -217,7 +214,7 @@ const BundleDetailPage: React.FC = () => {
         }
       }) ?? []
     )
-  }*/
+  }*!/
 
   return (
     <BundleDetailContainer>
@@ -234,7 +231,7 @@ const BundleDetailPage: React.FC = () => {
           </Carousel>
           <DescriptionContainer>
             <p style={{ fontSize: '18px', fontWeight: 'bold' }}>Bundle Description</p>
-            {/*<p className="createBy">{orders && orders.length > 0 && OrderMakerInfo(orders[0], 'Create by')}</p>*/}
+            {/!*<p className="createBy">{orders && orders.length > 0 && OrderMakerInfo(orders[0], 'Create by')}</p>*!/}
             <p className="createBy">{bundle && BundleMakerInfo(bundle.maker, 'Create by')}</p>
             <p>{bundle?.description}</p>
           </DescriptionContainer>
@@ -242,7 +239,7 @@ const BundleDetailPage: React.FC = () => {
       </LeftArea>
       <RightArea>
         <BundleName>{bundle?.name}</BundleName>
-        {/*{bundleCurrentPrice && (
+        {/!*{bundleCurrentPrice && (
           <PriceContainer>
             <p>Current Price</p>
             <p>Ξ {bundleCurrentPrice}</p>
@@ -252,15 +249,15 @@ const BundleDetailPage: React.FC = () => {
               </Button>
             </Dropdown>
           </PriceContainer>
-        )}*/}
-        {/*<ListingsContainer>
+        )}*!/}
+        {/!*<ListingsContainer>
           <p>Listings</p>
           <Table dataSource={getBundleListings(orders)} pagination={false} sticky={true} scroll={{ y: 200 }}>
             <Column title="From" dataIndex="from" key="from" />
             <Column title="Price" dataIndex="price" key="price" />
             <Column title="Expiration" dataIndex="expiration" key="expiration" />
           </Table>
-        </ListingsContainer>*/}
+        </ListingsContainer>*!/}
         <ItemsContainer>
           <p className="items">{bundle?.assets?.length} Items</p>
           {bundle?.assets?.map(asset => (
@@ -270,6 +267,12 @@ const BundleDetailPage: React.FC = () => {
       </RightArea>
     </BundleDetailContainer>
   )
+}*/
+
+type BundleDetailPageProps = {}
+
+const BundleDetailPage: React.FC<BundleDetailPageProps> = ({}) => {
+  return <></>
 }
 
 export default BundleDetailPage
