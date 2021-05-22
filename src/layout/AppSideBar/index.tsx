@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom'
 import routes, { Route } from '../../routes'
 
 const Container = styled.div`
+  width: 272px;
   height: calc(100vh - 82px);
   background-color: white;
 `

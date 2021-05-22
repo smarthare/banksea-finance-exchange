@@ -9,14 +9,14 @@ import { Route } from 'react-router-dom'
 const App: React.FC = () => {
   return (
     <Layout>
-      <Layout.Header style={{ padding: 0, height: '82px' }}>
+      <Layout.Header style={{ padding: 0, height: '82px', position: 'fixed', zIndex: 1, width: '100%' }}>
         <AppHeader />
       </Layout.Header>
       <Layout>
-        <Layout.Sider>
+        <Layout.Sider style={{ position: 'fixed', zIndex: 1, top: '82px' }}>
           <AppSideBar />
         </Layout.Sider>
-        <Layout.Content style={{ backgroundColor: '#FAF9FA' }}>
+        <Layout.Content style={{ backgroundColor: '#FAF9FA', position: 'relative', top: '82px', left: '272px' }}>
           {routes.map(route => (
             <Route path={route.path} exact component={route.component} key={route.path} />
           ))}
