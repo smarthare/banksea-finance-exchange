@@ -9,17 +9,26 @@ import { Route } from 'react-router-dom'
 const App: React.FC = () => {
   return (
     <Layout>
-      <Layout.Header style={{ padding: 0, height: '8.2rem', position: 'fixed', zIndex: 1, width: '100%' }}>
+      <Layout.Header style={{ padding: 0, height: '82px', position: 'fixed', zIndex: 1, width: '100%' }}>
         <AppHeader />
       </Layout.Header>
       <Layout>
-        <Layout.Sider style={{ position: 'fixed', zIndex: 1, top: '8.2rem' }}>
+        <Layout.Sider style={{ position: 'fixed', zIndex: 1, top: '82px' }}>
           <AppSideBar />
         </Layout.Sider>
-        <Layout.Content style={{ backgroundColor: '#FAF9FA', position: 'relative', top: '8.2rem', left: '27.2rem' }}>
-          {routes.map(route => (
-            <Route path={route.path} exact component={route.component} key={route.path} />
-          ))}
+        <Layout.Content
+          style={{
+            backgroundColor: '#FAF9FA',
+            position: 'relative',
+            top: '82px',
+            left: '272px'
+          }}
+        >
+          <div style={{ width: 'calc(100vw - 272px)' }}>
+            {routes.map(route => (
+              <Route path={route.path} exact component={route.component} key={route.path} />
+            ))}
+          </div>
         </Layout.Content>
       </Layout>
     </Layout>
