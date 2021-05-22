@@ -5,20 +5,20 @@ import { Button } from 'antd'
 
 const AppHeaderContainer = styled.div`
   background-color: white;
-  height: 82px;
+  height: 8.2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 32px;
+  padding: 0 3.2rem;
 `
 
 const ConnectButton = styled(Button)`
-  width: 146px;
-  height: 50px;
+  width: 14.6rem;
+  height: 5rem;
   background: #7c6deb;
   border-radius: 25px;
   color: white;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: bold;
   text-align: center;
 `
@@ -28,17 +28,17 @@ const Row = styled.div`
 `
 
 const Avatar = styled.div`
-  width: 51px;
-  height: 51px;
+  width: 5.1rem;
+  height: 5.1rem;
   background: #d8d8d8;
   border-radius: 100%;
-  margin-left: 33px;
+  margin-left: 3.3rem;
 `
 
 const AppHeader = () => {
   return (
     <AppHeaderContainer>
-      <img src={BanksyLogo} alt="banksy" style={{ width: '166px' }} />
+      <img src={BanksyLogo} alt="banksy" style={{ width: '16.6rem' }} />
       <Row>
         <ConnectButton>Connect </ConnectButton>
         <Avatar />
