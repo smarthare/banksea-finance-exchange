@@ -1,4 +1,6 @@
 import HomePage from '../pages/Home'
+import CollectiblePage from '../pages/Collectibles'
+import ArtistPage from '../pages/Artists'
 
 export type Route = {
   path: string
@@ -18,13 +20,13 @@ const routes: Route[] = [
     path: '/collectibles',
     title: 'Collectibles',
     icon: '',
-    component: HomePage
+    component: CollectiblePage
   },
   {
     path: '/artists',
     title: 'Artists',
     icon: '',
-    component: HomePage
+    component: ArtistPage
   },
   {
     path: '/farms',
