@@ -26,16 +26,14 @@ const HeadLine = styled.div`
   height: 17rem;
   align-items: center;
   justify-content: space-between;
-
-  //.row {
-  //  margin: 0 27.2rem 0 18.2rem;
-  //}
 `
+
 const Body = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `
+
 const HomePageContainer = styled.div`
   padding: 2rem 18rem;
 `
