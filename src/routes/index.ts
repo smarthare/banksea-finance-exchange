@@ -1,5 +1,6 @@
 import HomePage from '../pages/Home'
 import CollectiblesPage from '../pages/Collectibles'
+import ArtistPage from '../pages/Artists'
 
 export type Route = {
   path: string
@@ -25,7 +26,7 @@ const routes: Route[] = [
     path: '/artists',
     title: 'Artists',
     icon: '',
-    component: HomePage
+    component: ArtistPage
   },
   {
     path: '/farms',
