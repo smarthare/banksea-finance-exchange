@@ -5,7 +5,7 @@ import { Upload, Checkbox, Button } from 'antd'
 import UploadBtn from '@/assets/images/upload-button.png'
 import PicIcon from '@/assets/images/picture-icon.png'
 
-const { Option } = Select
+const { TextArea } = Input
 const props = {
   name: 'file',
   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -14,10 +14,11 @@ const props = {
   },
   progress: {
     strokeColor: {
-      '0%': '#108ee9',
-      '100%': '#87d068'
+      '0%': '#ffabe1',
+      '50%': '#a685e2',
+      '100%': '#7c6deb'
     },
-    strokeWidth: 3,
+    strokeWidth: 6,
     format: (percent: any) => `${parseFloat(percent.toFixed(2))}%`
   }
 }
@@ -71,6 +72,23 @@ const ArtistForm = styled.div`
     color: #7c6deb;
     line-height: 2.2rem;
     padding-top: 2.5rem;
+  }
+
+  .text-area {
+    &::placeholder {
+      color: rgba(124, 109, 235, 0.5) !important;
+    }
+
+    width: 66.8rem !important;
+    height: 10rem !important;
+    background: #e5e2fb !important;
+    border-radius: 1rem !important;
+    border: 0.1rem solid #7c6deb !important;
+
+    font-size: 1.4rem !important;
+    font-weight: 500 !important;
+    color: rgba(124, 109, 235, 1) !important;
+    line-height: 2rem !important;
   }
 `
 
@@ -189,6 +207,9 @@ function handleChange(value: any) {
 }
 
 const ArtistPage: React.FC<ArtistPageProps> = ({}) => {
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   return (
     <ArtistPageContainer>
       <div className="title">Banksy Artists</div>
@@ -224,9 +245,8 @@ const ArtistPage: React.FC<ArtistPageProps> = ({}) => {
             <Input placeholder="Personal website" />
           </FormValue>
           <div className="form-label">Brief Introduction</div>
-          <FormValue>
-            <Input placeholder="Enter the Brief introduction" />
-          </FormValue>
+
+          <TextArea rows={4} placeholder="Enter the Brief introduction" className="text-area" />
         </ArtistForm>
         <hr className="split-line" />
         <div className="information">2. Upload artwork image</div>
