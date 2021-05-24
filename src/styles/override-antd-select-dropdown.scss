@@ -1,0 +1,26 @@
+.ant-select-dropdown {
+  background-color: #e5e2fb;
+  border-radius: 10px;
+
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    border-radius: 10px;
+    background-color: #7c6deb!important;
+    //background-color: red !important;
+
+    .ant-select-item-option-content {
+      color: white;
+      font-weight: 500;
+    }
+  }
+
+  .ant-select-item-option-content {
+    color: #7c6deb;
+    font-weight: 500;
+  }
+
+  .ant-select-item-option-active:not(.ant-select-item-option-selected) {
+    background-color: #e5e2fb;
+    color: #7c6deb;
+    opacity: 0.8;
+  }
+}

@@ -1,8 +1,0 @@
-@import '~antd/dist/antd.css';
-.app {
-    width: 100%;
-}
-::-webkit-scrollbar{
-    display:none;
-}
-

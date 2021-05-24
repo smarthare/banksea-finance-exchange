@@ -1,5 +1,5 @@
 import React from 'react'
-import './app.css'
+import './app.scss'
 import { Layout } from 'antd'
 import AppHeader from './layout/AppHeader'
 import AppSideBar from './layout/AppSideBar'
