@@ -1,14 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Input, Select } from 'antd'
-import { SearchOutlined } from '@ant-design/icons'
+import { HeartOutlined, SearchOutlined } from '@ant-design/icons'
+
+import '../../styles/override-antd-select-dropdown.scss'
+import { SolibleNFT, USE_ALL_NFTS } from '../../assets/SolibleNfts'
 
 const PageContainer = styled.div`
   padding-top: 5.6rem;
   width: 100%;
-  height: 100vh;
+  height: fit-content;
   background-image: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default});
-  background-size: cover;
+  background-size: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,6 +20,7 @@ const PageContainer = styled.div`
 
 const Title = styled.div`
   font-size: 3rem;
+  font-weight: 500;
 `
 
 const Description = styled.div`
@@ -113,8 +117,57 @@ const MySelect = styled(Select)`
   }
 `
 
+const NFTItemCardContainer = styled.div`
+  width: 19.2rem;
+  height: 37rem;
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 2.5rem;
+  margin-right: 2rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  img {
+    width: 17.2rem;
+    height: 20.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+  }
+
+  .name {
+    margin-bottom: 1.5rem;
+  }
+
+  .like {
+    display: flex;
+    align-items: center;
+    .heart {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .button {
+    width: 100%;
+    height: 4rem;
+    border-radius: 1rem;
+    background-color: #7c6deb;
+    color: white;
+    font-weight: 500;
+  }
+`
+
+const NFTListContainer = styled.div`
+  width: 90.8rem;
+  padding-left: 4rem;
+  display: flex;
+  flex-wrap: wrap;
+`
+
 const Search: React.FC = () => {
-  return <SearchInput prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}></SearchInput>
+  return <SearchInput prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />} />
 }
 
 const Filter: React.FC = () => {
@@ -157,11 +210,13 @@ const Filter: React.FC = () => {
   return (
     <FilterContainer>
       {filterItems.map(item => (
-        <div className="filter-item">
+        <div className="filter-item" key={item.key}>
           <div className="key">{item.key}:</div>
           <div className="values">
             {item.values.map(value => (
-              <div className="value">{value}</div>
+              <div className="value" key={value}>
+                {value}
+              </div>
             ))}
           </div>
         </div>
@@ -183,10 +238,100 @@ const TypeSelector: React.FC = () => {
 const OrderSelector: React.FC = () => {
   return (
     <MySelect defaultValue="1">
-      <Select.Option value="1">Time</Select.Option>
-      <Select.Option value="2">Price</Select.Option>
-      <Select.Option value="3">Love</Select.Option>
+      <Select.Option className="customized-option" value="1">
+        Time
+      </Select.Option>
+      <Select.Option className="customized-option" value="2">
+        Price
+      </Select.Option>
+      <Select.Option className="customized-option" value="3">
+        Love
+      </Select.Option>
     </MySelect>
+  )
+}
+
+type NFTItemCardProps = {
+  data: SolibleNFT
+}
+
+const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
+  const CornerFlag: React.FC = () => {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          top: '-1rem',
+          left: '-0.45rem',
+          color: 'white',
+          fontWeight: 500,
+          textAlign: 'center',
+          lineHeight: '3rem',
+          zIndex: 9999,
+          width: '8.5rem',
+          height: '3.7rem',
+          backgroundImage: `url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default})`,
+          backgroundSize: 'cover'
+        }}
+      >
+        on Sale
+      </div>
+    )
+  }
+
+  const ApproveVoteButton: React.FC = () => {
+    return (
+      <Button
+        style={{
+          position: 'absolute',
+          right: '3.7rem',
+          top: '2.4rem',
+          width: '10.9rem',
+          height: '3rem',
+          color: 'white',
+          borderRadius: '1rem',
+          fontSize: '1.2rem',
+          fontWeight: 500,
+          border: 'none',
+          backgroundColor: '#829FF2'
+        }}
+      >
+        Approve Vote
+      </Button>
+    )
+  }
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <CornerFlag />
+      <ApproveVoteButton />
+      <NFTItemCardContainer>
+        <div>
+          {/* @ts-ignore*/}
+          <img src={data.img.default} alt="" />
+          <div className="name">{data.name}</div>
+        </div>
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
+            <div className="like">
+              <HeartOutlined className="heart" />5
+            </div>
+            <div className="price">5 ETH</div>
+          </div>
+          <Button className="button">Connect Wallet</Button>
+        </div>
+      </NFTItemCardContainer>
+    </div>
+  )
+}
+
+const NFTList: React.FC = () => {
+  return (
+    <NFTListContainer>
+      {USE_ALL_NFTS.map(nft => (
+        <NFTItemCard data={nft} key={nft.name} />
+      ))}
+    </NFTListContainer>
   )
 }
 
@@ -198,7 +343,7 @@ const CollectiblesPage: React.FC<CollectiblesPageProps> = ({}) => {
       <Title>NFT Marketplace</Title>
       <Description>A market made for NFT, where everything is special.</Description>
       <Filter />
-      <div style={{ width: '82.8rem', display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ width: '82.8rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
         <div style={{ display: 'flex' }}>
           <MyArtworksButton>My Artworks</MyArtworksButton>
           <MintArtworksButton>Mint Artworks</MintArtworksButton>
@@ -209,6 +354,7 @@ const CollectiblesPage: React.FC<CollectiblesPageProps> = ({}) => {
           <OrderSelector />
         </div>
       </div>
+      <NFTList />
     </PageContainer>
   )
 }
