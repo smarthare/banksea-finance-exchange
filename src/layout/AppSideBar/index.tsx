@@ -12,21 +12,55 @@ const Container = styled.div`
 
 type AppSideBarProps = {}
 
+const CustomizedMenu = styled(Menu)`
+  font-weight: 500;
+
+  .ant-menu-item {
+    display: flex;
+    align-items: center;
+    svg {
+      width: 1.7rem;
+      line {
+        shape-rendering: crispEdges;
+      }
+    }
+  }
+
+  .ant-menu-item-selected {
+    background-color: #7c6deb !important;
+
+    a {
+      color: white !important;
+    }
+
+    &:after {
+      border-right: none !important;
+    }
+  }
+
+  .ant-menu-item-active:not(.ant-menu-item-selected) {
+    background-color: rgb(229, 226, 251) !important;
+  }
+`
+
 const AppSideBar: React.FC<AppSideBarProps> = ({}) => {
   const { pathname } = useLocation()
 
   return (
     <Container>
-      <Menu defaultSelectedKeys={[pathname]} mode="inline">
-        {routes.map((route: Route) => (
-          <Menu.Item key={route.path}>
-            <img className="slideIcon" src={route.icon} alt="" />
-            <Link to={route.path} style={{ userSelect: 'none' }}>
-              {route.title}
-            </Link>
-          </Menu.Item>
-        ))}
-      </Menu>
+      <CustomizedMenu defaultSelectedKeys={[pathname]} mode="inline">
+        {routes.map((route: Route) => {
+          const fillColor = route.path === pathname ? 'white' : '#7c6deb'
+
+          return (
+            <Menu.Item key={route.path} icon={<route.icon fill={fillColor} />}>
+              <Link to={route.path} style={{ userSelect: 'none', color: '#7C6DEB' }}>
+                {route.title}
+              </Link>
+            </Menu.Item>
+          )
+        })}
+      </CustomizedMenu>
     </Container>
   )
 }

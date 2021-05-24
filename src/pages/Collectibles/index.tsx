@@ -267,7 +267,7 @@ const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
           fontWeight: 500,
           textAlign: 'center',
           lineHeight: '3rem',
-          zIndex: 9999,
+          zIndex: 1049,
           width: '8.5rem',
           height: '3.7rem',
           backgroundImage: `url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default})`,
@@ -328,8 +328,8 @@ const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
 const NFTList: React.FC = () => {
   return (
     <NFTListContainer>
-      {USE_ALL_NFTS.map(nft => (
-        <NFTItemCard data={nft} key={nft.name} />
+      {USE_ALL_NFTS.map((nft, index: number) => (
+        <NFTItemCard data={nft} key={index} />
       ))}
     </NFTListContainer>
   )
