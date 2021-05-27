@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import BanksyLogo from '@/assets/images/banksy-logo.png'
 import { Button } from 'antd'
+import Wallet from '../../components/Wallet'
 
 const AppHeaderContainer = styled.div`
   background-color: white;
@@ -13,14 +14,23 @@ const AppHeaderContainer = styled.div`
 `
 
 const ConnectButton = styled(Button)`
-  width: 14.6rem;
-  height: 5rem;
-  background: #7c6deb;
-  border-radius: 25px;
-  color: white;
-  font-size: 1.6rem;
-  font-weight: bold;
-  text-align: center;
+  &,
+  &:hover,
+  &:active {
+    width: fit-content;
+    height: 5rem;
+    background: #7c6deb;
+    border-radius: 25px;
+    color: white;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  &:hover,
+  &:active {
+    background: #a399f3;
+  }
 `
 
 const Row = styled.div`
@@ -40,7 +50,9 @@ const AppHeader = () => {
     <AppHeaderContainer>
       <img src={BanksyLogo} alt="banksy" style={{ width: '16.6rem' }} />
       <Row>
-        <ConnectButton>Connect </ConnectButton>
+        <ConnectButton>
+          <Wallet />
+        </ConnectButton>
         <Avatar />
       </Row>
     </AppHeaderContainer>

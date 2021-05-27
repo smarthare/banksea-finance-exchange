@@ -156,7 +156,7 @@ const SubmitButtonSmall = styled(Button)`
   font-size: 16px;
   font-weight: 500;
 `
-const HomePage: React.FC<HomePageProps> = ({}) => {
+const HomePage: React.FC<HomePageProps> = () => {
   return (
     <HomePageContainer>
       <HeadLine>

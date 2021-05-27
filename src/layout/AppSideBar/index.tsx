@@ -43,7 +43,7 @@ const CustomizedMenu = styled(Menu)`
   }
 `
 
-const AppSideBar: React.FC<AppSideBarProps> = ({}) => {
+const AppSideBar: React.FC<AppSideBarProps> = () => {
   const { pathname } = useLocation()
 
   return (

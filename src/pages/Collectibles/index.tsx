@@ -337,7 +337,7 @@ const NFTList: React.FC = () => {
 
 type CollectiblesPageProps = {}
 
-const CollectiblesPage: React.FC<CollectiblesPageProps> = ({}) => {
+const CollectiblesPage: React.FC<CollectiblesPageProps> = () => {
   return (
     <PageContainer>
       <Title>NFT Marketplace</Title>
