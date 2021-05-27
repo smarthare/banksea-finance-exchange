@@ -7,8 +7,8 @@ enum NFT_Types {
 }
 
 export class SolibleNFT {
-  img: Object
-  imgSmall: Object
+  img: any
+  imgSmall: any
   name: string
   supply: number
   mintAddress: PublicKey
@@ -21,8 +21,8 @@ export class SolibleNFT {
   auctionDeadLine?: string
 
   constructor(
-    img: Object,
-    imgSmall: Object,
+    img: any,
+    imgSmall: any,
     name: string,
     supply: number,
     mintAddress: PublicKey,

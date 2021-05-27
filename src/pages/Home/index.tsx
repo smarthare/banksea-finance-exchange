@@ -19,8 +19,6 @@ import Pen6 from '@/assets/images/pen6.png'
 
 import { Button } from 'antd'
 
-type HomePageProps = {}
-
 const HeadLine = styled.div`
   display: flex;
   height: 17rem;
@@ -156,7 +154,7 @@ const SubmitButtonSmall = styled(Button)`
   font-size: 16px;
   font-weight: 500;
 `
-const HomePage: React.FC<HomePageProps> = () => {
+const HomePage: React.FC = () => {
   return (
     <HomePageContainer>
       <HeadLine>

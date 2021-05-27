@@ -14,7 +14,7 @@ export const BaseCardBundleMedia: React.FC<BaseCardBundleMediaProps> = ({ classN
     <>
       {isVideo && (
         <video controls className={classNames}>
-          <source src={src} type="video/mp4"></source>
+          <source src={src} type="video/mp4" />
         </video>
       )}
       {!isVideo && <img src={src} alt="" className={classNames} />}

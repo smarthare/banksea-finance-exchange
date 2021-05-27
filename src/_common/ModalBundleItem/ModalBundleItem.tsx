@@ -60,7 +60,7 @@ export const ModalBundleItem: React.FC<ModalBundleItemProps> = ({ bundle }) => {
       </div>
       <Link
         to={{
-          pathname: `/`,
+          pathname: '/',
           search: search.toString()
         }}
         className="cursor-default"

@@ -27,7 +27,7 @@ export const SolibleAssetCard: React.FC<SolibleAssetCardProps> = ({ asset }) => 
           to={location => {
             const newSearch = new URLSearchParams(location.search)
             newSearch.set('marketAddress', marketAddress.toString())
-            return { pathname: `/bundles`, search: newSearch.toString() }
+            return { pathname: '/bundles', search: newSearch.toString() }
           }}
         >
           {/* @ts-ignore */}

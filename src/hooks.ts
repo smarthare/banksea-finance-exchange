@@ -11,6 +11,8 @@ import {
   setupWalletConnectNetwork
 } from './BanksyJs/networkHelper'
 import { Web3Provider } from '@ethersproject/providers'
+import { banksyJsConnector } from './BanksyJs/banksyJsConnector'
+import ContractSettings from './BanksyJs/ContractSettings'
 
 export function useInitializeProvider(chainId: number, RPCUrl?: string): boolean {
   const dispatch = useDispatch()
@@ -89,11 +91,11 @@ export function useInitializeProvider(chainId: number, RPCUrl?: string): boolean
       return
     }
 
-    // dowsJSConnector.setContractSettings(new ContractSettings(
-    //   provider,
-    //   provider.getSigner ? provider.getSigner() : null,
-    //   chainId
-    // ))
+    banksyJsConnector.setContractSettings(new ContractSettings(
+      provider,
+      provider.getSigner ? provider.getSigner() : null,
+      chainId
+    ))
     setInitialized(true)
   }, [selectedWallet, chainId, RPCUrl])
 

@@ -22,8 +22,6 @@ const WalletCard: React.FC<WalletCardProps> = ({ wallet }) => {
   const chainId = useSelector(getChainId)
   const RPCUrl = useSelector(getRpcUrl)
 
-  console.log(chainId, RPCUrl)
-
   return (
     <div className="wallet-card">
       <div className="walletItem" onClick={() => chainId && RPCUrl && handleConnect(dispatch, chainId, RPCUrl)}>

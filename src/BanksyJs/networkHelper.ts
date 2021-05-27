@@ -2,7 +2,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import { message } from 'antd'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 
-export const SUPPORTED_NETWORKS = {
+export const SUPPORTED_NETWORKS: { [key: number]: string } = {
   1: 'mainnet',
   3: 'ropsten',
   4: 'rinkeby',
@@ -44,7 +44,7 @@ export async function setupMetamaskNetwork(params: EthereumChainParams) {
       return false
     }
   } else {
-    console.error("Can't setup the BSC network on metamask because window.ethereum is undefined")
+    console.error('Can\'t setup the BSC network on metamask because window.ethereum is undefined')
     return false
   }
 }

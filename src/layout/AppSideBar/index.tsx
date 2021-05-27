@@ -10,8 +10,6 @@ const Container = styled.div`
   background-color: white;
 `
 
-type AppSideBarProps = {}
-
 const CustomizedMenu = styled(Menu)`
   font-weight: 500;
 
@@ -43,7 +41,7 @@ const CustomizedMenu = styled(Menu)`
   }
 `
 
-const AppSideBar: React.FC<AppSideBarProps> = () => {
+const AppSideBar: React.FC = () => {
   const { pathname } = useLocation()
 
   return (

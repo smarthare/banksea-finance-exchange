@@ -11,7 +11,7 @@ export type PinataResult = {
 }
 
 function pinFileToIPFS(file: any) {
-  const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`
+  const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS'
 
   const data = new FormData()
   data.append('file', file)
@@ -19,18 +19,32 @@ function pinFileToIPFS(file: any) {
   // @ts-ignore
   const boundary = data._boundary
 
-  console.log(boundary)
-
   const config = {
     headers: {
       'Content-Type': `multipart/form-data; boundary= ${boundary}`,
       pinata_api_key: PinataApiKey,
       pinata_secret_api_key: PinataApiSecret
-      // Authorization: jwt
     }
   }
 
   return request.post<PinataResult>(url, data, config)
 }
 
-export { pinFileToIPFS }
+function pinJsonToIPFS(data: any) {
+  const url = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
+
+  // const boundary = data._boundary
+
+  const config = {
+    headers: {
+      // 'Content-Type': `multipart/form-data; boundary= ${boundary}`,
+      'Content-Type': 'application/json',
+      pinata_api_key: PinataApiKey,
+      pinata_secret_api_key: PinataApiSecret
+    }
+  }
+
+  return request.post<PinataResult>(url, data, config)
+}
+
+export { pinFileToIPFS, pinJsonToIPFS }
