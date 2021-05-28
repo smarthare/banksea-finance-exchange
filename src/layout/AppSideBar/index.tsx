@@ -47,7 +47,7 @@ const AppSideBar: React.FC = () => {
   return (
     <Container>
       <CustomizedMenu defaultSelectedKeys={[pathname]} mode="inline">
-        {routes.map((route: Route) => {
+        {routes.filter(route => !route.hidden).map((route: Route) => {
           const fillColor = route.path === pathname ? 'white' : '#7c6deb'
 
           return (
