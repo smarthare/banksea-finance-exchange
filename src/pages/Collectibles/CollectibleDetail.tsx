@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 
 import styled from 'styled-components'
 import { Button, Carousel, Dropdown, Menu, Table } from 'antd'
@@ -83,11 +83,11 @@ const ListingsContainer = styled.div`
   }
 `
 
-const MakerAvatar = styled.img`
-  width: 20px;
-  height: 20px;
-  border-radius: 20px;
-`
+// const MakerAvatar = styled.img`
+//   width: 20px;
+//   height: 20px;
+//   border-radius: 20px;
+// `
 
 const ItemsContainer = styled.div`
   width: 700px;
@@ -129,7 +129,7 @@ const menu = (
 const AssetItemCard: React.FC = () => {
   return (
     <ItemCardContainer>
-      <img style={{ height: 70, width: 70, borderRadius: 8 }} />
+      <img style={{ height: 70, width: 70, borderRadius: 8 }} alt="" />
       <div className='itemCardContainer-text'>
         <p
           style={{ cursor: 'pointer' }}
@@ -144,7 +144,15 @@ const AssetItemCard: React.FC = () => {
 }
 
 const CollectibleDetailPage: React.FC = () => {
-  banksyJsConnector.banksyJs.OpenSea.uri('13073724248939021555766033205546005650468949582365136648279053434500902027265')
+  const init = useCallback(async () => {
+    console.log(await banksyJsConnector.banksyJs.OpenSea.uri('13073724248939021555766033205546005650468949582365136648279053434500902027265'))
+  }, [])
+
+  useEffect(() => {
+    init()
+  }, [init])
+
+
   return (
     <BundleDetailContainer>
       <LeftArea>
@@ -157,7 +165,7 @@ const CollectibleDetailPage: React.FC = () => {
             ]
               .map((imgUrl, index) => (
                 <div
-                  style={ {
+                  style={{
                     height: '160px',
                     color: '#fff',
                     background: '#364d79'

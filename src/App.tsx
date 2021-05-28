@@ -22,14 +22,14 @@ const App: React.FC = () => {
   dispatch(setRpcUrl(RPCUrl))
 
   const providerInitialized = useInitializeProvider(decChainId, RPCUrl)
-  useSetupNetwork(providerInitialized, {
+  const networkReady = useSetupNetwork(providerInitialized, {
     blockExplorerUrls: [blockExplorerUrl],
     chainName,
     chainId: hexChainId,
     rpcUrls: [RPCUrl]
   })
 
-  return (
+  return networkReady ? (
     <Layout>
       <Layout.Header style={{ padding: 0, height: '82px', position: 'fixed', zIndex: 1, width: '100%' }}>
         <AppHeader />
@@ -53,8 +53,8 @@ const App: React.FC = () => {
           </div>
         </Layout.Content>
       </Layout>
-    </Layout>
-  )
+    </Layout>) :
+    <div />
 }
 
 export default App
