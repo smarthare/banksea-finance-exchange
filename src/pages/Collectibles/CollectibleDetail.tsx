@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Button, Carousel, Dropdown, Menu, Table } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import Column from 'antd/lib/table/Column'
+import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
 
 const BundleDetailContainer = styled.div`
   color: black;
@@ -143,6 +144,7 @@ const AssetItemCard: React.FC = () => {
 }
 
 const CollectibleDetailPage: React.FC = () => {
+  banksyJsConnector.banksyJs.OpenSea.uri('13073724248939021555766033205546005650468949582365136648279053434500902027265')
   return (
     <BundleDetailContainer>
       <LeftArea>
