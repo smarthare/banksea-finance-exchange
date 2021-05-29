@@ -9,7 +9,7 @@ class BanksyJs extends BanksyJsBase {
   OpenSea: OpenSea
 
   /**
-   * Creates instances of Shadows contracts based on ContractSettings.
+   * Creates instances of contracts based on ContractSettings.
    * @constructor
    * @param contractSettings {ContractSettings}
    */

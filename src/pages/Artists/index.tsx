@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, Checkbox, Form, Input, message, Select, Upload } from 'antd'
 import UploadBtn from '@/assets/images/upload-button.png'
@@ -11,6 +11,7 @@ import { NFTMetadata, NFTMetadataAttribute } from '../../types/NFTMetadata'
 import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
+import { useWalletErrorMessageGetter } from '../../hooks'
 
 const ArtistPageContainer = styled.div`
   padding-top: 5.6rem;
@@ -35,7 +36,7 @@ const ArtistForm = styled(Form)`
   width: 82.8rem;
   background: #ffffff;
   border-radius: 5rem;
-  padding: 3rem 8rem;
+  padding: 3rem 8rem 12.2rem 8rem;
   margin-bottom: 5rem;
 
   .split-line {
@@ -69,20 +70,6 @@ const ArtistForm = styled(Form)`
     font-weight: 500 !important;
     color: rgba(124, 109, 235, 1) !important;
     line-height: 2rem !important;
-  }
-
-  .bottom-button {
-    width: 30.2rem;
-    height: 6rem;
-    margin: 5.2rem 0 9.2rem 0;
-    background: #7c6deb;
-    border-radius: 1rem;
-    text-align: center;
-
-    font-size: 1.6rem;
-    font-weight: 500;
-    color: #ffffff;
-    line-height: 2.2rem;
   }
 `
 
@@ -237,8 +224,41 @@ const Announcement = styled.div`
   }
 `
 
+const CreateButton = styled(Button)`
+  width: 30.2rem;
+  height: 6rem;
+  margin: 5.2rem 0 1.2rem 0;
+  background: #7c6deb;
+  border-radius: 1rem;
+  text-align: center;
+
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 2.2rem;
+`
+
 type AssetUploadProps = {
-  onUploadSuccess: (assetIpfsHash: string) => void
+  onUploadSuccess: (_assetIpfsHash: string) => void
+}
+
+type MessageHintProps = {
+  message: string,
+  type?: 'error' | 'hint' | 'success'
+}
+
+const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
+  const color = type ? {
+    'error': 'red',
+    'success': 'rgb(82,196,26)',
+    'hint': '#7c6deb'
+  }[type] : ''
+
+  return (
+    <p style={{ fontSize: '1.2rem', color }}>
+      {message}
+    </p>
+  )
 }
 
 const AssetUpload: React.FC<AssetUploadProps> = ({ onUploadSuccess }) => {
@@ -249,6 +269,13 @@ const AssetUpload: React.FC<AssetUploadProps> = ({ onUploadSuccess }) => {
   const [pinnedFileHash, setPinnedFileHash] = useState<any>()
 
   const handleUpload = () => {
+    if (!fileList[0]) {
+      return
+    }
+
+    setUploading(true)
+    setPinnedFileHash(undefined)
+
     pinFileToIPFS(fileList[0])
       .then(r => {
         setUploading(false)
@@ -265,12 +292,8 @@ const AssetUpload: React.FC<AssetUploadProps> = ({ onUploadSuccess }) => {
     showUploadList: false,
     name: 'file',
     maxCount: 1,
-    beforeUpload: file => {
+    beforeUpload: async file => {
       setFileList([file])
-
-      setUploading(true)
-      setPinnedFileHash(undefined)
-      handleUpload()
       return false
     },
     fileList,
@@ -285,22 +308,24 @@ const AssetUpload: React.FC<AssetUploadProps> = ({ onUploadSuccess }) => {
     }
   }
 
+  useEffect(handleUpload, [fileList])
+
   return (
     <AssetUploadContainer>
       <Upload {...uploadProps}>
         {pinnedFileHash ? (
-          <div className="upload-border">
-            <img className="pinned" src={`https://gateway.pinata.cloud/ipfs/${pinnedFileHash}`} alt="" />
+          <div className='upload-border'>
+            <img className='pinned' src={`https://gateway.pinata.cloud/ipfs/${pinnedFileHash}`} alt='' />
           </div>
         ) : uploading ? (
-          <div className="upload-border">
-            <LoadingOutlined className="loading" />
+          <div className='upload-border'>
+            <LoadingOutlined className='loading' />
           </div>
         ) : (
-          <div className="upload-border">
-            <img src={UploadBtn} alt="upload-btn" />
-            <div className="tip">Support: png / jpg /</div>
-            <div className="tip">Size: 10M/</div>
+          <div className='upload-border'>
+            <img src={UploadBtn} alt='upload-btn' />
+            <div className='tip'>Support: png / jpg /</div>
+            <div className='tip'>Size: 10M/</div>
           </div>
         )}
       </Upload>
@@ -320,10 +345,18 @@ const ArtistPage: React.FC = () => {
 
   const [assetIpfsHash, setAssetIpfsHash] = useState('')
 
-  const [nftMetadata, setNftMetadata] = useState<NFTMetadata>()
+  const [hintMessage, setHintMessage] = useState<MessageHintProps>({
+    message: '', type: 'hint'
+  })
+
+  const { walletErrorMessageGetter } = useWalletErrorMessageGetter()
 
   const formInitialValues = {
-    artworkType: 'pictures'
+    artworkType: 'pictures',
+    artworkName: 'Syk3',
+    artistName: 'Wlop',
+    socialMedia: 'https://twitter.com/wlopwangling',
+    briefIntroduction: 'Wlop is a nice artist.'
   }
 
   const onArtworkTypeChange = (value: any) => {
@@ -336,14 +369,25 @@ const ArtistPage: React.FC = () => {
 
   const handleCreate = () => {
     if (!promised) {
-      message.warn('Please check the checkbox first!', 0.5)
+      setHintMessage({
+        message: 'Please check the checkbox first!',
+        type: 'error'
+      })
       return
     }
 
     if (!assetIpfsHash) {
-      message.warn('Please upload artwork image first!')
+      setHintMessage({
+        message: 'Please upload artwork image first!',
+        type: 'error'
+      })
       return
     }
+
+
+    setHintMessage({
+      message: ''
+    })
 
     form
       .validateFields()
@@ -360,72 +404,111 @@ const ArtistPage: React.FC = () => {
           attributes
         }
 
+        setHintMessage({
+          message: 'Pinning asset JSON to IPFS...',
+          type: 'hint'
+        })
+
         pinJsonToIPFS(nftMetadata)
           .then(r => {
-            message.success('Pinned successful!')
+            setHintMessage({
+              message: 'Pinned successful! Please confirm in your wallet...',
+              type: 'hint'
+            })
 
-            // QmbMPhBvWPHrr5zBdYr7S3Q99icZ4r5ihGH77FEoeyTovS
             const { IpfsHash } = r.data
 
-            banksyJsConnector.banksyJs.PlanetItem.awardItem(account!, IpfsHash)
+            banksyJsConnector.banksyJs.PlanetItem.awardItem(account!, IpfsHash).then(() => {
+              setHintMessage({
+                message: 'Your creation request has been submitted!',
+                type: 'hint'
+              })
+            }).catch(e => {
+              setHintMessage({
+                message: walletErrorMessageGetter(e),
+                type: 'error'
+              })
+            })
           })
           .catch(e => {
             const error = e.response.data.error
-            message.warn(`Error occurred when pinning JSON to IPFS, retry again. [${error}]`)
+            setHintMessage({
+              message: `Error occurred when pinning JSON to IPFS, retry again. [${error}]`,
+              type: 'error'
+            })
           })
       })
-      .catch(e => {
-        message.warn('Please complete the form first!')
+      .catch(() => {
+        setHintMessage({
+          message: 'Please complete the form first!',
+          type: 'error'
+        })
       })
   }
 
-  /*const handleCreate = () => {
-    const tokenUri = 'QmbMPhBvWPHrr5zBdYr7S3Q99icZ4r5ihGH77FEoeyTovS'
-
-    banksyJsConnector.banksyJs.PlanetItem.awardItem(account!, tokenUri)
-  }*/
+  const creating = (() => !!hintMessage.message && hintMessage.type === 'hint')()
 
   return (
     <ArtistPageContainer>
-      <div className="title">Banksy Artists</div>
-      <ArtistForm form={form} colon={false} layout="vertical" initialValues={formInitialValues}>
+      <div className='title'>Banksy Artists</div>
+      <ArtistForm form={form} colon={false} layout='vertical' initialValues={formInitialValues}>
         <h1>1. Artwork Information</h1>
 
-        <CustomFormItem name="artworkType" label="Artwork Type" rules={[{ required: true }]}>
+        <CustomFormItem
+          name='artworkType'
+          label='Artwork Type'
+          rules={[{ required: true, message: 'Artwork Type is Required!' }]}
+        >
           <Selector onChange={onArtworkTypeChange}>
-            <Select.Option value="pictures">
+            <Select.Option value='pictures'>
               {/*<div className="test" style={{ display: 'flex' }}>*/}
               {/*<img src={PicIcon} alt="pic" style={{ width: '1.8rem', height: '1.8rem', marginRight: '0.5rem' }} />*/}
               Pictures
               {/*</div>*/}
             </Select.Option>
-            <Select.Option value="gif">GIF</Select.Option>
-            <Select.Option value="video">Video</Select.Option>
-            <Select.Option value="audio">Audio</Select.Option>
+            <Select.Option value='gif'>GIF</Select.Option>
+            <Select.Option value='video'>Video</Select.Option>
+            <Select.Option value='audio'>Audio</Select.Option>
           </Selector>
         </CustomFormItem>
 
-        <CustomFormItem name="artworkName" label="Artwork Name" rules={[{ required: true }]}>
-          <Input placeholder="Enter the artwork name" />
+        <CustomFormItem
+          name='artworkName'
+          label='Artwork Name'
+          rules={[{ required: true, message: 'Artwork Name is Required!' }]}
+        >
+          <Input placeholder='Enter the artwork name' />
         </CustomFormItem>
 
-        <CustomFormItem name="artistName" label="Artist Name" rules={[{ required: true }]}>
-          <Input placeholder="Enter the artist name" />
+        <CustomFormItem
+          name='artistName'
+          label='Artist Name'
+          rules={[{ required: true, message: 'Artist Name is Required!' }]}
+        >
+          <Input placeholder='Enter the artist name' />
         </CustomFormItem>
 
-        <CustomFormItem name="socialMedia" label="Social Media/Portfolio link" rules={[{ required: true }]}>
-          <Input placeholder="Personal website" />
+        <CustomFormItem
+          name='socialMedia'
+          label='Social Media/Portfolio link'
+          rules={[{ required: true, message: 'Social Media/Portfolio link is Required!' }]}
+        >
+          <Input placeholder='Personal website' />
         </CustomFormItem>
 
-        <CustomFormItem name="briefIntroduction" label="Brief Introduction" rules={[{ required: true }]}>
-          <Input.TextArea rows={4} placeholder="Enter the Brief introduction" className="text-area" />
+        <CustomFormItem
+          name='briefIntroduction'
+          label='Brief Introduction'
+          rules={[{ required: true, message: 'Brief Introduction is Required!' }]}
+        >
+          <Input.TextArea rows={4} placeholder='Enter the Brief introduction' className='text-area' />
         </CustomFormItem>
 
         <h1>2. Upload Artwork Image</h1>
 
         <AssetUpload onUploadSuccess={onAssetUploadSuccess} />
 
-        <hr className="split-line" />
+        <hr className='split-line' />
 
         <Announcement>
           <Checkbox
@@ -434,17 +517,23 @@ const ArtistPage: React.FC = () => {
               setPromised(e.target.checked)
             }}
           >
-            <div className="text">
+            <div className='text'>
               I declare that this is an original artwork. I understand that no plagiarism is allowed, and that the
               artwork can be removed anytime if detected.
             </div>
           </Checkbox>
-          <div className="text2">Mint an NFT charges 0.01BNB, please do not upload any sensitive content.</div>
+          <div className='text2'>Mint an NFT charges 0.01BNB, please do not upload any sensitive content.</div>
         </Announcement>
 
-        <Button onClick={handleCreate} className="bottom-button">
-          Create
-        </Button>
+        <CreateButton onClick={handleCreate} className='bottom-button' disabled={creating}>
+          {
+            creating
+              ? 'Creating...'
+              : 'Create'
+          }
+        </CreateButton>
+
+        <MessageHint {...hintMessage} />
       </ArtistForm>
     </ArtistPageContainer>
   )
