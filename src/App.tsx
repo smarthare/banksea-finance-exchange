@@ -31,7 +31,7 @@ const App: React.FC = () => {
 
   return networkReady ? (
     <Layout>
-      <Layout.Header style={{ padding: 0, height: '82px', position: 'fixed', zIndex: 1, width: '100%' }}>
+      <Layout.Header style={{ padding: 0, height: '82px', position: 'fixed', zIndex: 9999, width: '100%' }}>
         <AppHeader />
       </Layout.Header>
       <Layout>

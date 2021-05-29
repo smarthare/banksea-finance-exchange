@@ -14,6 +14,7 @@ export type Route = {
   icon: any
   component: any
   hidden?: boolean
+  match?: RegExp
 }
 
 const routes: Route[] = [
@@ -26,6 +27,7 @@ const routes: Route[] = [
   {
     path: '/collectibles',
     title: 'Collectibles',
+    match: /^\/collectible\//,
     icon: CollectiblesIcon,
     component: CollectiblesPage
   },

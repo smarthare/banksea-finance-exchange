@@ -47,17 +47,19 @@ const AppSideBar: React.FC = () => {
   return (
     <Container>
       <CustomizedMenu defaultSelectedKeys={[pathname]} mode="inline">
-        {routes.filter(route => !route.hidden).map((route: Route) => {
-          const fillColor = route.path === pathname ? 'white' : '#7c6deb'
+        {
+          routes.filter(route => !route.hidden).map((route: Route) => {
+            const fillColor = (route.path === pathname || route.match?.test(pathname)) ? 'white' : '#7c6deb'
 
-          return (
-            <Menu.Item key={route.path} icon={<route.icon fill={fillColor} />}>
-              <Link to={route.path} style={{ userSelect: 'none', color: '#7C6DEB' }}>
-                {route.title}
-              </Link>
-            </Menu.Item>
-          )
-        })}
+            return (
+              <Menu.Item key={route.path} icon={<route.icon fill={fillColor} />}>
+                <Link to={route.path} style={{ userSelect: 'none', color: '#7C6DEB' }}>
+                  {route.title}
+                </Link>
+              </Menu.Item>
+            )
+          })
+        }
       </CustomizedMenu>
     </Container>
   )

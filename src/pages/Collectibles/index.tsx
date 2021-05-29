@@ -5,6 +5,7 @@ import { HeartOutlined, SearchOutlined } from '@ant-design/icons'
 
 import '../../styles/override-antd-select-dropdown.scss'
 import { SolibleNFT, USE_ALL_NFTS } from '../../assets/SolibleNfts'
+import { useHistory } from 'react-router-dom'
 
 const PageContainer = styled.div`
   padding-top: 5.6rem;
@@ -256,6 +257,8 @@ type NFTItemCardProps = {
 }
 
 const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
+  const history = useHistory()
+
   const CornerFlag: React.FC = () => {
     return (
       <div
@@ -301,13 +304,14 @@ const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
     )
   }
 
+  const routeToDetailPage = () => history.push(`/collectible/${data.name}`)
+
   return (
     <div style={{ position: 'relative' }}>
       <CornerFlag />
       <ApproveVoteButton />
       <NFTItemCardContainer>
-        <div>
-          {/* @ts-ignore*/}
+        <div  style={{ cursor: 'pointer' }} onClick={routeToDetailPage}>
           <img src={data.img.default} alt="" />
           <div className="name">{data.name}</div>
         </div>
