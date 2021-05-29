@@ -73,13 +73,6 @@ const RightArea = styled.div`
   width: 53.9rem;
   margin-left: 1.3rem;
 
-  .history-title {
-    font-size: 1.6rem;
-    font-weight: 500;
-    color: #7C6DEB;
-    line-height: 2.2rem;
-  }
-
   .bundle-info {
     margin-top: 0.8rem;
     display: flex;
@@ -214,17 +207,18 @@ const PriceContainer = styled.div`
     }
 
     .price {
-      font-size: 32px;
+      font-size: 3.2rem;
       font-weight: 400;
       color: #7C6DEB;
-      line-height: 25px;
+      line-height: 2.5rem;
     }
 
     .price-in-usd {
-      font-size: 16px;
+      font-size: 1.6rem;
       font-weight: 400;
       color: #A196EF;
-      line-height: 22px;
+      line-height: 2.2rem;
+      margin-left: 1rem;
     }
   }
 
@@ -312,7 +306,7 @@ const ItemCardContainer = styled.div`
 `
 const SubTitle = styled.div`
   font-size: 1.6rem;
-  font-weight: 500;
+  font-weight: 550;
   color: #7C6DEB;
   line-height: 2.2rem;
 `
@@ -395,6 +389,13 @@ const ConnectButton = styled(Button) `
   height: 40px;
   background: #7C6DEB;
   border-radius: 10px;
+
+
+    font-size: 1.4rem ;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 2rem;
+
 `
 
 const AssetItemCard: React.FC = () => {
@@ -507,7 +508,7 @@ const CollectibleDetailPage: React.FC = () => {
           </ImageContainer>
         </LeftArea>
         <RightArea>
-          <BundleName>bundle.name</BundleName>
+          <BundleName>Crypteriors</BundleName>
           <div className="bundle-info">
             <div className="item">
               <div className="info-label">Artist</div>
@@ -618,7 +619,7 @@ const CollectibleDetailPage: React.FC = () => {
           </PropertiesArea>
         </LeftArea>
         <RightArea style={{ marginTop: '5rem', height: '34rem' }}>
-          <div className="history-title">Trading History</div>
+          <SubTitle>Trading History</SubTitle>
           <TradingHistoryTable
             columns={columns}
             dataSource={historyDataSource}
