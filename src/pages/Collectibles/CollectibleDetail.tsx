@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import { Button, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
+import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
+import axios from 'axios'
 
 
 const Row = styled.div`
@@ -373,6 +375,20 @@ const CollectibleDetailPage: React.FC = () => {
   const creatorAddress = 'Ox58c94e5656824eef6704e44f'
   const ownerAddress = 'Ox58c94e5656824eef6704e44f'
 
+  const [ data, setData ] = useState()
+  const init = useCallback(async () => {
+    const openSeaUrl = await banksyJsConnector.banksyJs.OpenSea.uri('13073724248939021555766033205546005650468949582365136648279053434500902027265')
+    const url = openSeaUrl.substring(0, openSeaUrl.length - 6) + '13073724248939021555766033205546005650468949582365136648279053434500902027265'
+    axios.get(url).then(res => {
+      setData(res.data)
+      console.log(data)
+    }).catch(err=>err)
+  }, [])
+
+  useEffect(() => {
+    init()
+  }, [init])
+
   const columns = [
     {
       title: 'Event',
@@ -448,6 +464,8 @@ const CollectibleDetailPage: React.FC = () => {
     }
   ]
 
+
+
   return (
     <BundleDetailContainer>
       <Row>
@@ -455,13 +473,14 @@ const CollectibleDetailPage: React.FC = () => {
           <ImageContainer>
             <CornerFlag>on Auction</CornerFlag>
             <img
-              src={require('../../assets/SolibleNfts/assets/AcstFzGGawvvdVhYV9bftr7fmBHbePUjhv53YK1W3dZo/AcstFzGGawvvdVhYV9bftr7fmBHbePUjhv53YK1W3dZo.gif').default}
+              // @ts-ignore
+              src={data.image}
               alt=''
             />
           </ImageContainer>
         </LeftArea>
         <RightArea>
-          <BundleName>Crypteriors</BundleName>
+          <BundleName>gfdsgd</BundleName>
           <div className='bundle-info'>
             <div className='item'>
               <div className='info-label'>Artist</div>
