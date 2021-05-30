@@ -375,14 +375,18 @@ const CollectibleDetailPage: React.FC = () => {
   const creatorAddress = 'Ox58c94e5656824eef6704e44f'
   const ownerAddress = 'Ox58c94e5656824eef6704e44f'
 
-  const [ data, setData ] = useState()
+  const [data, setData] = useState<any>()
+
   const init = useCallback(async () => {
     const openSeaUrl = await banksyJsConnector.banksyJs.OpenSea.uri('13073724248939021555766033205546005650468949582365136648279053434500902027265')
     const url = openSeaUrl.substring(0, openSeaUrl.length - 6) + '13073724248939021555766033205546005650468949582365136648279053434500902027265'
-    axios.get(url).then(res => {
-      setData(res.data)
-      console.log(data)
-    }).catch(err=>err)
+
+    axios.get(url)
+      .then(res => {
+        setData(res.data)
+        console.log(data)
+      })
+      .catch(err => err)
   }, [])
 
   useEffect(() => {
@@ -464,8 +468,6 @@ const CollectibleDetailPage: React.FC = () => {
     }
   ]
 
-
-
   return (
     <BundleDetailContainer>
       <Row>
@@ -473,14 +475,13 @@ const CollectibleDetailPage: React.FC = () => {
           <ImageContainer>
             <CornerFlag>on Auction</CornerFlag>
             <img
-              // @ts-ignore
-              src={data.image}
+              src={data?.image}
               alt=''
             />
           </ImageContainer>
         </LeftArea>
         <RightArea>
-          <BundleName>gfdsgd</BundleName>
+          <BundleName>{data?.name}</BundleName>
           <div className='bundle-info'>
             <div className='item'>
               <div className='info-label'>Artist</div>
@@ -491,7 +492,8 @@ const CollectibleDetailPage: React.FC = () => {
               <div className='info-name'>DrBurry</div>
             </div>
             <div className='item'>
-              <img src={Show}
+              <img
+                src={Show}
                 alt=''
                 style={{
                   width: '2.4rem,',
@@ -518,7 +520,8 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className='price-in-usd'>($297.21)</div>
               </div>
               <div className='item'>
-                <img src={Favorite}
+                <img
+                  src={Favorite}
                   alt=''
                   style={{
                     width: '2.4rem,',
@@ -546,9 +549,11 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className='item-name'>Creator&apos;s Address：</div>
                 <div className='item-value'>{creatorAddress.substring(0, 4)}...{creatorAddress.substring(9, 16)}</div>
                 <div className='item-name' style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
-                <div className='item-value'
+                <div
+                  className='item-value'
                   style={{ marginTop: '1.5rem' }}
-                >{ownerAddress.substring(0, 4)}...{creatorAddress.substring(9, 16)}
+                >
+                  {ownerAddress.substring(0, 4)}...{creatorAddress.substring(9, 16)}
                 </div>
               </div>
             </div>
@@ -611,7 +616,8 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
               </div>
               <div className='artwork-like'>
-                <img src={Heart}
+                <img
+                  src={Heart}
                   alt=''
                   style={{
                     width: '2.4rem,',
@@ -633,7 +639,8 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
               </div>
               <div className='artwork-like'>
-                <img src={Heart}
+                <img
+                  src={Heart}
                   alt=''
                   style={{
                     width: '2.4rem,',
@@ -655,7 +662,8 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
               </div>
               <div className='artwork-like'>
-                <img src={Heart}
+                <img
+                  src={Heart}
                   alt=''
                   style={{
                     width: '2.4rem,',
@@ -677,7 +685,8 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
               </div>
               <div className='artwork-like'>
-                <img src={Heart}
+                <img
+                  src={Heart}
                   alt=''
                   style={{
                     width: '2.4rem,',
