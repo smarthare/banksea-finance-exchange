@@ -375,6 +375,7 @@ const CollectibleDetailPage: React.FC = () => {
   const creatorAddress = 'Ox58c94e5656824eef6704e44f'
   const ownerAddress = 'Ox58c94e5656824eef6704e44f'
 
+
   const [data, setData] = useState<any>()
 
   const init = useCallback(async () => {
@@ -391,6 +392,7 @@ const CollectibleDetailPage: React.FC = () => {
 
   useEffect(() => {
     init()
+    window.scrollTo(0,0)
   }, [init])
 
   const columns = [
