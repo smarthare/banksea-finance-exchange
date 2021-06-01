@@ -1,9 +1,9 @@
 import { AbstractContractCaller } from '../../AbstractContractCaller'
 import { Contract } from 'ethers'
 
-const PlanetItemContractAddress = '0x9693524a2c34E12b683C347f74242E9d7Fb89E1c'
+const contractAddress = '0x01B27fb23153a10D9617AE89f39B9ff5bD1C0e01'
 
-class PlanetItem extends AbstractContractCaller {
+class Banksy extends AbstractContractCaller {
   constructor(network: string, signer: any, provider: any) {
     super()
     this.network = network
@@ -11,8 +11,8 @@ class PlanetItem extends AbstractContractCaller {
     this.provider = provider
 
     this.contract = new Contract(
-      PlanetItemContractAddress,
-      require('./abi/PlanetItem.json'),
+      contractAddress,
+      require('./abi/Banksy.json'),
       signer || provider
     )
   }
@@ -22,4 +22,4 @@ class PlanetItem extends AbstractContractCaller {
   }
 }
 
-export default PlanetItem
+export default Banksy
