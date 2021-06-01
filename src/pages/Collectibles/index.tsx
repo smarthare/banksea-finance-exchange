@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Input, Select } from 'antd'
+import { Button, Input, Pagination, Select } from 'antd'
 import { HeartOutlined, SearchOutlined } from '@ant-design/icons'
 
 import '../../styles/override-antd-select-dropdown.scss'
@@ -165,6 +165,33 @@ const NFTListContainer = styled.div`
   padding-left: 4rem;
   display: flex;
   flex-wrap: wrap;
+`
+
+const Paginations = styled(Pagination)`
+  margin-bottom: 50px;
+
+  .ant-pagination-prev .ant-pagination-item-link {
+    border: none !important;
+    background-color: rgba(124,109,235,0.2) !important;
+    color: #7C6DEB;
+  }
+  .ant-pagination-item-active {
+    border: 1px solid rgba(124,109,235,0.2) !important;
+  }
+  .ant-pagination-item-active a {
+    color: #7C6DEB !important;
+  }
+  .ant-pagination-item {
+    border: 1px solid rgba(124,109,235,0.2) !important;
+  }
+  .ant-pagination-item a {
+    //color: rgba(124,109,235,0.2) !important;
+  }
+  .ant-pagination-next .ant-pagination-item-link {
+    border: none !important;
+    background-color: rgba(124,109,235,0.2) !important;
+    color: #7C6DEB;
+  }
 `
 
 const Search: React.FC = () => {
@@ -357,6 +384,7 @@ const CollectiblesPage: React.FC = () => {
         </div>
       </div>
       <NFTList />
+      <Paginations defaultCurrent={1} total={50} />
     </PageContainer>
   )
 }
