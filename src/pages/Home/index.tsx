@@ -18,6 +18,7 @@ import Pen5 from '@/assets/images/pen5.png'
 import Pen6 from '@/assets/images/pen6.png'
 
 import { Button } from 'antd'
+import { useHistory } from 'react-router-dom'
 
 const HeadLine = styled.div`
   display: flex;
@@ -154,7 +155,13 @@ const SubmitButtonSmall = styled(Button)`
   font-size: 16px;
   font-weight: 500;
 `
+
+
 const HomePage: React.FC = () => {
+  const history = useHistory()
+  const toCreat = () => {
+    history.push('/creatPage')
+  }
   return (
     <HomePageContainer>
       <HeadLine>
@@ -184,7 +191,7 @@ const HomePage: React.FC = () => {
               <SubTitle>Total Values</SubTitle>
               <InfoValue>$123215.36</InfoValue>
             </Column>
-            <SubmitButton>CREATE</SubmitButton>
+            <SubmitButton onClick={toCreat}>CREATE</SubmitButton>
           </InfoDetail>
         </MainColumn>
         <MainColumn>
