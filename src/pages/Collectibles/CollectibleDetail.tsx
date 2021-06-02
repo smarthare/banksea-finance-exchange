@@ -5,8 +5,8 @@ import { Button, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
-import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
-import axios from 'axios'
+import { banksyNftDetail } from '../../utils/banksyNft'
+
 
 
 const Row = styled.div`
@@ -38,7 +38,6 @@ const LeftArea = styled.div`
 const TradingHistoryTable = styled(Table)`
   width: 100%;
   margin-top: 1.5rem;
-
 
   .ant-table-container table > thead > tr:first-child th:first-child {
     border-top-left-radius: 1rem;
@@ -164,7 +163,6 @@ const CornerFlag = styled.div`
   font-width: 500;
   text-align: center;
   line-height: 3rem;
-  z-index: 1049;
   width: 8.5rem;
   height: 3.7rem;
   background-image: url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default});
@@ -370,25 +368,27 @@ const ConnectButton = styled(Button)`
 
 `
 
-const CollectibleDetailPage: React.FC = () => {
+const CollectibleDetailPage: React.FC = (props: any) => {
   const contactId = 'Ox58c94e5656824eef6704e44f'
   const creatorAddress = 'Ox58c94e5656824eef6704e44f'
   const ownerAddress = 'Ox58c94e5656824eef6704e44f'
 
 
   const [data, setData] = useState<any>()
-
+  const [image, setImage] = useState<any>()
   const init = useCallback(async () => {
-    const openSeaUrl = await banksyJsConnector.banksyJs.OpenSea.uri('13073724248939021555766033205546005650468949582365136648279053434500902027265')
-    const url = openSeaUrl.substring(0, openSeaUrl.length - 6) + '13073724248939021555766033205546005650468949582365136648279053434500902027265'
-
-    axios.get(url)
-      .then(res => {
-        setData(res.data)
-        console.log(data)
-      })
-      .catch(err => err)
-  }, [])
+    console.log(props.location.state.tokenId)
+    const tokenPull = {
+      tokenId: props.location.state.tokenId
+    }
+    banksyNftDetail(tokenPull).then(res=> {
+      console.log(res.data.data.image)
+      setData(res.data.data)
+      const image = 'https://gateway.pinata.cloud/' + data.image.slice(6)
+      console.log(image)
+      setImage(image)
+    }).catch(err=>err)
+  },[])
 
   useEffect(() => {
     init()
@@ -435,38 +435,6 @@ const CollectibleDetailPage: React.FC = () => {
       from: 'Ox3bB....5b8B3',
       to: 'Ox3bB....5b8B3',
       date: '2 weeks ago'
-    },
-    {
-      key: '2',
-      event: 'Bid',
-      price: 20,
-      from: 'Ox3bB....5b8B3',
-      to: 'Ox3bB....5b8B3',
-      date: '2 weeks ago'
-    },
-    {
-      key: '3',
-      event: 'Bid',
-      price: 20,
-      from: 'Ox3bB....5b8B3',
-      to: 'Ox3bB....5b8B3',
-      date: '2 weeks ago'
-    },
-    {
-      key: '4',
-      event: 'Bid',
-      price: 20,
-      from: 'Ox3bB....5b8B3',
-      to: 'Ox3bB....5b8B3',
-      date: '2 weeks ago'
-    },
-    {
-      key: '5',
-      event: 'Bid',
-      price: 20,
-      from: 'Ox3bB....5b8B3',
-      to: 'Ox3bB....5b8B3',
-      date: '2 weeks ago'
     }
   ]
 
@@ -477,7 +445,7 @@ const CollectibleDetailPage: React.FC = () => {
           <ImageContainer>
             <CornerFlag>on Auction</CornerFlag>
             <img
-              src={data?.image}
+              src={image}
               alt=''
             />
           </ImageContainer>
@@ -509,10 +477,7 @@ const CollectibleDetailPage: React.FC = () => {
             </div>
           </div>
           <DescriptionContainer>
-            This is an art piece that I renounce as the Doge-A-Lisa. I
-            t is inspired by Mona Lisa, created by Leonardo da Vinci. I have created
-            this work of art my self hence, this is a limited edition, one of one on the NFT market.
-            Thank you for viewing this, and have a good day :)
+            {data?.description}
           </DescriptionContainer>
           <PriceContainer>
             <div className='bundle-info'>
@@ -541,21 +506,21 @@ const CollectibleDetailPage: React.FC = () => {
             <div className='items'>
               <div className='item-border'>
                 <div className='item-name'>NFT Contract ID：</div>
-                <div className='item-value'>{contactId.substring(0, 4)}...{contactId.substring(9, 16)}</div>
+                <div className='item-value'>{data?.addressContract.substring(0, 4)}...{data?.addressContract.substring(9, 16)}</div>
                 <div className='item-name' style={{ marginTop: '1.5rem' }}>Token ID：</div>
-                <div className='item-value' style={{ marginTop: '1.5rem' }}>21238</div>
+                <div className='item-value' style={{ marginTop: '1.5rem' }}>{data?.tokenId}</div>
               </div>
             </div>
             <div className='items'>
               <div className='item-border'>
                 <div className='item-name'>Creator&apos;s Address：</div>
-                <div className='item-value'>{creatorAddress.substring(0, 4)}...{creatorAddress.substring(9, 16)}</div>
+                <div className='item-value'>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
                 <div className='item-name' style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
                 <div
                   className='item-value'
                   style={{ marginTop: '1.5rem' }}
                 >
-                  {ownerAddress.substring(0, 4)}...{creatorAddress.substring(9, 16)}
+                  {data?.addressOwner.substring(0, 4)}...{data?.addressOwner.substring(9, 16)}
                 </div>
               </div>
             </div>

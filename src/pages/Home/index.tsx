@@ -25,16 +25,19 @@ const HeadLine = styled.div`
   height: 17rem;
   align-items: center;
   justify-content: space-between;
+  font-family: 'PingFang SC'
 `
 
 const Body = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: 'PingFang SC'
 `
 
 const HomePageContainer = styled.div`
   padding: 2rem 18rem;
+  font-family: 'PingFang SC'
 `
 
 const Row = styled.div`
