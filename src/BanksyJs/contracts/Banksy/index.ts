@@ -12,7 +12,7 @@ class Banksy extends AbstractContractCaller {
 
     this.contract = new Contract(
       contractAddress,
-      require('./abi/Banksy.json'),
+      require('./Banksy.json').abi,
       signer || provider
     )
   }

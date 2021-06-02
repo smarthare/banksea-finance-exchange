@@ -12,7 +12,7 @@ class LibOrder extends AbstractContractCaller {
 
     this.contract = new Contract(
       contractAddress,
-      require('./abi/LibOrder.json'),
+      require('./LibOrder.json').abi,
       signer || provider
     )
   }

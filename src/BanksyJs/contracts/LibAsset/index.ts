@@ -12,7 +12,7 @@ class LibAsset extends AbstractContractCaller {
 
     this.contract = new Contract(
       contractAddress,
-      require('./abi/LibAsset.json'),
+      require('./LibAsset.json').abi,
       signer || provider
     )
   }

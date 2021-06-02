@@ -418,7 +418,7 @@ const CreatePage: React.FC = () => {
 
             const { IpfsHash } = r.data
 
-            banksyJsConnector.banksyJs.PlanetItem.awardItem(account!, IpfsHash).then(() => {
+            banksyJsConnector.banksyJs.Banksy.awardItem(account!, IpfsHash).then(() => {
               setHintMessage({
                 message: 'Your creation request has been submitted!',
                 type: 'hint'

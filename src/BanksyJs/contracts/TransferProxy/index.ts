@@ -12,7 +12,7 @@ class TransferProxy extends AbstractContractCaller {
 
     this.contract = new Contract(
       contractAddress,
-      require('./abi/TransferProxy.json'),
+      require('./TransferProxy.json').abi,
       signer || provider
     )
   }

@@ -12,7 +12,7 @@ class Exchange extends AbstractContractCaller {
 
     this.contract = new Contract(
       contractAddress,
-      require('./abi/Exchange.json'),
+      require('./Exchange.json').abi,
       signer || provider
     )
   }
