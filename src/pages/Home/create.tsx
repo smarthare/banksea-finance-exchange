@@ -21,7 +21,6 @@ const ArtistPageContainer = styled.div`
 
   .title {
     font-size: 3rem;
-    font-family: 'PingFang SC';
     font-weight: 500;
     color: #7c6deb;
     line-height: 4.2rem;

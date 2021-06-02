@@ -455,11 +455,11 @@ const CollectibleDetailPage: React.FC = (props: any) => {
           <div className='bundle-info'>
             <div className='item'>
               <div className='info-label'>Artist</div>
-              <div className='info-name'>DrBurry</div>
+              <div className='info-name'>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
             </div>
             <div className='item'>
               <div className='info-label'>Owner</div>
-              <div className='info-name'>DrBurry</div>
+              <div className='info-name'>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
             </div>
             <div className='item'>
               <img
@@ -481,11 +481,11 @@ const CollectibleDetailPage: React.FC = (props: any) => {
           </DescriptionContainer>
           <PriceContainer>
             <div className='bundle-info'>
-              <div className='item'>
-                <div className='info-label'>Current price</div>
-                <div className='price'>0.99999</div>
-                <div className='price-in-usd'>($297.21)</div>
-              </div>
+              {/*<div className='item'>*/}
+              {/*  <div className='info-label'>Current price</div>*/}
+              {/*  <div className='price'>0.99999</div>*/}
+              {/*  <div className='price-in-usd'>($297.21)</div>*/}
+              {/*</div>*/}
               <div className='item'>
                 <img
                   src={Favorite}
