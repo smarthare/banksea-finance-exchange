@@ -179,6 +179,10 @@ const ImageContainer = styled.div`
   justify-content: center;
   position: relative;
   border: 1px solid #BAB3F2;
+
+  img {
+    max-height: 42.9rem;
+  }
 `
 
 const DescriptionContainer = styled.div`
@@ -382,10 +386,9 @@ const CollectibleDetailPage: React.FC = (props: any) => {
       tokenId: props.location.state.tokenId
     }
     banksyNftDetail(tokenPull).then(res=> {
-      console.log(res.data.data.image)
       setData(res.data.data)
-      const image = 'https://gateway.pinata.cloud/' + data.image.slice(6)
-      console.log(image)
+
+      const image = 'https://gateway.pinata.cloud/' + res.data.data.image.slice(6)
       setImage(image)
     }).catch(err=>err)
   },[])
@@ -430,7 +433,7 @@ const CollectibleDetailPage: React.FC = (props: any) => {
   const historyDataSource = [
     {
       key: '1',
-      event: 'Bid',
+      event: 'List',
       price: 20,
       from: 'Ox3bB....5b8B3',
       to: 'Ox3bB....5b8B3',
