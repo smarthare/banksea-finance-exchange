@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import TitlePen from '@/assets/images/title-pen1.png'
 import TitlePencil from '@/assets/images/title-pen2.png'
@@ -17,8 +17,9 @@ import Pen4 from '@/assets/images/pen4.png'
 import Pen5 from '@/assets/images/pen5.png'
 import Pen6 from '@/assets/images/pen6.png'
 
-import { Button } from 'antd'
+import { Button, Modal,Divider } from 'antd'
 import { useHistory } from 'react-router-dom'
+import { context } from 'msw'
 
 const HeadLine = styled.div`
   display: flex;
@@ -159,14 +160,165 @@ const SubmitButtonSmall = styled(Button)`
   font-weight: 500;
 `
 
+const MyBuyModal = styled(Modal)`
+  .ant-modal-content {
+    border-radius: 1rem;
+    width: 623px;
+    height: 494px;
+  }
+  .ant-modal-header {
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+  .ant-modal-header .ant-modal-title {
+    display: flex;
+    justify-content: center;
+    font-weight: 550;
+    font-size: 1.8rem;
+  }
+
+  .checkout-list {
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      line-height: 25px;
+      font-size: 1.8rem;
+      font-weight: 550;
+    }
+  }
+  .checkout-detail {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    .ntf-info {
+      display: flex;
+
+      .nft-image {
+        width: 7.1rem;
+        height: 7.1rem;
+        background: #D8D8D8;
+      }
+
+      .nft-detail {
+        margin-left: 2.4rem;
+        align-self: center;
+        .artist-name {
+          font-size: 1.8rem;
+          font-weight: 500;
+          color: #7C6DEB;
+          line-height: 2.5rem;
+        }
+
+       .nft-name {
+          font-size: 1.8rem;
+          font-weight: 550;
+          line-height: 2.5rem;
+        }
+      }
+    }
+
+    .nft-value {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-self: center;
+      .nft-price {
+        font-size: 1.8rem;
+        font-weight: 500;
+        line-height: 2.5rem;
+      }
+      .nft-price-dollar {
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: #999999;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .total-price {
+    display: flex;
+    justify-content: space-between;
+
+    .total {
+      line-height: 25px;
+      font-size: 1.8rem;
+      font-weight: 550;
+    }
+
+    .nft-value {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-self: center;
+      .nft-price {
+        font-size: 2.2rem;
+        font-weight: 500;
+        color: #7C6DEB;
+        line-height: 3rem;
+      }
+      .nft-price-dollar {
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: #999999;
+        line-height: 2.5rem;
+      }
+    }
+  }
+`
 
 const HomePage: React.FC = () => {
   const history = useHistory()
   const toCreat = () => {
     history.push('/creatPage')
   }
+  const [isBuyModalVisible, setBuyModalVisible] = useState(false)
+  const showBuyingModal = () => {
+    setBuyModalVisible(true)
+  }
+  const handleOk = () => {
+    setBuyModalVisible(false)
+  }
+
+  const handleCancel = () => {
+    setBuyModalVisible(false)
+  }
+
   return (
     <HomePageContainer>
+      <MyBuyModal title="Checkout" visible={isBuyModalVisible}  onOk={handleOk} onCancel={handleCancel}  footer={null} >
+        <div className="checkout-list" >
+          <p>Item</p>
+          <p>Subtotal</p>
+        </div>
+        <Divider style={{ marginTop: '-8px' }} />
+        <div className="checkout-detail" >
+          <div className="ntf-info">
+            <div className="nft-image" />
+            <div className="nft-detail" >
+              <div className="artist-name">ZED RUN</div>
+              <div className="nft-name">Defence Witness</div>
+            </div>
+          </div>
+          <div className="nft-value" >
+            <div className="nft-price">0.98</div>
+            <div className="nft-price-dollar">($2,516.14)</div>
+          </div>
+        </div>
+        <Divider />
+        <div className="total-price">
+          <div className="total">Total</div>
+          <div className="nft-value" >
+            <div className="nft-price">0.98</div>
+            <div className="nft-price-dollar">($2,516.14)</div>
+          </div>
+        </div>
+        <div className="footer">
+          <Button>Checkout</Button>
+        </div>
+      </MyBuyModal>
+
       <HeadLine>
         <img src={TitlePen} alt="title-pen" style={{ width: '17.2rem', height: '17.0rem' }} />
         <Row className="row">
@@ -216,7 +368,7 @@ const HomePage: React.FC = () => {
               <SubTitle>NFT Number</SubTitle>
               <InfoValue style={{ lineHeight: '3rem' }}>12622</InfoValue>
             </Column2>
-            <SubmitButton>BUY</SubmitButton>
+            <SubmitButton onClick={ showBuyingModal }>BUY</SubmitButton>
           </InfoDetail>
         </MainColumn>
       </Body>
