@@ -29,9 +29,9 @@ const App: React.FC = () => {
     rpcUrls: [RPCUrl]
   })
 
-  return networkReady ? (
+  return (
     <Layout>
-      <Layout.Header style={{ padding: 0, height: '82px', position: 'fixed', zIndex: 9999, width: '100%' }}>
+      <Layout.Header style={{ padding: 0, height: '82px', position: 'fixed', zIndex: 999, width: '100%' }}>
         <AppHeader />
       </Layout.Header>
       <Layout>
@@ -46,15 +46,18 @@ const App: React.FC = () => {
             left: '272px'
           }}
         >
-          <div style={{ width: 'calc(100vw - 272px)' }}>
-            {routes.map(route => (
-              <Route path={route.path} exact component={route.component} key={route.path} />
-            ))}
-          </div>
+          {
+            networkReady &&
+            <div style={{ width: 'calc(100vw - 272px)' }}>
+              {routes.map(route => (
+                <Route path={route.path} exact component={route.component} key={route.path} />
+              ))}
+            </div>
+          }
         </Layout.Content>
       </Layout>
-    </Layout>) :
-    <div />
+    </Layout>
+  )
 }
 
 export default App

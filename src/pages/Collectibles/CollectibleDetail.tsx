@@ -5,8 +5,11 @@ import { Button, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
-import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
-import axios from 'axios'
+import { banksyNftDetail } from '../../utils/banksyNft'
+import more1 from '@/assets/images/detailMoreImg/more1.jpg'
+import more2 from '@/assets/images/detailMoreImg/more2.png'
+import more3 from '@/assets/images/detailMoreImg/more3.jpg'
+import more4 from '@/assets/images/detailMoreImg/more4.png'
 
 
 const Row = styled.div`
@@ -38,7 +41,6 @@ const LeftArea = styled.div`
 const TradingHistoryTable = styled(Table)`
   width: 100%;
   margin-top: 1.5rem;
-
 
   .ant-table-container table > thead > tr:first-child th:first-child {
     border-top-left-radius: 1rem;
@@ -164,7 +166,6 @@ const CornerFlag = styled.div`
   font-width: 500;
   text-align: center;
   line-height: 3rem;
-  z-index: 1049;
   width: 8.5rem;
   height: 3.7rem;
   background-image: url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default});
@@ -181,6 +182,10 @@ const ImageContainer = styled.div`
   justify-content: center;
   position: relative;
   border: 1px solid #BAB3F2;
+
+  img {
+    max-height: 42.9rem;
+  }
 `
 
 const DescriptionContainer = styled.div`
@@ -300,6 +305,7 @@ const OtherArtworksContainer = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    position: relative;
 
     .artwork-info {
       display: flex;
@@ -310,17 +316,24 @@ const OtherArtworksContainer = styled.div`
       .artwork-img {
         width: 172px;
         height: 205px;
-        background: #F5F5F5;
         border-radius: 10px;
+        display: flex;
         justify-content: center;
       }
 
       .artwork-describe {
+        width: 100%;
         font-size: 14px;
         font-weight: 550;
         color: #7C6DEB;
-        line-height: 20px;
-        padding: 1.5rem 1rem;
+        padding: 0 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
       }
     }
 
@@ -361,6 +374,8 @@ const ConnectButton = styled(Button)`
   height: 40px;
   background: #7C6DEB;
   border-radius: 10px;
+  position: absolute;
+  bottom: 0;
 
 
   font-size: 1.4rem;
@@ -370,27 +385,26 @@ const ConnectButton = styled(Button)`
 
 `
 
-const CollectibleDetailPage: React.FC = () => {
-  const contactId = 'Ox58c94e5656824eef6704e44f'
-  const creatorAddress = 'Ox58c94e5656824eef6704e44f'
-  const ownerAddress = 'Ox58c94e5656824eef6704e44f'
+const CollectibleDetailPage: React.FC = (props: any) => {
 
   const [data, setData] = useState<any>()
-
+  const [image, setImage] = useState<any>()
   const init = useCallback(async () => {
-    const openSeaUrl = await banksyJsConnector.banksyJs.OpenSea.uri('13073724248939021555766033205546005650468949582365136648279053434500902027265')
-    const url = openSeaUrl.substring(0, openSeaUrl.length - 6) + '13073724248939021555766033205546005650468949582365136648279053434500902027265'
+    console.log(props.location.state.tokenId)
+    const tokenPull = {
+      tokenId: props.location.state.tokenId
+    }
+    banksyNftDetail(tokenPull).then(res => {
+      setData(res.data.data)
 
-    axios.get(url)
-      .then(res => {
-        setData(res.data)
-        console.log(data)
-      })
-      .catch(err => err)
+      const image = 'https://gateway.pinata.cloud/' + res.data.data.image.slice(6)
+      setImage(image)
+    }).catch(err => err)
   }, [])
 
   useEffect(() => {
     init()
+    window.scrollTo(0, 0)
   }, [init])
 
   const columns = [
@@ -428,39 +442,7 @@ const CollectibleDetailPage: React.FC = () => {
   const historyDataSource = [
     {
       key: '1',
-      event: 'Bid',
-      price: 20,
-      from: 'Ox3bB....5b8B3',
-      to: 'Ox3bB....5b8B3',
-      date: '2 weeks ago'
-    },
-    {
-      key: '2',
-      event: 'Bid',
-      price: 20,
-      from: 'Ox3bB....5b8B3',
-      to: 'Ox3bB....5b8B3',
-      date: '2 weeks ago'
-    },
-    {
-      key: '3',
-      event: 'Bid',
-      price: 20,
-      from: 'Ox3bB....5b8B3',
-      to: 'Ox3bB....5b8B3',
-      date: '2 weeks ago'
-    },
-    {
-      key: '4',
-      event: 'Bid',
-      price: 20,
-      from: 'Ox3bB....5b8B3',
-      to: 'Ox3bB....5b8B3',
-      date: '2 weeks ago'
-    },
-    {
-      key: '5',
-      event: 'Bid',
+      event: 'List',
       price: 20,
       from: 'Ox3bB....5b8B3',
       to: 'Ox3bB....5b8B3',
@@ -475,7 +457,7 @@ const CollectibleDetailPage: React.FC = () => {
           <ImageContainer>
             <CornerFlag>on Auction</CornerFlag>
             <img
-              src={data?.image}
+              src={image}
               alt=''
             />
           </ImageContainer>
@@ -485,11 +467,17 @@ const CollectibleDetailPage: React.FC = () => {
           <div className='bundle-info'>
             <div className='item'>
               <div className='info-label'>Artist</div>
-              <div className='info-name'>DrBurry</div>
+              <div
+                className='info-name'
+              >{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}
+              </div>
             </div>
             <div className='item'>
               <div className='info-label'>Owner</div>
-              <div className='info-name'>DrBurry</div>
+              <div
+                className='info-name'
+              >{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}
+              </div>
             </div>
             <div className='item'>
               <img
@@ -507,18 +495,15 @@ const CollectibleDetailPage: React.FC = () => {
             </div>
           </div>
           <DescriptionContainer>
-            This is an art piece that I renounce as the Doge-A-Lisa. I
-            t is inspired by Mona Lisa, created by Leonardo da Vinci. I have created
-            this work of art my self hence, this is a limited edition, one of one on the NFT market.
-            Thank you for viewing this, and have a good day :)
+            {data?.description}
           </DescriptionContainer>
           <PriceContainer>
             <div className='bundle-info'>
-              <div className='item'>
-                <div className='info-label'>Current price</div>
-                <div className='price'>0.99999</div>
-                <div className='price-in-usd'>($297.21)</div>
-              </div>
+              {/*<div className='item'>*/}
+              {/*  <div className='info-label'>Current price</div>*/}
+              {/*  <div className='price'>0.99999</div>*/}
+              {/*  <div className='price-in-usd'>($297.21)</div>*/}
+              {/*</div>*/}
               <div className='item'>
                 <img
                   src={Favorite}
@@ -539,21 +524,27 @@ const CollectibleDetailPage: React.FC = () => {
             <div className='items'>
               <div className='item-border'>
                 <div className='item-name'>NFT Contract ID：</div>
-                <div className='item-value'>{contactId.substring(0, 4)}...{contactId.substring(9, 16)}</div>
+                <div
+                  className='item-value'
+                >{data?.addressContract.substring(0, 4)}...{data?.addressContract.substring(9, 16)}
+                </div>
                 <div className='item-name' style={{ marginTop: '1.5rem' }}>Token ID：</div>
-                <div className='item-value' style={{ marginTop: '1.5rem' }}>21238</div>
+                <div className='item-value' style={{ marginTop: '1.5rem' }}>{data?.tokenId}</div>
               </div>
             </div>
             <div className='items'>
               <div className='item-border'>
                 <div className='item-name'>Creator&apos;s Address：</div>
-                <div className='item-value'>{creatorAddress.substring(0, 4)}...{creatorAddress.substring(9, 16)}</div>
+                <div
+                  className='item-value'
+                >{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}
+                </div>
                 <div className='item-name' style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
                 <div
                   className='item-value'
                   style={{ marginTop: '1.5rem' }}
                 >
-                  {ownerAddress.substring(0, 4)}...{creatorAddress.substring(9, 16)}
+                  {data?.addressOwner.substring(0, 4)}...{data?.addressOwner.substring(9, 16)}
                 </div>
               </div>
             </div>
@@ -611,9 +602,11 @@ const CollectibleDetailPage: React.FC = () => {
           <OtherArtworksContainer>
             <div className='artwork-group'>
               <div className='artwork-info'>
-                <div className='artwork-img' />
+                <div className='artwork-img'>
+                  <img src={more1} style={{ height: '205px' }} alt='' />
+                </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
+                <div className='artwork-describe'>Pikachu Baby Bimbo #0005</div>
               </div>
               <div className='artwork-like'>
                 <img
@@ -634,9 +627,11 @@ const CollectibleDetailPage: React.FC = () => {
             </div>
             <div className='artwork-group'>
               <div className='artwork-info'>
-                <div className='artwork-img' />
+                <div className='artwork-img'>
+                  <img src={more2} style={{ height: '205px' }} alt='' />
+                </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
+                <div className='artwork-describe'>1 - The Elf</div>
               </div>
               <div className='artwork-like'>
                 <img
@@ -657,9 +652,11 @@ const CollectibleDetailPage: React.FC = () => {
             </div>
             <div className='artwork-group'>
               <div className='artwork-info'>
-                <div className='artwork-img' />
+                <div className='artwork-img'>
+                  <img src={more3} style={{ height: '205px' }} alt='' />
+                </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
+                <div className='artwork-describe'>Mona Lisa Smile &apos;Gamma Edition &apos;</div>
               </div>
               <div className='artwork-like'>
                 <img
@@ -680,9 +677,11 @@ const CollectibleDetailPage: React.FC = () => {
             </div>
             <div className='artwork-group'>
               <div className='artwork-info'>
-                <div className='artwork-img' />
+                <div className='artwork-img'>
+                  <img src={more4} style={{ height: '205px' }} alt='' />
+                </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
+                <div className='artwork-describe'>Like you mean it</div>
               </div>
               <div className='artwork-like'>
                 <img

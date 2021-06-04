@@ -1,11 +1,19 @@
 import BanksyJsBase from './BanksyJsBase'
 import ContractSettings from './ContractSettings'
-import PlanetItem from './contracts/PlanetItem'
 import OpenSea from './contracts/OpenSea'
+import Banksy from './contracts/Banksy'
+import Exchange from './contracts/Exchange'
+import LibAsset from './contracts/LibAsset'
+import LibOrder from './contracts/LibOrder'
+import TransferProxy from './contracts/TransferProxy'
 
 class BanksyJs extends BanksyJsBase {
 
-  PlanetItem: PlanetItem
+  Banksy: Banksy
+  Exchange: Exchange
+  LibAsset: LibAsset
+  LibOrder: LibOrder
+  TransferProxy: TransferProxy
   OpenSea: OpenSea
 
   /**
@@ -16,12 +24,16 @@ class BanksyJs extends BanksyJsBase {
   constructor(contractSettings?: ContractSettings) {
     super(contractSettings)
 
-    const network = contractSettings?.network
+    const network = contractSettings?.network || 'mainnet'
     const signer = contractSettings?.signer
     const provider = contractSettings?.provider
 
-    this.PlanetItem = new PlanetItem(network || '', signer, provider)
-    this.OpenSea = new OpenSea(network || '',signer, provider)
+    this.Banksy = new Banksy(network, signer, provider)
+    this.Exchange = new Exchange(network, signer, provider)
+    this.LibAsset = new LibAsset(network , signer, provider)
+    this.LibOrder = new LibOrder(network , signer, provider)
+    this.TransferProxy = new TransferProxy(network , signer, provider)
+    this.OpenSea = new OpenSea(network, signer, provider)
   }
 }
 

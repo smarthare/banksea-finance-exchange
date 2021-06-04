@@ -6,11 +6,13 @@ import Wallet from '../../components/Wallet'
 
 const AppHeaderContainer = styled.div`
   background-color: white;
+  width: 100%;
   height: 8.2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 3.2rem;
+  font-family: 'PingFang SC'
 `
 
 const ConnectButton = styled(Button)`
