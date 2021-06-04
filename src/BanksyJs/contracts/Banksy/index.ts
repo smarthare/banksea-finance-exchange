@@ -1,7 +1,7 @@
 import { AbstractContractCaller } from '../../AbstractContractCaller'
 import { Contract } from 'ethers'
 
-const contractAddress = '0x01B27fb23153a10D9617AE89f39B9ff5bD1C0e01'
+const contractAddress = '0xb1e45866BF3298A9974a65577c067C477D38712a'
 
 class Banksy extends AbstractContractCaller {
   constructor(network: string, signer: any, provider: any) {

@@ -6,6 +6,10 @@ import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
 import { banksyNftDetail } from '../../utils/banksyNft'
+import more1 from '@/assets/images/detailMoreImg/more1.jpg'
+import more2 from '@/assets/images/detailMoreImg/more2.png'
+import more3 from '@/assets/images/detailMoreImg/more3.jpg'
+import more4 from '@/assets/images/detailMoreImg/more4.png'
 
 
 
@@ -302,6 +306,7 @@ const OtherArtworksContainer = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    position: relative;
 
     .artwork-info {
       display: flex;
@@ -312,17 +317,24 @@ const OtherArtworksContainer = styled.div`
       .artwork-img {
         width: 172px;
         height: 205px;
-        background: #F5F5F5;
         border-radius: 10px;
+        display: flex;
         justify-content: center;
       }
 
       .artwork-describe {
+        width: 100%;
         font-size: 14px;
         font-weight: 550;
         color: #7C6DEB;
-        line-height: 20px;
-        padding: 1.5rem 1rem;
+        padding: 0 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        overflow : hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
       }
     }
 
@@ -363,6 +375,8 @@ const ConnectButton = styled(Button)`
   height: 40px;
   background: #7C6DEB;
   border-radius: 10px;
+  position: absolute;
+  bottom: 0;
 
 
   font-size: 1.4rem;
@@ -373,10 +387,6 @@ const ConnectButton = styled(Button)`
 `
 
 const CollectibleDetailPage: React.FC = (props: any) => {
-  const contactId = 'Ox58c94e5656824eef6704e44f'
-  const creatorAddress = 'Ox58c94e5656824eef6704e44f'
-  const ownerAddress = 'Ox58c94e5656824eef6704e44f'
-
 
   const [data, setData] = useState<any>()
   const [image, setImage] = useState<any>()
@@ -581,9 +591,11 @@ const CollectibleDetailPage: React.FC = (props: any) => {
           <OtherArtworksContainer>
             <div className='artwork-group'>
               <div className='artwork-info'>
-                <div className='artwork-img' />
+                <div className='artwork-img'>
+                  <img src={more1} style={{ height: '205px' }} />
+                </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
+                <div className='artwork-describe'>Pikachu Baby Bimbo #0005</div>
               </div>
               <div className='artwork-like'>
                 <img
@@ -604,9 +616,11 @@ const CollectibleDetailPage: React.FC = (props: any) => {
             </div>
             <div className='artwork-group'>
               <div className='artwork-info'>
-                <div className='artwork-img' />
+                <div className='artwork-img'>
+                  <img src={more2} style={{ height: '205px' }} />
+                </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
+                <div className='artwork-describe'>1 - The Elf</div>
               </div>
               <div className='artwork-like'>
                 <img
@@ -627,9 +641,11 @@ const CollectibleDetailPage: React.FC = (props: any) => {
             </div>
             <div className='artwork-group'>
               <div className='artwork-info'>
-                <div className='artwork-img' />
+                <div className='artwork-img'>
+                  <img src={more3} style={{ height: '205px' }} />
+                </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
+                <div className='artwork-describe'>Mona Lisa Smile &apos;Gamma Edition &apos;</div>
               </div>
               <div className='artwork-like'>
                 <img
@@ -650,9 +666,11 @@ const CollectibleDetailPage: React.FC = (props: any) => {
             </div>
             <div className='artwork-group'>
               <div className='artwork-info'>
-                <div className='artwork-img' />
+                <div className='artwork-img'>
+                  <img src={more4} style={{ height: '205px' }} />
+                </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Chinese zodiac wait to the moon——Kaitong</div>
+                <div className='artwork-describe'>Like you mean it</div>
               </div>
               <div className='artwork-like'>
                 <img

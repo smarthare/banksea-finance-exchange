@@ -4,7 +4,6 @@ import { Button, Input, Pagination, Select } from 'antd'
 import { HeartOutlined, SearchOutlined } from '@ant-design/icons'
 
 import '../../styles/override-antd-select-dropdown.scss'
-import { SolibleNFT, USE_ALL_NFTS } from '../../assets/SolibleNfts'
 import { useHistory } from 'react-router-dom'
 import { banksyNftList } from '../../utils/banksyNft'
 
