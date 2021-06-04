@@ -2,6 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, Input, Pagination, Select } from 'antd'
 import { HeartOutlined, SearchOutlined } from '@ant-design/icons'
+import { Spin } from 'antd'
+// @ts-ignore
+import LazyLoad from 'react-lazyload'
 
 import '../../styles/override-antd-select-dropdown.scss'
 import { useHistory } from 'react-router-dom'
@@ -132,17 +135,22 @@ const NFTItemCardContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  img {
+  img, .spin {
     width: 17.2rem;
     height: 20.5rem;
     margin-bottom: 1.5rem;
     border-radius: 10px;
   }
 
+  .spin {
+    position: relative;
+    top: 10rem;
+  }
+
   .name {
     margin-bottom: 1.5rem;
     width: 100%;
-    overflow : hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -152,6 +160,7 @@ const NFTItemCardContainer = styled.div`
   .like {
     display: flex;
     align-items: center;
+
     .heart {
       margin-right: 0.5rem;
     }
@@ -174,33 +183,37 @@ const NFTListContainer = styled.div`
   flex-wrap: wrap;
 `
 
-const Paginations = styled(Pagination)`
+const CustomPagination = styled(Pagination)`
   margin-bottom: 50px;
 
   .ant-pagination-prev .ant-pagination-item-link {
     border: none !important;
-    background-color: rgba(124,109,235,0.2) !important;
+    background-color: rgba(124, 109, 235, 0.2) !important;
     color: #7C6DEB;
   }
+
   .ant-pagination-item-active {
-    border: 1px solid rgba(124,109,235,0.2) !important;
+    border: 1px solid rgba(124, 109, 235, 0.2) !important;
   }
+
   .ant-pagination-item-active a {
     color: #7C6DEB !important;
   }
+
   .ant-pagination-item {
-    border: 1px solid rgba(124,109,235,0.2) !important;
+    border: 1px solid rgba(124, 109, 235, 0.2) !important;
   }
+
   .ant-pagination-item a {
     //color: rgba(124,109,235,0.2) !important;
   }
+
   .ant-pagination-next .ant-pagination-item-link {
     border: none !important;
-    background-color: rgba(124,109,235,0.2) !important;
+    background-color: rgba(124, 109, 235, 0.2) !important;
     color: #7C6DEB;
   }
 `
-
 
 const Filter: React.FC = () => {
   const filterItems = [
@@ -242,11 +255,11 @@ const Filter: React.FC = () => {
   return (
     <FilterContainer>
       {filterItems.map(item => (
-        <div className="filter-item" key={item.key}>
-          <div className="key">{item.key}:</div>
-          <div className="values">
+        <div className='filter-item' key={item.key}>
+          <div className='key'>{item.key}:</div>
+          <div className='values'>
             {item.values.map(value => (
-              <div className="value" key={value}>
+              <div className='value' key={value}>
                 {value}
               </div>
             ))}
@@ -259,36 +272,34 @@ const Filter: React.FC = () => {
 
 const TypeSelector: React.FC = () => {
   return (
-    <MySelect defaultValue="1">
-      <Select.Option value="1">All</Select.Option>
-      <Select.Option value="2">Picture</Select.Option>
-      <Select.Option value="3">Lucy</Select.Option>
+    <MySelect defaultValue='1'>
+      <Select.Option value='1'>All</Select.Option>
+      <Select.Option value='2'>Picture</Select.Option>
+      <Select.Option value='3'>Lucy</Select.Option>
     </MySelect>
   )
 }
 
 const OrderSelector: React.FC = () => {
   return (
-    <MySelect defaultValue="1">
-      <Select.Option className="customized-option" value="1">
+    <MySelect defaultValue='1'>
+      <Select.Option className='customized-option' value='1'>
         Time
       </Select.Option>
-      <Select.Option className="customized-option" value="2">
+      <Select.Option className='customized-option' value='2'>
         Price
       </Select.Option>
-      <Select.Option className="customized-option" value="3">
+      <Select.Option className='customized-option' value='3'>
         Love
       </Select.Option>
     </MySelect>
   )
 }
 
+const NFTItemCard: React.FC<any> = ({ data }) => {
+  const [loading, setLoading] = useState(true)
 
-const NFTItemCard: React.FC<any> = props => {
   const history = useHistory()
-
-  const { data } = props
-  const image = 'https://gateway.pinata.cloud/' + data.image.slice(6)
 
   const CornerFlag: React.FC = () => {
     return (
@@ -334,37 +345,51 @@ const NFTItemCard: React.FC<any> = props => {
     )
   }
 
-  const routeToDetailPage = () => history.push(`/collectible/${data.name}`,{ tokenId:`${data.tokenId}` })
+  const routeToDetailPage = () => history.push(`/collectible/${data.name}`, { tokenId: `${data.tokenId}` })
+
+  useEffect(() => {
+    setLoading(true)
+  }, [data])
 
   return (
     <div style={{ position: 'relative' }}>
       <CornerFlag />
       <ApproveVoteButton />
       <NFTItemCardContainer>
-        <div  style={{ cursor: 'pointer' }} onClick={routeToDetailPage}>
-          <img src={image} alt="" />
-          <div className="name">{data?.name}</div>
+        <div style={{ cursor: 'pointer' }} onClick={routeToDetailPage}>
+          <LazyLoad>
+            <img
+              style={{ display: loading?'none': '' }}
+              key={data.id}
+              src={data.image}
+              alt=''
+              onLoad={() => setTimeout(() => setLoading(false), 1500)}
+              onError={() => setLoading(false)}
+            />
+          </LazyLoad>
+          {
+            loading && <Spin className="spin" />
+          }
+          <div className='name'>{data?.name}</div>
         </div>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
-            <div className="like">
-              <HeartOutlined className="heart" />5
+            <div className='like'>
+              <HeartOutlined className='heart' />5
             </div>
-            <div className="price">5 ETH</div>
+            <div className='price'>5 ETH</div>
           </div>
-          <Button className="button">Connect Wallet</Button>
+          <Button className='button'>Connect Wallet</Button>
         </div>
       </NFTItemCardContainer>
     </div>
   )
 }
 
-const NFTList: React.FC<any> = props => {
-  const { nft } = props
-  // console.log(props)
+const NFTList: React.FC<any> = ({ list }) => {
   return (
     <NFTListContainer>
-      {nft?.map((nft: any, index: number) => (
+      {list?.map((nft: any, index: number) => (
         <NFTItemCard data={nft} key={index} />
       ))}
     </NFTListContainer>
@@ -372,31 +397,50 @@ const NFTList: React.FC<any> = props => {
 }
 
 
-
 const CollectiblesPage: React.FC = () => {
-
-  const [ data, setData ] = useState<any>()
-  const [ current,setCurrent ] = useState<number>(1)
-  const [ total,setTotal ] = useState<number>()
+  const [data, setData] = useState<any>()
+  const [current, setCurrent] = useState<number>(1)
+  const [total, setTotal] = useState<number>()
   const [searchKey, setSearchKey] = useState<any>()
+  const [loading, setLoading] = useState<boolean>(true)
+
   const form = {
     current: current,
     size: 20,
     searchKey: searchKey
   }
+
   const init = useCallback(async () => {
-    banksyNftList(form).then(res=>{
-      setData(res.data.data.records)
+    banksyNftList(form).then(res => {
+      const _data = res.data.data.records.map((item: any) => ({
+        ...item, image: `https://gateway.pinata.cloud${item.image.slice(6)}`
+      }))
+
+      setData(_data)
       setTotal(res.data.data.total)
+      setLoading(false)
       // console.log(data)
-    }).catch(err=>err)
+    }).catch(err => err)
   }, [current, searchKey])
 
   useEffect(() => {
     init()
   }, [init])
 
-  const onChangePage = ( pageNumber: number ) => {
+  useEffect(() => {
+    // data?.forEach((item: any) => {
+    //   const img = new Image()
+    //   img.src = `https://gateway.pinata.cloud${item.image.slice(6)}`
+    //
+    //   img.onload = () => {
+    //     console.log(`ima loaded: ${img.src}`)
+    //   }
+    // })
+
+  }, [data])
+
+
+  const onChangePage = (pageNumber: number) => {
     console.log(pageNumber)
     setCurrent(pageNumber)
     init()
@@ -419,13 +463,22 @@ const CollectiblesPage: React.FC = () => {
           <MintArtworksButton>Mint Artworks</MintArtworksButton>
         </div>
         <div style={{ display: 'flex' }}>
-          <SearchInput onPressEnter={onPressEnter} prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />} />
+          <SearchInput onPressEnter={onPressEnter}
+            prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
+          />
           <TypeSelector />
           <OrderSelector />
         </div>
       </div>
-      <NFTList nft={data} />
-      <Paginations defaultCurrent={current} total={total} onChange={onChangePage} pageSize={20} pageSizeOptions={['20']} />
+      <Spin spinning={loading} delay={500}>
+        <NFTList list={data} />
+      </Spin>
+      <CustomPagination defaultCurrent={current}
+        total={total}
+        onChange={onChangePage}
+        pageSize={20}
+        pageSizeOptions={['20']}
+      />
     </PageContainer>
   )
 }
