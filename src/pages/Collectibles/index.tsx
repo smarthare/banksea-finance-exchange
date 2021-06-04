@@ -345,7 +345,13 @@ const NFTItemCard: React.FC<any> = ({ data }) => {
     )
   }
 
-  const routeToDetailPage = () => history.push(`/collectible/${data.name}`, { tokenId: `${data.tokenId}` })
+  const routeToDetailPage = () => history.push(
+    `/collectible/${data.name}`,
+    { tokenPull:{
+      tokenId: `${data.tokenId}`,
+      addressContract: `${data.addressContract}`
+    } }
+  )
 
   useEffect(() => {
     setLoading(true)
@@ -426,18 +432,6 @@ const CollectiblesPage: React.FC = () => {
   useEffect(() => {
     init()
   }, [init])
-
-  useEffect(() => {
-    // data?.forEach((item: any) => {
-    //   const img = new Image()
-    //   img.src = `https://gateway.pinata.cloud${item.image.slice(6)}`
-    //
-    //   img.onload = () => {
-    //     console.log(`ima loaded: ${img.src}`)
-    //   }
-    // })
-
-  }, [data])
 
 
   const onChangePage = (pageNumber: number) => {

@@ -392,9 +392,7 @@ const CollectibleDetailPage: React.FC = (props: any) => {
   const [image, setImage] = useState<any>()
   const init = useCallback(async () => {
     console.log(props.location.state.tokenId)
-    const tokenPull = {
-      tokenId: props.location.state.tokenId
-    }
+    const tokenPull = props.location.state.tokenPull
     banksyNftDetail(tokenPull).then(res=> {
       setData(res.data.data)
 
