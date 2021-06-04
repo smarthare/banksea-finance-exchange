@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Input, Select } from 'antd'
+import { Button, Input, Pagination, Select } from 'antd'
 import { HeartOutlined, SearchOutlined } from '@ant-design/icons'
+import { Spin } from 'antd'
 
 import '../../styles/override-antd-select-dropdown.scss'
-import { SolibleNFT, USE_ALL_NFTS } from '../../assets/SolibleNfts'
 import { useHistory } from 'react-router-dom'
+import { banksyNftList } from '../../utils/banksyNft'
 
 const PageContainer = styled.div`
   padding-top: 5.6rem;
@@ -17,6 +18,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   color: #7c6deb;
+  font-family: 'PingFang SC'
 `
 
 const Title = styled.div`
@@ -140,6 +142,12 @@ const NFTItemCardContainer = styled.div`
 
   .name {
     margin-bottom: 1.5rem;
+    width: 100%;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
 
   .like {
@@ -167,9 +175,33 @@ const NFTListContainer = styled.div`
   flex-wrap: wrap;
 `
 
-const Search: React.FC = () => {
-  return <SearchInput prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />} />
-}
+const Paginations = styled(Pagination)`
+  margin-bottom: 50px;
+
+  .ant-pagination-prev .ant-pagination-item-link {
+    border: none !important;
+    background-color: rgba(124,109,235,0.2) !important;
+    color: #7C6DEB;
+  }
+  .ant-pagination-item-active {
+    border: 1px solid rgba(124,109,235,0.2) !important;
+  }
+  .ant-pagination-item-active a {
+    color: #7C6DEB !important;
+  }
+  .ant-pagination-item {
+    border: 1px solid rgba(124,109,235,0.2) !important;
+  }
+  .ant-pagination-item a {
+    //color: rgba(124,109,235,0.2) !important;
+  }
+  .ant-pagination-next .ant-pagination-item-link {
+    border: none !important;
+    background-color: rgba(124,109,235,0.2) !important;
+    color: #7C6DEB;
+  }
+`
+
 
 const Filter: React.FC = () => {
   const filterItems = [
@@ -252,12 +284,10 @@ const OrderSelector: React.FC = () => {
   )
 }
 
-type NFTItemCardProps = {
-  data: SolibleNFT
-}
 
-const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
+const NFTItemCard: React.FC<any> = props => {
   const history = useHistory()
+  const { data } = props
 
   const CornerFlag: React.FC = () => {
     return (
@@ -270,7 +300,6 @@ const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
           fontWeight: 500,
           textAlign: 'center',
           lineHeight: '3rem',
-          zIndex: 1049,
           width: '8.5rem',
           height: '3.7rem',
           backgroundImage: `url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default})`,
@@ -304,7 +333,7 @@ const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
     )
   }
 
-  const routeToDetailPage = () => history.push(`/collectible/${data.name}`)
+  const routeToDetailPage = () => history.push(`/collectible/${data.name}`,{ tokenId:`${data.tokenId}` })
 
   return (
     <div style={{ position: 'relative' }}>
@@ -312,8 +341,12 @@ const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
       <ApproveVoteButton />
       <NFTItemCardContainer>
         <div  style={{ cursor: 'pointer' }} onClick={routeToDetailPage}>
-          <img src={data.img.default} alt="" />
-          <div className="name">{data.name}</div>
+          {
+            data.isDownloadActionDone
+              ? <img key={data.id} src={data.image} alt="" />
+              : <Spin />
+          }
+          <div className="name">{data?.name}</div>
         </div>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
@@ -329,17 +362,96 @@ const NFTItemCard: React.FC<NFTItemCardProps> = ({ data }) => {
   )
 }
 
-const NFTList: React.FC = () => {
+const NFTList: React.FC<any> = props => {
+  const { nft } = props
+
+  const [nftList , setNftList] = useState<any>()
+
+  const pnft = nft?.map((e: any) =>({
+    ...e,
+    isDownloadActionDone: false,
+    image: 'https://gateway.pinata.cloud' + e.image.slice(6)
+  }))
+  const pData = pnft?.filter((e:any) => e.isDownloadActionDone !== true)
+  if(pData?.length > 0) {
+    const e = pData[0]
+    const thumbnail = new Image()
+    thumbnail.src = e.image
+    thumbnail.onload = () => {
+      const pnftList = pnft?.map((meta: any) => ({
+        ...meta,
+        isDownloadActionDone: meta.id === e.id ? true : meta.isDownloadActionDone
+      }))
+      setNftList(pnftList)
+    }
+  }
   return (
     <NFTListContainer>
-      {USE_ALL_NFTS.map((nft, index: number) => (
+      {nftList?.map((nft: any, index: number) => (
         <NFTItemCard data={nft} key={index} />
       ))}
     </NFTListContainer>
   )
 }
 
+
+
 const CollectiblesPage: React.FC = () => {
+  const [ data, setData ] = useState<any>()
+  const [ current,setCurrent ] = useState<number>(1)
+  const [ total,setTotal ] = useState<number>()
+  const [searchKey, setSearchKey] = useState<any>()
+  const [loading, setLoading] = useState<boolean>(true)
+
+  const form = {
+    current: current,
+    size: 20,
+    searchKey: searchKey
+  }
+
+  const init = useCallback(async () => {
+    banksyNftList(form).then(res=>{
+      console.log(res.data.data.records)
+      const _data = res.data.data.records.map((item: any) => ({
+          ...item, loading: true
+      }))
+
+      setData(_data)
+      setTotal(res.data.data.total)
+      setLoading(false)
+      // console.log(data)
+    }).catch(err=>err)
+  }, [current, searchKey])
+
+  useEffect(() => {
+    init()
+  }, [init])
+
+  useEffect(() => {
+    data.forEach(item => {
+      const img = new Image()
+      img.src = item.image
+
+      img.onload((e: any) => {
+        setData()
+      })
+    })
+
+  }, [data])
+
+
+  const onChangePage = ( pageNumber: number ) => {
+    console.log(pageNumber)
+    setCurrent(pageNumber)
+    init()
+  }
+
+  const onPressEnter = (e: any) => {
+    console.log(e.target.attributes[2].value)
+    setSearchKey(e.target.attributes[2].value)
+    init()
+  }
+
   return (
     <PageContainer>
       <Title>NFT Marketplace</Title>
@@ -351,12 +463,15 @@ const CollectiblesPage: React.FC = () => {
           <MintArtworksButton>Mint Artworks</MintArtworksButton>
         </div>
         <div style={{ display: 'flex' }}>
-          <Search />
+          <SearchInput onPressEnter={onPressEnter} prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />} />
           <TypeSelector />
           <OrderSelector />
         </div>
       </div>
-      <NFTList />
+      <Spin spinning={loading} delay={500}>
+        <NFTList nft={data} />
+      </Spin>
+      <Paginations defaultCurrent={current} total={total} onChange={onChangePage} pageSize={20} pageSizeOptions={['20']} />
     </PageContainer>
   )
 }
