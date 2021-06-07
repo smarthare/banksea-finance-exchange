@@ -16,8 +16,9 @@ import Pen3 from '@/assets/images/homePageImg/pen3.png'
 import Pen4 from '@/assets/images/homePageImg/pen4.png'
 import Pen5 from '@/assets/images/homePageImg/pen5.png'
 import Pen6 from '@/assets/images/homePageImg/pen6.png'
-import StepOne from '@/assets/images/number1.png'
-import DepositIcon from '@/assets/images/deposit-icon.png'
+import StepOne from '@/assets/images/allModalImg/number1.png'
+import DepositIcon from '@/assets/images/allModalImg/deposit-icon.png'
+import Authorizing from '@/assets/images/allModalImg/authorizing.png'
 
 import { Button, Divider, Modal } from 'antd'
 import { useHistory } from 'react-router-dom'
@@ -416,7 +417,7 @@ const MyDepositModal = styled(Modal)`
       font-weight: 500;
       color: #999999;
       line-height: 2.2rem;
-
+      margin-top: 4.3rem;
     }
 
     .options {
@@ -429,11 +430,62 @@ const MyDepositModal = styled(Modal)`
       align-items: center;
 
       .deposit-icon {
-
+        margin-right: 1.2rem;
+      }
+      .deposit-tip {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: #999999;
+        line-height: 2.2rem;
       }
     }
   }
 `
+
+const MyAuthorizingModal = styled(Modal)`
+  .ant-modal-content {
+    width: 62.3rem;
+    height: 49.4rem;
+    background: #FFFFFF;
+    border-radius: 1rem;
+  }
+
+  .ant-modal-header {
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+
+  .author-body {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+
+    .author-title {
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: #000000;
+      line-height: 3rem;
+      margin-top: 7.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .author-tip {
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: #000000;
+      line-height: 2rem;
+    }
+  }
+
+  .author-img {
+    position: absolute;
+    margin-top: 5.1rem;
+    margin-left: 17.8rem;
+  }
+
+`
+
 
 const HomePage: React.FC = () => {
   const history = useHistory()
@@ -441,6 +493,7 @@ const HomePage: React.FC = () => {
   const [isBuyModalVisible, setBuyModalVisible] = useState(false)
   const [isCheckoutModalVisible, setCheckoutModalVisible] = useState(false)
   const [isDepositModalVisible, setDepositModalVisible] = useState(false)
+  const [isAuthorizingModalVisible, setAuthorizingModalVisible] = useState(false)
 
   const showBuyingModal = () => {
     setBuyModalVisible(true)
@@ -448,6 +501,10 @@ const HomePage: React.FC = () => {
 
   const handleOk = () => {
     setBuyModalVisible(false)
+  }
+
+  const showAuthorizingModal= () => {
+    setAuthorizingModalVisible(true)
   }
 
   const showCheckoutModal = () => {
@@ -477,6 +534,7 @@ const HomePage: React.FC = () => {
     setBuyModalVisible(false)
     setCheckoutModalVisible(false)
     setDepositModalVisible(false)
+    setAuthorizingModalVisible(false)
   }
 
   return (
@@ -682,7 +740,12 @@ const HomePage: React.FC = () => {
         </MainColumnContainer>
       </BodyRow>
 
-      <MyBuyModal title="Checkout" visible={isBuyModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+      <MyBuyModal title="Checkout"
+        visible={isBuyModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
         <div className="checkout-list">
           <p>Item</p>
           <p>Subtotal</p>
@@ -714,7 +777,11 @@ const HomePage: React.FC = () => {
           <Button onClick={nextPart}>Checkout</Button>
         </div>
       </MyBuyModal>
-      <MyCheckoutModal visible={isCheckoutModalVisible} onOk={handleCheckoutOk} onCancel={handleCancel} footer={null}>
+      <MyCheckoutModal visible={isCheckoutModalVisible}
+        onOk={handleCheckoutOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
         <div className="head-title">
           Complete your purchase
         </div>
@@ -749,9 +816,26 @@ const HomePage: React.FC = () => {
             <div className="deposit-icon">
               <img src={DepositIcon} alt="" style={{ width: '2.5rem', height: '2.4rem' }} />
             </div>
+            <div className="deposit-tip">Deposit from an exchange</div>
           </div>
         </div>
       </MyDepositModal>
+      <MyAuthorizingModal
+        visible={isAuthorizingModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <div className="author-body">
+          <div className="author-title">
+            Authorizing your account for this order...
+          </div>
+          <div className="author-tip">if a signature request pops up, just click &quot;Sign&quot;</div>
+          <div className="author-tip">to verify that you own your wallet.</div>
+        </div>
+        <div className="author-img">
+          <img src={Authorizing} alt="" style={{ width:'21.1rem', height:'15.2rem' }} />
+        </div>
+      </MyAuthorizingModal>
     </HomePageContainer>
   )
 }
