@@ -8,8 +8,8 @@ import Bamboo1 from '@/assets/images/homePageImg/bamboo1.png'
 import Bamboo2 from '@/assets/images/homePageImg/bamboo2.png'
 import Pencil1 from '@/assets/images/homePageImg/pencil1.png'
 import Pencil2 from '@/assets/images/homePageImg/pencil2.png'
-import Markpen1 from '@/assets/images/homePageImg/markpen1.png'
-import Markpen2 from '@/assets/images/homePageImg/markpen2.png'
+import MarkPen1 from '@/assets/images/homePageImg/markpen1.png'
+import MarkPen2 from '@/assets/images/homePageImg/markpen2.png'
 import Pen1 from '@/assets/images/homePageImg/pen1.png'
 import Pen2 from '@/assets/images/homePageImg/pen2.png'
 import Pen3 from '@/assets/images/homePageImg/pen3.png'
@@ -22,28 +22,19 @@ import DepositIcon from '@/assets/images/deposit-icon.png'
 import { Button, Divider, Modal } from 'antd'
 import { useHistory } from 'react-router-dom'
 
+const HomePageContainer = styled.div`
+  margin: 0 auto;
+  width: 82.2rem;
+  padding: 2rem 0;
+  font-family: 'PingFang SC'
+`
+
 const HeadLine = styled.div`
   display: flex;
   height: 17rem;
   align-items: center;
   justify-content: space-between;
-  font-family: 'PingFang SC'
-`
-
-const Body = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: 'PingFang SC'
-`
-
-const HomePageContainer = styled.div`
-  padding: 2rem 18rem;
-  font-family: 'PingFang SC'
-`
-
-const Row = styled.div`
-  display: flex;
+  font-family: 'PingFang SC';
 
   .Banksy {
     color: #7c6deb;
@@ -54,7 +45,16 @@ const Row = styled.div`
     align-items: center;
   }
 `
-const MainColumn = styled.div`
+
+const BodyRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'PingFang SC'
+`
+
+const MainColumnContainer = styled.div`
+  position: relative;
   width: 38.9rem;
   height: 45.4rem;
   background: #ffffff;
@@ -63,69 +63,73 @@ const MainColumn = styled.div`
   display: flex;
 `
 
-const SubColumn = styled.div`
+const SubColumnContainer = styled.div`
+  position: relative;
   width: 24.2rem;
   height: 33.1rem;
   background: #ffffff;
   border-radius: 2rem;
   margin-top: 6.5rem;
-
-  .image-2 {
-    position: absolute;
-    padding-left: 14.8rem;
-    padding-top: 1.1rem;
-  }
 `
 
-const Image = styled.div`
+const PositionedImage = styled.img<{
+  right: string
+  top: string
+}>`
   position: absolute;
-  padding-left: 27.1rem;
-  padding-top: 1.4rem;
+  height: ${props => props.height};
+  width: ${props => props.width};
+
+  right: ${props => props.right };
+
+  top: ${props => props.top};
 `
+
 const InfoDetail = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 2.5rem 2rem;
-  //font-family: Arial;
+  justify-content: space-between;
+  padding: 2.3rem 3rem;
   font-family: 'PingFang SC';
+  font-weight: 500;
 
   .info-title {
     font-size: 5rem;
     color: #161043;
-    font-weight: 550;
     line-height: 7rem;
   }
 
   .info-title-2 {
     font-size: 3rem;
-    font-weight: 550;
     color: #161043;
     line-height: 4.2rem;
+    margin-bottom: 0.5rem;
   }
 
   .info {
-    margin-top: 1.1rem;
+    margin-top: 0.4rem;
 
     .info-name {
       font-size: 1.4rem;
-      font-weight: 500;
       color: #161043;
       line-height: 2rem;
     }
 
     .info-value {
       font-size: 2rem;
-      font-weight: 500;
       color: #161043;
       line-height: 2.8rem;
     }
   }
 `
+
 const Column = styled.div`
   flex: 1;
   margin-top: 3.3rem;
 `
+
 const Column2 = styled.div`
   margin-top: 1.3rem;
 `
@@ -143,6 +147,7 @@ const InfoValue = styled.div`
   color: #161043;
   line-height: 3.6rem;
 `
+
 const SubmitButton = styled(Button)`
   width: 100%;
   height: 6rem;
@@ -430,11 +435,12 @@ const MyDepositModal = styled(Modal)`
   }
 `
 
-
 const HomePage: React.FC = () => {
   const history = useHistory()
 
   const [isBuyModalVisible, setBuyModalVisible] = useState(false)
+  const [isCheckoutModalVisible, setCheckoutModalVisible] = useState(false)
+  const [isDepositModalVisible, setDepositModalVisible] = useState(false)
 
   const showBuyingModal = () => {
     setBuyModalVisible(true)
@@ -444,12 +450,10 @@ const HomePage: React.FC = () => {
     setBuyModalVisible(false)
   }
 
-
-  const [isCheckoutModalVisible, setCheckoutModalVisible] = useState(false)
   const showCheckoutModal = () => {
     setCheckoutModalVisible(true)
   }
-  const [isDepositModalVisible, setDepositModalVisible] = useState(false)
+
   const showDepositModal = () => {
     setDepositModalVisible(true)
   }
@@ -463,11 +467,12 @@ const HomePage: React.FC = () => {
       setCheckoutModalVisible(false)
       showDepositModal()
     }
-
   }
+
   const handleCheckoutOk = () => {
     setCheckoutModalVisible(false)
   }
+
   const handleCancel = () => {
     setBuyModalVisible(false)
     setCheckoutModalVisible(false)
@@ -476,6 +481,207 @@ const HomePage: React.FC = () => {
 
   return (
     <HomePageContainer>
+      <HeadLine>
+        <img src={TitlePen} alt="title-pen" style={{ width: '17.2rem', height: '17.0rem' }} />
+        <div style={{ display: 'flex' }}>
+          <div className="Banksy">Banksy</div>
+        </div>
+        <img
+          src={TitlePencil}
+          alt="title-pencil"
+          style={{ width: '7.8rem', height: '13.8rem', marginLeft: '9.4rem' }}
+        />
+      </HeadLine>
+      <BodyRow>
+        <MainColumnContainer>
+          <InfoDetail>
+            <div className="info-title">Create</div>
+            <img src={DrawPen2} alt="draw-pen2" style={{ width: '2.3rem', height: '5.5rem', marginLeft: '3.0rem' }} />
+            <Column>
+              <SubTitle>NFT Number</SubTitle>
+              <InfoValue>12622</InfoValue>
+            </Column>
+            <Column>
+              <SubTitle>Total Values</SubTitle>
+              <InfoValue>$123215.36</InfoValue>
+            </Column>
+            <SubmitButton onClick={() => history.push('/nft/create')}>CREATE</SubmitButton>
+          </InfoDetail>
+          <PositionedImage
+            src={DrawPen}
+            alt="draw-pen"
+            width="7.9rem"
+            height="19.2rem"
+            right="3.9rem"
+            top="2rem"
+          />
+        </MainColumnContainer>
+        <MainColumnContainer>
+          <InfoDetail>
+            <div className="info-title">Buy</div>
+            <img src={Bamboo2} alt="bamboo" style={{ width: '1.4rem', height: '4.9rem', marginLeft: '3.0rem' }} />
+            <Column2>
+              <SubTitle>Selling</SubTitle>
+              <InfoValue style={{ lineHeight: '3rem' }}>555666</InfoValue>
+            </Column2>
+            <Column2>
+              <SubTitle>NFT Values</SubTitle>
+              <InfoValue style={{ lineHeight: '3rem' }}>12622</InfoValue>
+            </Column2>
+            <Column2>
+              <SubTitle>NFT Number</SubTitle>
+              <InfoValue style={{ lineHeight: '3rem' }}>12622</InfoValue>
+            </Column2>
+            <SubmitButton onClick={showBuyingModal}>BUY</SubmitButton>
+          </InfoDetail>
+
+          <PositionedImage
+            src={Bamboo1}
+            alt="draw-pen"
+            width="4.8rem"
+            height="18.2rem"
+            right="4rem"
+            top="1.9rem"
+          />
+        </MainColumnContainer>
+      </BodyRow>
+      <BodyRow>
+        <SubColumnContainer>
+          <InfoDetail>
+            <div className="info-title-2">Auction</div>
+            <img src={Pen2} alt="pen" style={{ width: '2.4rem', height: '3.0rem', marginLeft: '2.1rem' }} />
+            <div className="info">
+              <div className="info-name">NFT Number</div>
+              <div className="info-value">12622</div>
+            </div>
+            <div className="info">
+              <div className="info-name">Selling</div>
+              <div className="info-value">555666</div>
+            </div>
+            <div className="info">
+              <div className="info-name">NFT Values</div>
+              <div className="info-value">$123215.36</div>
+            </div>
+            <SubmitButtonSmall>AUCTION</SubmitButtonSmall>
+          </InfoDetail>
+
+          <PositionedImage
+            src={Pen1}
+            alt="draw-pen"
+            width="8.6rem"
+            height="11.6rem"
+            right="0.8rem"
+            top="1.1rem"
+          />
+        </SubColumnContainer>
+        <SubColumnContainer>
+          <InfoDetail>
+            <div className="info-title-2">Lend</div>
+            <img src={Pen4} alt="pen" style={{ width: '1.0rem', height: '3.9rem', marginLeft: '1.5rem' }} />
+            <div className="info" style={{ marginTop: '0.2rem' }}>
+              <div className="info-name">NFT Number</div>
+              <div className="info-value">12622</div>
+            </div>
+            <div className="info">
+              <div className="info-name">Selling</div>
+              <div className="info-value">555666</div>
+            </div>
+            <div className="info">
+              <div className="info-name">NFT Values</div>
+              <div className="info-value">$123215.36</div>
+            </div>
+            <SubmitButtonSmall>LEND</SubmitButtonSmall>
+          </InfoDetail>
+
+          <PositionedImage
+            src={Pen3}
+            alt="draw-pen"
+            width="2.7rem"
+            height="12.2rem"
+            top="1.2rem"
+            right="2.5rem"
+          />
+        </SubColumnContainer>
+        <SubColumnContainer>
+          <InfoDetail>
+            <div className="info-title-2">Splitting</div>
+            <img src={Pen6} alt="pen" style={{ width: '3.1rem', height: '3.5rem', marginLeft: '2.1rem' }} />
+            <div className="info" style={{ marginTop: '0.5rem' }}>
+              <div className="info-name">NFT Number</div>
+              <div className="info-value">12622</div>
+            </div>
+            <div className="info">
+              <div className="info-name">Selling</div>
+              <div className="info-value">555666</div>
+            </div>
+            <div className="info">
+              <div className="info-name">NFT Values</div>
+              <div className="info-value">$123215.36</div>
+            </div>
+            <SubmitButtonSmall>SPLITTING</SubmitButtonSmall>
+          </InfoDetail>
+
+          <PositionedImage
+            src={Pen5}
+            alt="draw-pen"
+            width="8.8rem"
+            height="9.8rem"
+            top="1.7rem"
+            right="0.8rem"
+          />
+        </SubColumnContainer>
+      </BodyRow>
+      <BodyRow>
+        <MainColumnContainer>
+          <InfoDetail>
+            <div className="info-title">Mortgage</div>
+            <img src={Pencil2} alt="pencil" style={{ width: '1.9rem', height: '4.7rem', marginLeft: '3.0rem' }} />
+            <Column>
+              <SubTitle>NFT Number</SubTitle>
+              <InfoValue>12622</InfoValue>
+            </Column>
+            <Column>
+              <SubTitle>Total Values</SubTitle>
+              <InfoValue>$123215.36</InfoValue>
+            </Column>
+            <SubmitButton>MORTGAGE</SubmitButton>
+          </InfoDetail>
+
+          <PositionedImage
+            src={Pencil1}
+            alt="draw-pen"
+            width="6.3rem"
+            height="15.4rem"
+            top="1.2rem"
+            right="2.3rem"
+          />
+        </MainColumnContainer>
+        <MainColumnContainer>
+          <InfoDetail>
+            <div className="info-title">Liquidity</div>
+            <img src={MarkPen2} alt="mark pen" style={{ width: '3.3rem', height: '4.0rem', marginLeft: '3.0rem' }} />
+            <Column>
+              <SubTitle>NFT Number</SubTitle>
+              <InfoValue>12622</InfoValue>
+            </Column>
+            <Column>
+              <SubTitle>Total Values</SubTitle>
+              <InfoValue>$123215.36</InfoValue>
+            </Column>
+            <SubmitButton>LIQUIDITY</SubmitButton>
+          </InfoDetail>
+
+          <PositionedImage
+            src={MarkPen1}
+            alt="draw-pen"
+            width="11.1rem"
+            height="13.8rem"
+            top="1.9rem"
+            right="1.7rem"
+          />
+        </MainColumnContainer>
+      </BodyRow>
+
       <MyBuyModal title="Checkout" visible={isBuyModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <div className="checkout-list">
           <p>Item</p>
@@ -514,7 +720,7 @@ const HomePage: React.FC = () => {
         </div>
         <Divider />
         <div className="step-tip">
-          To complete your purchasse, follow these steps:
+          To complete your purchase, follow these steps:
         </div>
         <div className="step-one-border">
           <div className="border-head">
@@ -529,7 +735,8 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </MyCheckoutModal>
-      <MyDepositModal title="Add ETH to you wallet"
+      <MyDepositModal
+        title="Add ETH to you wallet"
         visible={isDepositModalVisible}
         onCancel={handleCancel}
         footer={null}
@@ -545,165 +752,6 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </MyDepositModal>
-      <HeadLine>
-        <img src={TitlePen} alt="title-pen" style={{ width: '17.2rem', height: '17.0rem' }} />
-        <Row className="row">
-          <div className="Banksy">Banksy</div>
-        </Row>
-        <img
-          src={TitlePencil}
-          alt="title-pencil"
-          style={{ width: '7.8rem', height: '13.8rem', marginLeft: '9.4rem' }}
-        />
-      </HeadLine>
-      <Body>
-        <MainColumn>
-          <Image>
-            <img src={DrawPen} alt="draw-pen" style={{ width: '7.9rem', height: '19.2rem' }} />
-          </Image>
-          <InfoDetail>
-            <div className="info-title">Create</div>
-            <img src={DrawPen2} alt="draw-pen2" style={{ width: '2.3rem', height: '5.5rem', marginLeft: '3.0rem' }} />
-            <Column>
-              <SubTitle>NFT Number</SubTitle>
-              <InfoValue>12622</InfoValue>
-            </Column>
-            <Column>
-              <SubTitle>Total Values</SubTitle>
-              <InfoValue>$123215.36</InfoValue>
-            </Column>
-            <SubmitButton onClick={() => history.push('/nft/create')}>CREATE</SubmitButton>
-          </InfoDetail>
-        </MainColumn>
-        <MainColumn>
-          <Image>
-            <img src={Bamboo1} alt="bamboo" style={{ width: '4.8rem', height: '18.2rem' }} />
-          </Image>
-          <InfoDetail>
-            <div className="info-title">Buy</div>
-            <img src={Bamboo2} alt="bamboo" style={{ width: '1.4rem', height: '4.9rem', marginLeft: '3.0rem' }} />
-            <Column2>
-              <SubTitle>Selling</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>555666</InfoValue>
-            </Column2>
-            <Column2>
-              <SubTitle>NFT Values</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>12622</InfoValue>
-            </Column2>
-            <Column2>
-              <SubTitle>NFT Number</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>12622</InfoValue>
-            </Column2>
-            <SubmitButton onClick={showBuyingModal}>BUY</SubmitButton>
-          </InfoDetail>
-        </MainColumn>
-      </Body>
-      <Body>
-        <SubColumn>
-          <div className="image-2">
-            <img src={Pen1} alt="pen" style={{ width: '8.6rem', height: '11.6rem' }} />
-          </div>
-          <InfoDetail>
-            <div className="info-title-2">Auction</div>
-            <img src={Pen2} alt="pen" style={{ width: '2.4rem', height: '3.0rem', marginLeft: '2.1rem' }} />
-            <div className="info">
-              <div className="info-name">NFT Number</div>
-              <div className="info-value">12622</div>
-            </div>
-            <div className="info">
-              <div className="info-name">Selling</div>
-              <div className="info-value">555666</div>
-            </div>
-            <div className="info">
-              <div className="info-name">NFT Values</div>
-              <div className="info-value">$123215.36</div>
-            </div>
-            <SubmitButtonSmall>AUCTION</SubmitButtonSmall>
-          </InfoDetail>
-        </SubColumn>
-        <SubColumn>
-          <div className="image-2">
-            <img src={Pen3} alt="pen" style={{ width: '2.7rem', height: '12.2rem', marginLeft: '4rem' }} />
-          </div>
-          <InfoDetail>
-            <div className="info-title-2">Lend</div>
-            <img src={Pen4} alt="pen" style={{ width: '1.0rem', height: '3.9rem', marginLeft: '1.5rem' }} />
-            <div className="info" style={{ marginTop: '0.2rem' }}>
-              <div className="info-name">NFT Number</div>
-              <div className="info-value">12622</div>
-            </div>
-            <div className="info">
-              <div className="info-name">Selling</div>
-              <div className="info-value">555666</div>
-            </div>
-            <div className="info">
-              <div className="info-name">NFT Values</div>
-              <div className="info-value">$123215.36</div>
-            </div>
-            <SubmitButtonSmall>AUCTION</SubmitButtonSmall>
-          </InfoDetail>
-        </SubColumn>
-        <SubColumn>
-          <div className="image-2">
-            <img src={Pen5} alt="pen" style={{ width: '8.8rem', height: '9.8rem' }} />
-          </div>
-          <InfoDetail>
-            <div className="info-title-2">Auction</div>
-            <img src={Pen6} alt="pen" style={{ width: '3.1rem', height: '3.5rem', marginLeft: '2.1rem' }} />
-            <div className="info" style={{ marginTop: '0.5rem' }}>
-              <div className="info-name">NFT Number</div>
-              <div className="info-value">12622</div>
-            </div>
-            <div className="info">
-              <div className="info-name">Selling</div>
-              <div className="info-value">555666</div>
-            </div>
-            <div className="info">
-              <div className="info-name">NFT Values</div>
-              <div className="info-value">$123215.36</div>
-            </div>
-            <SubmitButtonSmall>AUCTION</SubmitButtonSmall>
-          </InfoDetail>
-        </SubColumn>
-      </Body>
-      <Body>
-        <MainColumn>
-          <Image>
-            <img src={Pencil1} alt="pencil" style={{ width: '6.3rem', height: '15.4rem' }} />
-          </Image>
-          <InfoDetail>
-            <div className="info-title">Create</div>
-            <img src={Pencil2} alt="pencil" style={{ width: '1.9rem', height: '4.7rem', marginLeft: '3.0rem' }} />
-            <Column>
-              <SubTitle>NFT Number</SubTitle>
-              <InfoValue>12622</InfoValue>
-            </Column>
-            <Column>
-              <SubTitle>Total Values</SubTitle>
-              <InfoValue>$123215.36</InfoValue>
-            </Column>
-            <SubmitButton>LIQUIDITY</SubmitButton>
-          </InfoDetail>
-        </MainColumn>
-        <MainColumn>
-          <Image>
-            <img src={Markpen1} alt="markpen" style={{ width: '11.1rem', height: '13.8rem' }} />
-          </Image>
-          <InfoDetail>
-            <div className="info-title">Create</div>
-            <img src={Markpen2} alt="markpen" style={{ width: '3.3rem', height: '4.0rem', marginLeft: '3.0rem' }} />
-            <Column>
-              <SubTitle>NFT Number</SubTitle>
-              <InfoValue>12622</InfoValue>
-            </Column>
-            <Column>
-              <SubTitle>Total Values</SubTitle>
-              <InfoValue>$123215.36</InfoValue>
-            </Column>
-            <SubmitButton>LIQUIDITY</SubmitButton>
-          </InfoDetail>
-        </MainColumn>
-      </Body>
     </HomePageContainer>
   )
 }
