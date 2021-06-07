@@ -45,13 +45,10 @@ module.exports = {
     'react/jsx-curly-newline': 'error',
     'react/jsx-indent': ['error', 2],
     'react/jsx-indent-props': ['error', 2],
-    'react/jsx-max-props-per-line': [
-      'error',
-      {
-        maximum: 1,
-        when: 'multiline'
-      }
-    ],
+    'react/jsx-max-props-per-line': ['error', {
+      maximum: 1,
+      when: 'multiline'
+    }],
     '@typescript-eslint/no-use-before-define': ['error'],
     '@typescript-eslint/no-unused-vars': [
       1,

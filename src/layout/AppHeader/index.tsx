@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import BanksyLogo from '@/assets/images/banksy-logo.png'
+import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.png'
 import { Button } from 'antd'
 import Wallet from '../../components/Wallet'
 
