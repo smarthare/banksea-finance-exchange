@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, Checkbox, Form, Input, message, Select, Upload } from 'antd'
 import UploadBtn from '@/assets/images/upload-button.png'
-// import PicIcon from '@/assets/images/picture-icon.png'
 import { pinFileToIPFS, pinJsonToIPFS } from '../../utils/pinata'
 import { UploadProps } from 'antd/lib/upload/interface'
 import { RcFile } from 'antd/es/upload'
@@ -12,6 +11,8 @@ import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { useWalletErrorMessageGetter } from '../../hooks'
+import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
+import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 
 const ArtistPageContainer = styled.div`
   padding-top: 5.6rem;
@@ -21,7 +22,6 @@ const ArtistPageContainer = styled.div`
 
   .title {
     font-size: 3rem;
-    font-family: 'PingFang SC';
     font-weight: 500;
     color: #7c6deb;
     line-height: 4.2rem;
@@ -104,12 +104,18 @@ const CustomFormItem = styled(Form.Item)`
 `
 
 const Selector = styled(Select)`
+  width: 16.4rem !important;
+
   .ant-select-selector {
     width: 16.4rem !important;
     height: 5rem !important;
     background: #e5e2fb !important;
     border-radius: 1rem !important;
     border-color: #7c6deb !important;
+  }
+
+  .ant-select-clear {
+    background-color: transparent;
   }
 
   .ant-select-selection-item {
@@ -123,9 +129,6 @@ const Selector = styled(Select)`
     padding-right: 5rem !important;
   }
 
-  .ant-select-arrow {
-    padding-top: 0.5rem;
-  }
 `
 
 const AssetUploadContainer = styled.div`
@@ -314,18 +317,18 @@ const AssetUpload: React.FC<AssetUploadProps> = ({ onUploadSuccess }) => {
     <AssetUploadContainer>
       <Upload {...uploadProps}>
         {pinnedFileHash ? (
-          <div className='upload-border'>
-            <img className='pinned' src={`https://gateway.pinata.cloud/ipfs/${pinnedFileHash}`} alt='' />
+          <div className="upload-border">
+            <img className="pinned" src={`https://gateway.pinata.cloud/ipfs/${pinnedFileHash}`} alt="" />
           </div>
         ) : uploading ? (
-          <div className='upload-border'>
-            <LoadingOutlined className='loading' />
+          <div className="upload-border">
+            <LoadingOutlined className="loading" />
           </div>
         ) : (
-          <div className='upload-border'>
-            <img src={UploadBtn} alt='upload-btn' />
-            <div className='tip'>Support: png / jpg /</div>
-            <div className='tip'>Size: 10M/</div>
+          <div className="upload-border">
+            <img src={UploadBtn} alt="upload-btn" />
+            <div className="tip">Support: png / jpg /</div>
+            <div className="tip">Size: 10M/</div>
           </div>
         )}
       </Upload>
@@ -336,7 +339,11 @@ const AssetUpload: React.FC<AssetUploadProps> = ({ onUploadSuccess }) => {
   )
 }
 
-const ArtistPage: React.FC = () => {
+const NFTCreate: React.FC = () => {
+  const { providerInitialized, networkReady } = useWeb3EnvContext()
+
+  const { open: openWalletSelectionModal } = useWalletSelectionModal()
+
   const account = useSelector(getAccount)
 
   const [form] = Form.useForm()
@@ -353,10 +360,10 @@ const ArtistPage: React.FC = () => {
 
   const formInitialValues = {
     artworkType: 'pictures',
-    artworkName: 'Syk3',
-    artistName: 'Wlop',
-    socialMedia: 'https://twitter.com/wlopwangling',
-    briefIntroduction: 'Wlop is a nice artist.'
+    artworkName: '',
+    artistName: '',
+    socialMedia: '',
+    briefIntroduction: ''
   }
 
   const onArtworkTypeChange = (value: any) => {
@@ -383,7 +390,6 @@ const ArtistPage: React.FC = () => {
       })
       return
     }
-
 
     setHintMessage({
       message: ''
@@ -448,67 +454,78 @@ const ArtistPage: React.FC = () => {
 
   const creating = (() => !!hintMessage.message && hintMessage.type === 'hint')()
 
+  useEffect(() => {
+    console.log(providerInitialized, networkReady)
+    if (providerInitialized && !networkReady) {
+      setHintMessage({ message: 'Please manually switch to the Rinkeby in MetaMask', type: 'error' })
+    }
+
+    if (providerInitialized && networkReady || !providerInitialized) {
+      setHintMessage({ message: '' })
+    }
+  }, [providerInitialized, networkReady])
+
   return (
     <ArtistPageContainer>
-      <div className='title'>Banksy Artists</div>
-      <ArtistForm form={form} colon={false} layout='vertical' initialValues={formInitialValues}>
+      <div className="title">Banksy Artists</div>
+      <ArtistForm form={form} colon={false} layout="vertical" initialValues={formInitialValues}>
         <h1>1. Artwork Information</h1>
 
         <CustomFormItem
-          name='artworkType'
-          label='Artwork Type'
+          name="artworkType"
+          label="Artwork Type"
           rules={[{ required: true, message: 'Artwork Type is Required!' }]}
         >
-          <Selector onChange={onArtworkTypeChange}>
-            <Select.Option value='pictures'>
+          <Selector onChange={onArtworkTypeChange} defaultValue="pictures">
+            <Select.Option value="pictures">
               {/*<div className="test" style={{ display: 'flex' }}>*/}
               {/*<img src={PicIcon} alt="pic" style={{ width: '1.8rem', height: '1.8rem', marginRight: '0.5rem' }} />*/}
               Pictures
               {/*</div>*/}
             </Select.Option>
-            <Select.Option value='gif'>GIF</Select.Option>
-            <Select.Option value='video'>Video</Select.Option>
-            <Select.Option value='audio'>Audio</Select.Option>
+            <Select.Option value="gif">GIF</Select.Option>
+            <Select.Option value="video">Video</Select.Option>
+            <Select.Option value="audio">Audio</Select.Option>
           </Selector>
         </CustomFormItem>
 
         <CustomFormItem
-          name='artworkName'
-          label='Artwork Name'
+          name="artworkName"
+          label="Artwork Name"
           rules={[{ required: true, message: 'Artwork Name is Required!' }]}
         >
-          <Input placeholder='Enter the artwork name' />
+          <Input placeholder="Enter the artwork name" />
         </CustomFormItem>
 
         <CustomFormItem
-          name='artistName'
-          label='Artist Name'
+          name="artistName"
+          label="Artist Name"
           rules={[{ required: true, message: 'Artist Name is Required!' }]}
         >
-          <Input placeholder='Enter the artist name' />
+          <Input placeholder="Enter the artist name" />
         </CustomFormItem>
 
         <CustomFormItem
-          name='socialMedia'
-          label='Social Media/Portfolio link'
+          name="socialMedia"
+          label="Social Media/Portfolio link"
           rules={[{ required: true, message: 'Social Media/Portfolio link is Required!' }]}
         >
-          <Input placeholder='Personal website' />
+          <Input placeholder="Personal website" />
         </CustomFormItem>
 
         <CustomFormItem
-          name='briefIntroduction'
-          label='Brief Introduction'
+          name="briefIntroduction"
+          label="Brief Introduction"
           rules={[{ required: true, message: 'Brief Introduction is Required!' }]}
         >
-          <Input.TextArea rows={4} placeholder='Enter the Brief introduction' className='text-area' />
+          <Input.TextArea rows={4} placeholder="Enter the Brief introduction" className="text-area" />
         </CustomFormItem>
 
         <h1>2. Upload Artwork Image</h1>
 
         <AssetUpload onUploadSuccess={onAssetUploadSuccess} />
 
-        <hr className='split-line' />
+        <hr className="split-line" />
 
         <Announcement>
           <Checkbox
@@ -517,21 +534,37 @@ const ArtistPage: React.FC = () => {
               setPromised(e.target.checked)
             }}
           >
-            <div className='text'>
+            <div className="text">
               I declare that this is an original artwork. I understand that no plagiarism is allowed, and that the
               artwork can be removed anytime if detected.
             </div>
           </Checkbox>
-          <div className='text2'>Mint an NFT charges 0.01BNB, please do not upload any sensitive content.</div>
+          <div className="text2">Mint an NFT charges 0.01BNB, please do not upload any sensitive content.</div>
         </Announcement>
 
-        <CreateButton onClick={handleCreate} className='bottom-button' disabled={creating}>
-          {
-            creating
-              ? 'Creating...'
-              : 'Create'
-          }
-        </CreateButton>
+
+        {
+          !providerInitialized ? (
+            <CreateButton onClick={openWalletSelectionModal}>
+              Connect to Wallet
+            </CreateButton>
+          ) : (
+            networkReady ? (
+              <CreateButton onClick={handleCreate} disabled={creating}>
+                {
+                  creating
+                    ? 'Creating...'
+                    : 'Create'
+                }
+              </CreateButton>
+            ) : (
+              <CreateButton disabled={true}>
+                Correct Network First
+              </CreateButton>
+            )
+          )
+        }
+
 
         <MessageHint {...hintMessage} />
       </ArtistForm>
@@ -539,4 +572,4 @@ const ArtistPage: React.FC = () => {
   )
 }
 
-export default ArtistPage
+export default NFTCreate

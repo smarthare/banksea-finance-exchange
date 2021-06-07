@@ -1,7 +1,6 @@
 module.exports = {
   semi: false,
   trailingComma: 'none',
-  singleQuote: true,
   'prettier/prettier': [
     'error',
     {

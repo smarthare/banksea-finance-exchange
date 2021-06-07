@@ -255,11 +255,11 @@ const Filter: React.FC = () => {
   return (
     <FilterContainer>
       {filterItems.map(item => (
-        <div className='filter-item' key={item.key}>
-          <div className='key'>{item.key}:</div>
-          <div className='values'>
+        <div className="filter-item" key={item.key}>
+          <div className="key">{item.key}:</div>
+          <div className="values">
             {item.values.map(value => (
-              <div className='value' key={value}>
+              <div className="value" key={value}>
                 {value}
               </div>
             ))}
@@ -272,24 +272,24 @@ const Filter: React.FC = () => {
 
 const TypeSelector: React.FC = () => {
   return (
-    <MySelect defaultValue='1'>
-      <Select.Option value='1'>All</Select.Option>
-      <Select.Option value='2'>Picture</Select.Option>
-      <Select.Option value='3'>Lucy</Select.Option>
+    <MySelect defaultValue="1">
+      <Select.Option value="1">All</Select.Option>
+      <Select.Option value="2">Picture</Select.Option>
+      <Select.Option value="3">Lucy</Select.Option>
     </MySelect>
   )
 }
 
 const OrderSelector: React.FC = () => {
   return (
-    <MySelect defaultValue='1'>
-      <Select.Option className='customized-option' value='1'>
+    <MySelect defaultValue="1">
+      <Select.Option className="customized-option" value="1">
         Time
       </Select.Option>
-      <Select.Option className='customized-option' value='2'>
+      <Select.Option className="customized-option" value="2">
         Price
       </Select.Option>
-      <Select.Option className='customized-option' value='3'>
+      <Select.Option className="customized-option" value="3">
         Love
       </Select.Option>
     </MySelect>
@@ -368,7 +368,7 @@ const NFTItemCard: React.FC<any> = ({ data }) => {
               style={{ display: loading?'none': '' }}
               key={data.id}
               src={data.image}
-              alt=''
+              alt=""
               onLoad={() => setTimeout(() => setLoading(false), 1500)}
               onError={() => setLoading(false)}
             />
@@ -376,16 +376,16 @@ const NFTItemCard: React.FC<any> = ({ data }) => {
           {
             loading && <Spin className="spin" />
           }
-          <div className='name'>{data?.name}</div>
+          <div className="name">{data?.name}</div>
         </div>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
-            <div className='like'>
-              <HeartOutlined className='heart' />5
+            <div className="like">
+              <HeartOutlined className="heart" />5
             </div>
-            <div className='price'>5 ETH</div>
+            <div className="price">5 ETH</div>
           </div>
-          <Button className='button'>Connect Wallet</Button>
+          <Button className="button">Connect Wallet</Button>
         </div>
       </NFTItemCardContainer>
     </div>

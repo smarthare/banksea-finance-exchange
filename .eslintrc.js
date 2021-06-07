@@ -35,6 +35,7 @@ module.exports = {
     'no-use-before-define': 'off',
     'object-curly-newline': ['error', { consistent: true }],
     'object-curly-spacing': ['error', 'always'],
+    'jsx-quotes': ['error', 'prefer-double'],
     'react/jsx-filename-extension': [0],
     'react/prop-types': [0],
     'react/jsx-closing-bracket-location': 'error',

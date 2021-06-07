@@ -1,7 +1,7 @@
 import MetamaskIcon from '../assets/images/wallets/metamask.svg'
 import BSCIcon from '../assets/images/wallets/bsc.png'
 import WalletConnectIcon from '../assets/images/wallets/walletconnect.svg'
-import { setAccount, setSelectedWallet } from '../store/wallet'
+import { getChainId, getRpcUrl, setAccount, setSelectedWallet } from '../store/wallet'
 import { providers } from 'ethers'
 import { Dispatch } from 'redux'
 import { MetamaskWeb3Provider } from './providers/Metamask'
@@ -9,6 +9,7 @@ import { WalletConnectWeb3Provider } from './providers/WalletConnect'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { BscWeb3Provider } from './providers/BSC'
 import { message } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
 
 export type WalletNames = 'Metamask' | 'BSC' | 'WalletConnect'
 
@@ -116,3 +117,18 @@ export const SUPPORT_WALLETS: Wallet[] = [
     handleConnect: connectToBSC
   }
 ]
+
+export const useConnectToWallet = () => {
+  const dispatch = useDispatch()
+
+  const chainId = useSelector(getChainId)
+  const RPCUrl = useSelector(getRpcUrl)
+
+  const connect = (wallet: Wallet) => chainId && RPCUrl && wallet.handleConnect(dispatch, chainId, RPCUrl)
+
+  return {
+    connect
+  }
+}
+
+

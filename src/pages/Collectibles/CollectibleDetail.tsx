@@ -457,25 +457,25 @@ const CollectibleDetailPage: React.FC = (props: any) => {
             <CornerFlag>on Auction</CornerFlag>
             <img
               src={image}
-              alt=''
+              alt=""
             />
           </ImageContainer>
         </LeftArea>
         <RightArea>
           <BundleName>{data?.name}</BundleName>
-          <div className='bundle-info'>
-            <div className='item'>
-              <div className='info-label'>Artist</div>
-              <div className='info-name'>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
+          <div className="bundle-info">
+            <div className="item">
+              <div className="info-label">Artist</div>
+              <div className="info-name">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
             </div>
-            <div className='item'>
-              <div className='info-label'>Owner</div>
-              <div className='info-name'>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
+            <div className="item">
+              <div className="info-label">Owner</div>
+              <div className="info-name">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
             </div>
-            <div className='item'>
+            <div className="item">
               <img
                 src={Show}
-                alt=''
+                alt=""
                 style={{
                   width: '2.4rem,',
                   height: '1.4rem',
@@ -484,23 +484,23 @@ const CollectibleDetailPage: React.FC = (props: any) => {
                   marginRight: '0.4rem'
                 }}
               />
-              <div className='info-name'>1.2K views</div>
+              <div className="info-name">1.2K views</div>
             </div>
           </div>
           <DescriptionContainer>
             {data?.description}
           </DescriptionContainer>
           <PriceContainer>
-            <div className='bundle-info'>
+            <div className="bundle-info">
               {/*<div className='item'>*/}
               {/*  <div className='info-label'>Current price</div>*/}
               {/*  <div className='price'>0.99999</div>*/}
               {/*  <div className='price-in-usd'>($297.21)</div>*/}
               {/*</div>*/}
-              <div className='item'>
+              <div className="item">
                 <img
                   src={Favorite}
-                  alt=''
+                  alt=""
                   style={{
                     width: '2.4rem,',
                     height: '1.4rem',
@@ -509,26 +509,26 @@ const CollectibleDetailPage: React.FC = (props: any) => {
                     marginRight: '0.4rem'
                   }}
                 />
-                <div className='info-name'>29 favorites</div>
+                <div className="info-name">29 favorites</div>
               </div>
             </div>
           </PriceContainer>
           <ItemsContainer>
-            <div className='items'>
-              <div className='item-border'>
-                <div className='item-name'>NFT Contract ID：</div>
-                <div className='item-value'>{data?.addressContract.substring(0, 4)}...{data?.addressContract.substring(9, 16)}</div>
-                <div className='item-name' style={{ marginTop: '1.5rem' }}>Token ID：</div>
-                <div className='item-value' style={{ marginTop: '1.5rem' }}>{data?.tokenId}</div>
+            <div className="items">
+              <div className="item-border">
+                <div className="item-name">NFT Contract ID：</div>
+                <div className="item-value">{data?.addressContract.substring(0, 4)}...{data?.addressContract.substring(9, 16)}</div>
+                <div className="item-name" style={{ marginTop: '1.5rem' }}>Token ID：</div>
+                <div className="item-value" style={{ marginTop: '1.5rem' }}>{data?.tokenId}</div>
               </div>
             </div>
-            <div className='items'>
-              <div className='item-border'>
-                <div className='item-name'>Creator&apos;s Address：</div>
-                <div className='item-value'>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
-                <div className='item-name' style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
+            <div className="items">
+              <div className="item-border">
+                <div className="item-name">Creator&apos;s Address：</div>
+                <div className="item-value">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
+                <div className="item-name" style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
                 <div
-                  className='item-value'
+                  className="item-value"
                   style={{ marginTop: '1.5rem' }}
                 >
                   {data?.addressOwner.substring(0, 4)}...{data?.addressOwner.substring(9, 16)}
@@ -542,32 +542,32 @@ const CollectibleDetailPage: React.FC = (props: any) => {
         <LeftArea style={{ marginTop: '5rem' }}>
           <SubTitle>Properties</SubTitle>
           <PropertiesArea>
-            <div className='properties-group'>
-              <div className='properties-item'>
-                <div className='key'>CHARACTER</div>
-                <div className='value'>Cats</div>
-                <div className='percent'>25% have this trait</div>
+            <div className="properties-group">
+              <div className="properties-item">
+                <div className="key">CHARACTER</div>
+                <div className="value">Cats</div>
+                <div className="percent">25% have this trait</div>
               </div>
             </div>
-            <div className='properties-group'>
-              <div className='properties-item'>
-                <div className='key'>CHARACTER</div>
-                <div className='value'>Cats</div>
-                <div className='percent'>25% have this trait</div>
+            <div className="properties-group">
+              <div className="properties-item">
+                <div className="key">CHARACTER</div>
+                <div className="value">Cats</div>
+                <div className="percent">25% have this trait</div>
               </div>
             </div>
-            <div className='properties-group'>
-              <div className='properties-item'>
-                <div className='key'>CHARACTER</div>
-                <div className='value'>Cats</div>
-                <div className='percent'>25% have this trait</div>
+            <div className="properties-group">
+              <div className="properties-item">
+                <div className="key">CHARACTER</div>
+                <div className="value">Cats</div>
+                <div className="percent">25% have this trait</div>
               </div>
             </div>
-            <div className='properties-group'>
-              <div className='properties-item'>
-                <div className='key'>CHARACTER</div>
-                <div className='value'>Cats</div>
-                <div className='percent'>25% have this trait</div>
+            <div className="properties-group">
+              <div className="properties-item">
+                <div className="key">CHARACTER</div>
+                <div className="value">Cats</div>
+                <div className="percent">25% have this trait</div>
               </div>
             </div>
 
@@ -587,18 +587,18 @@ const CollectibleDetailPage: React.FC = (props: any) => {
         <OtherArtworksArea>
           <SubTitle>More Artworks</SubTitle>
           <OtherArtworksContainer>
-            <div className='artwork-group'>
-              <div className='artwork-info'>
-                <div className='artwork-img'>
+            <div className="artwork-group">
+              <div className="artwork-info">
+                <div className="artwork-img">
                   <img src={more1} style={{ height: '205px' }} />
                 </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Pikachu Baby Bimbo #0005</div>
+                <div className="artwork-describe">Pikachu Baby Bimbo #0005</div>
               </div>
-              <div className='artwork-like'>
+              <div className="artwork-like">
                 <img
                   src={Heart}
-                  alt=''
+                  alt=""
                   style={{
                     width: '2.4rem,',
                     height: '1.4rem',
@@ -607,23 +607,23 @@ const CollectibleDetailPage: React.FC = (props: any) => {
                     marginRight: '0.4rem'
                   }}
                 />
-                <div className='liked'>0</div>
-                <div className='liked' style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+                <div className="liked">0</div>
+                <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
               </div>
               <ConnectButton>Connect wallet</ConnectButton>
             </div>
-            <div className='artwork-group'>
-              <div className='artwork-info'>
-                <div className='artwork-img'>
+            <div className="artwork-group">
+              <div className="artwork-info">
+                <div className="artwork-img">
                   <img src={more2} style={{ height: '205px' }} />
                 </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>1 - The Elf</div>
+                <div className="artwork-describe">1 - The Elf</div>
               </div>
-              <div className='artwork-like'>
+              <div className="artwork-like">
                 <img
                   src={Heart}
-                  alt=''
+                  alt=""
                   style={{
                     width: '2.4rem,',
                     height: '1.4rem',
@@ -632,23 +632,23 @@ const CollectibleDetailPage: React.FC = (props: any) => {
                     marginRight: '0.4rem'
                   }}
                 />
-                <div className='liked'>0</div>
-                <div className='liked' style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+                <div className="liked">0</div>
+                <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
               </div>
               <ConnectButton>Connect wallet</ConnectButton>
             </div>
-            <div className='artwork-group'>
-              <div className='artwork-info'>
-                <div className='artwork-img'>
+            <div className="artwork-group">
+              <div className="artwork-info">
+                <div className="artwork-img">
                   <img src={more3} style={{ height: '205px' }} />
                 </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Mona Lisa Smile &apos;Gamma Edition &apos;</div>
+                <div className="artwork-describe">Mona Lisa Smile &apos;Gamma Edition &apos;</div>
               </div>
-              <div className='artwork-like'>
+              <div className="artwork-like">
                 <img
                   src={Heart}
-                  alt=''
+                  alt=""
                   style={{
                     width: '2.4rem,',
                     height: '1.4rem',
@@ -657,23 +657,23 @@ const CollectibleDetailPage: React.FC = (props: any) => {
                     marginRight: '0.4rem'
                   }}
                 />
-                <div className='liked'>0</div>
-                <div className='liked' style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+                <div className="liked">0</div>
+                <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
               </div>
               <ConnectButton>Connect wallet</ConnectButton>
             </div>
-            <div className='artwork-group'>
-              <div className='artwork-info'>
-                <div className='artwork-img'>
+            <div className="artwork-group">
+              <div className="artwork-info">
+                <div className="artwork-img">
                   <img src={more4} style={{ height: '205px' }} />
                 </div>
                 <VoteIcon>Approve Vote</VoteIcon>
-                <div className='artwork-describe'>Like you mean it</div>
+                <div className="artwork-describe">Like you mean it</div>
               </div>
-              <div className='artwork-like'>
+              <div className="artwork-like">
                 <img
                   src={Heart}
-                  alt=''
+                  alt=""
                   style={{
                     width: '2.4rem,',
                     height: '1.4rem',
@@ -682,8 +682,8 @@ const CollectibleDetailPage: React.FC = (props: any) => {
                     marginRight: '0.4rem'
                   }}
                 />
-                <div className='liked'>0</div>
-                <div className='liked' style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+                <div className="liked">0</div>
+                <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
               </div>
               <ConnectButton>Connect wallet</ConnectButton>
             </div>

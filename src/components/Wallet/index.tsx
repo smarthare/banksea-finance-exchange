@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAccount, getSelectedWallet, setAccount, setSelectedWallet } from '../../store/wallet'
 import { Button, Modal } from 'antd'
-import WalletSelectionModal from './WalletSelectionModal'
 // @ts-ignore
 import Jazzicon from 'jazzicon'
 import { getWeb3ProviderByWallet, WalletNames } from '../../web3/wallets'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import styled from 'styled-components'
+import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 
 type CurrentAccountProps = {
   account: string
@@ -16,6 +16,15 @@ type CurrentAccountProps = {
 type WalletModalContentProps = {
   account: string
 }
+
+const SCCurrentAccount = styled.div`
+  display: flex;
+  align-items: center;
+
+  .icon {
+    margin-right: 1.2rem;
+  }
+`
 
 const WalletModalContent: React.FC<WalletModalContentProps> = ({ account }) => {
   const dispatch = useDispatch()
@@ -63,15 +72,6 @@ const MetamaskIcon: React.FC = () => {
   return <div ref={ref as any} style={{ width: '26px', height: '26px' }} />
 }
 
-const SCCurrentAccount = styled.div`
-  display: flex;
-  align-items: center;
-
-  .icon {
-    margin-right: 1.2rem;
-  }
-`
-
 const CurrentAccount: React.FC<CurrentAccountProps> = ({ account }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -104,14 +104,16 @@ const CurrentAccount: React.FC<CurrentAccountProps> = ({ account }) => {
 }
 
 const ConnectToWallet = () => {
-  const [modalVisible, setModalVisible] = useState<boolean>(false)
+  // const [modalVisible, setModalVisible] = useState<boolean>(false)
+
+  const { open } = useWalletSelectionModal()
 
   return (
     <div className="toAmount">
-      <span onClick={() => setModalVisible(true)} className="toAmountText">
+      <span onClick={open} className="toAmountText">
         Connect
       </span>
-      <WalletSelectionModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+      {/*<WalletSelectionModal visible={modalVisible} onClose={() => setModalVisible(false)} />*/}
     </div>
   )
 }
