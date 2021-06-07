@@ -1,24 +1,29 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import TitlePen from '@/assets/images/title-pen1.png'
-import TitlePencil from '@/assets/images/title-pen2.png'
-import DrawPen from '@/assets/images/draw-pen.png'
-import DrawPen2 from '@/assets/images/draw-pen2.png'
-import Bamboo1 from '@/assets/images/bamboo1.png'
-import Bamboo2 from '@/assets/images/bamboo2.png'
-import Pencil1 from '@/assets/images/pencil1.png'
-import Pencil2 from '@/assets/images/pencil2.png'
-import Markpen1 from '@/assets/images/markpen1.png'
-import Markpen2 from '@/assets/images/markpen2.png'
-import Pen1 from '@/assets/images/pen1.png'
-import Pen2 from '@/assets/images/pen2.png'
-import Pen3 from '@/assets/images/pen3.png'
-import Pen4 from '@/assets/images/pen4.png'
-import Pen5 from '@/assets/images/pen5.png'
-import Pen6 from '@/assets/images/pen6.png'
+import TitlePen from '@/assets/images/homePageImg/title-pen1.png'
+import TitlePencil from '@/assets/images/homePageImg/title-pen2.png'
+import DrawPen from '@/assets/images/homePageImg/draw-pen.png'
+import DrawPen2 from '@/assets/images/homePageImg/draw-pen2.png'
+import Bamboo1 from '@/assets/images/homePageImg/bamboo1.png'
+import Bamboo2 from '@/assets/images/homePageImg/bamboo2.png'
+import Pencil1 from '@/assets/images/homePageImg/pencil1.png'
+import Pencil2 from '@/assets/images/homePageImg/pencil2.png'
+import Markpen1 from '@/assets/images/homePageImg/markpen1.png'
+import Markpen2 from '@/assets/images/homePageImg/markpen2.png'
+import Pen1 from '@/assets/images/homePageImg/pen1.png'
+import Pen2 from '@/assets/images/homePageImg/pen2.png'
+import Pen3 from '@/assets/images/homePageImg/pen3.png'
+import Pen4 from '@/assets/images/homePageImg/pen4.png'
+import Pen5 from '@/assets/images/homePageImg/pen5.png'
+import Pen6 from '@/assets/images/homePageImg/pen6.png'
+import StepOne from '@/assets/images/number1.png'
+import DepositIcon from '@/assets/images/deposit-icon.png'
+
+
 
 import { Button, Modal,Divider } from 'antd'
 import { useHistory } from 'react-router-dom'
+import { context } from 'msw'
 
 const HeadLine = styled.div`
   display: flex;
@@ -162,8 +167,8 @@ const SubmitButtonSmall = styled(Button)`
 const MyBuyModal = styled(Modal)`
   .ant-modal-content {
     border-radius: 1rem;
-    width: 623px;
-    height: 494px;
+    width: 62.3rem;
+    height: 46.4rem;
   }
   .ant-modal-header {
     border-top-right-radius: 1rem;
@@ -220,18 +225,21 @@ const MyBuyModal = styled(Modal)`
     .nft-value {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
       align-self: center;
+      text-align: right;
+
       .nft-price {
         font-size: 1.8rem;
         font-weight: 500;
         line-height: 2.5rem;
+        width: 7.1rem;
       }
       .nft-price-dollar {
         font-size: 1.4rem;
         font-weight: 500;
         color: #999999;
         line-height: 20px;
+        width: 7.1rem;
       }
     }
   }
@@ -249,23 +257,169 @@ const MyBuyModal = styled(Modal)`
     .nft-value {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
       align-self: center;
+      text-align: right;
       .nft-price {
         font-size: 2.2rem;
         font-weight: 500;
         color: #7C6DEB;
         line-height: 3rem;
+        width: 9.1rem;
       }
       .nft-price-dollar {
         font-size: 1.8rem;
         font-weight: 500;
         color: #999999;
         line-height: 2.5rem;
+        width: 9.1rem;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 3.3rem;
+
+    .ant-btn {
+      width: 16.1rem;
+      height: 5rem;
+      background: #7C6DEB;
+      border-radius: 1rem;
+    }
+
+    .ant-btn > span {
+      font-size: 1.8rem;
+      font-weight: 550;
+      color: #FFFFFF;
+    }
+  }
+`
+
+const MyCheckoutModal = styled(Modal)`
+  .ant-modal-content {
+    border-radius: 1rem;
+    width: 62.3rem;
+    height: 43.8rem;
+  }
+
+  .ant-modal-header {
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+
+  .head-title {
+    display: flex;
+    justify-content: center;
+    font-weight: 550;
+    font-size: 1.8rem;
+  }
+
+  .step-tip {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #999999;
+    line-height: 2.2rem;
+  }
+
+  .step-one-border {
+    margin-top: 2.6rem;
+    width: 55.7rem;
+    height: 22.9rem;
+    border: 1px solid #DCDCDC;
+
+    .border-head {
+      display: flex;
+      align-content: center;
+      padding: 1.9rem 1.9rem;
+
+
+      .step-title {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: #000000;
+        line-height: 2.5rem;
+        align-self: center;
+        margin-left: 1.1rem;
+      }
+    }
+
+    .border-body {
+      padding: 1.9rem 1.9rem;
+      background: rgba(124, 109, 235, 0.1);
+
+      .border-detail {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: #999999;
+        line-height: 22px;
+      }
+
+      .ant-btn {
+        width: 16.1rem;
+        height: 5rem;
+        background: #7C6DEB;
+        border-radius: 1rem;
+        margin-top: 2.1rem;
+      }
+
+      .ant-btn > span {
+        font-size: 1.8rem;
+        font-weight: 550;
+        color: #FFFFFF;
       }
     }
   }
 `
+
+const MyDepositModal = styled(Modal)`
+  .ant-modal-content {
+    width: 62.3rem;
+    height: 33.3rem;
+    background: #FFFFFF;
+    border-radius: 1rem;
+  }
+  .ant-modal-header {
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+
+  .ant-modal-header .ant-modal-title {
+    display: flex;
+    justify-content: center;
+    font-weight: 550;
+    font-size: 1.8rem;
+  }
+
+  .deposit-body {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+
+    .deposit-text {
+      font-weight: 500;
+      color: #999999;
+      line-height: 2.2rem;
+
+    }
+
+    .options {
+      width: 33.3rem;
+      height: 6.1rem;
+      border: 1px solid #DCDCDC;
+      margin-top: 2.8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .deposit-icon {
+
+      }
+    }
+  }
+`
+
+
 
 const HomePage: React.FC = () => {
   const history = useHistory()
@@ -276,17 +430,44 @@ const HomePage: React.FC = () => {
   const showBuyingModal = () => {
     setBuyModalVisible(true)
   }
+
   const handleOk = () => {
     setBuyModalVisible(false)
   }
 
+
+  const [isCheckoutModalVisible, setCheckoutModalVisible] = useState(false)
+  const showCheckoutModal = () => {
+    setCheckoutModalVisible(true)
+  }
+  const [isDepositModalVisible,setDepositModalVisible] =useState(false)
+  const showDepositModal = () => {
+    setDepositModalVisible(true)
+  }
+
+  const nextPart = () => {
+    if (isBuyModalVisible) {
+      setBuyModalVisible(false)
+      showCheckoutModal()
+    }
+    if(isCheckoutModalVisible){
+      setCheckoutModalVisible(false)
+      showDepositModal()
+    }
+
+  }
+  const handleCheckoutOk = () => {
+    setCheckoutModalVisible(false)
+  }
   const handleCancel = () => {
     setBuyModalVisible(false)
+    setCheckoutModalVisible(false)
+    setDepositModalVisible(false)
   }
 
   return (
     <HomePageContainer>
-      <MyBuyModal title="Checkout" visible={isBuyModalVisible}  onOk={handleOk} onCancel={handleCancel}  footer={null} >
+      <MyBuyModal title="Checkout" visible={ isBuyModalVisible }  onOk={handleOk} onCancel={handleCancel}  footer={null} >
         <div className="checkout-list" >
           <p>Item</p>
           <p>Subtotal</p>
@@ -313,10 +494,44 @@ const HomePage: React.FC = () => {
             <div className="nft-price-dollar">($2,516.14)</div>
           </div>
         </div>
+        <Divider />
         <div className="footer">
-          <Button>Checkout</Button>
+          <Button onClick={ nextPart } >Checkout</Button>
         </div>
       </MyBuyModal>
+      <MyCheckoutModal visible={ isCheckoutModalVisible } onOk={handleCheckoutOk} onCancel={handleCancel} footer={null} >
+        <div className="head-title">
+          Complete your purchase
+        </div>
+        <Divider />
+        <div className="step-tip" >
+          To complete your purchasse, follow these steps:
+        </div>
+        <div className="step-one-border" >
+          <div className="border-head">
+            <img src={StepOne} alt="" style={{ width:'3.7rem', height:'3.7rem' }} />
+            <div className="step-title" >Deposit or convert funds</div>
+          </div>
+          <div className="border-body">
+            <div className="border-detail">
+              You don&apos;t have enough funds to complete the purchase. Please deposit or convert your funds.
+            </div>
+            <Button onClick={nextPart}>Deposit</Button>
+          </div>
+        </div>
+      </MyCheckoutModal>
+      <MyDepositModal title="Add ETH to you wallet" visible={isDepositModalVisible} onCancel={handleCancel} footer={null} >
+        <div className="deposit-body" >
+          <div className="deposit-text">
+            Select one of the options to deposit ETH to your wallet
+          </div>
+          <div className="options" >
+            <div className="deposit-icon">
+              <img src={DepositIcon} alt="" style={{ width:'2.5rem', height:'2.4rem' }} />
+            </div>
+          </div>
+        </div>
+      </MyDepositModal>
 
       <HeadLine>
         <img src={TitlePen} alt="title-pen" style={{ width: '17.2rem', height: '17.0rem' }} />
