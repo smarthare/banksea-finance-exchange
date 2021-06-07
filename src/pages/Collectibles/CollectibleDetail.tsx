@@ -6,6 +6,10 @@ import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
 import { banksyNftDetail } from '../../utils/banksyNft'
+import moment from 'moment'
+import 'moment/locale/pt-br'
+import copy from 'copy-to-clipboard'
+import { CopyOutlined } from '@ant-design/icons'
 import more1 from '@/assets/images/detailMoreImg/more1.jpg'
 import more2 from '@/assets/images/detailMoreImg/more2.png'
 import more3 from '@/assets/images/detailMoreImg/more3.jpg'
@@ -85,6 +89,7 @@ const RightArea = styled.div`
     .item {
       display: flex;
       flex-direction: row;
+      align-items: center;
 
       .info-label {
         font-size: 1.6rem;
@@ -99,7 +104,10 @@ const RightArea = styled.div`
         font-weight: 500;
         color: #7C6DEB;
         line-height: 2.2rem;
+      }
 
+      .copy {
+        margin-left: 0.5rem;
       }
     }
 
@@ -388,6 +396,7 @@ const ConnectButton = styled(Button)`
 
 const CollectibleDetailPage: React.FC = (props: any) => {
 
+  moment.locale('en')
   const [data, setData] = useState<any>()
   const [image, setImage] = useState<any>()
   const init = useCallback(async () => {
@@ -438,16 +447,19 @@ const CollectibleDetailPage: React.FC = (props: any) => {
     }
   ]
 
-  const historyDataSource = [
-    {
-      key: '1',
-      event: 'List',
-      price: 20,
-      from: 'Ox3bB....5b8B3',
-      to: 'Ox3bB....5b8B3',
-      date: '2 weeks ago'
-    }
-  ]
+  const historyDataSource = data?.logTransferSingleVos?.map((item: any, index: number) =>({
+    key: index,
+    event: item?.tokenId,
+    price: 20,
+    from: `${item?.addressFrom.substring(0,4)}...${item?.addressFrom.slice(-4)}`,
+    to: `${item?.addressTo.substring(0,4)}...${item?.addressTo.slice(-4)}`,
+    date: moment(item.updateTime).fromNow()
+  })
+  )
+
+  const handleCopy = (addressCreate: any) => {
+    copy(addressCreate)
+  }
 
   return (
     <BundleDetailContainer>
@@ -466,11 +478,12 @@ const CollectibleDetailPage: React.FC = (props: any) => {
           <div className="bundle-info">
             <div className="item">
               <div className="info-label">Artist</div>
-              <div className="info-name">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
+              <div className="info-name" onClick={()=>handleCopy(data.addressCreate)}>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.slice(-4)}</div>
+              <CopyOutlined className="copy" style={{ color: '#7C6DEB' }} />
             </div>
             <div className="item">
               <div className="info-label">Owner</div>
-              <div className="info-name">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
+              <div className="info-name">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.slice(-4)}</div>
             </div>
             <div className="item">
               <img
@@ -517,15 +530,20 @@ const CollectibleDetailPage: React.FC = (props: any) => {
             <div className="items">
               <div className="item-border">
                 <div className="item-name">NFT Contract ID：</div>
-                <div className="item-value">{data?.addressContract.substring(0, 4)}...{data?.addressContract.substring(9, 16)}</div>
-                <div className="item-name" style={{ marginTop: '1.5rem' }}>Token ID：</div>
-                <div className="item-value" style={{ marginTop: '1.5rem' }}>{data?.tokenId}</div>
+                <div className="item-value">{data?.addressContract.substring(0, 4)}...{data?.addressContract.slice(-4)}</div>
+                <div className="item-name" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：</div>
+                <div
+                  className="item-value"
+                  style={{ marginTop: '1.5rem' }}
+                >
+                  {data?.addressOwner.substring(0, 4)}...{data?.addressOwner.substring(9, 16)}
+                </div>
               </div>
             </div>
             <div className="items">
               <div className="item-border">
                 <div className="item-name">Creator&apos;s Address：</div>
-                <div className="item-value">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.substring(9, 16)}</div>
+                <div className="item-value">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.slice(-4)}</div>
                 <div className="item-name" style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
                 <div
                   className="item-value"

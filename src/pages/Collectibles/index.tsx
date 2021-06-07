@@ -96,8 +96,8 @@ const SearchInput = styled(Input)`
 
   .ant-input {
     background-color: #e5e2fb;
-    color: #7c6deb;
     font-weight: bold;
+    color: rgba(124, 109, 235, 1) !important;
   }
 `
 
@@ -211,6 +211,19 @@ const CustomPagination = styled(Pagination)`
   .ant-pagination-next .ant-pagination-item-link {
     border: none !important;
     background-color: rgba(124, 109, 235, 0.2) !important;
+    color: #7C6DEB;
+  }
+
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border: none;
+    background-color: rgba(124, 109, 235, 0.2);
+  }
+
+  .ant-select {
+    color: #7C6DEB;
+  }
+
+  .ant-select-arrow {
     color: #7C6DEB;
   }
 `
@@ -435,13 +448,11 @@ const CollectiblesPage: React.FC = () => {
 
 
   const onChangePage = (pageNumber: number) => {
-    console.log(pageNumber)
     setCurrent(pageNumber)
     init()
   }
 
   const onPressEnter = (e: any) => {
-    console.log(e.target.attributes[2].value)
     setSearchKey(e.target.attributes[2].value)
     init()
   }
@@ -458,6 +469,7 @@ const CollectiblesPage: React.FC = () => {
         </div>
         <div style={{ display: 'flex' }}>
           <SearchInput onPressEnter={onPressEnter}
+            placeholder="items,collection,and accounts"
             prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
           />
           <TypeSelector />
