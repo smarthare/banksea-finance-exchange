@@ -478,7 +478,7 @@ const CollectibleDetailPage: React.FC = (props: any) => {
           <div className="bundle-info">
             <div className="item">
               <div className="info-label">Artist</div>
-              <div className="info-name" onClick={()=>handleCopy(data.addressCreate)}>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.slice(-4)}</div>
+              <div className="info-name" onClick={()=>handleCopy(data?.addressCreate)}>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.slice(-4)}</div>
               <CopyOutlined className="copy" style={{ color: '#7C6DEB' }} />
             </div>
             <div className="item">
