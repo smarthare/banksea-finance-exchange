@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.png'
 import { Button } from 'antd'
 import Wallet from '../../components/Wallet'
+import { useHistory } from 'react-router-dom'
 
 const AppHeaderContainer = styled.div`
   background-color: white;
@@ -48,6 +49,7 @@ const Avatar = styled.div`
 `
 
 const AppHeader = () => {
+  const history = useHistory()
   return (
     <AppHeaderContainer>
       <img src={BanksyLogo} alt="banksy" style={{ width: '16.6rem' }} />
@@ -55,7 +57,7 @@ const AppHeader = () => {
         <ConnectButton>
           <Wallet />
         </ConnectButton>
-        <Avatar />
+        <Avatar onClick={() => history.push('/personal/home')} />
       </Row>
     </AppHeaderContainer>
   )

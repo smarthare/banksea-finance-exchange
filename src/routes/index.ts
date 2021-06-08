@@ -7,6 +7,7 @@ import { ReactComponent as FarmsIcon } from '../assets/images/menu-icons/farms.s
 import { ReactComponent as OracleIcon } from '../assets/images/menu-icons/oracle.svg'
 import CollectibleDetailPage from '../pages/Collectibles/CollectibleDetail'
 import NFTCreatePage from '../pages/Home/NFTCreate'
+import PersonalHomepage from '../pages/PersonalHomepage/index'
 
 export type Route = {
   path: string
@@ -63,7 +64,14 @@ const routes: Route[] = [
     title: 'Oracle',
     icon: OracleIcon,
     component: HomePage
-  }
+  },
+  {
+    path: '/personal/home',
+    title: 'Personal Homepage',
+    icon: FarmsIcon,
+    component: PersonalHomepage,
+    hidden: true
+  },
 ]
 
 export default routes
