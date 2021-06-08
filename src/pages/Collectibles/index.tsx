@@ -96,8 +96,8 @@ const SearchInput = styled(Input)`
 
   .ant-input {
     background-color: #e5e2fb;
+    color: #7c6deb;
     font-weight: bold;
-    color: rgba(124, 109, 235, 1) !important;
   }
 `
 
@@ -311,7 +311,6 @@ const OrderSelector: React.FC = () => {
 
 const NFTItemCard: React.FC<any> = ({ data }) => {
   const [loading, setLoading] = useState(true)
-
   const history = useHistory()
 
   const CornerFlag: React.FC = () => {
@@ -431,10 +430,12 @@ const CollectiblesPage: React.FC = () => {
 
   const init = useCallback(async () => {
     banksyNftList(form).then(res => {
+      console.log(res.data.data.records)
       const _data = res.data.data.records.map((item: any) => ({
-        ...item, image: `https://gateway.pinata.cloud${item.image.slice(6)}`
+        ...item,
+        image: data.image.slice(6) !== 'ipfs:/' ? data.image : `https://gateway.pinata.cloud${data.image.slice(6)}`
       }))
-
+      console.log(_data)
       setData(_data)
       setTotal(res.data.data.total)
       setLoading(false)
@@ -469,7 +470,6 @@ const CollectiblesPage: React.FC = () => {
         </div>
         <div style={{ display: 'flex' }}>
           <SearchInput onPressEnter={onPressEnter}
-            placeholder="items,collection,and accounts"
             prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
           />
           <TypeSelector />
