@@ -25,7 +25,7 @@ import { useHistory } from 'react-router-dom'
 
 const HomePageContainer = styled.div`
   margin: 0 auto;
-  width: 82.2rem;
+  width: 120.2rem;
   padding: 2rem 0;
   font-family: 'PingFang SC'
 `
@@ -35,7 +35,6 @@ const HeadLine = styled.div`
   height: 17rem;
   align-items: center;
   justify-content: space-between;
-  font-family: 'PingFang SC';
 
   .Banksy {
     color: #7c6deb;
@@ -51,12 +50,11 @@ const BodyRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: 'PingFang SC'
 `
 
 const MainColumnContainer = styled.div`
   position: relative;
-  width: 38.9rem;
+  width: 57.9rem;
   height: 45.4rem;
   background: #ffffff;
   border-radius: 2rem;
@@ -66,7 +64,7 @@ const MainColumnContainer = styled.div`
 
 const SubColumnContainer = styled.div`
   position: relative;
-  width: 24.2rem;
+  width: 37.2rem;
   height: 33.1rem;
   background: #ffffff;
   border-radius: 2rem;
@@ -100,6 +98,7 @@ const InfoDetail = styled.div`
     font-size: 5rem;
     color: #161043;
     line-height: 7rem;
+    font-weight: bold;
   }
 
   .info-title-2 {
@@ -120,7 +119,7 @@ const InfoDetail = styled.div`
 
     .info-value {
       font-size: 2rem;
-      color: #161043;
+      color: rgb(40, 13, 95);
       line-height: 2.8rem;
     }
   }
@@ -138,37 +137,49 @@ const Column2 = styled.div`
 const SubTitle = styled.div`
   font-size: 1.8rem;
   font-weight: 500;
-  color: #161043;
+  color: rgb(122, 110, 170);
   line-height: 2.5rem;
 `
 
 const InfoValue = styled.div`
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 500;
-  color: #161043;
+  color: #b2bec3;
   line-height: 3.6rem;
 `
 
 const SubmitButton = styled(Button)`
   width: 100%;
-  height: 6rem;
+  height: 4.5rem;
   background: #7c6deb;
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
   margin-top: 2.4rem;
   color: white;
   font-size: 16px;
   font-weight: 500;
+
+  &:hover {
+    background: #a29bfe;
+    color: #fff;
+    border: none;
+  }
 `
 
 const SubmitButtonSmall = styled(Button)`
   width: 100%;
   height: 4rem;
   background: #7c6deb;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   margin-top: 0.9rem;
   color: white;
   font-size: 16px;
   font-weight: 500;
+
+  &:hover {
+    background: #a29bfe;
+    color: #fff;
+    border: none;
+  }
 `
 
 const MyBuyModal = styled(Modal)`

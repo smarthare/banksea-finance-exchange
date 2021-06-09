@@ -20,11 +20,11 @@ const App: React.FC = () => {
           style={{
             backgroundColor: '#FAF9FA',
             position: 'relative',
-            top: '82px',
-            left: '272px'
+            top: '80px',
+            left: '202px'
           }}
         >
-          <div style={{ width: 'calc(100vw - 272px)' }}>
+          <div style={{ width: 'calc(100vw - 202px)' }}>
             {routes.map(route => (
               <Route path={route.path} exact component={route.component} key={route.path} />
             ))}

@@ -297,13 +297,22 @@ const OrderSelector: React.FC = () => {
   return (
     <MySelect defaultValue="1">
       <Select.Option className="customized-option" value="1">
-        Time
+        Recently Listed
       </Select.Option>
       <Select.Option className="customized-option" value="2">
-        Price
+        Recently Created
       </Select.Option>
       <Select.Option className="customized-option" value="3">
-        Love
+        Recently Sold
+      </Select.Option>
+      <Select.Option className="customized-option" value="4">
+        Price: Low to High
+      </Select.Option>
+      <Select.Option className="customized-option" value="5">
+        Price: High to Low
+      </Select.Option>
+      <Select.Option className="customized-option" value="6">
+        Most Favorited
       </Select.Option>
     </MySelect>
   )

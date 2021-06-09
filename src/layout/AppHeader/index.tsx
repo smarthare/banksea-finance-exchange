@@ -13,7 +13,7 @@ const AppHeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 3.2rem;
-  font-family: 'PingFang SC'
+  border-bottom: 2px solid rgba(133, 133, 133, 0.1)
 `
 
 const ConnectButton = styled(Button)`
