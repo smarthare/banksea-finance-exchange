@@ -52,6 +52,8 @@ const FilterContainer = styled.div`
     .key {
       flex: 2;
       margin-right: 2rem;
+      color: #341f97;
+      font-weight: bolder;
     }
 
     .values {
@@ -72,7 +74,7 @@ const FilterContainer = styled.div`
 const MyArtworksButton = styled(Button)`
   font-weight: bold;
   width: 17.3rem;
-  height: 5rem;
+  height: 4rem;
   border-radius: 10px;
   color: white;
   background-color: #7c6deb;
@@ -83,7 +85,7 @@ const MyArtworksButton = styled(Button)`
 const MintArtworksButton = styled(Button)`
   font-weight: bold;
   width: 17.3rem;
-  height: 5rem;
+  height: 4rem;
   border-radius: 10px;
   border-color: #7c6deb;
 
@@ -93,6 +95,7 @@ const MintArtworksButton = styled(Button)`
 
 const SearchInput = styled(Input)`
   width: 22rem;
+  height: 4rem;
   border-color: #7c6deb;
   background-color: #e5e2fb;
   border-radius: 10px;
@@ -106,8 +109,13 @@ const SearchInput = styled(Input)`
 
 const MySelect = styled(Select)`
   margin-left: 2rem;
+  margin-left: 2rem;
 
   &,
+  .ant-select {
+    height: 4rem !important;
+  }
+
   .ant-select-selector {
     border-color: #7c6deb !important;
     border-radius: 10px !important;
@@ -115,6 +123,9 @@ const MySelect = styled(Select)`
     height: 5rem !important;
     background-color: #e5e2fb !important;
     color: #7c6deb;
+    height: 4rem !important;
+    display: flex;
+    align-items: center
   }
 
   .ant-select-selection-item {
@@ -482,7 +493,7 @@ const CollectiblesPage: React.FC = () => {
       </div>
       {
         loading?
-          <div id="lottie-animation" style={{ width: '250px', height: '250px' }} />:
+          <div id="lottie-animation" style={{ width: '150px', height: '150px' }} />:
           <NFTList list={data} />
       }
       <CustomPagination defaultCurrent={current}

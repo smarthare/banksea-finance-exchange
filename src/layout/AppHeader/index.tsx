@@ -21,7 +21,7 @@ const ConnectButton = styled(Button)`
   &:hover,
   &:active {
     width: fit-content;
-    height: 4rem;
+    height: 3.5rem;
     background: #7c6deb;
     border-radius: 25px;
     color: white;
@@ -41,8 +41,8 @@ const Row = styled.div`
 `
 
 const Avatar = styled.div`
-  width: 4.1rem;
-  height: 4.1rem;
+  width: 3.5rem;
+  height: 3.5rem;
   background: #d8d8d8;
   border-radius: 100%;
   margin-left: 3.3rem;
@@ -52,7 +52,7 @@ const AppHeader = () => {
   const history = useHistory()
   return (
     <AppHeaderContainer>
-      <img src={BanksyLogo} alt="banksy" style={{ width: '13.6rem' }} />
+      <img src={BanksyLogo} alt="banksy" style={{ width: '12.6rem' }} />
       <Row>
         <ConnectButton>
           <Wallet />

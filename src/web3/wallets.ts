@@ -1,6 +1,7 @@
 import MetamaskIcon from '../assets/images/wallets/metamask.svg'
 import BSCIcon from '../assets/images/wallets/bsc.png'
 import WalletConnectIcon from '../assets/images/wallets/walletconnect.svg'
+import SolanaIcon from '../assets/images/wallets/solana.png'
 import { getChainId, getRpcUrl, setAccount, setSelectedWallet } from '../store/wallet'
 import { providers } from 'ethers'
 import { Dispatch } from 'redux'
@@ -114,6 +115,11 @@ export const SUPPORT_WALLETS: Wallet[] = [
   {
     name: 'Binance Chain Wallet',
     icon: BSCIcon,
+    handleConnect: connectToBSC
+  },
+  {
+    name: 'Sollet',
+    icon: SolanaIcon,
     handleConnect: connectToBSC
   }
 ]
