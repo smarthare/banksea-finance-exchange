@@ -3,11 +3,14 @@ import { Menu } from 'antd'
 import styled from 'styled-components'
 import { Link, useLocation } from 'react-router-dom'
 import routes, { Route } from '../../routes'
+import twitterIcon from '../../assets/images/slidebarLink/twitter.png'
+import telegramIcon from '../../assets/images/slidebarLink/telegram.png'
 
 const Container = styled.div`
   width: 20.2rem;
   height: calc(100vh - 6.1rem);
   background-color: white;
+  position: relative;
 `
 
 const CustomizedMenu = styled(Menu)`
@@ -41,6 +44,23 @@ const CustomizedMenu = styled(Menu)`
   }
 `
 
+const CustomizedLink = styled.div`
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  bottom: 100px;
+  display: flex;
+  align-items: center;
+
+  &,
+  a {
+  margin-left: 1.5rem;
+    img {
+      width: 3rem;
+    }
+  }
+`
+
 const AppSideBar: React.FC = () => {
   const { pathname } = useLocation()
 
@@ -61,6 +81,10 @@ const AppSideBar: React.FC = () => {
           })
         }
       </CustomizedMenu>
+      <CustomizedLink>
+        <a href={'https://twitter.com/banksy_finance'} rel="noreferrer"  target="_blank"><img src={twitterIcon} /></a>
+        <a href={'https://t.me/Banskyfinance'} rel="noreferrer"  target="_blank"><img src={telegramIcon} /></a>
+      </CustomizedLink>
     </Container>
   )
 }
