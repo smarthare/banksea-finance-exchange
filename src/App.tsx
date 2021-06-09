@@ -9,18 +9,18 @@ import { Route } from 'react-router-dom'
 const App: React.FC = () => {
   return (
     <Layout>
-      <Layout.Header style={{ padding: 0, height: '82px', position: 'fixed', zIndex: 999, width: '100%' }}>
+      <Layout.Header style={{ padding: 0, height: '62px', position: 'fixed', zIndex: 999, width: '100%' }}>
         <AppHeader />
       </Layout.Header>
       <Layout>
-        <Layout.Sider style={{ position: 'fixed', zIndex: 1, top: '82px' }}>
+        <Layout.Sider style={{ position: 'fixed', zIndex: 1, top: '62px' }}>
           <AppSideBar />
         </Layout.Sider>
         <Layout.Content
           style={{
             backgroundColor: '#FAF9FA',
             position: 'relative',
-            top: '80px',
+            top: '62px',
             left: '202px'
           }}
         >

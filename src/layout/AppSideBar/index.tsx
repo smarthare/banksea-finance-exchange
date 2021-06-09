@@ -6,7 +6,7 @@ import routes, { Route } from '../../routes'
 
 const Container = styled.div`
   width: 20.2rem;
-  height: calc(100vh - 8.1rem);
+  height: calc(100vh - 6.1rem);
   background-color: white;
 `
 

@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 const AppHeaderContainer = styled.div`
   background-color: white;
   width: 100%;
-  height: 8.2rem;
+  height: 6.2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,7 +21,7 @@ const ConnectButton = styled(Button)`
   &:hover,
   &:active {
     width: fit-content;
-    height: 5rem;
+    height: 4rem;
     background: #7c6deb;
     border-radius: 25px;
     color: white;
@@ -41,8 +41,8 @@ const Row = styled.div`
 `
 
 const Avatar = styled.div`
-  width: 5.1rem;
-  height: 5.1rem;
+  width: 4.1rem;
+  height: 4.1rem;
   background: #d8d8d8;
   border-radius: 100%;
   margin-left: 3.3rem;
@@ -52,7 +52,7 @@ const AppHeader = () => {
   const history = useHistory()
   return (
     <AppHeaderContainer>
-      <img src={BanksyLogo} alt="banksy" style={{ width: '16.6rem' }} />
+      <img src={BanksyLogo} alt="banksy" style={{ width: '13.6rem' }} />
       <Row>
         <ConnectButton>
           <Wallet />

@@ -439,10 +439,8 @@ const CollectiblesPage: React.FC = () => {
 
   const init = useCallback(async () => {
     banksyNftList(form).then(res => {
-      console.log(res.data.data.records)
       const _data = res.data.data.records.map((item: any) => ({
-        ...item,
-        image: data.image.slice(6) !== 'ipfs:/' ? data.image : `https://gateway.pinata.cloud${data.image.slice(6)}`
+        ...item
       }))
       console.log(_data)
       setData(_data)
@@ -485,7 +483,7 @@ const CollectiblesPage: React.FC = () => {
           <OrderSelector />
         </div>
       </div>
-      <Spin spinning={loading} delay={500}>
+      <Spin spinning={loading}>
         <NFTList list={data} />
       </Spin>
       <CustomPagination defaultCurrent={current}
