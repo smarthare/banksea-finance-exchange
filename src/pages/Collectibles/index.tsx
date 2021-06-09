@@ -36,7 +36,7 @@ const FilterContainer = styled.div`
   margin-top: 1.8rem;
   margin-bottom: 3rem;
   padding: 2rem 3rem 0.4rem 3rem;
-  width: 82.8rem;
+  width: 120.2rem;
   background: #ffffff;
   border-radius: 10px;
 
@@ -123,21 +123,21 @@ const MySelect = styled(Select)`
 `
 
 const NFTItemCardContainer = styled.div`
-  width: 19.2rem;
-  height: 37rem;
+  width: 26.2rem;
+  height: 40rem;
   background-color: white;
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 2.5rem;
-  margin-right: 2rem;
+  margin-right: 2.5rem;
   font-weight: bold;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   img, .spin {
-    width: 17.2rem;
-    height: 20.5rem;
+    width: 24.2rem;
+    height: 28.5rem;
     margin-bottom: 1.5rem;
     border-radius: 10px;
   }
@@ -177,7 +177,7 @@ const NFTItemCardContainer = styled.div`
 `
 
 const NFTListContainer = styled.div`
-  width: 90.8rem;
+  width: 120.2rem;
   padding-left: 4rem;
   display: flex;
   flex-wrap: wrap;
@@ -406,7 +406,6 @@ const NFTItemCard: React.FC<any> = ({ data }) => {
             </div>
             <div className="price">5 ETH</div>
           </div>
-          <Button className="button">Connect Wallet</Button>
         </div>
       </NFTItemCardContainer>
     </div>
@@ -470,7 +469,7 @@ const CollectiblesPage: React.FC = () => {
       <Title>NFT Marketplace</Title>
       <Description>A market made for NFT, where everything is special.</Description>
       <Filter />
-      <div style={{ width: '82.8rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
+      <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
         <div style={{ display: 'flex' }}>
           <MyArtworksButton>My Artworks</MyArtworksButton>
           <MintArtworksButton>Mint Artworks</MintArtworksButton>
