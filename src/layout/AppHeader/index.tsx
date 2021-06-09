@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 const AppHeaderContainer = styled.div`
   background-color: white;
   width: 100%;
-  height: 6.2rem;
+  height: 6.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

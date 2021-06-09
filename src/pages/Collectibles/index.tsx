@@ -6,6 +6,8 @@ import { Spin } from 'antd'
 // @ts-ignore
 import LazyLoad from 'react-lazyload'
 
+import lottie from 'lottie-web'
+
 import '../../styles/override-antd-select-dropdown.scss'
 import { useHistory } from 'react-router-dom'
 import { banksyNftList } from '../../utils/banksyNft'
@@ -61,6 +63,7 @@ const FilterContainer = styled.div`
       .value {
         margin-right: 2rem;
         margin-bottom: 1.5rem;
+        cursor: pointer;
       }
     }
   }
@@ -231,37 +234,22 @@ const CustomPagination = styled(Pagination)`
 const Filter: React.FC = () => {
   const filterItems = [
     {
-      key: 'Featured Artists',
+      key: 'Chinese-Style Artworks',
       values: [
-        'SWOG',
-        'CoralCorp',
-        'Cookie Munster',
-        'srnArtGallery',
-        'Muwasha iProjects',
-        'Irene Cerezo',
-        'Mr Anderson',
-        'Hamid',
-        'Chiara Magni Copy'
+        'Calligraphy-NFT',
+        'Landscape-Painting '
       ]
     },
     {
       key: 'Digital Artworks',
       values: [
-        'BSC Artists',
-        'LoveNFT',
-        'SafeNFT',
-        'Musk&Doge',
-        '1inch&BAKE',
-        'BTC Artworks',
-        'Seascape',
-        'Binance NFT',
-        'TKO NFT',
-        'BAKE&Banana'
+        'AI-NFT',
+        'Gamification-NFT'
       ]
     },
     {
-      key: 'Gamification NFT',
-      values: ['DOGGY NFT', 'Rare Car', 'BakerySoccer', 'Battle Pets', 'Weapons', 'Pet Eggs']
+      key: 'Cross-Platform',
+      values: ['Opensea', 'Rarible']
     }
   ]
 
@@ -451,6 +439,16 @@ const CollectiblesPage: React.FC = () => {
 
   useEffect(() => {
     init()
+
+    lottie.loadAnimation({
+      // @ts-ignore
+      container: document.getElementById('lottie-animation'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'https://assets3.lottiefiles.com/packages/lf20_NddMyN.json'
+    })
+
   }, [init])
 
 
@@ -482,9 +480,11 @@ const CollectiblesPage: React.FC = () => {
           <OrderSelector />
         </div>
       </div>
-      <Spin spinning={loading}>
-        <NFTList list={data} />
-      </Spin>
+      {
+        loading?
+          <div id="lottie-animation" style={{ width: '250px', height: '250px' }} />:
+          <NFTList list={data} />
+      }
       <CustomPagination defaultCurrent={current}
         total={total}
         onChange={onChangePage}
