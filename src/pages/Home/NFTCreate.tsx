@@ -6,7 +6,7 @@ import { pinFileToIPFS, pinJsonToIPFS } from '../../utils/pinata'
 import { UploadProps } from 'antd/lib/upload/interface'
 import { RcFile } from 'antd/es/upload'
 import { LoadingOutlined } from '@ant-design/icons'
-import { NFTMetadata, NFTMetadataAttribute } from '../../types/NFTMetadata'
+import { NFTMetadata } from '../../types/NFTMetadata'
 import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
@@ -398,16 +398,16 @@ const NFTCreate: React.FC = () => {
     form
       .validateFields()
       .then(values => {
-        const attributes: NFTMetadataAttribute[] = Object.keys(values).map(key => ({
+        /*const attributes: NFTMetadataAttribute[] = Object.keys(values).map(key => ({
           key,
           value: values[key]
-        }))
+        }))*/
 
         const nftMetadata: NFTMetadata = {
           name: values.artworkName,
           description: values.briefIntroduction,
           image: `https://gateway.pinata.cloud/ipfs/${assetIpfsHash}`,
-          attributes
+          // attributes
         }
 
         setHintMessage({
@@ -424,7 +424,7 @@ const NFTCreate: React.FC = () => {
 
             const { IpfsHash } = r.data
 
-            banksyJsConnector.banksyJs.Banksy.awardItem(account!, IpfsHash).then(() => {
+            banksyJsConnector.banksyJs.Banksy.awardItem(account!, `https://gateway.pinata.cloud/ipfs/${IpfsHash}`).then(() => {
               setHintMessage({
                 message: 'Your creation request has been submitted!',
                 type: 'hint'
