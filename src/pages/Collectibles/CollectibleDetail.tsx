@@ -28,7 +28,6 @@ const BundleDetailContainer = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   padding: 5rem 10rem;
-  font-family: 'PingFang SC';
   background-image: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default});
   background-size: 100%;
 
@@ -193,7 +192,7 @@ const ImageContainer = styled.div`
   border: 1px solid #BAB3F2;
 
   img {
-    max-height: 42.9rem;
+    max-height: 40.9rem;
   }
 `
 
@@ -398,15 +397,11 @@ const CollectibleDetailPage: React.FC = (props: any) => {
 
   moment.locale('en')
   const [data, setData] = useState<any>()
-  const [image, setImage] = useState<any>()
   const init = useCallback(async () => {
     console.log(props.location.state.tokenId)
     const tokenPull = props.location.state.tokenPull
     banksyNftDetail(tokenPull).then(res=> {
       setData(res.data.data)
-
-      const image = 'https://gateway.pinata.cloud/' + res.data.data.image.slice(6)
-      setImage(image)
     }).catch(err=>err)
   },[])
 
@@ -468,7 +463,7 @@ const CollectibleDetailPage: React.FC = (props: any) => {
           <ImageContainer>
             <CornerFlag>on Auction</CornerFlag>
             <img
-              src={image}
+              src={data?.image}
               alt=""
             />
           </ImageContainer>
