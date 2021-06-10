@@ -188,7 +188,7 @@ const NFTItemCardContainer = styled.div`
   }
 
   .price {
-    font-size: 1.4re,;
+    font-size: 1.4rem;
     font-weight: 550;
     color: #7C6DEB;
     line-height: 2rem;

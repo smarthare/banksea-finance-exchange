@@ -568,11 +568,11 @@ const HomePage: React.FC = () => {
             <img src={DrawPen2} alt="draw-pen2" style={{ width: '2.3rem', height: '5.5rem', marginLeft: '3.0rem' }} />
             <Column>
               <SubTitle>NFT Number</SubTitle>
-              <InfoValue>0</InfoValue>
+              <InfoValue>- - -</InfoValue>
             </Column>
             <Column>
               <SubTitle>Total Values</SubTitle>
-              <InfoValue>$0</InfoValue>
+              <InfoValue>$- - -</InfoValue>
             </Column>
             <SubmitButton onClick={() => history.push('/nft/create')}>CREATE</SubmitButton>
           </InfoDetail>
@@ -591,15 +591,15 @@ const HomePage: React.FC = () => {
             <img src={Bamboo2} alt="bamboo" style={{ width: '1.4rem', height: '4.9rem', marginLeft: '3.0rem' }} />
             <Column2>
               <SubTitle>Selling</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>0</InfoValue>
+              <InfoValue style={{ lineHeight: '3rem' }}>- - -</InfoValue>
             </Column2>
             <Column2>
               <SubTitle>NFT Values</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>0</InfoValue>
+              <InfoValue style={{ lineHeight: '3rem' }}>- - -</InfoValue>
             </Column2>
             <Column2>
               <SubTitle>NFT Number</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>0</InfoValue>
+              <InfoValue style={{ lineHeight: '3rem' }}>- - -</InfoValue>
             </Column2>
             <SubmitButton onClick={showBuyingModal}>BUY</SubmitButton>
           </InfoDetail>
@@ -621,17 +621,17 @@ const HomePage: React.FC = () => {
             <img src={Pen2} alt="pen" style={{ width: '2.4rem', height: '3.0rem', marginLeft: '2.1rem' }} />
             <div className="info">
               <div className="info-name">NFT Number</div>
-              <div className="info-value">0</div>
+              <div className="info-value">- - -</div>
             </div>
             <div className="info">
               <div className="info-name">Selling</div>
-              <div className="info-value">0</div>
+              <div className="info-value">- - -</div>
             </div>
             <div className="info">
               <div className="info-name">NFT Values</div>
-              <div className="info-value">$0</div>
+              <div className="info-value">$- - -</div>
             </div>
-            <SubmitButtonSmall>AUCTION</SubmitButtonSmall>
+            <SubmitButtonSmall onClick={() => history.push('/pleaseWaiting')}>AUCTION</SubmitButtonSmall>
           </InfoDetail>
 
           <PositionedImage
@@ -649,17 +649,17 @@ const HomePage: React.FC = () => {
             <img src={Pen4} alt="pen" style={{ width: '1.0rem', height: '3.9rem', marginLeft: '1.5rem' }} />
             <div className="info" style={{ marginTop: '0.2rem' }}>
               <div className="info-name">NFT Number</div>
-              <div className="info-value">0</div>
+              <div className="info-value">- - -</div>
             </div>
             <div className="info">
               <div className="info-name">Selling</div>
-              <div className="info-value">0</div>
+              <div className="info-value">- - -</div>
             </div>
             <div className="info">
               <div className="info-name">NFT Values</div>
-              <div className="info-value">$0</div>
+              <div className="info-value">$- - -</div>
             </div>
-            <SubmitButtonSmall>LEND</SubmitButtonSmall>
+            <SubmitButtonSmall onClick={() => history.push('/pleaseWaiting')}>LEND</SubmitButtonSmall>
           </InfoDetail>
 
           <PositionedImage
@@ -677,17 +677,17 @@ const HomePage: React.FC = () => {
             <img src={Pen6} alt="pen" style={{ width: '3.1rem', height: '3.5rem', marginLeft: '2.1rem' }} />
             <div className="info" style={{ marginTop: '0.5rem' }}>
               <div className="info-name">NFT Number</div>
-              <div className="info-value">0</div>
+              <div className="info-value">- - -</div>
             </div>
             <div className="info">
               <div className="info-name">Selling</div>
-              <div className="info-value">0</div>
+              <div className="info-value">- - -</div>
             </div>
             <div className="info">
               <div className="info-name">NFT Values</div>
-              <div className="info-value">$0</div>
+              <div className="info-value">$- - -</div>
             </div>
-            <SubmitButtonSmall>SPLITTING</SubmitButtonSmall>
+            <SubmitButtonSmall onClick={() => history.push('/pleaseWaiting')}>SPLITTING</SubmitButtonSmall>
           </InfoDetail>
 
           <PositionedImage
@@ -707,13 +707,13 @@ const HomePage: React.FC = () => {
             <img src={Pencil2} alt="pencil" style={{ width: '1.9rem', height: '4.7rem', marginLeft: '3.0rem' }} />
             <Column>
               <SubTitle>NFT Number</SubTitle>
-              <InfoValue>0</InfoValue>
+              <InfoValue>- - -</InfoValue>
             </Column>
             <Column>
               <SubTitle>Total Values</SubTitle>
-              <InfoValue>$0</InfoValue>
+              <InfoValue>$- - -</InfoValue>
             </Column>
-            <SubmitButton>MORTGAGE</SubmitButton>
+            <SubmitButton onClick={() => history.push('/pleaseWaiting')}>MORTGAGE</SubmitButton>
           </InfoDetail>
 
           <PositionedImage
@@ -731,13 +731,13 @@ const HomePage: React.FC = () => {
             <img src={MarkPen2} alt="mark pen" style={{ width: '3.3rem', height: '4.0rem', marginLeft: '3.0rem' }} />
             <Column>
               <SubTitle>NFT Number</SubTitle>
-              <InfoValue>0</InfoValue>
+              <InfoValue>- - -</InfoValue>
             </Column>
             <Column>
               <SubTitle>Total Values</SubTitle>
-              <InfoValue>$0</InfoValue>
+              <InfoValue>$- - -</InfoValue>
             </Column>
-            <SubmitButton>LIQUIDITY</SubmitButton>
+            <SubmitButton onClick={() => history.push('/pleaseWaiting')}>LIQUIDITY</SubmitButton>
           </InfoDetail>
 
           <PositionedImage
@@ -771,16 +771,16 @@ const HomePage: React.FC = () => {
             </div>
           </div>
           <div className="nft-value">
-            <div className="nft-price">0</div>
-            <div className="nft-price-dollar">($0)</div>
+            <div className="nft-price">- - -</div>
+            <div className="nft-price-dollar">($- - -)</div>
           </div>
         </div>
         <Divider />
         <div className="total-price">
           <div className="total">Total</div>
           <div className="nft-value">
-            <div className="nft-price">0</div>
-            <div className="nft-price-dollar">($0)</div>
+            <div className="nft-price">- - -</div>
+            <div className="nft-price-dollar">($- - -)</div>
           </div>
         </div>
         <Divider />

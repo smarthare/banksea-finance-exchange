@@ -15,6 +15,7 @@ import { banksyNftList } from '../../utils/banksyNft'
 const PageContainer = styled.div`
   padding-top: 5.6rem;
   width: 100%;
+  min-height: 100vh;
   height: fit-content;
   background: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default}) no-repeat;
   background-size: 80%;

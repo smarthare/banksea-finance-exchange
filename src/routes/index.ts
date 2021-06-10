@@ -8,6 +8,7 @@ import { ReactComponent as OracleIcon } from '../assets/images/menu-icons/oracle
 import CollectibleDetailPage from '../pages/Collectibles/CollectibleDetail'
 import NFTCreatePage from '../pages/Home/NFTCreate'
 import PersonalHomepage from '../pages/PersonalHomepage/index'
+import PleaseWaiting from '../pages/Home/PleaseWaiting'
 
 export type Route = {
   path: string
@@ -72,6 +73,13 @@ const routes: Route[] = [
     component: PersonalHomepage,
     hidden: true
   },
+  {
+    path: '/pleaseWaiting',
+    title: 'PleaseWaiting',
+    icon: FarmsIcon,
+    component: PleaseWaiting,
+    hidden: true
+  }
 ]
 
 export default routes
