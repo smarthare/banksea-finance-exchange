@@ -5,7 +5,7 @@ import { Button, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
-import { banksyNftDetail } from '../../utils/banksyNft'
+import { banksyNftDetail, personalNftDetail } from '../../utils/banksyNft'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import copy from 'copy-to-clipboard'
@@ -19,6 +19,7 @@ import more4 from '@/assets/images/detailMoreImg/more4.png'
 
 const Row = styled.div`
   display: flex;
+  justify-content: center;
 `
 
 const BundleDetailContainer = styled.div`
@@ -28,7 +29,7 @@ const BundleDetailContainer = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   padding: 5rem 10rem;
-  background-image: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default});
+  background: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default}) no-repeat;
   background-size: 100%;
 
 `
@@ -397,12 +398,20 @@ const CollectibleDetailPage: React.FC = (props: any) => {
 
   moment.locale('en')
   const [data, setData] = useState<any>()
+  const [detailType, setDetailType] = useState<any>()
   const init = useCallback(async () => {
-    console.log(props.location.state.tokenId)
+    console.log(props)
     const tokenPull = props.location.state.tokenPull
-    banksyNftDetail(tokenPull).then(res=> {
-      setData(res.data.data)
-    }).catch(err=>err)
+    setDetailType(props.location.state.type)
+    if(detailType === 'own'){
+      personalNftDetail(tokenPull).then(res=> {
+        setData(res.data.data)
+      }).catch(err=>err)
+    }else {
+      banksyNftDetail(tokenPull).then(res=> {
+        setData(res.data.data)
+      }).catch(err=>err)
+    }
   },[])
 
   useEffect(() => {
@@ -525,7 +534,11 @@ const CollectibleDetailPage: React.FC = (props: any) => {
             <div className="items">
               <div className="item-border">
                 <div className="item-name">NFT Contract ID：</div>
-                <div className="item-value">{data?.addressContract.substring(0, 4)}...{data?.addressContract.slice(-4)}</div>
+                {
+                  detailType === 'own'?
+                    <div className="item-value">-------------</div>:
+                    <div className="item-value">{data?.addressContract.substring(0, 4)}...{data?.addressContract.slice(-4)}</div>
+                }
                 <div className="item-name" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：</div>
                 <div
                   className="item-value"

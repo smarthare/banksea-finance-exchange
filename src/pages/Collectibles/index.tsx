@@ -285,9 +285,10 @@ const Filter: React.FC = () => {
 const TypeSelector: React.FC = () => {
   return (
     <MySelect defaultValue="1">
-      <Select.Option value="1">All</Select.Option>
-      <Select.Option value="2">Picture</Select.Option>
-      <Select.Option value="3">Lucy</Select.Option>
+      <Select.Option value="1">On Sale</Select.Option>
+      <Select.Option value="2">On Auction</Select.Option>
+      <Select.Option value="3">On Splitting</Select.Option>
+      <Select.Option value="3">On Staking</Select.Option>
     </MySelect>
   )
 }
@@ -370,7 +371,8 @@ const NFTItemCard: React.FC<any> = ({ data }) => {
     { tokenPull:{
       tokenId: `${data.tokenId}`,
       addressContract: `${data.addressContract}`
-    } }
+    },
+    type: 'nftList' }
   )
 
   useEffect(() => {
@@ -477,13 +479,9 @@ const CollectiblesPage: React.FC = () => {
   return (
     <PageContainer>
       <Title>NFT Marketplace</Title>
-      <Description>A market made for NFT, where everything is special.</Description>
       <Filter />
       <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
-        <div style={{ display: 'flex' }}>
-          <MyArtworksButton>My Artworks</MyArtworksButton>
-          <MintArtworksButton>Mint Artworks</MintArtworksButton>
-        </div>
+        <div style={{ display: 'flex' }} />
         <div style={{ display: 'flex' }}>
           <SearchInput onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}

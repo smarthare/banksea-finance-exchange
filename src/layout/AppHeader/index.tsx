@@ -4,6 +4,8 @@ import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.png'
 import { Button } from 'antd'
 import Wallet from '../../components/Wallet'
 import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../../store/wallet'
 
 const AppHeaderContainer = styled.div`
   background-color: white;
@@ -48,8 +50,26 @@ const Avatar = styled.div`
   margin-left: 3.3rem;
 `
 
+const headerAvatar = [
+  'linear-gradient(to bottom, #5352ed, #3742fa)',
+  'linear-gradient(to bottom, #eccc68, #ffa502)',
+  'linear-gradient(to bottom, #f8a5c2, #f78fb3)',
+  'linear-gradient(to bottom, #786fa6, #574b90)',
+  'linear-gradient(to bottom, #cf6a87, #c44569)',
+  'linear-gradient(to bottom, #596275, #303952)',
+  'linear-gradient(to bottom, #ff7675, #d63031)',
+  'linear-gradient(to bottom, #a29bfe, #6c5ce7)',
+  'linear-gradient(to bottom, #81ecec, #00cec9)',
+  'linear-gradient(to bottom, #55efc4, #00b894)'
+]
+const random = parseInt(String(10 * Math.random()))
+
+const backgroundColor = headerAvatar[random]
+
 const AppHeader = () => {
   const history = useHistory()
+  const account = useSelector(getAccount)
+
   return (
     <AppHeaderContainer>
       <img src={BanksyLogo} alt="banksy" style={{ width: '12.6rem' }} />
@@ -57,7 +77,7 @@ const AppHeader = () => {
         <ConnectButton>
           <Wallet />
         </ConnectButton>
-        <Avatar onClick={() => history.push('/personal/home')} />
+        <Avatar onClick={() => history.push('/personal/home')} style={{ background: `${backgroundColor}` }} />
       </Row>
     </AppHeaderContainer>
   )

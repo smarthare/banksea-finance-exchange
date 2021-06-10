@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Input, Select, Spin } from 'antd'
+import { Button, Input, Select, Spin, Pagination } from 'antd'
 import CopyIcon from '@/assets/images/PersonalPageImg/copy.png'
 import { ReactComponent as WalletIcon } from '../../assets/images/PersonalPageImg/wallet.svg'
 import { ReactComponent as ActivityIcon } from '../../assets/images/PersonalPageImg/activity.svg'
@@ -9,11 +9,19 @@ import { ReactComponent as HeartIcon } from '../../assets/images/PersonalPageImg
 import { ReactComponent as ColoredHeartIcon } from '../../assets/images/PersonalPageImg/colored-heart.svg'
 
 import { SearchOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../../store/wallet'
+import { personalNftList } from '../../utils/banksyNft'
+import { useHistory } from 'react-router-dom'
 
 
 const PersonalContainer = styled.div`
   font-family: 'PingFang SC';
-  padding: 0 20.5rem
+  padding: 0 20.5rem;
+  min-height: calc(100vh - 6.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
 `
 const Avatar = styled.div`
@@ -202,6 +210,52 @@ const NFTListContainer = styled.div`
   flex-wrap: wrap;
 `
 
+const CustomPagination = styled(Pagination)`
+  margin-bottom: 5rem;
+  margin-top: 3rem;
+
+  .ant-pagination-prev .ant-pagination-item-link {
+    border: none !important;
+    background-color: rgba(124, 109, 235, 0.2) !important;
+    color: #7C6DEB;
+  }
+
+  .ant-pagination-item-active {
+    border: 1px solid rgba(124, 109, 235, 0.2) !important;
+  }
+
+  .ant-pagination-item-active a {
+    color: #7C6DEB !important;
+  }
+
+  .ant-pagination-item {
+    border: 1px solid rgba(124, 109, 235, 0.2) !important;
+  }
+
+  .ant-pagination-item a {
+    //color: rgba(124,109,235,0.2) !important;
+  }
+
+  .ant-pagination-next .ant-pagination-item-link {
+    border: none !important;
+    background-color: rgba(124, 109, 235, 0.2) !important;
+    color: #7C6DEB;
+  }
+
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border: none;
+    background-color: rgba(124, 109, 235, 0.2);
+  }
+
+  .ant-select {
+    color: #7C6DEB;
+  }
+
+  .ant-select-arrow {
+    color: #7C6DEB;
+  }
+`
+
 const TypeSelector: React.FC = () => {
   return (
     <MySelect defaultValue="1">
@@ -228,7 +282,9 @@ const OrderSelector: React.FC = () => {
   )
 }
 
-const NFTItemCard: React.FC = () => {
+const NFTItemCard: React.FC<any> = ({ data }) => {
+  const history = useHistory()
+  console.log(data.image)
 
   const CornerFlag: React.FC = () => {
     return (
@@ -273,14 +329,23 @@ const NFTItemCard: React.FC = () => {
       </Button>
     )
   }
+
+  const routeToDetailPage = () => history.push(
+    `/collectible/${data.name}`,
+    { tokenPull: {
+      uri: `${data.valueUri}`,
+    },
+    type: 'own' }
+  )
+
   return (
     <div style={{ position: 'relative' }}>
       <CornerFlag />
       <ApproveVoteButton />
       <NFTItemCardContainer>
-        <div style={{ cursor: 'pointer' }}>
-          <div className="nft-img" />
-          <div className="ntf-name">Chinese zodiac wait to the moon——Kaitong</div>
+        <div style={{ cursor: 'pointer' }} onClick={routeToDetailPage}>
+          <img className="nft-img" src={data?.image} />
+          <div className="ntf-name">{data?.name}</div>
         </div>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
@@ -296,24 +361,57 @@ const NFTItemCard: React.FC = () => {
   )
 }
 
-const UserNFTList: React.FC = () => {
+const UserNFTList: React.FC<any> = ({ list }) => {
   return (
     <NFTListContainer>
-      <NFTItemCard />
+      {list?.map((nft: any, index: number) => (
+        <NFTItemCard data={nft} key={index} />
+      ))}
     </NFTListContainer>
   )
 }
 
 
 const PersonalHomepage : React.FC = () => {
-  const userId = 'e34fs545fwefwet466e3'
+  const account = useSelector(getAccount)
+  const [current, setCurrent] = useState<number>(1)
+  const [total, setTotal] = useState<number>()
+  const [data, setData] = useState<any>()
+
+  const form = {
+    addressCreate: account,
+    current: current,
+    size: 20,
+  }
+
+  const init = useCallback(async () => {
+    personalNftList(form).then((res: any) => {
+      const _data = res.data.data.records.map((item: any) => ({
+        ...item,
+        image: `https://banksy.mypinata.cloud${item?.image.slice(25)}`
+      }))
+      console.log(_data)
+      setData(_data)
+      setTotal(res.data.data.total)
+    })
+  },[current])
+
+  useEffect(() => {
+    init()
+  },[init])
+
+  const onChangePage = (pageNumber: number) => {
+    setCurrent(pageNumber)
+    init()
+  }
+
   return (
     <PersonalContainer >
       <UserInfo>
         <Avatar />
         <div className="user-name">Hug me</div>
         <div className="user-id">
-          {userId.substring(0, 6)}...{userId.slice(-4)}
+          {account?.substring(0, 6)}...{account?.slice(-4)}
           <img src={CopyIcon} alt="" style={{ width:'1.5rem', height:'1.5rem',marginLeft:'0.8rem' }} />
         </div>
         <div className="user-sign-border">
@@ -342,7 +440,13 @@ const PersonalHomepage : React.FC = () => {
         <TypeSelector />
         <OrderSelector />
       </div>
-      <UserNFTList />
+      <UserNFTList list={data} />
+      <CustomPagination defaultCurrent={current}
+        total={total}
+        onChange={onChangePage}
+        pageSize={20}
+        pageSizeOptions={['20']}
+      />
     </PersonalContainer>
   )
 }

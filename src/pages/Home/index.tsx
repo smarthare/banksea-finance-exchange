@@ -548,6 +548,7 @@ const HomePage: React.FC = () => {
     setAuthorizingModalVisible(false)
   }
 
+
   return (
     <HomePageContainer>
       <HeadLine>
@@ -601,7 +602,7 @@ const HomePage: React.FC = () => {
               <SubTitle>NFT Number</SubTitle>
               <InfoValue style={{ lineHeight: '3rem' }}>- - -</InfoValue>
             </Column2>
-            <SubmitButton onClick={showBuyingModal}>BUY</SubmitButton>
+            <SubmitButton onClick={() => history.push('/collectibles')}>BUY</SubmitButton>
           </InfoDetail>
 
           <PositionedImage

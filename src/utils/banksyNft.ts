@@ -27,8 +27,35 @@ function banksyNftDetail(data: any) {
   return banksyRequest.post<any>(url, data, config)
 }
 
+function personalNftList(data: any) {
+  const url = '/nft/web/v1/zone/nft/list'
+
+  const config = {
+    headers: {
+      // 'Content-Type': `multipart/form-data; boundary= ${boundary}`,
+      'Content-Type': 'application/json',
+    }
+  }
+
+  return banksyRequest.post<any>(url, data, config)
+}
+
+function personalNftDetail(data: any) {
+  const url = '/nft/web/v1/zone/nft/detail'
+
+  const config = {
+    headers: {
+      // 'Content-Type': `multipart/form-data; boundary= ${boundary}`,
+      'Content-Type': 'application/json',
+    }
+  }
+
+  return banksyRequest.post<any>(url, data, config)
+}
+
+
 function createNFT(data: {uri: string, addressCreate: string, tokenId: string}) {
   axios.post('http://43.129.189.139:25566/nft/web/v1/create/uri', data)
 }
 
-export { banksyNftList, banksyNftDetail, createNFT }
+export { banksyNftList, banksyNftDetail, createNFT, personalNftList, personalNftDetail }
