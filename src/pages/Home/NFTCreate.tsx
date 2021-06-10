@@ -12,7 +12,7 @@ import { getAccount } from '../../store/wallet'
 import { useWalletErrorMessageGetter } from '../../hooks'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
-import { createNFT } from '../../utils/banksyNft'
+import { createNFT } from '../../utils/banksyNftList'
 import { web3Utils } from '../../web3/utils'
 import { NFTMetadata } from '../../types/NFTMetadata'
 
@@ -428,6 +428,23 @@ const NFTCreate: React.FC = () => {
 
             const tokenUri = `https://gateway.pinata.cloud/ipfs/${IpfsHash}`
 
+            createNFT({
+              uri: IpfsHash,
+              addressCreate: account!,
+              tokenId: ''
+            })
+
+            banksyJsConnector.banksyJs.Banksy.contract!.on('URI', (...args) => {
+              const [tokenId, tokenUriFromEvent] = args
+              if (tokenUri === tokenUriFromEvent) {
+                createNFT({
+                  uri: IpfsHash,
+                  addressCreate: account!,
+                  tokenId: web3Utils.hexToNumber(tokenId._hex).toString()
+                })
+              }
+            })
+
             banksyJsConnector.banksyJs.Banksy.awardItem(account!, tokenUri)
               .then(() => {
                 setHintMessage({
@@ -435,16 +452,6 @@ const NFTCreate: React.FC = () => {
                   type: 'hint'
                 })
 
-                banksyJsConnector.banksyJs.Banksy.contract!.on('URI', (...args) => {
-                  const [tokenId, tokenUriFromEvent] = args
-                  if (tokenUri === tokenUriFromEvent) {
-                    createNFT({
-                      uri: IpfsHash,
-                      addressCreate: account!,
-                      tokenId: web3Utils.hexToNumber(tokenId._hex).toString()
-                    })
-                  }
-                })
               })
               .catch(e => {
                 setHintMessage({

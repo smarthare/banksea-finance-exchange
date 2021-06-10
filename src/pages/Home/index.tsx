@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import TitlePen from '@/assets/images/homePageImg/title-pen1.png'
 import TitlePencil from '@/assets/images/homePageImg/title-pen2.png'
@@ -19,6 +19,7 @@ import Pen6 from '@/assets/images/homePageImg/pen6.png'
 import StepOne from '@/assets/images/allModalImg/number1.png'
 import DepositIcon from '@/assets/images/allModalImg/deposit-icon.png'
 import Authorizing from '@/assets/images/allModalImg/authorizing.png'
+import { NftHomeCreateData } from '../../utils/banksyNftList'
 
 import { Button, Divider, Modal } from 'antd'
 import { useHistory } from 'react-router-dom'
@@ -547,6 +548,16 @@ const HomePage: React.FC = () => {
     setDepositModalVisible(false)
     setAuthorizingModalVisible(false)
   }
+  const [data, setData] = useState<any>()
+  const init = useCallback(async() => {
+    NftHomeCreateData().then(res => {
+      setData(res.data.data)
+    }).catch(err => err)
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
 
 
   return (
@@ -569,11 +580,11 @@ const HomePage: React.FC = () => {
             <img src={DrawPen2} alt="draw-pen2" style={{ width: '2.3rem', height: '5.5rem', marginLeft: '3.0rem' }} />
             <Column>
               <SubTitle>NFT Number</SubTitle>
-              <InfoValue>- - -</InfoValue>
+              <InfoValue>{data?.createNftNumber}</InfoValue>
             </Column>
             <Column>
               <SubTitle>Total Values</SubTitle>
-              <InfoValue>$- - -</InfoValue>
+              <InfoValue>${data?.createTotalValues}</InfoValue>
             </Column>
             <SubmitButton onClick={() => history.push('/nft/create')}>CREATE</SubmitButton>
           </InfoDetail>
@@ -592,15 +603,15 @@ const HomePage: React.FC = () => {
             <img src={Bamboo2} alt="bamboo" style={{ width: '1.4rem', height: '4.9rem', marginLeft: '3.0rem' }} />
             <Column2>
               <SubTitle>Selling</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>- - -</InfoValue>
+              <InfoValue style={{ lineHeight: '3rem' }}>{data?.buySelling}</InfoValue>
             </Column2>
             <Column2>
               <SubTitle>NFT Values</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>- - -</InfoValue>
+              <InfoValue style={{ lineHeight: '3rem' }}>${data?.buyNftValues}</InfoValue>
             </Column2>
             <Column2>
               <SubTitle>NFT Number</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>- - -</InfoValue>
+              <InfoValue style={{ lineHeight: '3rem' }}>{data?.buyNftNumber}</InfoValue>
             </Column2>
             <SubmitButton onClick={() => history.push('/collectibles')}>BUY</SubmitButton>
           </InfoDetail>

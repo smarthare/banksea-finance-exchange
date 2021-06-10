@@ -6,6 +6,16 @@ import Wallet from '../../components/Wallet'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
+import avatar1 from '../../assets/images/headAvatar/avatar1.png'
+import avatar2 from '../../assets/images/headAvatar/avatar2.png'
+import avatar3 from '../../assets/images/headAvatar/avatar3.png'
+import avatar4 from '../../assets/images/headAvatar/avatar4.png'
+import avatar5 from '../../assets/images/headAvatar/avatar5.png'
+import avatar6 from '../../assets/images/headAvatar/avatar6.png'
+import avatar7 from '../../assets/images/headAvatar/avatar7.png'
+import avatar8 from '../../assets/images/headAvatar/avatar8.png'
+import avatar9 from '../../assets/images/headAvatar/avatar9.png'
+import avatar10 from '../../assets/images/headAvatar/avatar10.png'
 
 const AppHeaderContainer = styled.div`
   background-color: white;
@@ -42,33 +52,47 @@ const Row = styled.div`
   display: flex;
 `
 
-const Avatar = styled.div`
+const Avatar = styled.img`
   width: 3.5rem;
   height: 3.5rem;
-  background: #d8d8d8;
   border-radius: 100%;
   margin-left: 3.3rem;
 `
 
-const headerAvatar = [
-  'linear-gradient(to bottom, #5352ed, #3742fa)',
-  'linear-gradient(to bottom, #eccc68, #ffa502)',
-  'linear-gradient(to bottom, #f8a5c2, #f78fb3)',
-  'linear-gradient(to bottom, #786fa6, #574b90)',
-  'linear-gradient(to bottom, #cf6a87, #c44569)',
-  'linear-gradient(to bottom, #596275, #303952)',
-  'linear-gradient(to bottom, #ff7675, #d63031)',
-  'linear-gradient(to bottom, #a29bfe, #6c5ce7)',
-  'linear-gradient(to bottom, #81ecec, #00cec9)',
-  'linear-gradient(to bottom, #55efc4, #00b894)'
-]
-const random = parseInt(String(10 * Math.random()))
+const AvatarNone = styled.img`
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 100%;
+  margin-left: 3.3rem;
+  background: #c8d6e5;
+`
 
-const backgroundColor = headerAvatar[random]
+
 
 const AppHeader = () => {
   const history = useHistory()
   const account = useSelector(getAccount)
+  const headerAvatar = [
+    avatar1,
+    avatar2,
+    avatar3,
+    avatar4,
+    avatar5,
+    avatar6,
+    avatar7,
+    avatar8,
+    avatar9,
+    avatar10
+  ]
+  const random = parseInt(String(10 * Math.random()))
+
+  const headerImg = headerAvatar[random]
+
+  const toPersonalPage = () => {
+    history.push('/personal/home',
+      { headerImg: headerImg }
+    )
+  }
 
   return (
     <AppHeaderContainer>
@@ -77,7 +101,9 @@ const AppHeader = () => {
         <ConnectButton>
           <Wallet />
         </ConnectButton>
-        <Avatar onClick={() => history.push('/personal/home')} style={{ background: `${backgroundColor}` }} />
+        {account?
+          <Avatar onClick={toPersonalPage} src={`${headerImg}`} />:
+          <AvatarNone />}
       </Row>
     </AppHeaderContainer>
   )

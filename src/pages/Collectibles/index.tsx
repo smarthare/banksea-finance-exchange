@@ -10,7 +10,7 @@ import lottie from 'lottie-web'
 
 import '../../styles/override-antd-select-dropdown.scss'
 import { useHistory } from 'react-router-dom'
-import { banksyNftList } from '../../utils/banksyNft'
+import { banksyNftList } from '../../utils/banksyNftList'
 
 const PageContainer = styled.div`
   padding-top: 5.6rem;
@@ -369,7 +369,7 @@ const NFTItemCard: React.FC<any> = ({ data }) => {
   const routeToDetailPage = () => history.push(
     `/collectible/${data.name}`,
     { tokenPull:{
-      tokenId: `${data.tokenId}`,
+      uri: `${data.valueUri}`,
       addressContract: `${data.addressContract}`
     },
     type: 'nftList' }
@@ -441,7 +441,7 @@ const CollectiblesPage: React.FC = () => {
     banksyNftList(form).then(res => {
       const _data = res.data.data.records.map((item: any) => ({
         ...item,
-        image: `https://banksy.mypinata.cloud${item?.image.slice(25)}`
+        image: `https://banksy.mypinata.cloud${item?.image.slice(-52)}`
       }))
       console.log(_data)
       setData(_data)

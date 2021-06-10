@@ -11,11 +11,12 @@ import { ReactComponent as ColoredHeartIcon } from '../../assets/images/Personal
 import { SearchOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
-import { personalNftList } from '../../utils/banksyNft'
+import { personalNftList } from '../../utils/banksyNftList'
 import { useHistory } from 'react-router-dom'
 
 
 const PersonalContainer = styled.div`
+  width: 100%;
   font-family: 'PingFang SC';
   padding: 0 20.5rem;
   min-height: calc(100vh - 6.5rem);
@@ -24,10 +25,9 @@ const PersonalContainer = styled.div`
   align-items: center;
 
 `
-const Avatar = styled.div`
+const Avatar = styled.img`
   width: 9.6rem;
   height: 9.6rem;
-  background: #d8d8d8;
   border-radius: 100%;
   margin-top: 3.9rem;
 `
@@ -136,21 +136,21 @@ const MySelect = styled(Select)`
   }
 `
 const NFTItemCardContainer = styled.div`
-  width: 19.2rem;
-  height: 37rem;
+  width: 26.2rem;
+  height: 40rem;
   background-color: white;
   border-radius: 10px;
   padding: 1rem;
   margin-bottom: 2.5rem;
-  margin-right: 2rem;
+  margin-right: 2.5rem;
   font-weight: bold;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   img, .spin {
-    width: 17.2rem;
-    height: 20.5rem;
+    width: 24.2rem;
+    height: 28.5rem;
     margin-bottom: 1.5rem;
     border-radius: 10px;
   }
@@ -161,10 +161,10 @@ const NFTItemCardContainer = styled.div`
   }
 
   .nft-img {
-    width: 17.2rem;
-    height: 20.5rem;
-    background: #F5F5F5;
-    border-radius: 1rem;
+    width: 24.2rem;
+    height: 28.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
   }
   .ntf-name {
     width: 17.2rem;
@@ -204,7 +204,7 @@ const NFTItemCardContainer = styled.div`
 `
 
 const NFTListContainer = styled.div`
-  width: 90.8rem;
+  width: 120.2rem;
   padding-left: 4rem;
   display: flex;
   flex-wrap: wrap;
@@ -284,7 +284,6 @@ const OrderSelector: React.FC = () => {
 
 const NFTItemCard: React.FC<any> = ({ data }) => {
   const history = useHistory()
-  console.log(data.image)
 
   const CornerFlag: React.FC = () => {
     return (
@@ -354,7 +353,6 @@ const NFTItemCard: React.FC<any> = ({ data }) => {
             </div>
             <div className="price">5 BAKE</div>
           </div>
-          <Button className="button">Connect Wallet</Button>
         </div>
       </NFTItemCardContainer>
     </div>
@@ -379,7 +377,7 @@ const PersonalHomepage : React.FC = () => {
   const [data, setData] = useState<any>()
 
   const form = {
-    addressCreate: account,
+    addressOwner: account,
     current: current,
     size: 20,
   }
@@ -387,10 +385,8 @@ const PersonalHomepage : React.FC = () => {
   const init = useCallback(async () => {
     personalNftList(form).then((res: any) => {
       const _data = res.data.data.records.map((item: any) => ({
-        ...item,
-        image: `https://banksy.mypinata.cloud${item?.image.slice(25)}`
+        ...item
       }))
-      console.log(_data)
       setData(_data)
       setTotal(res.data.data.total)
     })
@@ -433,7 +429,7 @@ const PersonalHomepage : React.FC = () => {
           <div className="option-name">Favorite</div>
         </OptionBtn>
       </UserOptions>
-      <div style={{ display: 'flex', justifyContent:'flex-end', marginTop:'3.5rem' }}>
+      <div style={{ display: 'flex', justifyContent:'flex-end', marginTop:'3.5rem', marginBottom: '3.5rem' }}>
         <SearchInput
           prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
         />

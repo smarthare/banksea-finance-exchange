@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const banksyRequest = axios.create({
-  baseURL: 'http://192.168.1.9:25566',
+  baseURL: 'http://43.129.189.139:25566',
   timeout: 10000
 })
 

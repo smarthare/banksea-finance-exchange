@@ -5,7 +5,7 @@ import { Button, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
-import { banksyNftDetail, personalNftDetail } from '../../utils/banksyNft'
+import { banksyNftDetail, personalNftDetail } from '../../utils/banksyNftList'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import copy from 'copy-to-clipboard'
@@ -400,7 +400,6 @@ const CollectibleDetailPage: React.FC = (props: any) => {
   const [data, setData] = useState<any>()
   const [detailType, setDetailType] = useState<any>()
   const init = useCallback(async () => {
-    console.log(props)
     const tokenPull = props.location.state.tokenPull
     setDetailType(props.location.state.type)
     if(detailType === 'own'){
