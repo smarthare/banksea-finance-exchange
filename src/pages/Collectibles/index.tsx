@@ -16,13 +16,12 @@ const PageContainer = styled.div`
   padding-top: 5.6rem;
   width: 100%;
   height: fit-content;
-  background-image: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default});
-  background-size: 100%;
+  background: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default}) no-repeat;
+  background-size: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: #7c6deb;
-  font-family: 'PingFang SC'
 `
 
 const Title = styled.div`
@@ -39,7 +38,7 @@ const FilterContainer = styled.div`
   margin-bottom: 3rem;
   padding: 2rem 3rem 0.4rem 3rem;
   width: 120.2rem;
-  background: #ffffff;
+  background: rgba(255,255,255,0.7);
   border-radius: 10px;
 
   .filter-item {
@@ -438,7 +437,8 @@ const CollectiblesPage: React.FC = () => {
   const init = useCallback(async () => {
     banksyNftList(form).then(res => {
       const _data = res.data.data.records.map((item: any) => ({
-        ...item
+        ...item,
+        image: `https://banksy.mypinata.cloud${item?.image.slice(25)}`
       }))
       console.log(_data)
       setData(_data)
