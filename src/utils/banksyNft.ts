@@ -1,4 +1,5 @@
 import banksyRequest from './banksyRequest'
+import axios from 'axios'
 
 function banksyNftList(data: any) {
   const url = '/nft/web/v1/query/list'
@@ -26,4 +27,8 @@ function banksyNftDetail(data: any) {
   return banksyRequest.post<any>(url, data, config)
 }
 
-export { banksyNftList, banksyNftDetail }
+function createNFT(data: {uri: string, addressCreate: string, tokenId: string}) {
+  axios.post('http://43.129.189.139:25566/nft/web/v1/create/uri', data)
+}
+
+export { banksyNftList, banksyNftDetail, createNFT }

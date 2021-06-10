@@ -6,13 +6,15 @@ import { pinFileToIPFS, pinJsonToIPFS } from '../../utils/pinata'
 import { UploadProps } from 'antd/lib/upload/interface'
 import { RcFile } from 'antd/es/upload'
 import { LoadingOutlined } from '@ant-design/icons'
-import { NFTMetadata } from '../../types/NFTMetadata'
 import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { useWalletErrorMessageGetter } from '../../hooks'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
+import { createNFT } from '../../utils/banksyNft'
+import { web3Utils } from '../../web3/utils'
+import { NFTMetadata } from '../../types/NFTMetadata'
 
 const ArtistPageContainer = styled.div`
   padding-top: 5.6rem;
@@ -406,7 +408,7 @@ const NFTCreate: React.FC = () => {
         const nftMetadata: NFTMetadata = {
           name: values.artworkName,
           description: values.briefIntroduction,
-          image: `https://gateway.pinata.cloud/ipfs/${assetIpfsHash}`,
+          image: `https://gateway.pinata.cloud/ipfs/${assetIpfsHash}`
           // attributes
         }
 
@@ -424,17 +426,32 @@ const NFTCreate: React.FC = () => {
 
             const { IpfsHash } = r.data
 
-            banksyJsConnector.banksyJs.Banksy.awardItem(account!, `https://gateway.pinata.cloud/ipfs/${IpfsHash}`).then(() => {
-              setHintMessage({
-                message: 'Your creation request has been submitted!',
-                type: 'hint'
+            const tokenUri = `https://gateway.pinata.cloud/ipfs/${IpfsHash}`
+
+            banksyJsConnector.banksyJs.Banksy.awardItem(account!, tokenUri)
+              .then(() => {
+                setHintMessage({
+                  message: 'Your creation request has been submitted!',
+                  type: 'hint'
+                })
+
+                banksyJsConnector.banksyJs.Banksy.contract!.on('URI', (...args) => {
+                  const [tokenId, tokenUriFromEvent] = args
+                  if (tokenUri === tokenUriFromEvent) {
+                    createNFT({
+                      uri: IpfsHash,
+                      addressCreate: account!,
+                      tokenId: web3Utils.hexToNumber(tokenId._hex).toString()
+                    })
+                  }
+                })
               })
-            }).catch(e => {
-              setHintMessage({
-                message: walletErrorMessageGetter(e),
-                type: 'error'
+              .catch(e => {
+                setHintMessage({
+                  message: walletErrorMessageGetter(e),
+                  type: 'error'
+                })
               })
-            })
           })
           .catch(e => {
             const error = e.response.data.error
@@ -450,12 +467,12 @@ const NFTCreate: React.FC = () => {
           type: 'error'
         })
       })
+
   }
 
   const creating = (() => !!hintMessage.message && hintMessage.type === 'hint')()
 
   useEffect(() => {
-    console.log(providerInitialized, networkReady)
     if (providerInitialized && !networkReady) {
       setHintMessage({ message: 'Please manually switch to the Rinkeby in MetaMask', type: 'error' })
     }
@@ -464,6 +481,14 @@ const NFTCreate: React.FC = () => {
       setHintMessage({ message: '' })
     }
   }, [providerInitialized, networkReady])
+
+  useEffect(() => {
+    return () => {
+      console.log('remove all listener')
+      banksyJsConnector.banksyJs.Banksy.contract?.removeAllListeners()
+      console.log(banksyJsConnector.banksyJs.Banksy.contract?.listeners())
+    }
+  }, [])
 
   return (
     <ArtistPageContainer>
@@ -476,7 +501,7 @@ const NFTCreate: React.FC = () => {
           label="Artwork Type"
           rules={[{ required: true, message: 'Artwork Type is Required!' }]}
         >
-          <Selector onChange={onArtworkTypeChange} defaultValue="pictures">
+          <Selector onChange={onArtworkTypeChange}>
             <Select.Option value="pictures">
               {/*<div className="test" style={{ display: 'flex' }}>*/}
               {/*<img src={PicIcon} alt="pic" style={{ width: '1.8rem', height: '1.8rem', marginRight: '0.5rem' }} />*/}

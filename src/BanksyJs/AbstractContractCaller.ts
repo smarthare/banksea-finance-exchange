@@ -11,5 +11,5 @@ export class AbstractContractCaller {
 
   protected network!: string
 
-  protected contract?: Contract
+  public contract?: Contract
 }
