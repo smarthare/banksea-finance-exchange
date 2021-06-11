@@ -564,18 +564,14 @@ const NFTCreate: React.FC = () => {
         <Announcement>
           <Checkbox
             checked={promised}
-            onChange={e => {
-              setPromised(e.target.checked)
-            }}
+            onChange={e => setPromised(e.target.checked)}
           >
             <div className="text">
               I declare that this is an original artwork. I understand that no plagiarism is allowed, and that the
               artwork can be removed anytime if detected.
             </div>
           </Checkbox>
-          <div className="text2">Mint an NFT charges 0.01BNB, please do not upload any sensitive content.</div>
         </Announcement>
-
 
         {
           !providerInitialized ? (

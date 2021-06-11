@@ -5,7 +5,7 @@ import { Button, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
-import { banksyNftDetail, personalNftDetail } from '../../utils/banksyNftList'
+import { banksyNftDetail } from '../../utils/banksyNftList'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import copy from 'copy-to-clipboard'
@@ -14,8 +14,7 @@ import more1 from '@/assets/images/detailMoreImg/more1.jpg'
 import more2 from '@/assets/images/detailMoreImg/more2.png'
 import more3 from '@/assets/images/detailMoreImg/more3.jpg'
 import more4 from '@/assets/images/detailMoreImg/more4.png'
-
-
+import { useLocationQuery } from '../../utils'
 
 const Row = styled.div`
   display: flex;
@@ -250,37 +249,39 @@ const ItemsContainer = styled.div`
   display: flex;
   justify-content: space-between;
 
-  .items {
+  .item {
     width: 25.9rem;
     height: 8.9rem;
     background: #E0DDF6;
     border-radius: 1rem;
     border: 1px solid #7C6DEB;
 
-    .item-border {
-      padding: 2rem 1.1rem;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+    padding: 2rem 1.1rem;
+    flex-wrap: wrap;
 
-      .item-name {
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: #A196EF;
-        line-height: 1.7rem;
+      .row {
+        display: flex;
+        justify-content: space-between;
 
+        .label {
+          font-size: 1.2rem;
+          font-weight: 500;
+          color: #A196EF;
+          line-height: 1.7rem;
+
+        }
+
+        .value {
+          font-size: 1.2rem;
+          font-weight: 400;
+          color: #7C6DEB;
+          line-height: 17px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
 
-      .item-value {
-        font-size: 1.2rem;
-        font-weight: 400;
-        color: #7C6DEB;
-        line-height: 17px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-    }
   }
 `
 
@@ -338,7 +339,7 @@ const OtherArtworksContainer = styled.div`
         padding: 0 1rem;
         margin-top: 1.5rem;
         margin-bottom: 1.5rem;
-        overflow : hidden;
+        overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 1;
@@ -394,28 +395,25 @@ const ConnectButton = styled(Button)`
 
 `
 
-const CollectibleDetailPage: React.FC = (props: any) => {
-
+const CollectibleDetailPage: React.FC = () => {
   moment.locale('en')
+
   const [data, setData] = useState<any>()
-  const [detailType, setDetailType] = useState<any>()
+
+  const uri = useLocationQuery('uri')
+  const type = useLocationQuery('type')
+  const contractAddress = useLocationQuery('contractAddress')
+
   const init = useCallback(async () => {
-    const tokenPull = props.location.state.tokenPull
-    setDetailType(props.location.state.type)
-    if(detailType === 'own'){
-      personalNftDetail(tokenPull).then(res=> {
+    banksyNftDetail({ uri, contractAddress })
+      .then(res => {
         setData(res.data.data)
-      }).catch(err=>err)
-    }else {
-      banksyNftDetail(tokenPull).then(res=> {
-        setData(res.data.data)
-      }).catch(err=>err)
-    }
-  },[])
+      })
+  }, [type, uri, contractAddress])
 
   useEffect(() => {
     init()
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
   }, [init])
 
   const columns = [
@@ -450,12 +448,12 @@ const CollectibleDetailPage: React.FC = (props: any) => {
     }
   ]
 
-  const historyDataSource = data?.logTransferSingleVos?.map((item: any, index: number) =>({
+  const historyDataSource = data?.logTransferSingleVos?.map((item: any, index: number) => ({
     key: index,
     event: item?.tokenId,
     price: 20,
-    from: `${item?.addressFrom.substring(0,4)}...${item?.addressFrom.slice(-4)}`,
-    to: `${item?.addressTo.substring(0,4)}...${item?.addressTo.slice(-4)}`,
+    from: `${item?.addressFrom.substring(0, 4)}...${item?.addressFrom.slice(-4)}`,
+    to: `${item?.addressTo.substring(0, 4)}...${item?.addressTo.slice(-4)}`,
     date: moment(item.updateTime).fromNow()
   })
   )
@@ -481,7 +479,10 @@ const CollectibleDetailPage: React.FC = (props: any) => {
           <div className="bundle-info">
             <div className="item">
               <div className="info-label">Artist</div>
-              <div className="info-name" onClick={()=>handleCopy(data?.addressCreate)}>{data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}</div>
+              <div className="info-name"
+                onClick={() => handleCopy(data?.addressCreate)}
+              >{data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}
+              </div>
               <CopyOutlined className="copy" style={{ color: '#7C6DEB' }} />
             </div>
             <div className="item">
@@ -530,32 +531,36 @@ const CollectibleDetailPage: React.FC = (props: any) => {
             </div>
           </PriceContainer>
           <ItemsContainer>
-            <div className="items">
-              <div className="item-border">
-                <div className="item-name">NFT Contract ID：</div>
-                {
-                  detailType === 'own'?
-                    <div className="item-value">-------------</div>:
-                    <div className="item-value">{data?.addressContract?.substring(0, 4)}...{data?.addressContract?.slice(-4)}</div>
-                }
-                <div className="item-name" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：</div>
-                <div
-                  className="item-value"
-                  style={{ marginTop: '1.5rem' }}
-                >
+            <div className="item">
+              <div className="row">
+                <div className="label">NFT Contract ID：</div>
+                <div className="value">
+                  {
+                    type === 'own' ?
+                      <div className="item-value">---</div> :
+                      <div className="item-value">
+                        {data?.addressContract?.substring(0, 4)}...{data?.addressContract?.slice(-4)}
+                      </div>
+                  }
+                </div>
+              </div>
+              <div className="row">
+                <div className="label" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：</div>
+                <div className="value" style={{ marginTop: '1.5rem' }}>
                   {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.substring(9, 16)}
                 </div>
               </div>
             </div>
-            <div className="items">
-              <div className="item-border">
-                <div className="item-name">Creator&apos;s Address：</div>
-                <div className="item-value">{data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}</div>
-                <div className="item-name" style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
-                <div
-                  className="item-value"
-                  style={{ marginTop: '1.5rem' }}
-                >
+            <div className="item">
+              <div className="row">
+                <div className="label">Creator&apos;s Address：</div>
+                <div className="value">
+                  {data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}
+                </div>
+              </div>
+              <div className="row">
+                <div className="label" style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
+                <div className="value" style={{ marginTop: '1.5rem' }}>
                   {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.substring(9, 16)}
                 </div>
               </div>
@@ -640,7 +645,7 @@ const CollectibleDetailPage: React.FC = (props: any) => {
             <div className="artwork-group">
               <div className="artwork-info">
                 <div className="artwork-img">
-                  <img src={more2} style={{ height: '205px' }} />
+                  <img src={more2} style={{ height: '205px' }} alt="'" />
                 </div>
                 <VoteIcon>Approve Vote</VoteIcon>
                 <div className="artwork-describe">1 - The Elf</div>

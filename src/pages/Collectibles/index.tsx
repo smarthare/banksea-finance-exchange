@@ -1,16 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Input, Pagination, Select } from 'antd'
-import { HeartOutlined, SearchOutlined } from '@ant-design/icons'
-import { Spin } from 'antd'
-// @ts-ignore
-import LazyLoad from 'react-lazyload'
+import { Input, Pagination, Select } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 
 import lottie from 'lottie-web'
 
 import '../../styles/override-antd-select-dropdown.scss'
-import { useHistory } from 'react-router-dom'
 import { banksyNftList } from '../../utils/banksyNftList'
+import NFTListItem from '../../components/NFTListItem'
+import clsx from 'clsx'
 
 const PageContainer = styled.div`
   padding-top: 5.6rem;
@@ -30,16 +28,12 @@ const Title = styled.div`
   font-weight: 500;
 `
 
-const Description = styled.div`
-  font-size: 1.4rem;
-`
-
 const FilterContainer = styled.div`
   margin-top: 1.8rem;
   margin-bottom: 3rem;
   padding: 2rem 3rem 0.4rem 3rem;
   width: 120.2rem;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
 
   .filter-item {
@@ -66,9 +60,20 @@ const FilterContainer = styled.div`
         margin-right: 2rem;
         margin-bottom: 1.5rem;
         cursor: pointer;
+        padding: 0.2rem 0.8rem;
+      }
+
+      .value.active {
+        border-radius: 10px;
+        background-color: #7c6deb;
+        color: white
       }
     }
   }
+`
+
+/*const Description = styled.div`
+  font-size: 1.4rem;
 `
 
 const MyArtworksButton = styled(Button)`
@@ -91,7 +96,7 @@ const MintArtworksButton = styled(Button)`
 
   background-color: white;
   color: #7c6deb;
-`
+`*/
 
 const SearchInput = styled(Input)`
   width: 22rem;
@@ -133,60 +138,6 @@ const MySelect = styled(Select)`
     text-align: center !important;
     line-height: 5rem !important;
     margin: 0 0.5rem !important;
-  }
-`
-
-const NFTItemCardContainer = styled.div`
-  width: 26.2rem;
-  height: 40rem;
-  background-color: white;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 2.5rem;
-  margin-right: 2.5rem;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  img, .spin {
-    width: 24.2rem;
-    height: 28.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 10px;
-  }
-
-  .spin {
-    position: relative;
-    top: 10rem;
-  }
-
-  .name {
-    margin-bottom: 1.5rem;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-
-  .like {
-    display: flex;
-    align-items: center;
-
-    .heart {
-      margin-right: 0.5rem;
-    }
-  }
-
-  .button {
-    width: 100%;
-    height: 4rem;
-    border-radius: 1rem;
-    background-color: #7c6deb;
-    color: white;
-    font-weight: 500;
   }
 `
 
@@ -243,9 +194,18 @@ const CustomPagination = styled(Pagination)`
 `
 
 const Filter: React.FC = () => {
+  const PLATFORM_KEY = 'Cross-Platform'
+
+  const PLATFORM_BANKSY = 'Banksy'
+
   const filterItems = [
     {
+      key: PLATFORM_KEY,
+      values: [PLATFORM_BANKSY, 'OpenSea', 'Rarible']
+    },
+    {
       key: 'Chinese-Style Artworks',
+      banksyUnique: true,
       values: [
         'Calligraphy-NFT',
         'Landscape-Painting '
@@ -253,28 +213,54 @@ const Filter: React.FC = () => {
     },
     {
       key: 'Digital Artworks',
+      banksyUnique: true,
       values: [
         'AI-NFT',
         'Gamification-NFT'
       ]
-    },
-    {
-      key: 'Cross-Platform',
-      values: ['Opensea', 'Rarible']
     }
   ]
 
+  const [selectedValueByKey, setSelectedValueByKey] = useState(
+    new Map(filterItems.map(item => [item.key, '']))
+  )
+
+  const onSelect = (key: string, value: string) => {
+    setSelectedValueByKey(prev => {
+      if (prev.get(key) === value) {
+        return new Map(prev).set(key, '')
+      } else {
+        return new Map(prev).set(key, value)
+      }
+    })
+  }
+
+  const banksyPlatformSelected = selectedValueByKey.get(PLATFORM_KEY) === PLATFORM_BANKSY
+
+  useEffect(() => {
+    console.log(new Array(selectedValueByKey.entries()).filter(entry => entry))
+  }, [selectedValueByKey])
+
+
   return (
     <FilterContainer>
-      {filterItems.map(item => (
+      {filterItems.filter(item => item.banksyUnique === undefined || (banksyPlatformSelected && item.banksyUnique)).map(item => (
         <div className="filter-item" key={item.key}>
           <div className="key">{item.key}:</div>
           <div className="values">
-            {item.values.map(value => (
-              <div className="value" key={value}>
-                {value}
-              </div>
-            ))}
+            {
+              item.values.map(value => (
+                <div
+                  className={clsx('value', selectedValueByKey.get(item.key) === value && 'active')}
+                  key={value}
+                  onClick={() => {
+                    onSelect(item.key, value)
+                  }}
+                >
+                  {value}
+                </div>
+              ))
+            }
           </div>
         </div>
       ))}
@@ -318,162 +304,70 @@ const OrderSelector: React.FC = () => {
   )
 }
 
-const NFTItemCard: React.FC<any> = ({ data }) => {
-  const [loading, setLoading] = useState(true)
-  const history = useHistory()
-
-  const CornerFlag: React.FC = () => {
-    return (
-      <div
-        style={{
-          position: 'absolute',
-          top: '-1rem',
-          left: '-0.45rem',
-          color: 'white',
-          fontWeight: 500,
-          textAlign: 'center',
-          lineHeight: '3rem',
-          width: '8.5rem',
-          height: '3.7rem',
-          backgroundImage: `url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default})`,
-          backgroundSize: 'cover'
-        }}
-      >
-        on Sale
-      </div>
-    )
-  }
-
-  const ApproveVoteButton: React.FC = () => {
-    return (
-      <Button
-        style={{
-          position: 'absolute',
-          right: '3.7rem',
-          top: '2.4rem',
-          width: '10.9rem',
-          height: '3rem',
-          color: 'white',
-          borderRadius: '1rem',
-          fontSize: '1.2rem',
-          fontWeight: 500,
-          border: 'none',
-          backgroundColor: '#829FF2'
-        }}
-      >
-        Approve Vote
-      </Button>
-    )
-  }
-
-  const routeToDetailPage = () => history.push(
-    `/collectible/${data.name}`,
-    { tokenPull:{
-      uri: `${data.valueUri}`,
-      addressContract: `${data.addressContract}`
-    },
-    type: 'nftList' }
-  )
-
-  useEffect(() => {
-    setLoading(true)
-  }, [data])
-
-  return (
-    <div style={{ position: 'relative' }}>
-      <CornerFlag />
-      <ApproveVoteButton />
-      <NFTItemCardContainer>
-        <div style={{ cursor: 'pointer' }} onClick={routeToDetailPage}>
-          <LazyLoad>
-            <img
-              style={{ display: loading?'none': '' }}
-              key={data.id}
-              src={data.image}
-              alt=""
-              onLoad={() => setTimeout(() => setLoading(false), 1500)}
-              onError={() => setLoading(false)}
-            />
-          </LazyLoad>
-          {
-            loading && <Spin className="spin" />
-          }
-          <div className="name">{data?.name}</div>
-        </div>
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
-            <div className="like">
-              <HeartOutlined className="heart" />5
-            </div>
-            <div className="price">5 ETH</div>
-          </div>
-        </div>
-      </NFTItemCardContainer>
-    </div>
-  )
-}
-
 const NFTList: React.FC<any> = ({ list }) => {
   return (
     <NFTListContainer>
       {list?.map((nft: any, index: number) => (
-        <NFTItemCard data={nft} key={index} />
+        <NFTListItem data={nft} key={index} type="nftList" />
       ))}
     </NFTListContainer>
   )
 }
 
-
 const CollectiblesPage: React.FC = () => {
-  const [data, setData] = useState<any>()
+  const [list, setList] = useState<any>()
   const [current, setCurrent] = useState<number>(1)
   const [total, setTotal] = useState<number>()
   const [searchKey, setSearchKey] = useState<any>()
   const [loading, setLoading] = useState<boolean>(true)
 
-  const form = {
-    current: current,
-    size: 20,
-    searchKey: searchKey
-  }
+  const fetch = useCallback(async () => {
+    setList([])
+    setLoading(true)
 
-  const init = useCallback(async () => {
-    banksyNftList(form).then(res => {
-      const _data = res.data.data.records.map((item: any) => ({
-        ...item,
-        image: `https://banksy.mypinata.cloud${item?.image.slice(-52)}`
-      }))
-      console.log(_data)
-      setData(_data)
-      setTotal(res.data.data.total)
-      setLoading(false)
-      // console.log(data)
-    }).catch(err => err)
+    banksyNftList({
+      current: current,
+      size: 20,
+      searchKey: searchKey
+    })
+      .then(res => {
+        const _data = res.data.data.records.map((item: any) => ({
+          ...item,
+          image: `https://banksy.mypinata.cloud${item?.image.slice(-52)}`
+        }))
+
+        setList(_data)
+        setTotal(res.data.data.total)
+        setLoading(false)
+      })
   }, [current, searchKey])
 
   useEffect(() => {
-    init()
+    fetch()
+  }, [fetch])
 
-    lottie.loadAnimation({
-      // @ts-ignore
-      container: document.getElementById('lottie-animation'),
+  useEffect(() => {
+    const { name } = lottie.loadAnimation({
+      container: document.getElementById('lottie-animation')!,
       renderer: 'svg',
       loop: true,
       autoplay: true,
       path: 'https://assets3.lottiefiles.com/packages/lf20_NddMyN.json'
     })
 
-  }, [init])
-
+    return () => {
+      lottie.destroy(name)
+    }
+  }, [])
 
   const onChangePage = (pageNumber: number) => {
     setCurrent(pageNumber)
-    init()
+    fetch()
   }
 
   const onPressEnter = (e: any) => {
     setSearchKey(e.target.attributes[2].value)
-    init()
+    fetch()
   }
 
   return (
@@ -490,11 +384,8 @@ const CollectiblesPage: React.FC = () => {
           <OrderSelector />
         </div>
       </div>
-      {
-        loading?
-          <div id="lottie-animation" style={{ width: '150px', height: '150px' }} />:
-          <NFTList list={data} />
-      }
+      <div id="lottie-animation" style={{ width: '150px', height: '150px', display: loading ? '' : 'none' }} />
+      <NFTList list={list} />
       <CustomPagination defaultCurrent={current}
         total={total}
         onChange={onChangePage}

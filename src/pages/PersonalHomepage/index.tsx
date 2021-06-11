@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Input, Select, Spin, Pagination } from 'antd'
+import { Button, Input, Pagination, Select } from 'antd'
 import CopyIcon from '@/assets/images/PersonalPageImg/copy.png'
 import { ReactComponent as WalletIcon } from '../../assets/images/PersonalPageImg/wallet.svg'
-import { ReactComponent as ActivityIcon } from '../../assets/images/PersonalPageImg/activity.svg'
-import { ReactComponent as OfferIcon } from '../../assets/images/PersonalPageImg/activity.svg'
+import {
+  ReactComponent as ActivityIcon,
+  ReactComponent as OfferIcon
+} from '../../assets/images/PersonalPageImg/activity.svg'
 import { ReactComponent as HeartIcon } from '../../assets/images/PersonalPageImg/heart.svg'
-import { ReactComponent as ColoredHeartIcon } from '../../assets/images/PersonalPageImg/colored-heart.svg'
 
 import { SearchOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { personalNftList } from '../../utils/banksyNftList'
-import { useHistory } from 'react-router-dom'
-
+import NFTListItem from '../../components/NFTListItem'
 
 const PersonalContainer = styled.div`
   width: 100%;
@@ -23,8 +23,8 @@ const PersonalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
 `
+
 const Avatar = styled.img`
   width: 9.6rem;
   height: 9.6rem;
@@ -37,30 +37,33 @@ const UserInfo = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-    .user-name {
-      font-size: 3rem;
-      font-weight: 500;
-      color: #000000;
-      line-height: 4.2rem;
-    }
 
-    .user-id {
-      display: flex;
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: #999999;
-      line-height: 2rem;
-      margin-top: 0.5rem;
+  .user-name {
+    font-size: 3rem;
+    font-weight: 500;
+    color: #000000;
+    line-height: 4.2rem;
+  }
 
-      :hover {
-        cursor: pointer;
-      }
+  .user-id {
+    display: flex;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #999999;
+    line-height: 2rem;
+    margin-top: 0.5rem;
+
+    :hover {
+      cursor: pointer;
     }
+  }
+
   .user-sign-border {
     display: flex;
     width: 48.5rem;
-    text-align:center;
+    text-align: center;
     margin-top: 0.8rem;
+
     .user-sign {
       font-size: 1.4rem;
       font-weight: 400;
@@ -102,7 +105,6 @@ const OptionBtn = styled(Button)`
   }
 `
 
-
 const SearchInput = styled(Input)`
   width: 22rem;
   border-color: #7c6deb;
@@ -115,6 +117,7 @@ const SearchInput = styled(Input)`
     font-weight: bold;
   }
 `
+
 const MySelect = styled(Select)`
   margin-left: 2rem;
 
@@ -133,73 +136,6 @@ const MySelect = styled(Select)`
     text-align: center !important;
     line-height: 5rem !important;
     margin: 0 0.5rem !important;
-  }
-`
-const NFTItemCardContainer = styled.div`
-  width: 26.2rem;
-  height: 40rem;
-  background-color: white;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 2.5rem;
-  margin-right: 2.5rem;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  img, .spin {
-    width: 24.2rem;
-    height: 28.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 10px;
-  }
-
-  .spin {
-    position: relative;
-    top: 10rem;
-  }
-
-  .nft-img {
-    width: 24.2rem;
-    height: 28.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 10px;
-  }
-  .ntf-name {
-    width: 17.2rem;
-    height: 4rem;
-    font-size: 1.4rem;
-    font-weight: 550;
-    color: #7C6DEB;
-    line-height: 2rem;
-  }
-
-  .like {
-    display: flex;
-    align-items: center;
-    margin-right: 0.7rem;
-    font-size: 1.4rem;
-    font-weight: 550;
-    color: #7C6DEB;
-    line-height: 2rem;
-
-  }
-
-  .button {
-    width: 100%;
-    height: 4rem;
-    border-radius: 1rem;
-    background-color: #7c6deb;
-    color: white;
-    font-weight: 500;
-  }
-
-  .price {
-    font-size: 1.4rem;
-    font-weight: 550;
-    color: #7C6DEB;
-    line-height: 2rem;
   }
 `
 
@@ -268,7 +204,7 @@ const TypeSelector: React.FC = () => {
 
 const OrderSelector: React.FC = () => {
   return (
-    <MySelect defaultValue="1">
+    <MySelect value="1">
       <Select.Option className="customized-option" value="1">
         Time
       </Select.Option>
@@ -282,95 +218,18 @@ const OrderSelector: React.FC = () => {
   )
 }
 
-const NFTItemCard: React.FC<any> = ({ data }) => {
-  const history = useHistory()
-
-  const CornerFlag: React.FC = () => {
-    return (
-      <div
-        style={{
-          position: 'absolute',
-          top: '-1rem',
-          left: '-0.45rem',
-          color: 'white',
-          fontWeight: 500,
-          textAlign: 'center',
-          lineHeight: '3rem',
-          width: '8.5rem',
-          height: '3.7rem',
-          backgroundImage: `url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default})`,
-          backgroundSize: 'cover'
-        }}
-      >
-        on Sale
-      </div>
-    )
-  }
-
-  const ApproveVoteButton: React.FC = () => {
-    return (
-      <Button
-        style={{
-          position: 'absolute',
-          right: '3.7rem',
-          top: '2.4rem',
-          width: '10.9rem',
-          height: '3rem',
-          color: 'white',
-          borderRadius: '1rem',
-          fontSize: '1.2rem',
-          fontWeight: 500,
-          border: 'none',
-          backgroundColor: '#829FF2'
-        }}
-      >
-        Approve Vote
-      </Button>
-    )
-  }
-
-  const routeToDetailPage = () => history.push(
-    `/collectible/${data.name}`,
-    { tokenPull: {
-      uri: `${data.valueUri}`,
-    },
-    type: 'own' }
-  )
-
-  return (
-    <div style={{ position: 'relative' }}>
-      <CornerFlag />
-      <ApproveVoteButton />
-      <NFTItemCardContainer>
-        <div style={{ cursor: 'pointer' }} onClick={routeToDetailPage}>
-          <img className="nft-img" src={data?.image} />
-          <div className="ntf-name">{data?.name}</div>
-        </div>
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
-            <div className="like">
-              <ColoredHeartIcon className="heart" style={{ marginRight:'0.7rem' }} />5
-            </div>
-            <div className="price">5 BAKE</div>
-          </div>
-        </div>
-      </NFTItemCardContainer>
-    </div>
-  )
-}
-
 const UserNFTList: React.FC<any> = ({ list }) => {
   return (
     <NFTListContainer>
       {list?.map((nft: any, index: number) => (
-        <NFTItemCard data={nft} key={index} />
+        <NFTListItem data={nft} key={index} type="own" />
       ))}
     </NFTListContainer>
   )
 }
 
 
-const PersonalHomepage : React.FC = () => {
+const PersonalHomepage: React.FC = () => {
   const account = useSelector(getAccount)
   const [current, setCurrent] = useState<number>(1)
   const [total, setTotal] = useState<number>()
@@ -379,7 +238,7 @@ const PersonalHomepage : React.FC = () => {
   const form = {
     addressOwner: account,
     current: current,
-    size: 20,
+    size: 20
   }
 
   const init = useCallback(async () => {
@@ -391,11 +250,11 @@ const PersonalHomepage : React.FC = () => {
       setData(_data)
       setTotal(res.data.data.total)
     })
-  },[current])
+  }, [current])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
   const onChangePage = (pageNumber: number) => {
     setCurrent(pageNumber)
@@ -403,34 +262,35 @@ const PersonalHomepage : React.FC = () => {
   }
 
   return (
-    <PersonalContainer >
+    <PersonalContainer>
       <UserInfo>
         <Avatar />
         <div className="user-name">Hug me</div>
         <div className="user-id">
           {account?.substring(0, 6)}...{account?.slice(-4)}
-          <img src={CopyIcon} alt="" style={{ width:'1.5rem', height:'1.5rem',marginLeft:'0.8rem' }} />
+          <img src={CopyIcon} alt="" style={{ width: '1.5rem', height: '1.5rem', marginLeft: '0.8rem' }} />
         </div>
         <div className="user-sign-border">
-          <div className="user-sign">Hug me strong and don&apos;t let me go. It&apos;s too cold outside and I wanna be warm next to you.
+          <div className="user-sign">Hug me strong and don&apos;t let me go. It&apos;s too cold outside and I wanna be
+            warm next to you.
           </div>
         </div>
       </UserInfo>
-      <UserOptions >
-        <OptionBtn icon={<WalletIcon />} >
+      <UserOptions>
+        <OptionBtn icon={<WalletIcon />}>
           <div className="option-name">in Wallet</div>
         </OptionBtn>
-        <OptionBtn icon={<ActivityIcon />} >
+        <OptionBtn icon={<ActivityIcon />}>
           <div className="option-name">Activity</div>
         </OptionBtn>
-        <OptionBtn icon={<OfferIcon />} >
+        <OptionBtn icon={<OfferIcon />}>
           <div className="option-name">Offers</div>
         </OptionBtn>
-        <OptionBtn icon={<HeartIcon />} >
+        <OptionBtn icon={<HeartIcon />}>
           <div className="option-name">Favorite</div>
         </OptionBtn>
       </UserOptions>
-      <div style={{ display: 'flex', justifyContent:'flex-end', marginTop:'3.5rem', marginBottom: '3.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '3.5rem', marginBottom: '3.5rem' }}>
         <SearchInput
           prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
         />

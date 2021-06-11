@@ -64,9 +64,13 @@ const CustomizedLink = styled.div`
 const AppSideBar: React.FC = () => {
   const { pathname } = useLocation()
 
+  const selectedKey: string = (() => {
+    return routes.filter(route => route.path === pathname || route.match?.test(pathname))[0].path
+  })()
+
   return (
     <Container>
-      <CustomizedMenu defaultSelectedKeys={[pathname]} mode="inline">
+      <CustomizedMenu selectedKeys={[selectedKey]} mode="inline">
         {
           routes.filter(route => !route.hidden).map((route: Route) => {
             const fillColor = (route.path === pathname || route.match?.test(pathname)) ? 'white' : '#7c6deb'

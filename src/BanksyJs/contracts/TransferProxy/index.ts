@@ -1,7 +1,7 @@
 import { AbstractContractCaller } from '../../AbstractContractCaller'
 import { Contract } from 'ethers'
 
-const contractAddress = '0xb0b465e93233B91d5b29D6F06C0049AB233821F7'
+const contractAddress = '0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A'
 
 class TransferProxy extends AbstractContractCaller {
   constructor(network: string, signer: any, provider: any) {

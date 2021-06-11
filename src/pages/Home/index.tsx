@@ -80,7 +80,7 @@ const PositionedImage = styled.img<{
   height: ${props => props.height};
   width: ${props => props.width};
 
-  right: ${props => props.right };
+  right: ${props => props.right};
 
   top: ${props => props.top};
 `
@@ -444,6 +444,7 @@ const MyDepositModal = styled(Modal)`
       .deposit-icon {
         margin-right: 1.2rem;
       }
+
       .deposit-tip {
         font-size: 1.6rem;
         font-weight: 500;
@@ -515,7 +516,7 @@ const HomePage: React.FC = () => {
     setBuyModalVisible(false)
   }
 
-  const showAuthorizingModal= () => {
+  const showAuthorizingModal = () => {
     setAuthorizingModalVisible(true)
   }
 
@@ -549,15 +550,15 @@ const HomePage: React.FC = () => {
     setAuthorizingModalVisible(false)
   }
   const [data, setData] = useState<any>()
-  const init = useCallback(async() => {
+  const init = useCallback(async () => {
     NftHomeCreateData().then(res => {
       setData(res.data.data)
     }).catch(err => err)
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
 
   return (
@@ -856,7 +857,7 @@ const HomePage: React.FC = () => {
           <div className="author-tip">to verify that you own your wallet.</div>
         </div>
         <div className="author-img">
-          <img src={Authorizing} alt="" style={{ width:'21.1rem', height:'15.2rem' }} />
+          <img src={Authorizing} alt="" style={{ width: '21.1rem', height: '15.2rem' }} />
         </div>
       </MyAuthorizingModal>
     </HomePageContainer>

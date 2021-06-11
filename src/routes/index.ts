@@ -9,11 +9,12 @@ import CollectibleDetailPage from '../pages/Collectibles/CollectibleDetail'
 import NFTCreatePage from '../pages/Home/NFTCreate'
 import PersonalHomepage from '../pages/PersonalHomepage/index'
 import PleaseWaiting from '../pages/Home/PleaseWaiting'
+import NFTCreatedSuccess from '../pages/Home/NFTCreatedSuccess'
 
 export type Route = {
   path: string
   title: string
-  icon: any
+  icon?: any
   component: any
   hidden?: boolean
   match?: RegExp
@@ -23,15 +24,20 @@ const routes: Route[] = [
   {
     path: '/',
     title: 'Home',
-    match: /^\/nft\/create/,
+    match: /(^\/nft\/create)|(\/personal)/,
     icon: HomeIcon,
     component: HomePage
   },
   {
     path: '/nft/create',
     title: 'Create NFT',
-    icon: FarmsIcon,
     component: NFTCreatePage,
+    hidden: true
+  },
+  {
+    path: '/nft/create/success',
+    title: 'NFT Created successfully',
+    component: NFTCreatedSuccess,
     hidden: true
   },
   {

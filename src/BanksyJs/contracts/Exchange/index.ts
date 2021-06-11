@@ -1,7 +1,7 @@
 import { AbstractContractCaller } from '../../AbstractContractCaller'
 import { Contract } from 'ethers'
 
-const contractAddress = '0x0f58cf6ab5A52A2B84FE5a7aA071E75B714293f4'
+const contractAddress = '0x1Da28CC4693477E97BE4FA592918C216aE79D7aa'
 
 class Exchange extends AbstractContractCaller {
   constructor(network: string, signer: any, provider: any) {
@@ -12,7 +12,7 @@ class Exchange extends AbstractContractCaller {
 
     this.contract = new Contract(
       contractAddress,
-      require('./Exchange.json').abi,
+      require('./Exchange.json'),
       signer || provider
     )
   }
