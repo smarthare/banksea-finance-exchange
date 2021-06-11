@@ -5,11 +5,14 @@ import { ReactComponent as CollectiblesIcon } from '../assets/images/menu-icons/
 import { ReactComponent as ArtistsIcon } from '../assets/images/menu-icons/artists.svg'
 import { ReactComponent as FarmsIcon } from '../assets/images/menu-icons/farms.svg'
 import { ReactComponent as OracleIcon } from '../assets/images/menu-icons/oracle.svg'
+import { ReactComponent as AiGeneratorsIcon } from '../assets/images/menu-icons/aiGenerators.svg'
 import CollectibleDetailPage from '../pages/Collectibles/CollectibleDetail'
 import NFTCreatePage from '../pages/Home/NFTCreate'
 import PersonalHomepage from '../pages/PersonalHomepage/index'
 import PleaseWaiting from '../pages/Home/PleaseWaiting'
 import NFTCreatedSuccess from '../pages/Home/NFTCreatedSuccess'
+import FarmPage from '../pages/Farms'
+import AIGenerators from '../pages/AIGenerators'
 
 export type Route = {
   path: string
@@ -27,6 +30,12 @@ const routes: Route[] = [
     match: /(^\/nft\/create)|(\/personal)/,
     icon: HomeIcon,
     component: HomePage
+  },
+  {
+    path: '/ai-generators',
+    title: 'AI Generators',
+    icon: AiGeneratorsIcon,
+    component: AIGenerators,
   },
   {
     path: '/nft/create',
@@ -64,7 +73,7 @@ const routes: Route[] = [
     path: '/farms',
     title: 'Farms',
     icon: FarmsIcon,
-    component: HomePage
+    component: FarmPage
   },
   {
     path: '/oracle',
