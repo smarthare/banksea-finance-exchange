@@ -20,6 +20,7 @@ const NFTItemCardContainer = styled.div`
   justify-content: space-between;
 
   img, .spin {
+    object-fit: cover;
     width: 24.2rem;
     height: 28.5rem;
     margin-bottom: 1.5rem;

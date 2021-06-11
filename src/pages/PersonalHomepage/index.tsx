@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { personalNftList } from '../../utils/banksyNftList'
 import NFTListItem from '../../components/NFTListItem'
+import ListPageLoading from '../../components/ListPageLoading'
 
 const PersonalContainer = styled.div`
   width: 100%;
@@ -228,12 +229,12 @@ const UserNFTList: React.FC<any> = ({ list }) => {
   )
 }
 
-
 const PersonalHomepage: React.FC = () => {
   const account = useSelector(getAccount)
   const [current, setCurrent] = useState<number>(1)
   const [total, setTotal] = useState<number>()
   const [data, setData] = useState<any>()
+  const [loading, setLoading] = useState(true)
 
   const form = {
     addressOwner: account,
@@ -242,11 +243,13 @@ const PersonalHomepage: React.FC = () => {
   }
 
   const init = useCallback(async () => {
+    setLoading(true)
     personalNftList(form).then((res: any) => {
       const _data = res.data.data.records.map((item: any) => ({
         ...item,
         image: `https://banksy.mypinata.cloud${item?.image.slice(-52)}`
       }))
+      setLoading(false)
       setData(_data)
       setTotal(res.data.data.total)
     })
@@ -297,6 +300,7 @@ const PersonalHomepage: React.FC = () => {
         <TypeSelector />
         <OrderSelector />
       </div>
+      <ListPageLoading loading={loading} />
       <UserNFTList list={data} />
       <CustomPagination defaultCurrent={current}
         total={total}

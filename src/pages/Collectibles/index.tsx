@@ -3,12 +3,11 @@ import styled from 'styled-components'
 import { Input, Pagination, Select } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
-import lottie from 'lottie-web'
-
 import '../../styles/override-antd-select-dropdown.scss'
 import { banksyNftList } from '../../utils/banksyNftList'
 import NFTListItem from '../../components/NFTListItem'
 import clsx from 'clsx'
+import ListPageLoading from '../../components/ListPageLoading'
 
 const PageContainer = styled.div`
   padding-top: 5.6rem;
@@ -346,19 +345,6 @@ const CollectiblesPage: React.FC = () => {
     fetch()
   }, [fetch])
 
-  useEffect(() => {
-    const { name } = lottie.loadAnimation({
-      container: document.getElementById('lottie-animation')!,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      path: 'https://assets3.lottiefiles.com/packages/lf20_NddMyN.json'
-    })
-
-    return () => {
-      lottie.destroy(name)
-    }
-  }, [])
 
   const onChangePage = (pageNumber: number) => {
     setCurrent(pageNumber)
@@ -384,7 +370,7 @@ const CollectiblesPage: React.FC = () => {
           <OrderSelector />
         </div>
       </div>
-      <div id="lottie-animation" style={{ width: '150px', height: '150px', display: loading ? '' : 'none' }} />
+      <ListPageLoading loading={loading} />
       <NFTList list={list} />
       <CustomPagination defaultCurrent={current}
         total={total}

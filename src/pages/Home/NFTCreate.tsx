@@ -15,6 +15,7 @@ import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import { createNFT } from '../../utils/banksyNftList'
 import { web3Utils } from '../../web3/utils'
 import { NFTMetadata } from '../../types/NFTMetadata'
+import { useHistory } from 'react-router-dom'
 
 const ArtistPageContainer = styled.div`
   padding-top: 5.6rem;
@@ -346,19 +347,19 @@ const NFTCreate: React.FC = () => {
 
   const { open: openWalletSelectionModal } = useWalletSelectionModal()
 
+  const history = useHistory()
+
   const account = useSelector(getAccount)
 
   const [form] = Form.useForm()
 
+  const { walletErrorMessageGetter } = useWalletErrorMessageGetter()
+
   const [promised, setPromised] = useState(false)
-
   const [assetIpfsHash, setAssetIpfsHash] = useState('')
-
   const [hintMessage, setHintMessage] = useState<MessageHintProps>({
     message: '', type: 'hint'
   })
-
-  const { walletErrorMessageGetter } = useWalletErrorMessageGetter()
 
   const formInitialValues = {
     artworkType: 'pictures',
@@ -445,6 +446,7 @@ const NFTCreate: React.FC = () => {
 
                 setHintMessage({ message: '' })
                 message.success('Create successfully!')
+                history.push(`/nft/create/success?img=${assetIpfsHash}&name=${values.artworkName}`)
               }
             })
 
