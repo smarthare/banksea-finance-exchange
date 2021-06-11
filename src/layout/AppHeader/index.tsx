@@ -57,6 +57,7 @@ const Avatar = styled.img`
   height: 3.5rem;
   border-radius: 100%;
   margin-left: 3.3rem;
+  cursor: pointer;
 `
 
 const AvatarNone = styled.img`
@@ -66,8 +67,6 @@ const AvatarNone = styled.img`
   margin-left: 3.3rem;
   background: #c8d6e5;
 `
-
-
 
 const AppHeader = () => {
   const history = useHistory()

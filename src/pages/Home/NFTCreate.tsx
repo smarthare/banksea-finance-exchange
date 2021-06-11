@@ -434,14 +434,17 @@ const NFTCreate: React.FC = () => {
               tokenId: ''
             })
 
-            banksyJsConnector.banksyJs.Banksy.contract!.on('URI', (...args) => {
+            banksyJsConnector.banksyJs.Banksy.contract!.on('URI', async (...args) => {
               const [tokenId, tokenUriFromEvent] = args
               if (tokenUri === tokenUriFromEvent) {
-                createNFT({
+                await createNFT({
                   uri: IpfsHash,
                   addressCreate: account!,
                   tokenId: web3Utils.hexToNumber(tokenId._hex).toString()
                 })
+
+                setHintMessage({ message: '' })
+                message.success('Create successfully!')
               }
             })
 
@@ -451,7 +454,6 @@ const NFTCreate: React.FC = () => {
                   message: 'Your creation request has been submitted!',
                   type: 'hint'
                 })
-
               })
               .catch(e => {
                 setHintMessage({

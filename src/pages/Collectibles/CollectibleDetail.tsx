@@ -481,12 +481,12 @@ const CollectibleDetailPage: React.FC = (props: any) => {
           <div className="bundle-info">
             <div className="item">
               <div className="info-label">Artist</div>
-              <div className="info-name" onClick={()=>handleCopy(data?.addressCreate)}>{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.slice(-4)}</div>
+              <div className="info-name" onClick={()=>handleCopy(data?.addressCreate)}>{data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}</div>
               <CopyOutlined className="copy" style={{ color: '#7C6DEB' }} />
             </div>
             <div className="item">
               <div className="info-label">Owner</div>
-              <div className="info-name">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.slice(-4)}</div>
+              <div className="info-name">{data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}</div>
             </div>
             <div className="item">
               <img
@@ -536,27 +536,27 @@ const CollectibleDetailPage: React.FC = (props: any) => {
                 {
                   detailType === 'own'?
                     <div className="item-value">-------------</div>:
-                    <div className="item-value">{data?.addressContract.substring(0, 4)}...{data?.addressContract.slice(-4)}</div>
+                    <div className="item-value">{data?.addressContract?.substring(0, 4)}...{data?.addressContract?.slice(-4)}</div>
                 }
                 <div className="item-name" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：</div>
                 <div
                   className="item-value"
                   style={{ marginTop: '1.5rem' }}
                 >
-                  {data?.addressOwner.substring(0, 4)}...{data?.addressOwner.substring(9, 16)}
+                  {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.substring(9, 16)}
                 </div>
               </div>
             </div>
             <div className="items">
               <div className="item-border">
                 <div className="item-name">Creator&apos;s Address：</div>
-                <div className="item-value">{data?.addressCreate.substring(0, 4)}...{data?.addressCreate.slice(-4)}</div>
+                <div className="item-value">{data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}</div>
                 <div className="item-name" style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
                 <div
                   className="item-value"
                   style={{ marginTop: '1.5rem' }}
                 >
-                  {data?.addressOwner.substring(0, 4)}...{data?.addressOwner.substring(9, 16)}
+                  {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.substring(9, 16)}
                 </div>
               </div>
             </div>
