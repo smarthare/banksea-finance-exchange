@@ -404,7 +404,7 @@ const PersonalHomepage : React.FC = () => {
 
   return (
     <PersonalContainer >
-      <UserInfo>
+      <UserInfo >
         <Avatar />
         <div className="user-name">Hug me</div>
         <div className="user-id">
