@@ -385,7 +385,8 @@ const PersonalHomepage : React.FC = () => {
   const init = useCallback(async () => {
     personalNftList(form).then((res: any) => {
       const _data = res.data.data.records.map((item: any) => ({
-        ...item
+        ...item,
+        image: `https://banksy.mypinata.cloud${item?.image.slice(-52)}`
       }))
       setData(_data)
       setTotal(res.data.data.total)
