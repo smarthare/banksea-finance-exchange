@@ -238,7 +238,7 @@ const ImageContainer = styled.div`
 
 const DescriptionContainer = styled.div`
   margin-top: 1.2rem;
-  height: 17rem;
+  height: 12.5rem;
   overflow-y: scroll;
   font-size: 16px;
   font-weight: 400;
@@ -676,6 +676,23 @@ const Announcement = styled.div`
     padding-top: 5rem;
   }
 `
+const BuyOperating = styled.div`
+  width: 100%;
+  margin-top: 1.2rem;
+
+  .buyNow {
+    width: 25.9rem;
+    height: 40px;
+    background: #7C6DEB;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 2rem;
+  }
+`
+
+
 type MessageHintProps = {
   message: string,
   type?: 'error' | 'hint' | 'success'
@@ -932,6 +949,13 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="info-name">29 favorites</div>
               </div>
             </div>
+            {
+              type === 'nftList'?
+                <BuyOperating>
+                  <Button className="buyNow">Buy Now</Button>
+                </BuyOperating>:
+                <div />
+            }
           </PriceContainer>
           <ItemsContainer>
             <div className="item">

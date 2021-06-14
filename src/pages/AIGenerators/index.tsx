@@ -415,7 +415,6 @@ const AIGenerators: React.FC = () => {
   const [newNFT, setNewNFT] = useState('')
 
   const generate = async () => {
-    setGenerating(true)
     const result = await aiGeneratorFastStyle(style, content)
     setGenerating(false)
     setNewNFT(result.data.data)
