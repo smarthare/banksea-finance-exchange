@@ -24,6 +24,59 @@ const SCCurrentAccount = styled.div`
   .icon {
     margin-right: 1.2rem;
   }
+
+`
+const WalletModal = styled(Modal)`
+
+  .ant-modal-content {
+    border-radius: 1rem;
+    width: 62.3rem;
+  }
+
+  .ant-modal-header {
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+
+  .ant-modal-header .ant-modal-title {
+    display: flex;
+    justify-content: center;
+    font-weight: 550;
+    font-size: 1.8rem;
+  }
+
+  .walletModal-Title {
+    color: #7C6DEB;
+    font-weight: bolder;
+    font-size: 1.8rem;
+  }
+
+  .text-label {
+    font-size: 1.7rem;
+  }
+
+  .walletModalClose {
+    width: 12.6rem;
+    height: 4rem;
+    background: #7C6DEB;
+    border: none;
+    border-radius: 1rem;
+    color: #ffffff;
+    margin-left: calc((100% - 12.6rem) / 2);
+    margin-top: 20px;
+  }
+
+  .disconnect {
+    width: 12.6rem;
+    height: 4rem;
+    background: #ffffff;
+    border: none;
+    border-radius: 1rem;
+    color: #7C6DEB;
+    margin-left: calc((100% - 12.6rem) / 2);
+    border: 1px solid #7C6DEB;
+    margin-top: 20px;
+  }
 `
 
 const WalletModalContent: React.FC<WalletModalContentProps> = ({ account }) => {
@@ -48,7 +101,7 @@ const WalletModalContent: React.FC<WalletModalContentProps> = ({ account }) => {
       <div className="walletModal-Title">{account}</div>
       <div className="bscScan">
         <div>
-          <span className="text-label">View on Explorer</span>
+          {/*<span className="text-label">View on Explorer</span>*/}
         </div>
         <Button type="text" onClick={disconnect} className="disconnect">
           Disconnect
@@ -85,7 +138,7 @@ const CurrentAccount: React.FC<CurrentAccountProps> = ({ account }) => {
         <MetamaskIcon />
       </div>
       <span onClick={() => setIsModalVisible(true)}>{`${account.substr(0, 5)}...${account.substr(-4, 4)}`}</span>
-      <Modal
+      <WalletModal
         style={{ top: 20 }}
         wrapClassName="wallet-modal-wrapper"
         closable={false}
@@ -98,7 +151,7 @@ const CurrentAccount: React.FC<CurrentAccountProps> = ({ account }) => {
         <Button className="walletModalClose" onClick={closeModal}>
           Close
         </Button>
-      </Modal>
+      </WalletModal>
     </SCCurrentAccount>
   )
 }

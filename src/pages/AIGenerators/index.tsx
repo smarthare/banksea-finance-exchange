@@ -415,7 +415,11 @@ const AIGenerators: React.FC = () => {
   const [newNFT, setNewNFT] = useState('')
 
   const generate = async () => {
+    const startTime = Date.now()
     const result = await aiGeneratorFastStyle(style, content)
+    const endTime = Date.now()
+    const barTime = (endTime - startTime) / 1000
+    console.log(barTime)
     setGenerating(false)
     setNewNFT(result.data.data)
   }
