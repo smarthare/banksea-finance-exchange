@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Checkbox, Image as AntdImage, Upload } from 'antd'
+import { Button, Checkbox, Image as AntdImage, Upload, Image } from 'antd'
 import Plus from '@/assets/images/AIGeneratorsImg/plus.png'
 import UploadIcn from '@/assets/images/AIGeneratorsImg/upload.png'
 import DownArrow from '@/assets/images/AIGeneratorsImg/arrow-down.png'
+import enlarge from '@/assets/images/AIGeneratorsImg/enlarge.png'
+import download from '@/assets/images/AIGeneratorsImg/download.png'
 import { usePersonalNfts } from '../../hooks/usePersonalNfts'
 import { aiGeneratorFastStyle } from '../../apis/ai'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -165,6 +167,20 @@ const GenerateResultContainer = styled.div`
   padding: 3.5rem 5.9rem;
   position: relative;
 `
+
+const NewNftperating = styled.div`
+  position: absolute;
+  bottom: 0.9rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+
+  .download {
+    width: 2.2rem;
+  }
+`
+
 
 const NFTItem: React.FC<{ src: string }> = ({ src }) => {
   const SelectBtn: React.FC = () => {
@@ -383,6 +399,7 @@ const RightArrow: React.FC = () => {
 const AIGenerators: React.FC = () => {
   const { data: personalNfts } = usePersonalNfts()
   const [styleList, setStyleList] = useState<any>()
+  const [generating, setGenerating] = useState(false)
   const init = useCallback(async() => {
     aiStyleList().then(res => {
       setStyleList(res.data.data)
@@ -396,7 +413,6 @@ const AIGenerators: React.FC = () => {
   const [style, setStyle] = useState('')
   const [content, setContent] = useState('')
   const [newNFT, setNewNFT] = useState('')
-  const [generating, setGenerating] = useState(false)
 
   const generate = async () => {
     setGenerating(true)
@@ -464,18 +480,28 @@ const AIGenerators: React.FC = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              padding: '1rem'
+              padding: '1rem',
+              position: 'relative'
             }}
             >
               {
                 newNFT ? (
-                  <a href={newNFT} target="view_window">
-                    <img src={newNFT} alt="" />
-                  </a>
+                  <Image src={newNFT} alt="" />
                 ) : (
                   <div style={{ height: '15rem' }} />
                 )
               }
+              <NewNftperating>
+                {
+                  newNFT ? (
+                    <a href={newNFT} target="view_window">
+                      <img className="download" src={download} />
+                    </a>
+                  ) : (
+                    <img className="download" src={download} />
+                  )
+                }
+              </NewNftperating>
             </div>
           </div>
           <CreatButton onClick={generate} disabled={generating}>

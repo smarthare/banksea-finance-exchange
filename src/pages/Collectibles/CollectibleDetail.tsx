@@ -19,6 +19,7 @@ import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { sellOrder } from '../../utils/banksyNftList'
+import Banksy from '../../BanksyJs/contracts/Banksy'
 
 const Row = styled.div`
   display: flex;
@@ -694,17 +695,100 @@ const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
   )
 }
 
-const CollectibleDetailPage: React.FC = () => {
-  moment.locale('en')
-  const account = useSelector(getAccount)
-
-  const [isSellModalVisible, setSellModalVisible] = useState(false)
-
+const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
+  console.log(Banksy)
   const [promised, setPromised] = useState(false)
 
   const [hintMessage, setHintMessage] = useState<MessageHintProps>({
     message: '', type: 'hint'
   })
+
+  const sellOrder = {
+    dir: 'sell',
+    maker: account,
+    makerAsset: {
+      settleType: 'uint256',
+      baseAsset: {
+        code: {
+          baseType: 'uint256',
+          extraType: data?.tokenId,
+          contractAddr: data?.addressContract
+        },
+        value: 'uint256'
+      },
+      extraValue: 'uint256'
+    },
+    fee: 'uint256',
+    feeRecipient: 'address',
+    startTime: 'uint256',
+    endTime: 'uint256',
+    salt: 'uint256',
+  }
+
+  const listing = () => {
+    if (!promised) {
+      setHintMessage({
+        message: 'Please check the checkbox first!',
+        type: 'error'
+      })
+      return
+    }else {
+      banksyJsConnector.banksyJs.Banksy.isApprovedForAll(account!, '0x1Da28CC4693477E97BE4FA592918C216aE79D7aa').then(res => {
+        console.log(res)
+      }).catch(err=>err)
+    }
+  }
+
+  const { Option } = Select
+  return (
+    <SellingModal title="Selling"
+      visible={visible}
+      onCancel={onCancel}
+      footer={null}
+    >
+      <div className="checkout-list">
+        <div className="checkout-list-title">Sell Method</div>
+        <div className="sellMethodButton">
+          <Button>Fixed price</Button>
+          <Button>Auction</Button>
+          <Button>Spliting</Button>
+          <Button>Mortgage</Button>
+        </div>
+        <p className="hightest">Set Price</p>
+      </div>
+      <div className="sellContent">
+        <div className="fixedPrice">
+          <Input.Group compact>
+            <Select defaultValue="ETH">
+              <Option value="ETH">ETH</Option>
+              <Option value="USDT">USDT</Option>
+            </Select>
+            <Input style={{ width: '50%' }} defaultValue="" />
+          </Input.Group>
+          <span>ETH</span>
+        </div>
+        <Button className="listing" onClick={listing}>Listing</Button>
+        <MessageHint {...hintMessage} />
+        <Announcement>
+          <Checkbox
+            checked={promised}
+            onChange={e => setPromised(e.target.checked)}
+          >
+            <div className="text">
+              Listing is free! At the time of the sale, the following fees will be decucted.
+            </div>
+          </Checkbox>
+          <div className="text">Total fees  ----------------------------------------------------------- 2%</div>
+        </Announcement>
+      </div>
+    </SellingModal>
+  )
+}
+
+const CollectibleDetailPage: React.FC = () => {
+  moment.locale('en')
+  const account = useSelector(getAccount)
+  const [visible, setVisible] = useState(false)
 
   const [data, setData] = useState<any>()
   const uri = useLocationQuery('uri')
@@ -755,32 +839,6 @@ const CollectibleDetailPage: React.FC = () => {
     }
   ]
 
-  const { Option } = Select
-
-  const sellOrder = {
-    dir: 'sell',
-    maker: account,
-    makerAsset: {
-      settleType: 'uint256',
-      baseAsset: {
-        code: {
-          baseType: 'uint256',
-          extraType: data?.tokenId,
-          contractAddr: data?.addressContract
-        },
-        value: 'uint256'
-      },
-      extraValue: 'uint256'
-    },
-    fee: 'uint256',
-    feeRecipient: 'address',
-    startTime: 'uint256',
-    endTime: 'uint256',
-    salt: 'uint256',
-  }
-
-
-
   const historyDataSource = data?.logTransferSingleVos?.map((item: any, index: number) => ({
     key: index,
     event: item?.tokenId,
@@ -796,33 +854,7 @@ const CollectibleDetailPage: React.FC = () => {
   }
 
   const sellModalOpen = () => {
-    setSellModalVisible(true)
-  }
-
-  const handleOk = () => {
-    setSellModalVisible(false)
-  }
-
-  const handleCancel = () => {
-    setSellModalVisible(false)
-  }
-
-  const listing = () => {
-    if (!promised) {
-      setHintMessage({
-        message: 'Please check the checkbox first!',
-        type: 'error'
-      })
-      return
-    }else {
-      banksyJsConnector.banksyJs.Banksy.isApprovedForAll(data.addressOwner, account!).then(res => {
-        console.log(res)
-      }).catch(() => {
-        banksyJsConnector.banksyJs.Banksy.setApprovalForAll(account!, false).then(res => {
-          console.log(res)
-        })
-      })
-    }
+    setVisible(true)
   }
 
   return (
@@ -1091,49 +1123,7 @@ const CollectibleDetailPage: React.FC = () => {
           </OtherArtworksContainer>
         </OtherArtworksArea>
       </Row>
-
-      <SellingModal title="Selling"
-        visible={isSellModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <div className="checkout-list">
-          <div className="checkout-list-title">Sell Method</div>
-          <div className="sellMethodButton">
-            <Button>Fixed price</Button>
-            <Button>Auction</Button>
-            <Button>Spliting</Button>
-            <Button>Mortgage</Button>
-          </div>
-          <p className="hightest">Set Price</p>
-        </div>
-        <div className="sellContent">
-          <div className="fixedPrice">
-            <Input.Group compact>
-              <Select defaultValue="ETH">
-                <Option value="ETH">ETH</Option>
-                <Option value="USDT">USDT</Option>
-              </Select>
-              <Input style={{ width: '50%' }} defaultValue="" />
-            </Input.Group>
-            <span>ETH</span>
-          </div>
-          <Button className="listing" onClick={listing}>Listing</Button>
-          <MessageHint {...hintMessage} />
-          <Announcement>
-            <Checkbox
-              checked={promised}
-              onChange={e => setPromised(e.target.checked)}
-            >
-              <div className="text">
-                Listing is free! At the time of the sale, the following fees will be decucted.
-              </div>
-            </Checkbox>
-            <div className="text">Total fees  ----------------------------------------------------------- 2%</div>
-          </Announcement>
-        </div>
-      </SellingModal>
+      <SellModal visible={visible} onCancel={() => setVisible(false)} data={data} account={account} />
     </BundleDetailContainer>
   )
 
