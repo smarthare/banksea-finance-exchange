@@ -17,7 +17,15 @@ export function NftHomeCreateData() {
   return banksyRequest.get<any>('/nft/web/v1/home/count')
 }
 
-export function createNFT(data: { uri: string, addressCreate: string, tokenId: string }) {
+export function createNFT(data: { uri: string, addressCreate: string, tokenId: string, group: string }) {
   axios.post('http://43.129.189.139:25566/nft/web/v1/create/uri', data)
+}
+
+export function sellOrder(data: any) {
+  return banksyRequest.post<any>('/nft/web/v1/transfer/order/create',data)
+}
+
+export function aiStyleList() {
+  return banksyRequest.get<any>('/nft/web/v1/aiGenerators/style/list')
 }
 

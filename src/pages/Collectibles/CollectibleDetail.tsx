@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { Button, Table } from 'antd'
+import { Button, Divider, Table, Modal, Input, Select, Checkbox } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
@@ -15,6 +15,10 @@ import more2 from '@/assets/images/detailMoreImg/more2.png'
 import more3 from '@/assets/images/detailMoreImg/more3.jpg'
 import more4 from '@/assets/images/detailMoreImg/more4.png'
 import { useLocationQuery } from '../../utils'
+import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../../store/wallet'
+import { sellOrder } from '../../utils/banksyNftList'
 
 const Row = styled.div`
   display: flex;
@@ -30,6 +34,7 @@ const BundleDetailContainer = styled.div`
   padding: 5rem 10rem;
   background: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default}) no-repeat;
   background-size: 100%;
+  position: relative;
 
 `
 
@@ -78,6 +83,8 @@ const TradingHistoryTable = styled(Table)`
 const RightArea = styled.div`
   width: 53.9rem;
   margin-left: 1.3rem;
+  position: relative;
+
 
   .bundle-info {
     margin-top: 0.8rem;
@@ -112,6 +119,38 @@ const RightArea = styled.div`
 
   }
 
+`
+
+const Operating = styled.div`
+  display: flex;
+  width: 100%;
+  position: relative;
+
+  .edit {
+    width: 15rem;
+    height: 40px;
+    border: 1px solid #7C6DEB;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #7C6DEB;
+    line-height: 2rem;
+    position: absolute;
+    right: 16rem;
+  }
+
+  .sell {
+    width: 15rem;
+    height: 40px;
+    background: #7C6DEB;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 2rem;
+    position: absolute;
+    right: 0;
+  }
 `
 
 const PropertiesArea = styled.div`
@@ -386,20 +425,288 @@ const ConnectButton = styled(Button)`
   border-radius: 10px;
   position: absolute;
   bottom: 0;
-
-
   font-size: 1.4rem;
   font-weight: 500;
   color: #FFFFFF;
   line-height: 2rem;
-
 `
+
+const SellingModal = styled(Modal)`
+  .ant-modal-content {
+    border-radius: 1rem;
+    width: 62.3rem;
+  }
+
+  .ant-modal-header {
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+  }
+
+  .ant-modal-header .ant-modal-title {
+    display: flex;
+    justify-content: center;
+    font-weight: 550;
+    font-size: 1.8rem;
+  }
+
+  .checkout-list {
+
+    .checkout-list-title {
+      line-height: 25px;
+      font-size: 1.8rem;
+      font-weight: 550;
+    }
+
+    .sellMethodButton {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      margin-bottom: 3.6rem;
+
+      Button {
+        width: 12.6rem;
+        height: 5rem;
+        background: #E0DDF6;
+        border: none;
+        border-radius: 1rem;
+        color: #7C6DEB;
+      }
+    }
+
+    .hightest {
+      line-height: 25px;
+      font-size: 1.8rem;
+      font-weight: 550;
+    }
+  }
+
+  .sellContent {
+    width: 100%;
+
+    .fixedPrice {
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      .ant-input-group {
+        width: 60%;
+      }
+
+      .ant-select-selector {
+        height: 5rem;
+        display: flex;
+        align-items: center;
+        color: #7C6DEB;
+        background: #E5E2FB !important;
+        border-top: 1px solid #7C6DEB;
+        border-left: 1px solid #7C6DEB;
+        border-bottom: 1px solid #7C6DEB;
+      }
+
+      .ant-input-group.ant-input-group-compact > *:first-child, .ant-input-group.ant-input-group-compact > .ant-select:first-child > .ant-select-selector, .ant-input-group.ant-input-group-compact > .ant-select-auto-complete:first-child .ant-input, .ant-input-group.ant-input-group-compact > .ant-cascader-picker:first-child .ant-input {
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+      }
+
+      .ant-input {
+        width: 65% !important;
+        height: 5rem;
+        color: #7C6DEB;
+        background: #E5E2FB !important;
+        border-top: 1px solid #7C6DEB;
+        border-right: 1px solid #7C6DEB;
+        border-bottom: 1px solid #7C6DEB;
+      }
+
+      .ant-input-group.ant-input-group-compact > *:last-child, .ant-input-group.ant-input-group-compact > .ant-select:last-child > .ant-select-selector, .ant-input-group.ant-input-group-compact > .ant-cascader-picker:last-child .ant-input, .ant-input-group.ant-input-group-compact > .ant-cascader-picker-focused:last-child .ant-input {
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+      }
+
+      span {
+        color: #7C6DEB;
+      }
+    }
+
+    .listing {
+      width: 100%;
+      height: 5rem;
+      margin-top: 4rem;
+      background: #7C6DEB;
+      border: none;
+      color: #ffffff;
+      border-radius: 1rem;
+      font-size: 1.8rem;
+    }
+  }
+
+  .checkout-detail {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+    .ntf-info {
+      display: flex;
+
+      .nft-image {
+        width: 7.1rem;
+        height: 7.1rem;
+        background: #D8D8D8;
+      }
+
+      .nft-detail {
+        margin-left: 2.4rem;
+        align-self: center;
+
+        .artist-name {
+          font-size: 1.8rem;
+          font-weight: 500;
+          color: #7C6DEB;
+          line-height: 2.5rem;
+        }
+
+        .nft-name {
+          font-size: 1.8rem;
+          font-weight: 550;
+          line-height: 2.5rem;
+        }
+      }
+    }
+
+    .nft-value {
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      text-align: right;
+
+      .nft-price {
+        font-size: 1.8rem;
+        font-weight: 500;
+        line-height: 2.5rem;
+        width: 7.1rem;
+      }
+
+      .nft-price-dollar {
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: #999999;
+        line-height: 20px;
+        width: 7.1rem;
+      }
+    }
+  }
+
+  .total-price {
+    display: flex;
+    justify-content: space-between;
+
+    .total {
+      line-height: 25px;
+      font-size: 1.8rem;
+      font-weight: 550;
+    }
+
+    .nft-value {
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      text-align: right;
+
+      .nft-price {
+        font-size: 2.2rem;
+        font-weight: 500;
+        color: #7C6DEB;
+        line-height: 3rem;
+        width: 9.1rem;
+      }
+
+      .nft-price-dollar {
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: #999999;
+        line-height: 2.5rem;
+        width: 9.1rem;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 3.3rem;
+
+    .ant-btn {
+      width: 16.1rem;
+      height: 5rem;
+      background: #7C6DEB;
+      border-radius: 1rem;
+    }
+
+    .ant-btn > span {
+      font-size: 1.8rem;
+      font-weight: 550;
+      color: #FFFFFF;
+    }
+  }
+`
+
+const Announcement = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-bottom: 6rem;
+
+  .text {
+    width: 54.6rem;
+    height: 5rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #7c6deb;
+    line-height: 2.5rem;
+    padding-top: 4.4rem;
+  }
+
+  .text2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #7c6deb;
+    line-height: 2.5rem;
+    padding-top: 5rem;
+  }
+`
+type MessageHintProps = {
+  message: string,
+  type?: 'error' | 'hint' | 'success'
+}
+
+const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
+  const color = type ? {
+    'error': 'red',
+    'success': 'rgb(82,196,26)',
+    'hint': '#7c6deb'
+  }[type] : ''
+
+  return (
+    <p style={{ fontSize: '1.2rem', color }}>
+      {message}
+    </p>
+  )
+}
 
 const CollectibleDetailPage: React.FC = () => {
   moment.locale('en')
+  const account = useSelector(getAccount)
+
+  const [isSellModalVisible, setSellModalVisible] = useState(false)
+
+  const [promised, setPromised] = useState(false)
+
+  const [hintMessage, setHintMessage] = useState<MessageHintProps>({
+    message: '', type: 'hint'
+  })
 
   const [data, setData] = useState<any>()
-
   const uri = useLocationQuery('uri')
   const type = useLocationQuery('type')
   const contractAddress = useLocationQuery('contractAddress')
@@ -448,6 +755,32 @@ const CollectibleDetailPage: React.FC = () => {
     }
   ]
 
+  const { Option } = Select
+
+  const sellOrder = {
+    dir: 'sell',
+    maker: account,
+    makerAsset: {
+      settleType: 'uint256',
+      baseAsset: {
+        code: {
+          baseType: 'uint256',
+          extraType: data?.tokenId,
+          contractAddr: data?.addressContract
+        },
+        value: 'uint256'
+      },
+      extraValue: 'uint256'
+    },
+    fee: 'uint256',
+    feeRecipient: 'address',
+    startTime: 'uint256',
+    endTime: 'uint256',
+    salt: 'uint256',
+  }
+
+
+
   const historyDataSource = data?.logTransferSingleVos?.map((item: any, index: number) => ({
     key: index,
     event: item?.tokenId,
@@ -460,6 +793,36 @@ const CollectibleDetailPage: React.FC = () => {
 
   const handleCopy = (addressCreate: any) => {
     copy(addressCreate)
+  }
+
+  const sellModalOpen = () => {
+    setSellModalVisible(true)
+  }
+
+  const handleOk = () => {
+    setSellModalVisible(false)
+  }
+
+  const handleCancel = () => {
+    setSellModalVisible(false)
+  }
+
+  const listing = () => {
+    if (!promised) {
+      setHintMessage({
+        message: 'Please check the checkbox first!',
+        type: 'error'
+      })
+      return
+    }else {
+      banksyJsConnector.banksyJs.Banksy.isApprovedForAll(data.addressOwner, account!).then(res => {
+        console.log(res)
+      }).catch(() => {
+        banksyJsConnector.banksyJs.Banksy.setApprovalForAll(account!, false).then(res => {
+          console.log(res)
+        })
+      })
+    }
   }
 
   return (
@@ -475,6 +838,14 @@ const CollectibleDetailPage: React.FC = () => {
           </ImageContainer>
         </LeftArea>
         <RightArea>
+          {
+            type === 'own'?
+              <Operating>
+                <Button className="edit">Edit</Button>
+                <Button className="sell" onClick={sellModalOpen}>Sell</Button>
+              </Operating>:
+              <div />
+          }
           <BundleName>{data?.name}</BundleName>
           <div className="bundle-info">
             <div className="item">
@@ -509,11 +880,11 @@ const CollectibleDetailPage: React.FC = () => {
           </DescriptionContainer>
           <PriceContainer>
             <div className="bundle-info">
-              {/*<div className='item'>*/}
-              {/*  <div className='info-label'>Current price</div>*/}
-              {/*  <div className='price'>0.99999</div>*/}
-              {/*  <div className='price-in-usd'>($297.21)</div>*/}
-              {/*</div>*/}
+              <div className="item">
+                <div className="info-label">Current price</div>
+                <div className="price">0.99999</div>
+                <div className="price-in-usd">($297.21)</div>
+              </div>
               <div className="item">
                 <img
                   src={Favorite}
@@ -720,6 +1091,49 @@ const CollectibleDetailPage: React.FC = () => {
           </OtherArtworksContainer>
         </OtherArtworksArea>
       </Row>
+
+      <SellingModal title="Selling"
+        visible={isSellModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <div className="checkout-list">
+          <div className="checkout-list-title">Sell Method</div>
+          <div className="sellMethodButton">
+            <Button>Fixed price</Button>
+            <Button>Auction</Button>
+            <Button>Spliting</Button>
+            <Button>Mortgage</Button>
+          </div>
+          <p className="hightest">Set Price</p>
+        </div>
+        <div className="sellContent">
+          <div className="fixedPrice">
+            <Input.Group compact>
+              <Select defaultValue="ETH">
+                <Option value="ETH">ETH</Option>
+                <Option value="USDT">USDT</Option>
+              </Select>
+              <Input style={{ width: '50%' }} defaultValue="" />
+            </Input.Group>
+            <span>ETH</span>
+          </div>
+          <Button className="listing" onClick={listing}>Listing</Button>
+          <MessageHint {...hintMessage} />
+          <Announcement>
+            <Checkbox
+              checked={promised}
+              onChange={e => setPromised(e.target.checked)}
+            >
+              <div className="text">
+                Listing is free! At the time of the sale, the following fees will be decucted.
+              </div>
+            </Checkbox>
+            <div className="text">Total fees  ----------------------------------------------------------- 2%</div>
+          </Announcement>
+        </div>
+      </SellingModal>
     </BundleDetailContainer>
   )
 

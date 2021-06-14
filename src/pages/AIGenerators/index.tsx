@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, Checkbox, Image as AntdImage, Upload } from 'antd'
 import Plus from '@/assets/images/AIGeneratorsImg/plus.png'
@@ -6,6 +6,12 @@ import UploadIcn from '@/assets/images/AIGeneratorsImg/upload.png'
 import DownArrow from '@/assets/images/AIGeneratorsImg/arrow-down.png'
 import { usePersonalNfts } from '../../hooks/usePersonalNfts'
 import { aiGeneratorFastStyle } from '../../apis/ai'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/swiper.scss'
+import SwiperCore, { Navigation } from 'swiper'
+import 'swiper/components/navigation/navigation.scss'
+import { aiStyleList } from '../../utils/banksyNftList'
+
 
 const AIGeneratorsContainer = styled.div`
   margin: 0 auto;
@@ -65,23 +71,10 @@ const GeneratorBody = styled.div`
     }
   }
 
-  .gene-detail {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
 
   .plus-icon {
     display: flex;
     justify-content: center;
-  }
-
-  .nft-detail {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-
   }
 `
 
@@ -93,7 +86,16 @@ const GeneratorFooter = styled.div`
   margin-top: 2rem;
 `
 
-const GenerateButton = styled(Button)`
+const Description = styled.div`
+  padding: 2.6rem 5.7rem;
+  margin-top: 2.5rem;
+  text-align: center;
+  border: 2px dashed #7C6DEB;
+  background: #E5E2FB;
+  color: #7C6DEB;
+`
+
+const GenerateButton = styled.div`
   width: 405px;
   height: 50px;
   background: #7C6DEB;
@@ -101,7 +103,32 @@ const GenerateButton = styled(Button)`
   font-size: 16px;
   font-weight: 500;
   color: #FFFFFF;
+  line-height: 50px;
+  text-align: center;
+`
+
+const CreatButton = styled(Button)`
+  width: 211px;
+  height: 50px;
+  background: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #7C6DEB;
   line-height: 22px;
+  position: absolute;
+  bottom: 3.7rem;
+  left: calc((100% - 211px) / 2);
+
+  :hover {
+    background: #00FFFF;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #FFFFFF;
+  }
 `
 
 const AssetUploadContainer = styled.div`
@@ -130,12 +157,13 @@ const AssetUploadContainer = styled.div`
 const GenerateResultContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 2.5rem;
+  margin-top: 4rem;
   width: 99.4rem;
   height: 53.1rem;
-  background-image: linear-gradient(#2A009A, #2B00A0, #15044F);
+  background: #7C6DEB;
   border-radius: 1rem;
   padding: 3.5rem 5.9rem;
+  position: relative;
 `
 
 const NFTItem: React.FC<{ src: string }> = ({ src }) => {
@@ -200,7 +228,7 @@ const SCSelectedNFTColumn = styled.div`
   .item {
     width: 21.2rem;
     height: 15rem;
-    background-color: #00FFFF;
+    background-color: rgba(255, 255, 255, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -292,7 +320,6 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
       style={{
         position: 'relative',
         top: '1rem',
-        marginRight: '1.5rem'
       }}
       onClick={() => onSelect(src)}
     >
@@ -308,16 +335,27 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
   )
 }
 
+SwiperCore.use([Navigation])
 const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string) => void, list?: string[] }> = ({
   selectedValue,
   onSelect,
   list
 }) => {
+  console.log(list)
   return (
     <div className="gene-detail">
-      {list?.map(item => (
-        <SelectableNFTItem src={item} checked={selectedValue === item} key={item} onSelect={onSelect} />
-      ))}
+      <Swiper slidesPerView={4}
+        spaceBetween={50}
+        navigation
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={swiper => console.log(swiper)}
+      >
+        {list?.map((item, key) => (
+          <SwiperSlide key={key}>
+            <SelectableNFTItem src={item} checked={selectedValue === item} key={item} onSelect={onSelect} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   )
 }
@@ -327,11 +365,11 @@ const RightArrow: React.FC = () => {
     <div style={{ height: '18.2rem', display: 'flex', alignItems: 'center' }}>
       <div
         style={{
-          borderRight: '1px solid #00FFFF',
+          borderRight: '1px solid #ffffff',
           width: '1rem',
           height: '18.2rem',
-          borderTop: '1px solid #00FFFF',
-          borderBottom: '1px solid #00FFFF'
+          borderTop: '1px solid #ffffff',
+          borderBottom: '1px solid #ffffff'
         }}
       />
       <img
@@ -344,12 +382,16 @@ const RightArrow: React.FC = () => {
 
 const AIGenerators: React.FC = () => {
   const { data: personalNfts } = usePersonalNfts()
-  const styleList = [
-    'http://upload.art.ifeng.com/2015/1022/1445498172676.png?1.2223467451985925',
-    'http://upload.art.ifeng.com/2015/1022/1445498178518.png?3.2791961648035794',
-    'http://upload.art.ifeng.com/2015/1022/1445498203824.png?4.13313033641316',
-    'http://upload.art.ifeng.com/2015/1022/1445498260727.png?3.621879533166066'
-  ]
+  const [styleList, setStyleList] = useState<any>()
+  const init = useCallback(async() => {
+    aiStyleList().then(res => {
+      setStyleList(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
 
   const [style, setStyle] = useState('')
   const [content, setContent] = useState('')
@@ -377,7 +419,7 @@ const AIGenerators: React.FC = () => {
           <div className="title">Style Gene</div>
           <div className="split-border" />
         </div>
-        <SelectableNFTList selectedValue={style} onSelect={v => setStyle(v)} list={styleList} />
+        <SelectableNFTList selectedValue={style} onSelect={v => setStyle(v)} list={styleList?.map((style: { url: any }) => style?.url)} />
         <div className="plus-icon">
           <img src={Plus} style={{ width: '2.6rem', marginTop: '3.1rem' }} alt="" />
         </div>
@@ -386,22 +428,20 @@ const AIGenerators: React.FC = () => {
           <div className="title">My NFT</div>
           <div className="split-border" />
         </div>
-        <div className="nft-detail">
-          <SelectableNFTList
-            selectedValue={content}
-            onSelect={v => setContent(v)}
-            list={personalNfts?.map((nft: { image: any }) => nft.image)}
-          />
-          {/*<AssetUpload />*/}
-        </div>
+        <SelectableNFTList
+          selectedValue={content}
+          onSelect={v => setContent(v)}
+          list={personalNfts?.map((nft: { image: any }) => nft.image)}
+        />
+        {/*<AssetUpload />*/}
       </GeneratorBody>
       <GeneratorFooter>
-        <GenerateButton onClick={generate} disabled={generating}>
-          {
-            !generating ? 'AI Generate' : 'Generating...'
-          }
-        </GenerateButton>
+        <GenerateButton>AI Generate</GenerateButton>
         <img src={DownArrow} style={{ width: '2.6rem', height: '3.2rem', marginTop: '0.6rem' }} alt="" />
+        <Description>
+          AI Generation uses artificial intelligence algorithms to extract the image style of Style Gene NFT and
+          integrate it with the image of My NFT to reconstruct a brand-new NFT, which is a very interesting gameplay.
+        </Description>
         <GenerateResultContainer>
           <SelectedNft style={style} content={content} />
           <RightArrow />
@@ -419,7 +459,7 @@ const AIGenerators: React.FC = () => {
           />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{
-              backgroundColor: '#00FFFF',
+              backgroundColor: 'rgba(255, 255, 255, 0.5)',
               width: '21.2rem',
               display: 'flex',
               justifyContent: 'center',
@@ -438,6 +478,11 @@ const AIGenerators: React.FC = () => {
               }
             </div>
           </div>
+          <CreatButton onClick={generate} disabled={generating}>
+            {
+              !generating ? 'AI Generate' : 'Generating...'
+            }
+          </CreatButton>
         </GenerateResultContainer>
       </GeneratorFooter>
     </AIGeneratorsContainer>

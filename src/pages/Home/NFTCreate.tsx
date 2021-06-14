@@ -405,7 +405,7 @@ const NFTCreate: React.FC = () => {
           key,
           value: values[key]
         }))*/
-
+        console.log(values)
         const nftMetadata: NFTMetadata = {
           name: values.artworkName,
           description: values.briefIntroduction,
@@ -432,7 +432,8 @@ const NFTCreate: React.FC = () => {
             createNFT({
               uri: IpfsHash,
               addressCreate: account!,
-              tokenId: ''
+              tokenId: '',
+              group: values.artistName
             })
 
             banksyJsConnector.banksyJs.Banksy.contract!.on('URI', async (...args) => {
@@ -441,7 +442,8 @@ const NFTCreate: React.FC = () => {
                 await createNFT({
                   uri: IpfsHash,
                   addressCreate: account!,
-                  tokenId: web3Utils.hexToNumber(tokenId._hex).toString()
+                  tokenId: web3Utils.hexToNumber(tokenId._hex).toString(),
+                  group: values.artistName
                 })
 
                 setHintMessage({ message: '' })
