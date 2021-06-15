@@ -109,7 +109,8 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
   }
 
   const routeToDetailPage = () => {
-    const url = `/collectible/${data.name}?` + new URLSearchParams({
+    const url = '/collectible/nftdetail?' + new URLSearchParams({
+      id: data.name,
       uri: data.valueUri,
       addressContract: data.addressContract,
       type

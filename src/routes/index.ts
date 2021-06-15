@@ -67,19 +67,19 @@ const routes: Route[] = [
     path: '/artists',
     title: 'Artists',
     icon: ArtistsIcon,
-    component: HomePage
+    component: PleaseWaiting
   },
   {
     path: '/farms',
     title: 'Farms',
     icon: FarmsIcon,
-    component: FarmPage
+    component: PleaseWaiting
   },
   {
     path: '/oracle',
     title: 'Oracle',
     icon: OracleIcon,
-    component: HomePage
+    component: PleaseWaiting
   },
   {
     path: '/personal/home',

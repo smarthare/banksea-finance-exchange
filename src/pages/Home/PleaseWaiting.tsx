@@ -18,6 +18,16 @@ const Wait = styled.div`
   justify-content: center;
 `
 
+const BanksyWait = styled.div`
+  position: absolute;
+  top: 20rem;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+`
+
 const PleaseWaiting: React.FC = () => {
 
   useEffect(() => {
@@ -36,13 +46,23 @@ const PleaseWaiting: React.FC = () => {
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'https://assets7.lottiefiles.com/packages/lf20_YZb2Qu.json'
+      path: 'https://assets5.lottiefiles.com/packages/lf20_jCSLNe.json'
+    })
+
+    lottie.loadAnimation({
+      // @ts-ignore
+      container: document.getElementById('banksyWait'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'https://assets5.lottiefiles.com/packages/lf20_3R3PEk.json'
     })
   })
 
   return (
     <Background id="lottie-animation">
       <Wait id="waiting" />
+      <BanksyWait id="banksyWait" />
     </Background>
   )
 }
