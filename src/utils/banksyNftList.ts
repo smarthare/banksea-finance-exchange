@@ -29,3 +29,6 @@ export function aiStyleList() {
   return banksyRequest.get<any>('/nft/web/v1/aiGenerators/style/list')
 }
 
+export function aiSwiperList() {
+  return banksyRequest.get<any>('/nft/web/v1/aiGenerators/slideshow')
+}

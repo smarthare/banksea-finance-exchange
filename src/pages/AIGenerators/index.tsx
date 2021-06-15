@@ -10,9 +10,11 @@ import { usePersonalNfts } from '../../hooks/usePersonalNfts'
 import { aiGeneratorFastStyle } from '../../apis/ai'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.scss'
-import SwiperCore, { Navigation } from 'swiper'
+import SwiperCore, { EffectCoverflow, Pagination, Navigation } from 'swiper'
 import 'swiper/components/navigation/navigation.scss'
-import { aiStyleList } from '../../utils/banksyNftList'
+import 'swiper/components/effect-coverflow/effect-coverflow.min.css'
+import 'swiper/components/pagination/pagination.min.css'
+import { aiStyleList, aiSwiperList } from '../../utils/banksyNftList'
 
 
 const AIGeneratorsContainer = styled.div`
@@ -27,6 +29,8 @@ const AIGeneratorsContainer = styled.div`
 `
 
 const MainCarousel = styled.div`
+  position: relative;
+
   .top-area {
     width: 82.8rem;
     height: 23.2rem;
@@ -38,6 +42,25 @@ const MainCarousel = styled.div`
     width: 82.8rem;
     height: 12rem;
     background-image: linear-gradient(#3F47C2, #7C6DEB);
+  }
+
+  .swiperTop {
+    width: 100%;
+    position: absolute;
+    top: 18rem;
+    z-index: 10;
+    color: #fff;
+
+    .swiper-slide {
+      background-position: center;
+      background-size: cover;
+      width: 17rem;
+      height: 17rem;
+
+      img {
+        object-fit:cover
+      }
+    }
   }
 
 `
@@ -271,6 +294,36 @@ const SCSelectedNFTColumn = styled.div`
   }
 `
 
+
+SwiperCore.use([Navigation, EffectCoverflow, Pagination])
+const SwiperTop: React.FC<{ list?: string[] }> = ({ list } ) => {
+  return(
+    <div className="swiperTop">
+      <Swiper
+        effect={'coverflow'}
+        grabCursor={true}
+        centeredSlides={true}
+        slidesPerView={'auto'}
+        coverflowEffect={{
+          'rotate': 100,
+          'stretch': 0,
+          'depth': 100,
+          'modifier': 1,
+          'slideShadows': true
+        }}
+        pagination={true}
+      >
+        {list?.map((item, key) => (
+          <SwiperSlide key={key}>
+            <img style={{ height: '100%' }} src={item} key={item} />
+          </SwiperSlide>
+        ))}
+        <SwiperSlide />
+      </Swiper>
+    </div>
+  )
+}
+
 const SelectedNft: React.FC<{ style: string, content: string }> = ({ style, content }) => {
   return (
     <SCSelectedNFTColumn>
@@ -351,7 +404,7 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
   )
 }
 
-SwiperCore.use([Navigation])
+
 const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string) => void, list?: string[] }> = ({
   selectedValue,
   onSelect,
@@ -399,10 +452,14 @@ const RightArrow: React.FC = () => {
 const AIGenerators: React.FC = () => {
   const { data: personalNfts } = usePersonalNfts()
   const [styleList, setStyleList] = useState<any>()
+  const [swiperList, setSwiperList] = useState<any>()
   const [generating, setGenerating] = useState(false)
   const init = useCallback(async() => {
     aiStyleList().then(res => {
       setStyleList(res.data.data)
+    })
+    aiSwiperList().then(res => {
+      setSwiperList(res.data.data)
     })
   },[])
 
@@ -430,6 +487,7 @@ const AIGenerators: React.FC = () => {
         <MainCarousel>
           <div className="top-area" />
           <div className="bottom-area" />
+          <SwiperTop list={swiperList?.map((style: { url: any }) => style?.url)} />
         </MainCarousel>
       </GeneratorTop>
       <GeneratorBody>

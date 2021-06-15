@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
-import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
 import { Button, Checkbox, Input, Modal, Select } from 'antd'
 import styled from 'styled-components'
+import { sellOrder } from '../utils/banksyNftList'
 
 const SellingModal = styled(Modal)`
   .ant-modal-content {
@@ -49,16 +49,17 @@ const SellingModal = styled(Modal)`
         color: #ffffff;
       }
     }
+  }
+
+  .sellContent {
+    width: 100%;
+    display: none;
 
     .hightest {
       line-height: 25px;
       font-size: 1.8rem;
       font-weight: 550;
     }
-  }
-
-  .sellContent {
-    width: 100%;
 
     .fixedPrice {
       width: 100%;
@@ -115,6 +116,10 @@ const SellingModal = styled(Modal)`
       border-radius: 1rem;
       font-size: 1.8rem;
     }
+  }
+
+  .sellContent.active {
+    display: block;
   }
 
   .checkout-detail {
@@ -252,6 +257,18 @@ const Announcement = styled.div`
     padding-top: 5rem;
   }
 `
+const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #DCDCDC;
+`
+
+const AuctionItem = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+`
 
 
 type MessageHintProps = {
@@ -281,36 +298,32 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
   })
   const [current, setcurrent] = useState(0)
 
-  const clickevent = useCallback((item, key) => {
+  const clickTabs = useCallback((item, key) => {
     setcurrent(key)
-  },[])
-
-  const classNameSJp = useCallback(cur => {
-    return current === cur ? 'active' : 'tabs__content'
   },[])
 
   const tabs = ['Fixed price', 'Auction', 'Spliting', 'Mortgage',]
 
-  const sellOrder = {
+  const sellingOrder = {
     dir: 'sell',
     maker: account,
     makerAsset: {
-      settleType: 'uint256',
+      settleType: 'eth',
       baseAsset: {
         code: {
-          baseType: 'uint256',
+          baseType: 1,
           extraType: data?.tokenId,
           contractAddr: data?.addressContract
         },
-        value: 'uint256'
+        value: ''
       },
-      extraValue: 'uint256'
+      extraValue: ''
     },
-    fee: 'uint256',
-    feeRecipient: 'address',
-    startTime: 'uint256',
-    endTime: 'uint256',
-    salt: 'uint256',
+    fee: '',
+    feeRecipient: '',
+    startTime: '',
+    endTime: '',
+    salt: data?.id,
   }
 
   const listing = () => {
@@ -321,8 +334,8 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
       })
       return
     }else {
-      banksyJsConnector.banksyJs.Banksy.isApprovedForAll(account!, '0x1Da28CC4693477E97BE4FA592918C216aE79D7aa').then(res => {
-        console.log(res)
+      sellOrder(sellingOrder).then(res => {
+        onCancel()
       }).catch(err=>err)
     }
   }
@@ -341,14 +354,19 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
             tabs.map((item:any, i:number) => {
               return(
                 // @ts-ignore
-                <Button className={i === current && 'tabs__link'} onClick={() => clickevent(item, i)} key={i}>{item}</Button>
+                <Button className={i === current && 'tabs__link'}
+                  onClick={() => clickTabs(item, i)}
+                  key={i}
+                >
+                  {item}
+                </Button>
               )
             })
           }
         </div>
-        <p className="hightest">Set Price</p>
       </div>
-      <div className="sellContent">
+      <div className={'sellContent ' + (current === 0 ? 'active': '')}>
+        <p className="hightest">Set Price</p>
         <div className="fixedPrice">
           <Input.Group compact>
             <Select defaultValue="ETH">
@@ -372,6 +390,14 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
           </Checkbox>
           <div className="text">Total fees  ----------------------------------------------------------- 2%</div>
         </Announcement>
+      </div>
+
+      <div className={'sellContent ' + (current === 1 ? 'active': '')}>
+        <p className="hightest">Highest Bid</p>
+        <Line />
+        <div>
+          <AuctionItem />
+        </div>
       </div>
     </SellingModal>
   )

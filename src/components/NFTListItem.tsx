@@ -66,22 +66,28 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
 
   const CornerFlag: React.FC = () => {
     return (
-      <div
-        style={{
-          position: 'absolute',
-          top: '-1rem',
-          left: '-0.45rem',
-          color: 'white',
-          fontWeight: 500,
-          textAlign: 'center',
-          lineHeight: '3rem',
-          width: '8.5rem',
-          height: '3.7rem',
-          backgroundImage: `url(${require('../assets/images/collectibles-item-corner-flag-bg.png').default})`,
-          backgroundSize: 'cover'
-        }}
-      >
-        on Sale
+      <div>
+        {
+          data.onSale ?
+            <div
+              style={{
+                position: 'absolute',
+                top: '-1rem',
+                left: '-0.45rem',
+                color: 'white',
+                fontWeight: 500,
+                textAlign: 'center',
+                lineHeight: '3rem',
+                width: '8.5rem',
+                height: '3.7rem',
+                backgroundImage: `url(${require('../assets/images/collectibles-item-corner-flag-bg.png').default})`,
+                backgroundSize: 'cover'
+              }}
+            >
+              on Sale
+            </div>:
+            <div />
+        }
       </div>
     )
   }
@@ -124,7 +130,7 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
 
   return (
     <div style={{ position: 'relative' }}>
-      <CornerFlag />
+      {/*<CornerFlag />*/}
       <ApproveVoteButton />
       <NFTItemCardContainer>
         <div style={{ cursor: 'pointer' }} onClick={routeToDetailPage}>

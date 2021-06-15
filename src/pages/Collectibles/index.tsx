@@ -215,7 +215,6 @@ const Filter: React.FC = () => {
       banksyUnique: true,
       values: [
         'AI-NFT',
-        'Gamification-NFT'
       ]
     }
   ]

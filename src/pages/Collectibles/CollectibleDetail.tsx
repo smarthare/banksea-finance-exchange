@@ -19,7 +19,7 @@ import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { sellOrder } from '../../utils/banksyNftList'
-import SellModal from './SellModal'
+import SellModal from '../../components/SellModal'
 
 const Row = styled.div`
   display: flex;
