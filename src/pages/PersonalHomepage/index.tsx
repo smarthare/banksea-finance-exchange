@@ -17,9 +17,9 @@ import NFTListItem from '../../components/NFTListItem'
 import ListPageLoading from '../../components/ListPageLoading'
 
 const PersonalContainer = styled.div`
-  width: 100%;
+  width: 120.2rem;
   font-family: 'PingFang SC';
-  padding: 0 20.5rem;
+  margin: 0 auto;
   min-height: calc(100vh - 6.5rem);
   display: flex;
   flex-direction: column;
@@ -104,6 +104,15 @@ const OptionBtn = styled(Button)`
     background: #7C6DEB !important;
     border-color: #7C6DEB !important;
   }
+`
+
+const PersonalSelectors = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 3.5rem;
+  margin-bottom: 3.5rem;
+  position: absolute;
+  right: 0;
 `
 
 const SearchInput = styled(Input)`
@@ -235,16 +244,18 @@ const PersonalHomepage: React.FC = () => {
   const [total, setTotal] = useState<number>()
   const [data, setData] = useState<any>()
   const [loading, setLoading] = useState(true)
+  const [searchKey, setSearchKey] = useState<any>()
 
-  const form = {
-    addressOwner: account,
-    current: current,
-    size: 20
-  }
 
-  const init = useCallback(async () => {
+  const fetch = useCallback(async (searchKey: any, current: any) => {
     setLoading(true)
-    personalNftList(form).then((res: any) => {
+
+    personalNftList({
+      addressOwner: account,
+      current: current,
+      size: 20,
+      searchKey: searchKey
+    }).then((res: any) => {
       const _data = res.data.data.records.map((item: any) => ({
         ...item,
         image: `https://banksy.mypinata.cloud${item?.image.slice(-52)}`
@@ -256,12 +267,17 @@ const PersonalHomepage: React.FC = () => {
   }, [current])
 
   useEffect(() => {
-    init()
-  }, [init])
+    fetch(searchKey, current)
+  }, [fetch])
 
   const onChangePage = (pageNumber: number) => {
     setCurrent(pageNumber)
-    init()
+    fetch(searchKey, pageNumber)
+  }
+
+  const onPressEnter = (e: any) => {
+    setSearchKey(e.target.attributes[2].value)
+    fetch(e.target.attributes[2].value, current)
   }
 
   return (
@@ -293,12 +309,14 @@ const PersonalHomepage: React.FC = () => {
           <div className="option-name">Favorite</div>
         </OptionBtn>
       </UserOptions>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '3.5rem', marginBottom: '3.5rem' }}>
-        <SearchInput
-          prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
-        />
-        <TypeSelector />
-        <OrderSelector />
+      <div style={{ width: '100%', height: '15rem', position: 'relative' }}>
+        <PersonalSelectors>
+          <SearchInput onPressEnter={onPressEnter}
+            prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
+          />
+          <TypeSelector />
+          <OrderSelector />
+        </PersonalSelectors>
       </div>
       <ListPageLoading loading={loading} />
       <UserNFTList list={data} />

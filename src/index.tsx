@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { HashRouter as Router } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
-import { BrowserRouter } from 'react-router-dom'
 
 import './index.css'
 
@@ -20,15 +20,15 @@ const queryClient = new QueryClient()
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={<LoadingOutlined />} persistor={persistor}>
-      <QueryClientProvider client={queryClient}>
-        <Web3EnvContextProvider>
-          <WalletSelectionModalProvider>
-            <BrowserRouter>
+      <Router>
+        <QueryClientProvider client={queryClient}>
+          <Web3EnvContextProvider>
+            <WalletSelectionModalProvider>
               <App />
-            </BrowserRouter>
-          </WalletSelectionModalProvider>
-        </Web3EnvContextProvider>
-      </QueryClientProvider>
+            </WalletSelectionModalProvider>
+          </Web3EnvContextProvider>
+        </QueryClientProvider>
+      </Router>
     </PersistGate>
   </Provider>,
   document.getElementById('root')

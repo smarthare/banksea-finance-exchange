@@ -1,7 +1,7 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { Button, Divider, Table, Modal, Input, Select, Checkbox } from 'antd'
+import { Button, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
@@ -15,11 +15,10 @@ import more2 from '@/assets/images/detailMoreImg/more2.png'
 import more3 from '@/assets/images/detailMoreImg/more3.jpg'
 import more4 from '@/assets/images/detailMoreImg/more4.png'
 import { useLocationQuery } from '../../utils'
-import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
-import { sellOrder } from '../../utils/banksyNftList'
 import SellModal from '../../components/SellModal'
+import { NftDetailFavorite } from '../../utils/banksyNftList'
 
 const Row = styled.div`
   display: flex;
@@ -32,10 +31,16 @@ const BundleDetailContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 5rem 10rem;
+  padding: 2rem 10rem;
   background: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default}) no-repeat;
   background-size: 100%;
   position: relative;
+
+  .operating {
+    width: 100%;
+    height: 7rem;
+    position: relative;
+  }
 
 `
 
@@ -449,41 +454,32 @@ const BuyOperating = styled.div`
 `
 
 
-type MessageHintProps = {
-  message: string,
-  type?: 'error' | 'hint' | 'success'
-}
-
-const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
-  const color = type ? {
-    'error': 'red',
-    'success': 'rgb(82,196,26)',
-    'hint': '#7c6deb'
-  }[type] : ''
-
-  return (
-    <p style={{ fontSize: '1.2rem', color }}>
-      {message}
-    </p>
-  )
-}
-
-
 const CollectibleDetailPage: React.FC = () => {
   moment.locale('en')
+
   const account = useSelector(getAccount)
+
   const [visible, setVisible] = useState(false)
 
   const [data, setData] = useState<any>()
+
   const uri = useLocationQuery('uri')
+
   const type = useLocationQuery('type')
+
   const contractAddress = useLocationQuery('contractAddress')
 
-  const init = useCallback(async () => {
+  const [likeNum, setLikeNum] = useState<any>()
+
+  const init = useCallback( () => {
     banksyNftDetail({ uri, contractAddress })
       .then(res => {
         setData(res.data.data)
       })
+
+    NftDetailFavorite(uri).then(res => {
+      setLikeNum(res.data.data)
+    })
   }, [type, uri, contractAddress])
 
   useEffect(() => {
@@ -533,6 +529,7 @@ const CollectibleDetailPage: React.FC = () => {
   })
   )
 
+
   const handleCopy = (addressCreate: any) => {
     copy(addressCreate)
   }
@@ -543,10 +540,24 @@ const CollectibleDetailPage: React.FC = () => {
 
   return (
     <BundleDetailContainer>
+      <div className="operating">
+        {
+          account === data?.addressCreate ?
+            <Operating>
+              <Button className="edit">Edit</Button>
+              <Button className="sell" onClick={sellModalOpen}>Sell</Button>
+            </Operating>:
+            <div />
+        }
+      </div>
       <Row>
         <LeftArea>
           <ImageContainer>
-            <CornerFlag>on Auction</CornerFlag>
+            {
+              data?.onSale ?
+                <CornerFlag>on Sale</CornerFlag>:
+                <div />
+            }
             <img
               src={data?.image}
               alt=""
@@ -554,27 +565,30 @@ const CollectibleDetailPage: React.FC = () => {
           </ImageContainer>
         </LeftArea>
         <RightArea>
-          {
-            type === 'own'?
-              <Operating>
-                <Button className="edit">Edit</Button>
-                <Button className="sell" onClick={sellModalOpen}>Sell</Button>
-              </Operating>:
-              <div />
-          }
           <BundleName>{data?.name}</BundleName>
           <div className="bundle-info">
             <div className="item">
               <div className="info-label">Artist</div>
               <div className="info-name"
                 onClick={() => handleCopy(data?.addressCreate)}
-              >{data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}
+              >{
+                  data?.addressContract === '0xb1e45866bf3298a9974a65577c067c477d38712a' ?
+                    data?.nameArtist :
+                    data?.addressCreate?.substring(0, 4)+'...'+data?.addressCreate?.slice(-4)
+                }
               </div>
               <CopyOutlined className="copy" style={{ color: '#7C6DEB' }} />
             </div>
             <div className="item">
               <div className="info-label">Owner</div>
-              <div className="info-name">{data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}</div>
+              <div className="info-name"
+                onClick={() => handleCopy(data?.addressCreate)}
+              >{
+                  data?.addressContract === '0xb1e45866bf3298a9974a65577c067c477d38712a' ?
+                    data?.nameArtist :
+                    data?.addressCreate?.substring(0, 4)+'...'+data?.addressCreate?.slice(-4)
+                }
+              </div>
             </div>
             <div className="item">
               <img
@@ -588,7 +602,7 @@ const CollectibleDetailPage: React.FC = () => {
                   marginRight: '0.4rem'
                 }}
               />
-              <div className="info-name">1.2K views</div>
+              <div className="info-name">{likeNum?.view ? likeNum?.view : 0} views</div>
             </div>
           </div>
           <DescriptionContainer>
@@ -598,8 +612,12 @@ const CollectibleDetailPage: React.FC = () => {
             <div className="bundle-info">
               <div className="item">
                 <div className="info-label">Current price</div>
-                <div className="price">0.99999</div>
-                <div className="price-in-usd">($297.21)</div>
+                {
+                  data?.onSale ?
+                    <div className="price">{data?.price}</div>:
+                    <div className="price">- - </div>
+                }
+                {/*<div className="price-in-usd">($297.21)</div>*/}
               </div>
               <div className="item">
                 <img
@@ -613,11 +631,11 @@ const CollectibleDetailPage: React.FC = () => {
                     marginRight: '0.4rem'
                   }}
                 />
-                <div className="info-name">29 favorites</div>
+                <div className="info-name">{likeNum?.favorite} favorites</div>
               </div>
             </div>
             {
-              type === 'nftList'?
+              account !== data?.addressCreate?
                 <BuyOperating>
                   <Button className="buyNow">Buy Now</Button>
                 </BuyOperating>:
@@ -641,7 +659,7 @@ const CollectibleDetailPage: React.FC = () => {
               <div className="row">
                 <div className="label" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：</div>
                 <div className="value" style={{ marginTop: '1.5rem' }}>
-                  {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.substring(9, 16)}
+                  {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.slice(-4)}
                 </div>
               </div>
             </div>
@@ -655,7 +673,7 @@ const CollectibleDetailPage: React.FC = () => {
               <div className="row">
                 <div className="label" style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
                 <div className="value" style={{ marginTop: '1.5rem' }}>
-                  {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.substring(9, 16)}
+                  {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.slice(-4)}
                 </div>
               </div>
             </div>
@@ -814,7 +832,7 @@ const CollectibleDetailPage: React.FC = () => {
           </OtherArtworksContainer>
         </OtherArtworksArea>
       </Row>
-      <SellModal visible={visible} onCancel={() => setVisible(false)} data={data} account={account} />
+      <SellModal visible={visible} onCancel={() => setVisible(false)} data={data} account={account} init={init} />
     </BundleDetailContainer>
   )
 

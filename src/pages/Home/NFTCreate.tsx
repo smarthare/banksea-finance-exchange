@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Checkbox, Form, Input, message, Select, Upload, Modal } from 'antd'
+import { Button, Checkbox, Form, Input, message, Select, Upload } from 'antd'
 import UploadBtn from '@/assets/images/upload-button.png'
 import { pinFileToIPFS, pinJsonToIPFS } from '../../utils/pinata'
 import { UploadProps } from 'antd/lib/upload/interface'
@@ -13,7 +13,6 @@ import { useWalletErrorMessageGetter } from '../../hooks'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import { createNFT } from '../../utils/banksyNftList'
-import { web3Utils } from '../../web3/utils'
 import { NFTMetadata } from '../../types/NFTMetadata'
 import { useHistory } from 'react-router-dom'
 import LoadingModal from '../../components/PleaseWaitModal'
@@ -362,6 +361,7 @@ const NFTCreate: React.FC = () => {
 
   const [visible, setVisible] = useState(false)
 
+
   const [promised, setPromised] = useState(false)
   const [assetIpfsHash, setAssetIpfsHash] = useState('')
   const [hintMessage, setHintMessage] = useState<MessageHintProps>({
@@ -412,7 +412,6 @@ const NFTCreate: React.FC = () => {
           key,
           value: values[key]
         }))*/
-        console.log(values)
         const nftMetadata: NFTMetadata = {
           name: values.artworkName,
           description: values.briefIntroduction,
@@ -436,36 +435,37 @@ const NFTCreate: React.FC = () => {
 
             const tokenUri = `https://gateway.pinata.cloud/ipfs/${IpfsHash}`
 
-            createNFT({
+            const createForm = {
               uri: IpfsHash,
               addressCreate: account!,
               tokenId: '',
-              group: values.artistName
-            })
+              group: '',
+              nameArtist: values.artistName
+            }
+
+            createNFT(createForm)
 
             setVisible(true)
+
+
             banksyJsConnector.banksyJs.Banksy.contract!.on('URI', async (...args) => {
-              const [tokenId, tokenUriFromEvent] = args
-              setHintMessage({ message: '' })
-              message.success('Create successfully!')
-              history.push(`/nft/create/success?img=${assetIpfsHash}&name=${values.artworkName}`)
+              const [ tokenUriFromEvent] = args
               if (tokenUri === tokenUriFromEvent) {
-                await createNFT({
-                  uri: IpfsHash,
-                  addressCreate: account!,
-                  tokenId: web3Utils.hexToNumber(tokenId._hex).toString(),
-                  group: values.artistName
-                })
+                await createNFT(createForm)
               }
-              setVisible(false)
             })
 
             banksyJsConnector.banksyJs.Banksy.awardItem(account!, tokenUri)
-              .then(() => {
+              .then(res => {
+                setVisible(false)
+                setHintMessage({ message: '' })
+                message.success('Create successfully!')
+                history.push(`/nft/create/success?img=${assetIpfsHash}&name=${values.artworkName}`)
                 setHintMessage({
                   message: 'Your creation request has been submitted!',
                   type: 'hint'
                 })
+                console.log(res)
               })
               .catch(e => {
                 setHintMessage({

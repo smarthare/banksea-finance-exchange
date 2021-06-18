@@ -8,7 +8,7 @@ import { useQuery } from 'react-query'
 export function usePersonalNfts() {
   const account = useSelector(getAccount)
 
-  const [current, setCurrent] = useState(1)
+  const [current] = useState(1)
 
   const form = {
     addressOwner: account,

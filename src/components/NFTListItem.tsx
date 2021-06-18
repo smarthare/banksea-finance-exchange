@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Spin } from 'antd'
+import { Link } from 'react-router-dom'
+import { Spin } from 'antd'
 import { HeartOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 // @ts-ignore
 import LazyLoad from 'react-lazyload'
+import { useWalletSelectionModal } from '../contexts/WalletSelectionModal'
+import { useWeb3EnvContext } from '../contexts/Web3EnvProvider'
+import { NftFavorite } from '../utils/banksyNftList'
 
 const NFTItemCardContainer = styled.div`
   color: #7c6deb;
@@ -45,6 +49,7 @@ const NFTItemCardContainer = styled.div`
   .like {
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     .heart {
       margin-right: 0.5rem;
@@ -62,99 +67,103 @@ const NFTItemCardContainer = styled.div`
 `
 
 const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, type }) => {
+
+  const [clickFavorite, setClickFavorite] = useState<number>(data?.favorite)
+
+  const { providerInitialized } = useWeb3EnvContext()
+
   const [loading, setLoading] = useState(true)
+
+  const { open: openWalletSelectionModal } = useWalletSelectionModal()
+
+  const [image, setImage] = useState<any>()
+
+  if(data?.image?.slice(28) === 'https://gateway.pinata.cloud') {
+    setImage(`https://banksy.mypinata.cloud${data?.image.slice(-52)}`)
+  }
+  console.log(image)
 
   const CornerFlag: React.FC = () => {
     return (
-      <div>
-        {
-          data.onSale ?
-            <div
-              style={{
-                position: 'absolute',
-                top: '-1rem',
-                left: '-0.45rem',
-                color: 'white',
-                fontWeight: 500,
-                textAlign: 'center',
-                lineHeight: '3rem',
-                width: '8.5rem',
-                height: '3.7rem',
-                backgroundImage: `url(${require('../assets/images/collectibles-item-corner-flag-bg.png').default})`,
-                backgroundSize: 'cover'
-              }}
-            >
-              on Sale
-            </div>:
-            <div />
-        }
+      <div
+        style={{
+          position: 'absolute',
+          top: '-1rem',
+          left: '-0.45rem',
+          color: 'white',
+          fontWeight: 500,
+          textAlign: 'center',
+          lineHeight: '3rem',
+          width: '8.5rem',
+          height: '3.7rem',
+          backgroundImage: `url(${require('../assets/images/collectibles-item-corner-flag-bg.png').default})`,
+          backgroundSize: 'cover'
+        }}
+      >
+        on Sale
       </div>
     )
   }
 
-  const ApproveVoteButton: React.FC = () => {
-    return (
-      <Button
-        style={{
-          position: 'absolute',
-          right: '3.7rem',
-          top: '2.4rem',
-          width: '10.9rem',
-          height: '3rem',
-          color: 'white',
-          borderRadius: '1rem',
-          fontSize: '1.2rem',
-          fontWeight: 500,
-          border: 'none',
-          backgroundColor: '#829FF2'
-        }}
-      >
-        Approve Vote
-      </Button>
-    )
-  }
+  const url = '/collectible/nftdetail?' + new URLSearchParams({
+    id: data.name,
+    uri: data.valueUri,
+    addressContract: data.addressContract,
+    type
+  }).toString()
 
-  const routeToDetailPage = () => {
-    const url = '/collectible/nftdetail?' + new URLSearchParams({
-      id: data.name,
-      uri: data.valueUri,
-      addressContract: data.addressContract,
-      type
-    }).toString()
-    window.open(url)
-  }
 
   useEffect(() => {
     setLoading(true)
+    // console.log(data.image)
   }, [data])
+
+  const favoriteHandle = () => {
+    if(!providerInitialized) {
+      openWalletSelectionModal()
+    }else {
+      NftFavorite(data?.valueUri)
+      setClickFavorite(clickFavorite + 1)
+    }
+  }
 
   return (
     <div style={{ position: 'relative' }}>
-      {/*<CornerFlag />*/}
-      <ApproveVoteButton />
+      {
+        data.onSale ?
+          <CornerFlag />:
+          <div />
+      }
       <NFTItemCardContainer>
-        <div style={{ cursor: 'pointer' }} onClick={routeToDetailPage}>
-          <LazyLoad>
-            <img
-              style={{ display: loading ? 'none' : '' }}
-              key={data.id}
-              src={data.image}
-              alt=""
-              onLoad={() => setTimeout(() => setLoading(false), 1500)}
-              onError={() => setLoading(false)}
-            />
-          </LazyLoad>
-          {
-            loading && <Spin className="spin" />
-          }
-          <div className="name">{data?.name}</div>
+        <div style={{ cursor: 'pointer' }}>
+          <Link to={url} target={'_blank'}>
+            <LazyLoad>
+              <img
+                style={{ display: loading ? 'none' : '' }}
+                key={data.id}
+                src={data?.image}
+                alt=""
+                onLoad={() => setTimeout(() => setLoading(false), 1500)}
+                onError={() => setLoading(false)}
+              />
+            </LazyLoad>
+            {
+              loading && <Spin className="spin" />
+            }
+            <div className="name">{data?.name}</div>
+          </Link>
         </div>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
-            <div className="like">
-              <HeartOutlined className="heart" />5
+            <div className="like" onClick={favoriteHandle}>
+              <HeartOutlined className="heart" />
+              {clickFavorite ? clickFavorite : 0}
             </div>
-            <div className="price">5 ETH</div>
+            {
+              data.price ?
+                <div className="price">{data?.price}ETH</div>:
+                <div className="price">- - ETH</div>
+            }
           </div>
         </div>
       </NFTItemCardContainer>

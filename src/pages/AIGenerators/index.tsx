@@ -335,7 +335,7 @@ const SelectedNft: React.FC<{ style: string, content: string }> = ({ style, cont
               preview={false}
             />
           ) : (
-            <a href="#style-gene">
+            <a href="#/ai-generators#style-gene">
               <img src={require('../../assets/images/AIGeneratorsImg/add.png').default} alt="" className="add" />
             </a>
           )
@@ -350,7 +350,7 @@ const SelectedNft: React.FC<{ style: string, content: string }> = ({ style, cont
               preview={false}
             />
           ) : (
-            <a href="#my-nft">
+            <a href="#/ai-generators#my-nft">
               <img src={require('../../assets/images/AIGeneratorsImg/add.png').default} alt="" className="add" />
             </a>
           )
@@ -410,7 +410,6 @@ const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string)
   onSelect,
   list
 }) => {
-  console.log(list)
   return (
     <div className="gene-detail">
       <Swiper slidesPerView={4}
@@ -472,11 +471,7 @@ const AIGenerators: React.FC = () => {
   const [newNFT, setNewNFT] = useState('')
 
   const generate = async () => {
-    const startTime = Date.now()
     const result = await aiGeneratorFastStyle(style, content)
-    const endTime = Date.now()
-    const barTime = (endTime - startTime) / 1000
-    console.log(barTime)
     setGenerating(false)
     setNewNFT(result.data.data)
   }
@@ -492,7 +487,7 @@ const AIGenerators: React.FC = () => {
       </GeneratorTop>
       <GeneratorBody>
         <div className="head">
-          <p id="style-gene" style={{ position: 'relative', bottom: '5rem' }} />
+          <p id="/ai-generators#style-gene" style={{ position: 'relative', bottom: '5rem' }} />
           <div className="title">Style Gene</div>
           <div className="split-border" />
         </div>
@@ -501,7 +496,7 @@ const AIGenerators: React.FC = () => {
           <img src={Plus} style={{ width: '2.6rem', marginTop: '3.1rem' }} alt="" />
         </div>
         <div className="head">
-          <p id="my-nft" style={{ position: 'relative', bottom: '5rem' }} />
+          <p id="/ai-generators#my-nft" style={{ position: 'relative', bottom: '5rem' }} />
           <div className="title">My NFT</div>
           <div className="split-border" />
         </div>
@@ -513,7 +508,6 @@ const AIGenerators: React.FC = () => {
         {/*<AssetUpload />*/}
       </GeneratorBody>
       <GeneratorFooter>
-        <GenerateButton>AI Generate</GenerateButton>
         <img src={DownArrow} style={{ width: '2.6rem', height: '3.2rem', marginTop: '0.6rem' }} alt="" />
         <Description>
           AI Generation uses artificial intelligence algorithms to extract the image style of Style Gene NFT and

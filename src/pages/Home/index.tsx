@@ -502,7 +502,7 @@ const MyAuthorizingModal = styled(Modal)`
 `
 
 
-const HomePage: React.FC = () => {
+const HomePage: React.FC = ()=> {
   const history = useHistory()
   const account = useSelector(getAccount)
 
@@ -563,6 +563,9 @@ const HomePage: React.FC = () => {
     init()
   }, [init])
 
+  const toOnSale = () => {
+    history.push('/collectibles', { code: 'buy' })
+  }
 
   return (
     <HomePageContainer>
@@ -584,11 +587,11 @@ const HomePage: React.FC = () => {
             <img src={DrawPen2} alt="draw-pen2" style={{ width: '2.3rem', height: '5.5rem', marginLeft: '3.0rem' }} />
             <Column>
               <SubTitle>NFT Number</SubTitle>
-              <InfoValue>{account! ? `${data?.createNftNumber}` : '- - -'}</InfoValue>
+              <InfoValue>{account! && data?.createNftNumber ? data?.createNftNumber : '- - -'}</InfoValue>
             </Column>
             <Column>
               <SubTitle>Total Values</SubTitle>
-              <InfoValue>${account! ? `${data?.createTotalValues}` : '- - -'}</InfoValue>
+              <InfoValue>${account! && data?.createTotalValues ? data?.createTotalValues : '- - -'}</InfoValue>
             </Column>
             <SubmitButton onClick={() => history.push('/nft/create')}>CREATE</SubmitButton>
           </InfoDetail>
@@ -607,17 +610,17 @@ const HomePage: React.FC = () => {
             <img src={Bamboo2} alt="bamboo" style={{ width: '1.4rem', height: '4.9rem', marginLeft: '3.0rem' }} />
             <Column2>
               <SubTitle>Selling</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>{account! ? `${data?.buySelling}` : '- - -'}</InfoValue>
+              <InfoValue style={{ lineHeight: '3rem' }}>{account! && data?.buySelling ? data?.buySelling : '- - -'}</InfoValue>
             </Column2>
             <Column2>
               <SubTitle>NFT Values</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>${account! ? `${data?.buyNftValues}` : '- - -'}</InfoValue>
+              <InfoValue style={{ lineHeight: '3rem' }}>${account! && data?.buyNftValues ? data?.buyNftValues : '- - -'}</InfoValue>
             </Column2>
             <Column2>
               <SubTitle>NFT Number</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>{account! ? `${data?.buyNftNumber}` : '- - -'}</InfoValue>
+              <InfoValue style={{ lineHeight: '3rem' }}>{account! && data?.buyNftNumber ? data?.buyNftNumber : '- - -'}</InfoValue>
             </Column2>
-            <SubmitButton onClick={() => history.push('/collectibles')}>BUY</SubmitButton>
+            <SubmitButton onClick={toOnSale}>BUY</SubmitButton>
           </InfoDetail>
 
           <PositionedImage

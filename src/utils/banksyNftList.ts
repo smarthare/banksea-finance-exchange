@@ -32,3 +32,11 @@ export function aiStyleList() {
 export function aiSwiperList() {
   return banksyRequest.get<any>('/nft/web/v1/aiGenerators/slideshow')
 }
+
+export function NftFavorite(uri: any) {
+  return banksyRequest.get<any>(`/nft/web/v1/view/favorite/${uri}`)
+}
+
+export function NftDetailFavorite(uri: any) {
+  return banksyRequest.get<any>(`/nft/web/v1/view/info/${uri}`)
+}

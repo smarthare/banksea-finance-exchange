@@ -193,14 +193,15 @@ const CustomPagination = styled(Pagination)`
 `
 
 const Filter: React.FC = () => {
-  const PLATFORM_KEY = 'Cross-Platform'
-
-  const PLATFORM_BANKSY = 'Banksy'
 
   const filterItems = [
     {
-      key: PLATFORM_KEY,
-      values: [PLATFORM_BANKSY, 'OpenSea', 'Rarible']
+      key: 'Cross-Platform',
+      banksyUnique: true,
+      values: [
+        'Banksy',
+        'OpenSea',
+        'Rarible']
     },
     {
       key: 'Chinese-Style Artworks',
@@ -233,7 +234,6 @@ const Filter: React.FC = () => {
     })
   }
 
-  const banksyPlatformSelected = selectedValueByKey.get(PLATFORM_KEY) === PLATFORM_BANKSY
 
   useEffect(() => {
     console.log(new Array(selectedValueByKey.entries()).filter(entry => entry))
@@ -242,7 +242,7 @@ const Filter: React.FC = () => {
 
   return (
     <FilterContainer>
-      {filterItems.filter(item => item.banksyUnique === undefined || (banksyPlatformSelected && item.banksyUnique)).map(item => (
+      {filterItems.map(item => (
         <div className="filter-item" key={item.key}>
           <div className="key">{item.key}:</div>
           <div className="values">
@@ -266,13 +266,16 @@ const Filter: React.FC = () => {
   )
 }
 
-const TypeSelector: React.FC = () => {
+
+const TypeSelector: React.FC<any> = ({ setTypeSelectValue }) => {
+
   return (
-    <MySelect defaultValue="1">
+    <MySelect defaultValue="" onChange={(value: any) => setTypeSelectValue(value)}>
+      <Select.Option value="">All items</Select.Option>
       <Select.Option value="1">On Sale</Select.Option>
       <Select.Option value="2">On Auction</Select.Option>
       <Select.Option value="3">On Splitting</Select.Option>
-      <Select.Option value="3">On Staking</Select.Option>
+      <Select.Option value="4">On Staking</Select.Option>
     </MySelect>
   )
 }
@@ -313,46 +316,53 @@ const NFTList: React.FC<any> = ({ list }) => {
 }
 
 const CollectiblesPage: React.FC = () => {
+
   const [list, setList] = useState<any>()
+
+  const [typeSelectValue, setTypeSelectValue] = useState<any>()
+
   const [current, setCurrent] = useState<number>(1)
+
   const [total, setTotal] = useState<number>()
+
   const [searchKey, setSearchKey] = useState<any>()
+
   const [loading, setLoading] = useState<boolean>(true)
 
-  const fetch = useCallback(async () => {
+  const fetch = useCallback( (searchKey: any, current: any) => {
     setList([])
     setLoading(true)
 
     banksyNftList({
       current: current,
       size: 20,
-      searchKey: searchKey
+      searchKey: searchKey,
+      transactionStatus: typeSelectValue
     })
       .then(res => {
         const _data = res.data.data.records.map((item: any) => ({
           ...item,
-          image: `https://banksy.mypinata.cloud${item?.image.slice(-52)}`
+          image: `https://banksy.mypinata.cloud${item?.image?.slice(-52)}`
         }))
-
         setList(_data)
         setTotal(res.data.data.total)
         setLoading(false)
       })
-  }, [current, searchKey])
+  }, [current, searchKey, typeSelectValue])
 
   useEffect(() => {
-    fetch()
+    fetch(searchKey, current)
   }, [fetch])
 
 
   const onChangePage = (pageNumber: number) => {
     setCurrent(pageNumber)
-    fetch()
+    fetch(searchKey, pageNumber)
   }
 
   const onPressEnter = (e: any) => {
     setSearchKey(e.target.attributes[2].value)
-    fetch()
+    fetch(e.target.attributes[2].value, current)
   }
 
   return (
@@ -365,12 +375,12 @@ const CollectiblesPage: React.FC = () => {
           <SearchInput onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
           />
-          <TypeSelector />
+          <TypeSelector typeSelectValue={typeSelectValue} setTypeSelectValue={setTypeSelectValue} />
           <OrderSelector />
         </div>
       </div>
       <ListPageLoading loading={loading} />
-      <NFTList list={list} />
+      <NFTList list={list} fetch={fetch} />
       <CustomPagination defaultCurrent={current}
         total={total}
         onChange={onChangePage}

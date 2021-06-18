@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Button, Checkbox, Input, Modal, Select } from 'antd'
+import { Button, Checkbox, Input, Modal, Select, Form } from 'antd'
 import styled from 'styled-components'
 import { sellOrder } from '../utils/banksyNftList'
 
@@ -87,16 +87,13 @@ const SellingModal = styled(Modal)`
       }
 
       .ant-input {
-        width: 65% !important;
+        width: 130% !important;
         height: 5rem;
         color: #7C6DEB;
         background: #E5E2FB !important;
         border-top: 1px solid #7C6DEB;
         border-right: 1px solid #7C6DEB;
         border-bottom: 1px solid #7C6DEB;
-      }
-
-      .ant-input-group.ant-input-group-compact > *:last-child, .ant-input-group.ant-input-group-compact > .ant-select:last-child > .ant-select-selector, .ant-input-group.ant-input-group-compact > .ant-cascader-picker:last-child .ant-input, .ant-input-group.ant-input-group-compact > .ant-cascader-picker-focused:last-child .ant-input {
         border-top-right-radius: 1rem;
         border-bottom-right-radius: 1rem;
       }
@@ -290,8 +287,9 @@ const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
   )
 }
 
-const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
+const SellModal: React.FC<any> = ({ visible, onCancel, data, account,  init }) => {
   const [promised, setPromised] = useState(false)
+  const [form] = Form.useForm()
 
   const [hintMessage, setHintMessage] = useState<MessageHintProps>({
     message: '', type: 'hint'
@@ -304,27 +302,10 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
 
   const tabs = ['Fixed price', 'Auction', 'Spliting', 'Mortgage',]
 
-  const sellingOrder = {
-    dir: 'sell',
-    maker: account,
-    makerAsset: {
-      settleType: 'eth',
-      baseAsset: {
-        code: {
-          baseType: 1,
-          extraType: data?.tokenId,
-          contractAddr: data?.addressContract
-        },
-        value: ''
-      },
-      extraValue: ''
-    },
-    fee: '',
-    feeRecipient: '',
-    startTime: '',
-    endTime: '',
-    salt: data?.id,
+  const formInitialValues = {
+    price: ''
   }
+
 
   const listing = () => {
     if (!promised) {
@@ -334,9 +315,32 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
       })
       return
     }else {
-      sellOrder(sellingOrder).then(res => {
-        onCancel()
-      }).catch(err=>err)
+      form
+        .validateFields()
+        .then(values => {
+
+          const sellingOrder = {
+            dir: 'sell',
+            maker: account,
+            makerAssetSettleType: '',
+            makerAssetBaseType: '',
+            makerAssetExtraType: data?.tokenId,
+            makerAssetContractAddr: data?.addressContract,
+            makerAssetValue: values.price,
+            makerAssetExtraValue: '',
+            fee: '',
+            feeRecipient: '',
+            startTime: '',
+            endTime: '',
+            signature: '',
+            salt: data?.id,
+            valueUri: data?.valueUri
+          }
+          sellOrder(sellingOrder).then(res => {
+            init()
+            onCancel()
+          }).catch(err=>err)
+        })
     }
   }
 
@@ -367,17 +371,19 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
       </div>
       <div className={'sellContent ' + (current === 0 ? 'active': '')}>
         <p className="hightest">Set Price</p>
-        <div className="fixedPrice">
-          <Input.Group compact>
-            <Select defaultValue="ETH">
-              <Option value="ETH">ETH</Option>
-              <Option value="USDT">USDT</Option>
-            </Select>
-            <Input style={{ width: '50%' }} defaultValue="" />
-          </Input.Group>
-          <span>ETH</span>
-        </div>
-        <Button className="listing" onClick={listing}>Listing</Button>
+        <Form form={form} initialValues={formInitialValues}>
+          <div className="fixedPrice">
+            <Input.Group compact>
+              <Select defaultValue="ETH">
+                <Option value="ETH">ETH</Option>
+              </Select>
+              <Form.Item name="price">
+                <Input style={{ width: '50%' }} defaultValue="" />
+              </Form.Item>
+            </Input.Group>
+          </div>
+          <Button className="listing" onClick={listing}>Listing</Button>
+        </Form>
         <MessageHint {...hintMessage} />
         <Announcement>
           <Checkbox
@@ -396,7 +402,15 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account }) => {
         <p className="hightest">Highest Bid</p>
         <Line />
         <div>
-          <AuctionItem />
+          <AuctionItem>
+            <div className="auctionItemLeft">
+              <div>Minimum Bid</div>
+              <div>
+                <span>Set your starting price.</span>
+                <span>Learn more</span>
+              </div>
+            </div>
+          </AuctionItem>
         </div>
       </div>
     </SellingModal>
