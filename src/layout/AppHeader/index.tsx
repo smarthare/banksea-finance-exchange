@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.png'
-import { Button } from 'antd'
+import { Button, Popover } from 'antd'
 import Wallet from '../../components/Wallet'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
+import { QuestionCircleFilled } from '@ant-design/icons'
 import avatar1 from '../../assets/images/headAvatar/avatar1.png'
 import avatar2 from '../../assets/images/headAvatar/avatar2.png'
 import avatar3 from '../../assets/images/headAvatar/avatar3.png'
@@ -50,6 +51,7 @@ const ConnectButton = styled(Button)`
 
 const Row = styled.div`
   display: flex;
+  align-items: center;
 `
 
 const Avatar = styled.img`
@@ -97,6 +99,21 @@ const AppHeader = () => {
     <AppHeaderContainer>
       <img src={BanksyLogo} alt="banksy" style={{ width: '12.6rem' }} />
       <Row>
+        <Popover
+          placement="bottom"
+          title="Rinkeby Authenticated Faucet"
+          content={
+            <a href={'https://faucet.rinkeby.io'}
+              rel="noreferrer"
+              target="_blank"
+            >
+              https://faucet.rinkeby.io/
+            </a>
+          }
+          trigger="click"
+        >
+          <QuestionCircleFilled style={{ color: '#7c6deb', fontSize: '2rem', marginRight: '2.5rem' }} />
+        </Popover>
         <ConnectButton>
           <Wallet />
         </ConnectButton>
