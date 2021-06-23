@@ -12,6 +12,7 @@ import PersonalHomepage from '../pages/PersonalHomepage/index'
 import PleaseWaiting from '../pages/Home/PleaseWaiting'
 import NFTCreatedSuccess from '../pages/Home/NFTCreatedSuccess'
 import AIGenerators from '../pages/AIGenerators'
+import FarmPage from '../pages/Farms'
 
 export type Route = {
   path: string
@@ -72,7 +73,7 @@ const routes: Route[] = [
     path: '/farms',
     title: 'Farms',
     icon: FarmsIcon,
-    component: PleaseWaiting
+    component: FarmPage
   },
   {
     path: '/oracle',

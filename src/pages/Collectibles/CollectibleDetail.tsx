@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import SellModal from '../../components/SellModal'
 import { NftDetailFavorite } from '../../utils/banksyNftList'
+import BuyModal from '../../components/BuyModal'
 
 const Row = styled.div`
   display: flex;
@@ -471,6 +472,12 @@ const CollectibleDetailPage: React.FC = () => {
 
   const [likeNum, setLikeNum] = useState<any>()
 
+  const [isBuyModalVisible, setBuyModalVisible] = useState(false)
+
+  const handleOk = () => {
+    setBuyModalVisible(true)
+  }
+
   const init = useCallback( () => {
     banksyNftDetail({ uri, contractAddress })
       .then(res => {
@@ -637,7 +644,7 @@ const CollectibleDetailPage: React.FC = () => {
             {
               account !== data?.addressCreate?
                 <BuyOperating>
-                  <Button className="buyNow">Buy Now</Button>
+                  <Button className="buyNow" onClick={handleOk}>Buy Now</Button>
                 </BuyOperating>:
                 <div />
             }
@@ -833,6 +840,7 @@ const CollectibleDetailPage: React.FC = () => {
         </OtherArtworksArea>
       </Row>
       <SellModal visible={visible} onCancel={() => setVisible(false)} data={data} account={account} init={init} />
+      <BuyModal isBuyModalVisible={isBuyModalVisible} checkoutCancle={() => setBuyModalVisible(false)} data={data} />
     </BundleDetailContainer>
   )
 
