@@ -4,7 +4,7 @@ import { getAccount, getSelectedWallet, setAccount, setSelectedWallet } from '..
 import { Button, Modal } from 'antd'
 // @ts-ignore
 import Jazzicon from 'jazzicon'
-import { getWeb3ProviderByWallet, WalletNames } from '../../web3/wallets'
+import { getIconByWalletName, getWeb3ProviderByWallet, WalletNames } from '../../web3/wallets'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import styled from 'styled-components'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
@@ -23,6 +23,10 @@ const SCCurrentAccount = styled.div`
 
   .icon {
     margin-right: 1.2rem;
+    img {
+      width: 26px;
+      height: 26px;
+    }
   }
 
 `
@@ -84,7 +88,7 @@ const WalletModalContent: React.FC<WalletModalContentProps> = ({ account }) => {
   const selectedWallet = useSelector(getSelectedWallet) as WalletNames
 
   const disconnect = async () => {
-    dispatch(setSelectedWallet(null))
+    dispatch(setSelectedWallet(undefined))
     dispatch(setAccount(null))
 
     if (selectedWallet === 'WalletConnect') {
@@ -127,6 +131,7 @@ const MetamaskIcon: React.FC = () => {
 
 const CurrentAccount: React.FC<CurrentAccountProps> = ({ account }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const selectedWallet = useSelector(getSelectedWallet)
 
   const closeModal = () => {
     setIsModalVisible(false)
@@ -135,7 +140,11 @@ const CurrentAccount: React.FC<CurrentAccountProps> = ({ account }) => {
   return (
     <SCCurrentAccount>
       <div className="icon">
-        <MetamaskIcon />
+        {
+          selectedWallet === 'Metamask'
+            ? <MetamaskIcon />
+            : <img src={getIconByWalletName(selectedWallet)} alt="" />
+        }
       </div>
       <span onClick={() => setIsModalVisible(true)}>{`${account.substr(0, 5)}...${account.substr(-4, 4)}`}</span>
       <WalletModal

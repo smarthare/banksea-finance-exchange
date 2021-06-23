@@ -511,17 +511,17 @@ const HomePage: React.FC = ()=> {
   const [isDepositModalVisible, setDepositModalVisible] = useState(false)
   const [isAuthorizingModalVisible, setAuthorizingModalVisible] = useState(false)
 
-  const showBuyingModal = () => {
+  /*const showBuyingModal = () => {
     setBuyModalVisible(true)
-  }
+  }*/
 
   const handleOk = () => {
     setBuyModalVisible(false)
   }
 
-  const showAuthorizingModal = () => {
+  /*const showAuthorizingModal = () => {
     setAuthorizingModalVisible(true)
-  }
+  }*/
 
   const showCheckoutModal = () => {
     setCheckoutModalVisible(true)

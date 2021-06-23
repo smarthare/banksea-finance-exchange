@@ -1,21 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Checkbox, Image as AntdImage, Upload, Image } from 'antd'
+import { Button, Checkbox, Image as AntdImage, Image } from 'antd'
 import Plus from '@/assets/images/AIGeneratorsImg/plus.png'
-import UploadIcn from '@/assets/images/AIGeneratorsImg/upload.png'
 import DownArrow from '@/assets/images/AIGeneratorsImg/arrow-down.png'
-import enlarge from '@/assets/images/AIGeneratorsImg/enlarge.png'
 import download from '@/assets/images/AIGeneratorsImg/download.png'
 import { usePersonalNfts } from '../../hooks/usePersonalNfts'
 import { aiGeneratorFastStyle } from '../../apis/ai'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.scss'
-import SwiperCore, { EffectCoverflow, Pagination, Navigation } from 'swiper'
+import SwiperCore, { EffectCoverflow, Navigation, Pagination } from 'swiper'
 import 'swiper/components/navigation/navigation.scss'
 import 'swiper/components/effect-coverflow/effect-coverflow.min.css'
 import 'swiper/components/pagination/pagination.min.css'
 import { aiStyleList, aiSwiperList } from '../../utils/banksyNftList'
 
+SwiperCore.use([Navigation, EffectCoverflow, Pagination])
 
 const AIGeneratorsContainer = styled.div`
   margin: 0 auto;
@@ -58,7 +57,7 @@ const MainCarousel = styled.div`
       height: 17rem;
 
       img {
-        object-fit:cover
+        object-fit: cover
       }
     }
   }
@@ -120,7 +119,7 @@ const Description = styled.div`
   color: #7C6DEB;
 `
 
-const GenerateButton = styled.div`
+/*const GenerateButton = styled.div`
   width: 405px;
   height: 50px;
   background: #7C6DEB;
@@ -130,7 +129,7 @@ const GenerateButton = styled.div`
   color: #FFFFFF;
   line-height: 50px;
   text-align: center;
-`
+`*/
 
 const CreatButton = styled(Button)`
   width: 211px;
@@ -156,7 +155,7 @@ const CreatButton = styled(Button)`
   }
 `
 
-const AssetUploadContainer = styled.div`
+/*const AssetUploadContainer = styled.div`
   width: 192px;
   height: 130px;
   background: #E5E2FB;
@@ -177,7 +176,7 @@ const AssetUploadContainer = styled.div`
     color: #7C6DEB;
     line-height: 2rem;
   }
-`
+`*/
 
 const GenerateResultContainer = styled.div`
   display: flex;
@@ -205,7 +204,7 @@ const NewNftperating = styled.div`
 `
 
 
-const NFTItem: React.FC<{ src: string }> = ({ src }) => {
+/*const NFTItem: React.FC<{ src: string }> = ({ src }) => {
   const SelectBtn: React.FC = () => {
     return (
       <div
@@ -241,9 +240,9 @@ const NFTItem: React.FC<{ src: string }> = ({ src }) => {
       <SelectBtn />
     </div>
   )
-}
+}*/
 
-const AssetUpload: React.FC = () => {
+/*const AssetUpload: React.FC = () => {
   return (
     <AssetUploadContainer>
       <Upload>
@@ -256,7 +255,7 @@ const AssetUpload: React.FC = () => {
       </Upload>
     </AssetUploadContainer>
   )
-}
+}*/
 
 const SCSelectedNFTColumn = styled.div`
   display: flex;
@@ -294,10 +293,8 @@ const SCSelectedNFTColumn = styled.div`
   }
 `
 
-
-SwiperCore.use([Navigation, EffectCoverflow, Pagination])
-const SwiperTop: React.FC<{ list?: string[] }> = ({ list } ) => {
-  return(
+const SwiperTop: React.FC<{ list?: string[] }> = ({ list }) => {
+  return (
     <div className="swiperTop">
       <Swiper
         effect={'coverflow'}
@@ -315,7 +312,7 @@ const SwiperTop: React.FC<{ list?: string[] }> = ({ list } ) => {
       >
         {list?.map((item, key) => (
           <SwiperSlide key={key}>
-            <img style={{ height: '100%' }} src={item} key={item} />
+            <img style={{ height: '100%' }} src={item} key={item}  alt="" />
           </SwiperSlide>
         ))}
         <SwiperSlide />
@@ -388,7 +385,7 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
     <div
       style={{
         position: 'relative',
-        top: '1rem',
+        top: '1rem'
       }}
       onClick={() => onSelect(src)}
     >
@@ -453,18 +450,18 @@ const AIGenerators: React.FC = () => {
   const [styleList, setStyleList] = useState<any>()
   const [swiperList, setSwiperList] = useState<any>()
   const [generating, setGenerating] = useState(false)
-  const init = useCallback(async() => {
+  const init = useCallback(async () => {
     aiStyleList().then(res => {
       setStyleList(res.data.data)
     })
     aiSwiperList().then(res => {
       setSwiperList(res.data.data)
     })
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
   const [style, setStyle] = useState('')
   const [content, setContent] = useState('')
@@ -492,7 +489,10 @@ const AIGenerators: React.FC = () => {
           <div className="title">Style Gene</div>
           <div className="split-border" />
         </div>
-        <SelectableNFTList selectedValue={style} onSelect={v => setStyle(v)} list={styleList?.map((style: { url: any }) => style?.url)} />
+        <SelectableNFTList selectedValue={style}
+          onSelect={v => setStyle(v)}
+          list={styleList?.map((style: { url: any }) => style?.url)}
+        />
         <div className="plus-icon">
           <img src={Plus} style={{ width: '2.6rem', marginTop: '3.1rem' }} alt="" />
         </div>
@@ -551,10 +551,10 @@ const AIGenerators: React.FC = () => {
                 {
                   newNFT ? (
                     <a href={newNFT} target="view_window">
-                      <img className="download" src={download} />
+                      <img className="download" src={download}  alt="" />
                     </a>
                   ) : (
-                    <img className="download" src={download} />
+                    <img className="download" src={download}  alt="" />
                   )
                 }
               </NewNftperating>

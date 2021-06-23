@@ -74,7 +74,7 @@ const WalletSelectionModalProvider: React.FC = ({ children }) => {
     <WalletSelectionModalContext.Provider value={{ open }}>
       {children}
       <CustomModal title="Connect To Wallet" visible={visible} footer="" onCancel={close}>
-        {SUPPORT_WALLETS.map(wallet => (
+        {SUPPORT_WALLETS.filter(o => !o.disable).map(wallet => (
           <WalletItem wallet={wallet} key={wallet.name} />
         ))}
       </CustomModal>

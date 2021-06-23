@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { State, WalletState } from '../type'
+import { WalletNames } from '../../web3/wallets'
 
 const initialState: WalletState = {
   selectedWallet: undefined,
@@ -29,7 +30,7 @@ export const walletSlice = createSlice({
 
       state.account = action.payload
     },
-    setSelectedWallet: (state, action) => {
+    setSelectedWallet: (state, action: { payload: WalletNames | undefined, type: string }) => {
       state.selectedWallet = action.payload
     }
   }

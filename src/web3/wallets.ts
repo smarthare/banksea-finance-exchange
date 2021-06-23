@@ -1,7 +1,7 @@
 import MetamaskIcon from '../assets/images/wallets/metamask.svg'
 import BSCIcon from '../assets/images/wallets/bsc.png'
 import WalletConnectIcon from '../assets/images/wallets/walletconnect.svg'
-import SolanaIcon from '../assets/images/wallets/solana.png'
+import PhantomIcon from '../assets/images/wallets/phantom.png'
 import { getChainId, getRpcUrl, setAccount, setSelectedWallet } from '../store/wallet'
 import { providers } from 'ethers'
 import { Dispatch } from 'redux'
@@ -11,13 +11,15 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import { BscWeb3Provider } from './providers/BSC'
 import { message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
+import { getPhantomProvider } from './providers/Phantom'
 
-export type WalletNames = 'Metamask' | 'BSC' | 'WalletConnect'
+export type WalletNames = 'Metamask' | 'BSC' | 'WalletConnect' | 'Phantom'
 
 export interface Wallet {
   name: string
   icon: string
   handleConnect: (_dispatch: Dispatch<any>, _chainId: number, _RPCUrl?: string) => void
+  disable?: boolean
 }
 
 export async function getWeb3ProviderByWallet(
@@ -32,7 +34,8 @@ export async function getWeb3ProviderByWallet(
   return await new Map<WalletNames, any>([
     ['Metamask', MetamaskWeb3Provider],
     ['BSC', BscWeb3Provider],
-    ['WalletConnect', WalletConnectWeb3Provider]
+    ['WalletConnect', WalletConnectWeb3Provider],
+    ['Phantom', getPhantomProvider]
   ]).get(walletName)({
     chainId,
     RPCUrl
@@ -65,14 +68,25 @@ const connectToBSC = async (dispatch: Dispatch<any>, chainId: number, RPCUrl?: s
   dispatch(setSelectedWallet('BSC'))
 }
 
+const connectToPhantom = async (dispatch: Dispatch<any>): Promise<void> => {
+  const provider = await getPhantomProvider()
+  if (!provider) {
+    message.warn('Please install Phantom first.')
+    setTimeout(() => {
+      window.open('https://phantom.app/', '_blank')
+    }, 1500)
+
+    return
+  }
+
+  dispatch(setSelectedWallet('Phantom'))
+}
+
 const connectToWalletConnect = async (dispatch: Dispatch<any>, chainId: number, RPCUrl?: string): Promise<void> => {
-  const web3Provider = (await getWeb3ProviderByWallet(
-    {
-      chainId,
-      RPCUrl
-    },
-    'WalletConnect'
-  )) as providers.Web3Provider
+  const web3Provider = (await getWeb3ProviderByWallet({
+    chainId,
+    RPCUrl
+  }, 'WalletConnect')) as providers.Web3Provider
 
   const walletConnectProvider = web3Provider.provider as WalletConnectProvider
 
@@ -110,19 +124,28 @@ export const SUPPORT_WALLETS: Wallet[] = [
   {
     name: 'Wallet Connect',
     icon: WalletConnectIcon,
-    handleConnect: connectToWalletConnect
+    handleConnect: connectToWalletConnect,
   },
   {
     name: 'Binance Chain Wallet',
     icon: BSCIcon,
-    handleConnect: connectToBSC
+    handleConnect: connectToBSC,
+    disable: true
   },
   {
-    name: 'Sollet',
-    icon: SolanaIcon,
-    handleConnect: connectToBSC
+    name: 'Phantom',
+    icon: PhantomIcon,
+    handleConnect: connectToPhantom
   }
 ]
+
+export const getIconByWalletName = (name?: string)  => {
+  if (!name) {
+    return undefined
+  }
+
+  return SUPPORT_WALLETS.filter(o => o.name === name)?.[0]?.icon
+}
 
 export const useConnectToWallet = () => {
   const dispatch = useDispatch()

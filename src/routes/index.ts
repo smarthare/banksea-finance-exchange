@@ -11,7 +11,6 @@ import NFTCreatePage from '../pages/Home/NFTCreate'
 import PersonalHomepage from '../pages/PersonalHomepage/index'
 import PleaseWaiting from '../pages/Home/PleaseWaiting'
 import NFTCreatedSuccess from '../pages/Home/NFTCreatedSuccess'
-import FarmPage from '../pages/Farms'
 import AIGenerators from '../pages/AIGenerators'
 
 export type Route = {
