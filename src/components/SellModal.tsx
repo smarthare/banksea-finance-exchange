@@ -290,12 +290,16 @@ const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
 
 const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) => {
   const [promised, setPromised] = useState(false)
+
+  const [current, setcurrent] = useState(0)
+
+  const [signature, setSignature] = useState<string>()
+
   const [form] = Form.useForm()
 
   const [hintMessage, setHintMessage] = useState<MessageHintProps>({
     message: '', type: 'hint'
   })
-  const [current, setcurrent] = useState(0)
 
   const clickTabs = useCallback((item, key) => {
     setcurrent(key)
@@ -351,7 +355,9 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
       })
       return
     }else {
-      console.log(await banksyJsConnector.signer!.signMessage(JSON.stringify(order)))
+      await banksyJsConnector.signer!.signMessage(JSON.stringify(order)).then(res => {
+        setSignature(res)
+      })
 
       form
         .validateFields()
@@ -370,7 +376,7 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
             feeRecipient: '',
             startTime: '',
             endTime: '',
-            signature: '',
+            signature: signature,
             salt: data?.id,
             valueUri: data?.valueUri
           }
@@ -414,6 +420,9 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
               <Select defaultValue="ETH">
                 <Select.Option value="ETH">
                   ETH
+                </Select.Option>
+                <Select.Option value="ERC20">
+                  ERC20
                 </Select.Option>
               </Select>
               <Form.Item name="price">

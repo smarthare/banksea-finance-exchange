@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Spin } from 'antd'
-import { HeartOutlined } from '@ant-design/icons'
+import { HeartOutlined, HeartFilled } from '@ant-design/icons'
 import styled from 'styled-components'
 // @ts-ignore
 import LazyLoad from 'react-lazyload'
@@ -78,10 +78,11 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
 
   const [image, setImage] = useState<any>()
 
+  const [isHeart, setHeart] = useState<boolean>(false)
+
   if(data?.image?.slice(28) === 'https://gateway.pinata.cloud') {
     setImage(`https://banksy.mypinata.cloud${data?.image.slice(-52)}`)
   }
-  console.log(image)
 
   const CornerFlag: React.FC = () => {
     return (
@@ -122,8 +123,13 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
     if(!providerInitialized) {
       openWalletSelectionModal()
     }else {
-      NftFavorite(data?.valueUri)
-      setClickFavorite(clickFavorite + 1)
+      if(isHeart === true) {
+        setClickFavorite(clickFavorite)
+      }else {
+        NftFavorite(data?.valueUri)
+        setClickFavorite(clickFavorite + 1)
+        setHeart(true)
+      }
     }
   }
 
@@ -156,14 +162,14 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
             <div className="like" onClick={favoriteHandle}>
-              <HeartOutlined className="heart" />
+              {
+                isHeart
+                  ?<HeartFilled className="heart" />
+                  :<HeartOutlined className="heart" />
+              }
               {clickFavorite ? clickFavorite : 0}
             </div>
-            {
-              data.price ?
-                <div className="price">{data?.price}ETH</div>:
-                <div className="price">- - ETH</div>
-            }
+            <div className="price">{data?.price ? `${data?.price}ETH` : ''}</div>
           </div>
         </div>
       </NFTItemCardContainer>
