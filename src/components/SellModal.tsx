@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { Button, Checkbox, Input, Modal, Select, Form } from 'antd'
 import styled from 'styled-components'
 import { sellOrder } from '../utils/banksyNftList'
+import { banksyJsConnector } from '../BanksyJs/banksyJsConnector'
 
 const SellingModal = styled(Modal)`
   .ant-modal-content {
@@ -287,7 +288,7 @@ const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
   )
 }
 
-const SellModal: React.FC<any> = ({ visible, onCancel, data, account,  init }) => {
+const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) => {
   const [promised, setPromised] = useState(false)
   const [form] = Form.useForm()
 
@@ -298,14 +299,13 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account,  init }) =
 
   const clickTabs = useCallback((item, key) => {
     setcurrent(key)
-  },[])
+  }, [])
 
-  const tabs = ['Fixed price', 'Auction', 'Spliting', 'Mortgage',]
+  const tabs = ['Fixed price', 'Auction', 'Spliting', 'Mortgage']
 
   const formInitialValues = {
     price: ''
   }
-
 
   const listing = () => {
     if (!promised) {
@@ -314,10 +314,10 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account,  init }) =
         type: 'error'
       })
       return
-    }else {
+    } else {
       form
         .validateFields()
-        .then(values => {
+        .then(async values => {
 
           const sellingOrder = {
             dir: 'sell',
@@ -336,15 +336,15 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account,  init }) =
             salt: data?.id,
             valueUri: data?.valueUri
           }
+          console.log(await banksyJsConnector.signer!.signMessage(JSON.stringify(sellingOrder)))
           sellOrder(sellingOrder).then(res => {
             init()
             onCancel()
-          }).catch(err=>err)
+          }).catch(err => err)
         })
     }
   }
 
-  const { Option } = Select
   return (
     <SellingModal title="Selling"
       visible={visible}
@@ -355,8 +355,8 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account,  init }) =
         <div className="checkout-list-title">Sell Method</div>
         <div className="sellMethodButton">
           {
-            tabs.map((item:any, i:number) => {
-              return(
+            tabs.map((item: any, i: number) => {
+              return (
                 // @ts-ignore
                 <Button className={i === current && 'tabs__link'}
                   onClick={() => clickTabs(item, i)}
@@ -369,13 +369,15 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account,  init }) =
           }
         </div>
       </div>
-      <div className={'sellContent ' + (current === 0 ? 'active': '')}>
+      <div className={'sellContent ' + (current === 0 ? 'active' : '')}>
         <p className="hightest">Set Price</p>
         <Form form={form} initialValues={formInitialValues}>
           <div className="fixedPrice">
             <Input.Group compact>
               <Select defaultValue="ETH">
-                <Option value="ETH">ETH</Option>
+                <Select.Option value="ETH">
+                  ETH
+                </Select.Option>
               </Select>
               <Form.Item name="price">
                 <Input style={{ width: '50%' }} defaultValue="" />
@@ -394,11 +396,11 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account,  init }) =
               Listing is free! At the time of the sale, the following fees will be decucted.
             </div>
           </Checkbox>
-          <div className="text">Total fees  ----------------------------------------------------------- 2%</div>
+          <div className="text">Total fees ----------------------------------------------------------- 2%</div>
         </Announcement>
       </div>
 
-      <div className={'sellContent ' + (current === 1 ? 'active': '')}>
+      <div className={'sellContent ' + (current === 1 ? 'active' : '')}>
         <p className="hightest">Highest Bid</p>
         <Line />
         <div>

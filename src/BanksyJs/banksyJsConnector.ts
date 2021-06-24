@@ -1,12 +1,12 @@
 import { BanksyJs } from './index'
 import ContractSettings from './ContractSettings'
 import { Web3Provider } from '@ethersproject/providers'
-
+import { Signer } from '@ethersproject/abstract-signer'
 type BanksyJsConnector = {
   initialized: boolean,
   banksyJs: BanksyJs,
   synths?: unknown,
-  signer?: unknown,
+  signer?: Signer,
   provider?: Web3Provider,
   web3Utils?: unknown,
   ethersUtils?: unknown,

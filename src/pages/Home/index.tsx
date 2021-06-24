@@ -18,11 +18,10 @@ import Pen5 from '@/assets/images/homePageImg/pen5.png'
 import Pen6 from '@/assets/images/homePageImg/pen6.png'
 import { NftHomeCreateData } from '../../utils/banksyNftList'
 
-import { Button, Divider, Modal } from 'antd'
+import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
-import BuyModal from '../../components/BuyModal'
 
 const HomePageContainer = styled.div`
   margin: 0 auto;
@@ -183,12 +182,9 @@ const SubmitButtonSmall = styled(Button)`
   }
 `
 
-
-const HomePage: React.FC = ()=> {
+const HomePage: React.FC = () => {
   const history = useHistory()
   const account = useSelector(getAccount)
-
-
 
   const [data, setData] = useState<any>()
   const init = useCallback(async () => {
@@ -248,15 +244,24 @@ const HomePage: React.FC = ()=> {
             <img src={Bamboo2} alt="bamboo" style={{ width: '1.4rem', height: '4.9rem', marginLeft: '3.0rem' }} />
             <Column2>
               <SubTitle>Selling</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>{account! && data?.buySelling ? data?.buySelling : '- - -'}</InfoValue>
+              <InfoValue
+                style={{ lineHeight: '3rem' }}
+              >{account! && data?.buySelling ? data?.buySelling : '- - -'}
+              </InfoValue>
             </Column2>
             <Column2>
               <SubTitle>NFT Values</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>${account! && data?.buyNftValues ? data?.buyNftValues : '- - -'}</InfoValue>
+              <InfoValue
+                style={{ lineHeight: '3rem' }}
+              >${account! && data?.buyNftValues ? data?.buyNftValues : '- - -'}
+              </InfoValue>
             </Column2>
             <Column2>
               <SubTitle>NFT Number</SubTitle>
-              <InfoValue style={{ lineHeight: '3rem' }}>{account! && data?.buyNftNumber ? data?.buyNftNumber : '- - -'}</InfoValue>
+              <InfoValue
+                style={{ lineHeight: '3rem' }}
+              >{account! && data?.buyNftNumber ? data?.buyNftNumber : '- - -'}
+              </InfoValue>
             </Column2>
             <SubmitButton onClick={toOnSale}>BUY</SubmitButton>
           </InfoDetail>
