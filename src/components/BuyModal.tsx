@@ -46,7 +46,6 @@ const MyBuyModal = styled(Modal)`
       .nft-image {
         width: 7.1rem;
         height: 7.1rem;
-        background: #D8D8D8;
       }
 
       .nft-detail {
@@ -321,6 +320,37 @@ const MyAuthorizingModal = styled(Modal)`
 
 `
 
+const Deposit:React.FC<any> = ({ nextPart, handleCancel, isCheckoutModalVisible }) => {
+  return (
+    <div>
+      <MyCheckoutModal visible={isCheckoutModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <div className="head-title">
+          Complete your purchase
+        </div>
+        <Divider />
+        <div className="step-tip">
+          To complete your purchase, follow these steps:
+        </div>
+        <div className="step-one-border">
+          <div className="border-head">
+            <img src={StepOne} alt="" style={{ width: '3.7rem', height: '3.7rem' }} />
+            <div className="step-title">Deposit or convert funds</div>
+          </div>
+          <div className="border-body">
+            <div className="border-detail">
+              You don&apos;t have enough funds to complete the purchase. Please deposit or convert your funds.
+            </div>
+            <Button onClick={nextPart}>Deposit</Button>
+          </div>
+        </div>
+      </MyCheckoutModal>
+    </div>
+  )
+}
+
 const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => {
   const [isCheckoutModalVisible, setCheckoutModalVisible] = useState(false)
   const [isDepositModalVisible, setDepositModalVisible] = useState(false)
@@ -354,11 +384,11 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
     setCheckoutModalVisible(false)
   }
 
-  // const handleCancel = () => {
-  //   setCheckoutModalVisible(false)
-  //   setDepositModalVisible(false)
-  //   setAuthorizingModalVisible(false)
-  // }
+  const handleCancel = () => {
+    setCheckoutModalVisible(false)
+    setDepositModalVisible(false)
+    setAuthorizingModalVisible(false)
+  }
 
   return (
     <div>
@@ -374,14 +404,14 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
         <Divider style={{ marginTop: '-8px' }} />
         <div className="checkout-detail">
           <div className="ntf-info">
-            <div className="nft-image" />
+            <img className="nft-image" src={data?.image} />
             <div className="nft-detail">
-              <div className="artist-name">ZED RUN</div>
-              <div className="nft-name">Defence Witness</div>
+              <div className="artist-name">{data?.name}</div>
+              <div className="nft-name">{data?.description}</div>
             </div>
           </div>
           <div className="nft-value">
-            <div className="nft-price">- - -</div>
+            <div className="nft-price">{data?.price ? data?.price : '- - -'}</div>
             <div className="nft-price-dollar">($- - -)</div>
           </div>
         </div>
@@ -389,7 +419,7 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
         <div className="total-price">
           <div className="total">Total</div>
           <div className="nft-value">
-            <div className="nft-price">- - -</div>
+            <div className="nft-price">{data?.price ? data?.price : '- - -'}</div>
             <div className="nft-price-dollar">($- - -)</div>
           </div>
         </div>
@@ -398,31 +428,8 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
           <Button onClick={nextPart}>Checkout</Button>
         </div>
       </MyBuyModal>
-      <MyCheckoutModal visible={isCheckoutModalVisible}
-        onOk={handleCheckoutOk}
-        // onCancel={handleCancle}
-        footer={null}
-      >
-        <div className="head-title">
-          Complete your purchase
-        </div>
-        <Divider />
-        <div className="step-tip">
-          To complete your purchase, follow these steps:
-        </div>
-        <div className="step-one-border">
-          <div className="border-head">
-            <img src={StepOne} alt="" style={{ width: '3.7rem', height: '3.7rem' }} />
-            <div className="step-title">Deposit or convert funds</div>
-          </div>
-          <div className="border-body">
-            <div className="border-detail">
-              You don&apos;t have enough funds to complete the purchase. Please deposit or convert your funds.
-            </div>
-            <Button onClick={nextPart}>Deposit</Button>
-          </div>
-        </div>
-      </MyCheckoutModal>
+      <Deposit nextPart={nextPart} isCheckoutModalVisible={isCheckoutModalVisible} handleCancel={handleCancel} />
+
       <MyDepositModal
         title="Add ETH to you wallet"
         visible={isDepositModalVisible}
@@ -443,7 +450,7 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
       </MyDepositModal>
       <MyAuthorizingModal
         visible={isAuthorizingModalVisible}
-        // onCancel={handleCancle}
+        onCancel={handleCancel}
         footer={null}
       >
         <div className="author-body">

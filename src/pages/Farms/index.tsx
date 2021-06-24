@@ -435,7 +435,7 @@ const FarmPage: React.FC = () => {
                 <InputItem>
                   <div className="swapMainContainer-title">from</div>
                   <div className="inputMain">
-                    <Input value={fromValue} />
+                    <Input placeholder="0.0" />
                     <CurrencySelect>
                       <img className="babImg" src={babImg} />
                       BAB
@@ -449,7 +449,7 @@ const FarmPage: React.FC = () => {
                 <InputItem>
                   <div className="swapMainContainer-title">to</div>
                   <div className="inputMain">
-                    <Input value={fromValue} />
+                    <Input placeholder="0.0" />
                     <CurrencySelect>
                       Select a currency
                       <img className="selectArrow" src={selectArrow} />

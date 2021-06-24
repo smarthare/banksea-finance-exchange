@@ -551,7 +551,7 @@ const CollectibleDetailPage: React.FC = () => {
         {
           account === data?.addressCreate ?
             <Operating>
-              <Button className="edit">Edit</Button>
+              {/*<Button className="edit">Edit</Button>*/}
               <Button className="sell" onClick={sellModalOpen}>Sell</Button>
             </Operating>:
             <div />
@@ -759,7 +759,6 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="liked">0</div>
                 <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
               </div>
-              <ConnectButton>Connect wallet</ConnectButton>
             </div>
             <div className="artwork-group">
               <div className="artwork-info">
@@ -784,7 +783,6 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="liked">0</div>
                 <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
               </div>
-              <ConnectButton>Connect wallet</ConnectButton>
             </div>
             <div className="artwork-group">
               <div className="artwork-info">
@@ -809,7 +807,6 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="liked">0</div>
                 <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
               </div>
-              <ConnectButton>Connect wallet</ConnectButton>
             </div>
             <div className="artwork-group">
               <div className="artwork-info">
@@ -834,7 +831,6 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="liked">0</div>
                 <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
               </div>
-              <ConnectButton>Connect wallet</ConnectButton>
             </div>
           </OtherArtworksContainer>
         </OtherArtworksArea>
