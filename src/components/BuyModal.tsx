@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
-import { Button, Divider, Modal } from 'antd'
+import { Button, Checkbox, Divider, Modal } from 'antd'
 import StepOne from '@/assets/images/allModalImg/number1.png'
 import DepositIcon from '@/assets/images/allModalImg/deposit-icon.png'
 import Authorizing from '@/assets/images/allModalImg/authorizing.png'
+import danger from '@/assets/images/allModalImg/danger.png'
+import dangerDownArrow from '@/assets/images/allModalImg/dangerDownArrow.png'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../store/wallet'
+import { banksyJsConnector } from '../BanksyJs/banksyJsConnector'
 
 const MyBuyModal = styled(Modal)`
   .ant-modal-content {
     border-radius: 1rem;
     width: 62.3rem;
-    height: 46.4rem;
+    padding-bottom: 4rem;
   }
 
   .ant-modal-header {
@@ -27,6 +32,7 @@ const MyBuyModal = styled(Modal)`
   .checkout-list {
     display: flex;
     justify-content: space-between;
+    margin-top: 3.2rem;
 
     p {
       line-height: 25px;
@@ -220,6 +226,66 @@ const MyCheckoutModal = styled(Modal)`
   }
 `
 
+const Caveat = styled.div`
+  width: 100%;
+  height: 4.3rem;
+  display: flex;
+  align-items: center;
+  background: #FDFDF4;
+  border: 1px solid #E0DDF6;
+  position: relative;
+
+  .danger {
+    width: 2rem;
+    margin-left: 1.7rem;
+  }
+
+  span {
+    margin-left: 1.4rem;
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+
+  .dangerDownArrow {
+    width: 1.2rem;
+    position: absolute;
+    right: 1.5rem;
+  }
+`
+
+const CaveatContent = styled.div`
+  width: 100%;
+  padding: 2rem;
+  background: #FDFDF4;
+  border: 1px solid #EFC300;
+`
+
+const Announcement = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-bottom: 6rem;
+
+  .text {
+    width: 54.6rem;
+    height: 5rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #7c6deb;
+    line-height: 2.5rem;
+    padding-top: 4.4rem;
+  }
+
+  .text2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #7c6deb;
+    line-height: 2.5rem;
+    padding-top: 5rem;
+  }
+`
+
 const MyDepositModal = styled(Modal)`
   .ant-modal-content {
     width: 62.3rem;
@@ -352,9 +418,60 @@ const Deposit:React.FC<any> = ({ nextPart, handleCancel, isCheckoutModalVisible 
 }
 
 const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => {
+
+  const account = useSelector(getAccount)
+
   const [isCheckoutModalVisible, setCheckoutModalVisible] = useState(false)
+
   const [isDepositModalVisible, setDepositModalVisible] = useState(false)
+
   const [isAuthorizingModalVisible, setAuthorizingModalVisible] = useState(false)
+
+  const [isCaveatContent, setCaveatContent] = useState(false)
+
+  const [promised, setPromised] = useState(false)
+
+  const [isCheckOut, setCheckOut] = useState(true)
+
+  const plainOptions = [
+    'By checking this box. I acknowledge that this item has not been reviewed or approved by Banksy',
+    'By checking this box. I agree to Banksy\'s Terms of Services'
+  ]
+
+  const order = {
+    dir: 'buy',
+    maker: data?.addressCreate,
+    makerAsset: {
+      settleType: '0',
+      baseAsset: {
+        code: {
+          baseType: '1',
+          extraType: data?.tokenId,
+          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+        },
+        value: data?.price
+      },
+      extraValue: ''
+    },
+    taker: account,
+    takerAsset: {
+      settleType: '0',
+      baseAsset: {
+        code: {
+          baseType: '3',
+          extraType: data?.tokenId,
+          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+        },
+        value: data?.price
+      },
+      extraValue: ''
+    },
+    fee: '',
+    feeRecipient: '',
+    startTime: '',
+    endTime: '',
+    salt: data?.valueUri,
+  }
 
 
   const showAuthorizingModal = () => {
@@ -373,6 +490,11 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
   const nextPart = () => {
     if (isBuyModalVisible) {
       showCheckoutModal()
+      banksyJsConnector.banksyJs.Exchange.matchSingle(order).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     }
     if (isCheckoutModalVisible) {
       setCheckoutModalVisible(false)
@@ -390,6 +512,12 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
     setAuthorizingModalVisible(false)
   }
 
+  const showCaveatContent = () => {
+    setCaveatContent(!isCaveatContent)
+  }
+
+  const onChange = (e: any) => e.length === 2 ? setCheckOut(false) : setCheckOut(true)
+
   return (
     <div>
       <MyBuyModal title="Checkout"
@@ -397,6 +525,22 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
         onCancel={checkoutCancle}
         footer={null}
       >
+        <Caveat onClick={showCaveatContent}>
+          <img className="danger" src={danger} />
+          <span>This item has not been reviewed by Banksy</span>
+          <img className="dangerDownArrow" src={dangerDownArrow} />
+        </Caveat>
+        {
+          isCaveatContent ?
+            <CaveatContent>
+              You should proceed with extra caution. Anyone can
+              create a digital item on a blockchain with any name.
+              Including fake versions of existing items. Please take
+              extra caution an do your research when interacting with
+              this item to ensure it&apos;s what it claims to be.
+            </CaveatContent> :
+            <div />
+        }
         <div className="checkout-list">
           <p>Item</p>
           <p>Subtotal</p>
@@ -424,8 +568,11 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
           </div>
         </div>
         <Divider />
+        <Announcement>
+          <Checkbox.Group options={plainOptions} defaultValue={['Apple']} onChange={onChange} />
+        </Announcement>
         <div className="footer">
-          <Button onClick={nextPart}>Checkout</Button>
+          <Button onClick={nextPart} disabled={isCheckOut} >Checkout</Button>
         </div>
       </MyBuyModal>
       <Deposit nextPart={nextPart} isCheckoutModalVisible={isCheckoutModalVisible} handleCancel={handleCancel} />

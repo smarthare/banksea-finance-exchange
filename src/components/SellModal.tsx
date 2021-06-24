@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Button, Checkbox, Input, Modal, Select, Form } from 'antd'
+import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
 import styled from 'styled-components'
 import { sellOrder } from '../utils/banksyNftList'
 import { banksyJsConnector } from '../BanksyJs/banksyJsConnector'
@@ -307,14 +307,52 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
     price: ''
   }
 
-  const listing = () => {
+  const order = {
+    dir: 'sell',
+    maker: account,
+    makerAsset: {
+      settleType: '0',
+      baseAsset: {
+        code: {
+          baseType: '1',
+          extraType: data?.tokenId,
+          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+        },
+        value: data?.price
+      },
+      extraValue: ''
+    },
+    taker: '',
+    takerAsset: {
+      settleType: '',
+      baseAsset: {
+        code: {
+          baseType: '',
+          extraType: '',
+          contractAddr: ''
+        },
+        value: ''
+      },
+      extraValue: ''
+    },
+    fee: '',
+    feeRecipient: '',
+    startTime: '',
+    endTime: '',
+    salt: '',
+  }
+
+
+  const listing = async () => {
     if (!promised) {
       setHintMessage({
         message: 'Please check the checkbox first!',
         type: 'error'
       })
       return
-    } else {
+    }else {
+      console.log(await banksyJsConnector.signer!.signMessage(JSON.stringify(order)))
+
       form
         .validateFields()
         .then(async values => {
@@ -336,7 +374,6 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
             salt: data?.id,
             valueUri: data?.valueUri
           }
-          console.log(await banksyJsConnector.signer!.signMessage(JSON.stringify(sellingOrder)))
           sellOrder(sellingOrder).then(res => {
             init()
             onCancel()

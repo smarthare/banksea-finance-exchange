@@ -342,7 +342,7 @@ const CollectiblesPage: React.FC = () => {
       .then(res => {
         const _data = res.data.data.records.map((item: any) => ({
           ...item,
-          image: `https://banksy.mypinata.cloud${item?.image?.slice(-52)}`
+          image: item?.image?.slice(6)==='ipfs:/' ? `https://banksy.mypinata.cloud${item?.image?.slice(6)}` : `https://banksy.mypinata.cloud${item?.image?.slice(-52)}`
         }))
         setList(_data)
         setTotal(res.data.data.total)

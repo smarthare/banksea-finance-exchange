@@ -23,6 +23,7 @@ const banksyJsConnector: BanksyJsConnector = {
     this.synths = this.banksyJs.contractSettings.synths
     this.signer = this.banksyJs.contractSettings.signer
     this.provider = this.banksyJs.contractSettings.provider
+    this.web3Utils = this.banksyJs.contractSettings.web3Utils
   }
 }
 

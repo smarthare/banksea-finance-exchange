@@ -16,6 +16,9 @@ class Exchange extends AbstractContractCaller {
       signer || provider
     )
   }
+  async matchSingle(data: any) {
+    return await this.contract!.matchSingle(data)
+  }
 
 }
 

@@ -1,6 +1,5 @@
 import BanksyJsBase from './BanksyJsBase'
 import ContractSettings from './ContractSettings'
-import OpenSea from './contracts/OpenSea'
 import Banksy from './contracts/Banksy'
 import Exchange from './contracts/Exchange'
 import LibAsset from './contracts/LibAsset'
@@ -14,7 +13,6 @@ class BanksyJs extends BanksyJsBase {
   LibAsset: LibAsset
   LibOrder: LibOrder
   TransferProxy: TransferProxy
-  OpenSea: OpenSea
 
   /**
    * Creates instances of contracts based on ContractSettings.
@@ -33,7 +31,6 @@ class BanksyJs extends BanksyJsBase {
     this.LibAsset = new LibAsset(network , signer, provider)
     this.LibOrder = new LibOrder(network , signer, provider)
     this.TransferProxy = new TransferProxy(network , signer, provider)
-    this.OpenSea = new OpenSea(network, signer, provider)
   }
 }
 

@@ -23,11 +23,11 @@ class Banksy extends AbstractContractCaller {
   }
 
   async isApprovedForAll(owner: string, operator: string) {
-    return await this.contract!.awardItem(owner, operator)
+    return await this.contract!.isApprovedForAll(owner, operator)
   }
 
   async setApprovalForAll(operator: string, approved: boolean) {
-    return await this.contract!.awardItem(operator, approved)
+    return await this.contract!.setApprovalForAll(operator, approved)
   }
 }
 
