@@ -642,7 +642,7 @@ const CollectibleDetailPage: React.FC = () => {
               </div>
             </div>
             {
-              account !== data?.addressCreate?
+              data?.price && account !== data?.addressCreate ?
                 <BuyOperating>
                   <Button className="buyNow" onClick={handleOk}>Buy Now</Button>
                 </BuyOperating>:
