@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
 import styled from 'styled-components'
 import { sellOrder } from '../utils/banksyNftList'
-import { banksyJsConnector } from '../BanksyJs/banksyJsConnector'
+import { banksyWeb3 } from '../BanksyWeb3'
 
 const SellingModal = styled(Modal)`
   .ant-modal-content {
@@ -255,6 +255,7 @@ const Announcement = styled.div`
     padding-top: 5rem;
   }
 `
+
 const Line = styled.div`
   width: 100%;
   height: 1px;
@@ -267,7 +268,6 @@ const AuctionItem = styled.div`
   align-items: center;
 
 `
-
 
 type MessageHintProps = {
   message: string,
@@ -354,8 +354,8 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
         type: 'error'
       })
       return
-    }else {
-      await banksyJsConnector.signer!.signMessage(JSON.stringify(order)).then(res => {
+    } else {
+      await banksyWeb3.signer!.signMessage(JSON.stringify(order)).then(res => {
         setSignature(res)
       })
 
@@ -380,7 +380,7 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
             salt: data?.id,
             valueUri: data?.valueUri
           }
-          sellOrder(sellingOrder).then(res => {
+          sellOrder(sellingOrder).then(() => {
             init()
             onCancel()
           }).catch(err => err)
@@ -464,6 +464,5 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
     </SellingModal>
   )
 }
-
 
 export default SellModal

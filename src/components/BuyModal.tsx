@@ -8,7 +8,7 @@ import dangerDownArrow from '@/assets/images/allModalImg/dangerDownArrow.png'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../store/wallet'
-import { banksyJsConnector } from '../BanksyJs/banksyJsConnector'
+import { banksyWeb3 } from '../BanksyWeb3'
 
 const MyBuyModal = styled(Modal)`
   .ant-modal-content {
@@ -429,7 +429,7 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
 
   const [isCaveatContent, setCaveatContent] = useState(false)
 
-  const [promised, setPromised] = useState(false)
+  // const [promised, setPromised] = useState(false)
 
   const [isCheckOut, setCheckOut] = useState(true)
 
@@ -473,10 +473,9 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
     salt: data?.valueUri,
   }
 
-
-  const showAuthorizingModal = () => {
-    setAuthorizingModalVisible(true)
-  }
+  // const showAuthorizingModal = () => {
+  //   setAuthorizingModalVisible(true)
+  // }
 
   const showCheckoutModal = () => {
     checkoutCancle()
@@ -490,7 +489,7 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
   const nextPart = () => {
     if (isBuyModalVisible) {
       showCheckoutModal()
-      banksyJsConnector.banksyJs.Exchange.matchSingle(order).then(res => {
+      banksyWeb3.eth.Exchange.matchSingle(order).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)
@@ -502,9 +501,9 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
     }
   }
 
-  const handleCheckoutOk = () => {
-    setCheckoutModalVisible(false)
-  }
+  // const handleCheckoutOk = () => {
+  //   setCheckoutModalVisible(false)
+  // }
 
   const handleCancel = () => {
     setCheckoutModalVisible(false)
@@ -526,9 +525,9 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
         footer={null}
       >
         <Caveat onClick={showCaveatContent}>
-          <img className="danger" src={danger} />
+          <img className="danger" src={danger} alt="" />
           <span>This item has not been reviewed by Banksy</span>
-          <img className="dangerDownArrow" src={dangerDownArrow} />
+          <img className="dangerDownArrow" src={dangerDownArrow} alt="" />
         </Caveat>
         {
           isCaveatContent ?
@@ -548,7 +547,7 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
         <Divider style={{ marginTop: '-8px' }} />
         <div className="checkout-detail">
           <div className="ntf-info">
-            <img className="nft-image" src={data?.image} />
+            <img className="nft-image" src={data?.image} alt="" />
             <div className="nft-detail">
               <div className="artist-name">{data?.name}</div>
               <div className="nft-name">{data?.description}</div>

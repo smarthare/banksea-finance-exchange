@@ -6,7 +6,7 @@ import { pinFileToIPFS, pinJsonToIPFS } from '../../utils/pinata'
 import { UploadProps } from 'antd/lib/upload/interface'
 import { RcFile } from 'antd/es/upload'
 import { LoadingOutlined } from '@ant-design/icons'
-import { banksyJsConnector } from '../../BanksyJs/banksyJsConnector'
+import { banksyWeb3 } from '../../BanksyWeb3'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { useWalletErrorMessageGetter } from '../../hooks'
@@ -448,14 +448,14 @@ const NFTCreate: React.FC = () => {
             setVisible(true)
 
 
-            banksyJsConnector.banksyJs.Banksy.contract!.on('URI', async (...args) => {
+            banksyWeb3.eth.Banksy.contract!.on('URI', async (...args) => {
               const [ tokenUriFromEvent] = args
               if (tokenUri === tokenUriFromEvent) {
                 await createNFT(createForm)
               }
             })
 
-            banksyJsConnector.banksyJs.Banksy.awardItem(account!, tokenUri)
+            banksyWeb3.eth.Banksy.awardItem(account!, tokenUri)
               .then(res => {
                 setVisible(false)
                 setHintMessage({ message: '' })
@@ -506,8 +506,8 @@ const NFTCreate: React.FC = () => {
   useEffect(() => {
     return () => {
       console.log('remove all listener')
-      banksyJsConnector.banksyJs.Banksy.contract?.removeAllListeners()
-      console.log(banksyJsConnector.banksyJs.Banksy.contract?.listeners())
+      banksyWeb3.eth.Banksy.contract?.removeAllListeners()
+      console.log(banksyWeb3.eth.Banksy.contract?.listeners())
     }
   }, [])
 

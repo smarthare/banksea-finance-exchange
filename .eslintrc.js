@@ -36,6 +36,7 @@ module.exports = {
     'object-curly-newline': ['error', { consistent: true }],
     'object-curly-spacing': ['error', 'always'],
     'jsx-quotes': ['error', 'prefer-double'],
+    'keyword-spacing': ['error', { 'before': true, 'after': true }],
     'react/jsx-filename-extension': [0],
     'react/prop-types': [0],
     'react/jsx-closing-bracket-location': 'error',

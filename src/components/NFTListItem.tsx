@@ -76,11 +76,11 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
 
   const { open: openWalletSelectionModal } = useWalletSelectionModal()
 
-  const [image, setImage] = useState<any>()
+  const [, setImage] = useState<any>()
 
   const [isHeart, setHeart] = useState<boolean>(false)
 
-  if(data?.image?.slice(28) === 'https://gateway.pinata.cloud') {
+  if (data?.image?.slice(28) === 'https://gateway.pinata.cloud') {
     setImage(`https://banksy.mypinata.cloud${data?.image.slice(-52)}`)
   }
 
@@ -120,12 +120,12 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
   }, [data])
 
   const favoriteHandle = () => {
-    if(!providerInitialized) {
+    if (!providerInitialized) {
       openWalletSelectionModal()
-    }else {
-      if(isHeart === true) {
+    } else {
+      if (isHeart) {
         setClickFavorite(clickFavorite)
-      }else {
+      } else {
         NftFavorite(data?.valueUri)
         setClickFavorite(clickFavorite + 1)
         setHeart(true)

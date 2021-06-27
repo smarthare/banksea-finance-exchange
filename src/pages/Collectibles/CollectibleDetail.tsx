@@ -305,28 +305,28 @@ const ItemsContainer = styled.div`
     padding: 2rem 1.1rem;
     flex-wrap: wrap;
 
-      .row {
-        display: flex;
-        justify-content: space-between;
+    .row {
+      display: flex;
+      justify-content: space-between;
 
-        .label {
-          font-size: 1.2rem;
-          font-weight: 500;
-          color: #A196EF;
-          line-height: 1.7rem;
+      .label {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #A196EF;
+        line-height: 1.7rem;
 
-        }
-
-        .value {
-          font-size: 1.2rem;
-          font-weight: 400;
-          color: #7C6DEB;
-          line-height: 17px;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
       }
+
+      .value {
+        font-size: 1.2rem;
+        font-weight: 400;
+        color: #7C6DEB;
+        line-height: 17px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
 
   }
 `
@@ -425,7 +425,7 @@ const VoteIcon = styled.div`
   align-items: center;
 `
 
-const ConnectButton = styled(Button)`
+/*const ConnectButton = styled(Button)`
   width: 100%;
   height: 40px;
   background: #7C6DEB;
@@ -436,7 +436,7 @@ const ConnectButton = styled(Button)`
   font-weight: 500;
   color: #FFFFFF;
   line-height: 2rem;
-`
+`*/
 
 const BuyOperating = styled.div`
   width: 100%;
@@ -453,7 +453,6 @@ const BuyOperating = styled.div`
     line-height: 2rem;
   }
 `
-
 
 const CollectibleDetailPage: React.FC = () => {
   moment.locale('en')
@@ -478,7 +477,7 @@ const CollectibleDetailPage: React.FC = () => {
     setBuyModalVisible(true)
   }
 
-  const init = useCallback( () => {
+  const init = useCallback(() => {
     banksyNftDetail({ uri, contractAddress })
       .then(res => {
         setData(res.data.data)
@@ -536,7 +535,6 @@ const CollectibleDetailPage: React.FC = () => {
   })
   )
 
-
   const handleCopy = (addressCreate: any) => {
     copy(addressCreate)
   }
@@ -553,7 +551,7 @@ const CollectibleDetailPage: React.FC = () => {
             <Operating>
               {/*<Button className="edit">Edit</Button>*/}
               <Button className="sell" onClick={sellModalOpen}>Sell</Button>
-            </Operating>:
+            </Operating> :
             <div />
         }
       </div>
@@ -562,7 +560,7 @@ const CollectibleDetailPage: React.FC = () => {
           <ImageContainer>
             {
               data?.onSale ?
-                <CornerFlag>on Sale</CornerFlag>:
+                <CornerFlag>on Sale</CornerFlag> :
                 <div />
             }
             <img
@@ -581,7 +579,7 @@ const CollectibleDetailPage: React.FC = () => {
               >{
                   data?.addressContract === '0xb1e45866bf3298a9974a65577c067c477d38712a' ?
                     data?.nameArtist :
-                    data?.addressCreate?.substring(0, 4)+'...'+data?.addressCreate?.slice(-4)
+                    data?.addressCreate?.substring(0, 4) + '...' + data?.addressCreate?.slice(-4)
                 }
               </div>
               <CopyOutlined className="copy" style={{ color: '#7C6DEB' }} />
@@ -593,7 +591,7 @@ const CollectibleDetailPage: React.FC = () => {
               >{
                   data?.addressContract === '0xb1e45866bf3298a9974a65577c067c477d38712a' ?
                     data?.nameArtist :
-                    data?.addressCreate?.substring(0, 4)+'...'+data?.addressCreate?.slice(-4)
+                    data?.addressCreate?.substring(0, 4) + '...' + data?.addressCreate?.slice(-4)
                 }
               </div>
             </div>
@@ -621,7 +619,7 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="info-label">Current price</div>
                 {
                   data?.onSale ?
-                    <div className="price">{data?.price}</div>:
+                    <div className="price">{data?.price}</div> :
                     <div className="price">- - </div>
                 }
                 {/*<div className="price-in-usd">($297.21)</div>*/}
@@ -645,7 +643,7 @@ const CollectibleDetailPage: React.FC = () => {
               data?.price && account !== data?.addressCreate ?
                 <BuyOperating>
                   <Button className="buyNow" onClick={handleOk}>Buy Now</Button>
-                </BuyOperating>:
+                </BuyOperating> :
                 <div />
             }
           </PriceContainer>
@@ -739,7 +737,7 @@ const CollectibleDetailPage: React.FC = () => {
             <div className="artwork-group">
               <div className="artwork-info">
                 <div className="artwork-img">
-                  <img src={more1} style={{ height: '205px' }} />
+                  <img src={more1} style={{ height: '205px' }} alt="" />
                 </div>
                 <VoteIcon>Approve Vote</VoteIcon>
                 <div className="artwork-describe">Pikachu Baby Bimbo #0005</div>
@@ -787,7 +785,7 @@ const CollectibleDetailPage: React.FC = () => {
             <div className="artwork-group">
               <div className="artwork-info">
                 <div className="artwork-img">
-                  <img src={more3} style={{ height: '205px' }} />
+                  <img src={more3} style={{ height: '205px' }} alt="" />
                 </div>
                 <VoteIcon>Approve Vote</VoteIcon>
                 <div className="artwork-describe">Mona Lisa Smile &apos;Gamma Edition &apos;</div>
@@ -811,7 +809,7 @@ const CollectibleDetailPage: React.FC = () => {
             <div className="artwork-group">
               <div className="artwork-info">
                 <div className="artwork-img">
-                  <img src={more4} style={{ height: '205px' }} />
+                  <img src={more4} style={{ height: '205px' }} alt=""  />
                 </div>
                 <VoteIcon>Approve Vote</VoteIcon>
                 <div className="artwork-describe">Like you mean it</div>

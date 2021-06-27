@@ -13,6 +13,7 @@ import PleaseWaiting from '../pages/Home/PleaseWaiting'
 import NFTCreatedSuccess from '../pages/Home/NFTCreatedSuccess'
 import AIGenerators from '../pages/AIGenerators'
 import FarmPage from '../pages/Farms'
+import TestPage from '../pages/Test'
 
 export type Route = {
   path: string
@@ -93,6 +94,12 @@ const routes: Route[] = [
     title: 'PleaseWaiting',
     icon: FarmsIcon,
     component: PleaseWaiting,
+    hidden: true
+  },
+  {
+    path: '/test',
+    title: 'Test',
+    component: TestPage,
     hidden: true
   }
 ]
