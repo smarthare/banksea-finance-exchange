@@ -6,7 +6,8 @@ import { BanksySolanaWeb3 } from './solana'
 import { PhantomProvider } from '../types/Phantom'
 
 type BanksyWeb3 = {
-  initialized: boolean,
+  onEth: boolean,
+  onSol: boolean,
   eth: BanksyEthereumWeb3,
   sol: BanksySolanaWeb3,
   signer?: Signer,
@@ -16,19 +17,22 @@ type BanksyWeb3 = {
 }
 
 const banksyWeb3: BanksyWeb3 = {
-  initialized: false,
   eth: new BanksyEthereumWeb3(),
   sol: new BanksySolanaWeb3(),
+  onEth: false,
+  onSol: false,
 
   setEthereumWeb3(contractSettings: ContractSettings) {
-    this.initialized = true
+    this.onEth = true
+    this.onSol = false
     this.eth = new BanksyEthereumWeb3(contractSettings)
     this.signer = contractSettings.signer
     this.provider = contractSettings.provider
   },
 
   setSolanaWeb3(phantomProvider: PhantomProvider) {
-    this.initialized = true
+    this.onEth = false
+    this.onSol = true
     this.sol = new BanksySolanaWeb3(phantomProvider)
     this.provider = phantomProvider
   }
