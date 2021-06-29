@@ -6,7 +6,7 @@ const initialState: WalletState = {
   selectedWallet: undefined,
   account: undefined,
   chainId: undefined,
-  rpcUrl: undefined
+  rpcUrl: undefined,
 }
 
 export const walletSlice = createSlice({
