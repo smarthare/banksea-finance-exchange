@@ -18,7 +18,7 @@ import { useLocationQuery } from '../../utils'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import SellModal from '../../components/SellModal'
-import { NftDetailFavorite } from '../../utils/banksyNftList'
+import { NftDetailFavorite, chooseOrder } from '../../utils/banksyNftList'
 import BuyModal from '../../components/BuyModal'
 
 const Row = styled.div`
@@ -473,8 +473,16 @@ const CollectibleDetailPage: React.FC = () => {
 
   const [isBuyModalVisible, setBuyModalVisible] = useState(false)
 
-  const handleOk = () => {
+  const [buyData, setBuyData] = useState<any>()
+
+  const handleOk = async () => {
     setBuyModalVisible(true)
+
+    await chooseOrder({
+      valueUri: data?.valueUri
+    }).then(res => {
+      setBuyData(res.data.data)
+    })
   }
 
   const init = useCallback(() => {
@@ -834,7 +842,7 @@ const CollectibleDetailPage: React.FC = () => {
         </OtherArtworksArea>
       </Row>
       <SellModal visible={visible} onCancel={() => setVisible(false)} data={data} account={account} init={init} />
-      <BuyModal isBuyModalVisible={isBuyModalVisible} checkoutCancle={() => setBuyModalVisible(false)} data={data} />
+      <BuyModal isBuyModalVisible={isBuyModalVisible} checkoutCancle={() => setBuyModalVisible(false)} data={data} buyData={buyData} />
     </BundleDetailContainer>
   )
 

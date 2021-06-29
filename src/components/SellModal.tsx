@@ -295,7 +295,11 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
 
   const [signature, setSignature] = useState<string>()
 
+  const [dateNow, setDateNow] = useState<any>()
+
   const [form] = Form.useForm()
+
+  const [price, setPrice] = useState<any>()
 
   const [hintMessage, setHintMessage] = useState<MessageHintProps>({
     message: '', type: 'hint'
@@ -308,44 +312,44 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
   const tabs = ['Fixed price', 'Auction', 'Spliting', 'Mortgage']
 
   const formInitialValues = {
-    price: ''
+    price: 0
   }
 
+
   const order = {
-    dir: 'sell',
+    dir: 0,
     maker: account,
     makerAsset: {
-      settleType: '0',
+      settleType: 0,
       baseAsset: {
         code: {
-          baseType: '1',
+          baseType: 1,
           extraType: data?.tokenId,
           contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
         },
-        value: data?.price
+        value: 1
       },
-      extraValue: ''
+      extraValue: 0
     },
-    taker: '',
+    taker: '0x0000000000000000000000000000000000000000',
     takerAsset: {
-      settleType: '',
+      settleType: 0,
       baseAsset: {
         code: {
-          baseType: '',
-          extraType: '',
-          contractAddr: ''
+          baseType: 1,
+          extraType: 0,
+          contractAddr: '0x0000000000000000000000000000000000000000'
         },
-        value: ''
+        value: price
       },
-      extraValue: ''
+      extraValue: 0
     },
-    fee: '',
-    feeRecipient: '',
-    startTime: '',
-    endTime: '',
-    salt: '',
+    fee: 0,
+    feeRecipient: '0x0000000000000000000000000000000000000000',
+    startTime: 0,
+    endTime: 0,
+    salt: dateNow,
   }
-
 
   const listing = async () => {
     if (!promised) {
@@ -355,32 +359,74 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
       })
       return
     } else {
-      await banksyWeb3.signer!.signMessage(JSON.stringify(order)).then(res => {
-        setSignature(res)
-      })
-
       form
         .validateFields()
         .then(async values => {
 
+          await banksyWeb3.eth.Banksy.isApprovedForAll(account, '0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A').then(res => {
+            if (res === false) {
+              banksyWeb3.eth.Banksy.setApprovalForAll('0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A', true)
+            }
+          })
+
           const sellingOrder = {
             dir: 'sell',
             maker: account,
-            makerAssetSettleType: '',
-            makerAssetBaseType: '',
+            makerAssetSettleType: 0,
+            makerAssetBaseType: 1,
             makerAssetExtraType: data?.tokenId,
             makerAssetContractAddr: data?.addressContract,
             makerAssetValue: values.price,
-            makerAssetExtraValue: '',
-            fee: '',
-            feeRecipient: '',
-            startTime: '',
-            endTime: '',
+            makerAssetExtraValue: 0,
+            fee: 0,
+            feeRecipient: 0,
+            startTime: 0,
+            endTime: 0,
             signature: signature,
-            salt: data?.id,
+            salt: dateNow,
             valueUri: data?.valueUri
           }
-          sellOrder(sellingOrder).then(() => {
+
+          const order = {
+            dir: 0,
+            maker: account,
+            makerAsset: {
+              settleType: 0,
+              baseAsset: {
+                code: {
+                  baseType: 1,
+                  extraType: data?.tokenId,
+                  contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+                },
+                value: 1
+              },
+              extraValue: 0
+            },
+            taker: '0x0000000000000000000000000000000000000000',
+            takerAsset: {
+              settleType: 0,
+              baseAsset: {
+                code: {
+                  baseType: 1,
+                  extraType: 0,
+                  contractAddr: '0x0000000000000000000000000000000000000000'
+                },
+                value: values?.price
+              },
+              extraValue: 0
+            },
+            fee: 0,
+            feeRecipient: '0x0000000000000000000000000000000000000000',
+            startTime: 0,
+            endTime: 0,
+            salt: (Date.parse(new Date().toString())) / 1000,
+          }
+
+          await banksyWeb3.signer!.signMessage(JSON.stringify(order)).then(res => {
+            setSignature(res)
+          })
+
+          await sellOrder(sellingOrder).then(() => {
             init()
             onCancel()
           }).catch(err => err)

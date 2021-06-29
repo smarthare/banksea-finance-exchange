@@ -16,8 +16,8 @@ class Exchange extends AbstractContractCaller {
       signer || provider
     )
   }
-  async matchSingle(data: any) {
-    return await this.contract!.matchSingle(data)
+  async matchSingle(leftOrder: any, leftSign: any, rightOrder: any, rightSign: any) {
+    return await this.contract!.matchSingle(leftOrder, leftSign, rightOrder, rightSign)
   }
 
 }

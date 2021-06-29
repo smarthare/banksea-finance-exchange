@@ -25,6 +25,10 @@ export function sellOrder(data: any) {
   return banksyRequest.post<any>('/nft/web/v1/transfer/order/create',data)
 }
 
+export function chooseOrder(data: any) {
+  return banksyRequest.post<any>('/nft/web/v1/transfer/order/select',data)
+}
+
 export function aiStyleList() {
   return banksyRequest.get<any>('/nft/web/v1/aiGenerators/style/list')
 }
@@ -39,4 +43,8 @@ export function NftFavorite(uri: any) {
 
 export function NftDetailFavorite(uri: any) {
   return banksyRequest.get<any>(`/nft/web/v1/view/info/${uri}`)
+}
+
+export function completeOrder(data: any) {
+  return banksyRequest.get<any>('nft/web/v1/transfer/order/complete', data)
 }

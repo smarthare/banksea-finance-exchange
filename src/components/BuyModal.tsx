@@ -417,7 +417,7 @@ const Deposit:React.FC<any> = ({ nextPart, handleCancel, isCheckoutModalVisible 
   )
 }
 
-const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => {
+const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyData }) => {
 
   const account = useSelector(getAccount)
 
@@ -433,45 +433,20 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
 
   const [isCheckOut, setCheckOut] = useState(true)
 
+  const [signature, setSignature] = useState<string>()
+
+  const [dateNow, setDateNow] = useState<any>()
+
   const plainOptions = [
     'By checking this box. I acknowledge that this item has not been reviewed or approved by Banksy',
     'By checking this box. I agree to Banksy\'s Terms of Services'
   ]
 
-  const order = {
-    dir: 'buy',
-    maker: data?.addressCreate,
-    makerAsset: {
-      settleType: '0',
-      baseAsset: {
-        code: {
-          baseType: '1',
-          extraType: data?.tokenId,
-          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
-        },
-        value: data?.price
-      },
-      extraValue: ''
-    },
-    taker: account,
-    takerAsset: {
-      settleType: '0',
-      baseAsset: {
-        code: {
-          baseType: '3',
-          extraType: data?.tokenId,
-          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
-        },
-        value: data?.price
-      },
-      extraValue: ''
-    },
-    fee: '',
-    feeRecipient: '',
-    startTime: '',
-    endTime: '',
-    salt: data?.valueUri,
-  }
+
+
+
+
+
 
   // const showAuthorizingModal = () => {
   //   setAuthorizingModalVisible(true)
@@ -486,10 +461,90 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data }) => 
     setDepositModalVisible(true)
   }
 
-  const nextPart = () => {
+  const nextPart = async () => {
     if (isBuyModalVisible) {
       showCheckoutModal()
-      banksyWeb3.eth.Exchange.matchSingle(order).then(res => {
+
+
+      const leftOrder = {
+        dir: 0,
+        maker: data?.addressCreate,
+        makerAsset: {
+          settleType: 0,
+          baseAsset: {
+            code: {
+              baseType: 1,
+              extraType: data?.tokenId,
+              contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+            },
+            value: 1
+          },
+          extraValue: 0
+        },
+        taker: '0x0000000000000000000000000000000000000000',
+        takerAsset: {
+          settleType: 0,
+          baseAsset: {
+            code: {
+              baseType: 1,
+              extraType: 0,
+              contractAddr: '0x0000000000000000000000000000000000000000'
+            },
+            value: buyData?.makerAsset?.baseAsset?.value
+          },
+          extraValue: 0
+        },
+        fee: 0,
+        feeRecipient: '0x0000000000000000000000000000000000000000',
+        startTime: 0,
+        endTime: 0,
+        salt: buyData?.salt,
+      }
+
+      const rightOrder = {
+        dir: 1,
+        maker: account,
+        makerAsset: {
+          settleType: 0,
+          baseAsset: {
+            code: {
+              baseType: 1,
+              extraType: 0,
+              contractAddr: '0x0000000000000000000000000000000000000000'
+            },
+            value: buyData?.makerAsset?.baseAsset?.value
+          },
+          extraValue: 0
+        },
+        taker: data?.addressCreate,
+        takerAsset: {
+          settleType: 0,
+          baseAsset: {
+            code: {
+              baseType: 1,
+              extraType: data?.tokenId,
+              contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+            },
+            value: 1
+          },
+          extraValue: 0
+        },
+        fee: 0,
+        feeRecipient: '0x0000000000000000000000000000000000000000',
+        startTime: 0,
+        endTime: 0,
+        salt: (Date.parse(new Date().toString())) / 1000,
+      }
+
+      await banksyWeb3.signer!.signMessage(JSON.stringify(rightOrder)).then(res => {
+        setSignature(res)
+      })
+
+      console.log(leftOrder)
+      console.log(rightOrder)
+      console.log(buyData?.signature)
+
+      banksyWeb3.eth.Exchange.matchSingle(leftOrder, buyData?.signature, rightOrder, signature).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)

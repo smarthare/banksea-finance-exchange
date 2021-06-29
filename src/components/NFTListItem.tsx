@@ -147,7 +147,7 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
               <img
                 style={{ display: loading ? 'none' : '' }}
                 key={data.id}
-                src={data?.image}
+                src={data?.thumbnail}
                 alt=""
                 onLoad={() => setTimeout(() => setLoading(false), 1500)}
                 onError={() => setLoading(false)}
