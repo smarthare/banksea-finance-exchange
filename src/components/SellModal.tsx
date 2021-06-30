@@ -3,6 +3,8 @@ import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
 import styled from 'styled-components'
 import { sellOrder } from '../utils/banksyNftList'
 import { banksyWeb3 } from '../BanksyWeb3'
+import { keccak256 } from 'web3-utils'
+import Web3 from 'web3'
 
 const SellingModal = styled(Modal)`
   .ant-modal-content {
@@ -312,7 +314,7 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
   const tabs = ['Fixed price', 'Auction', 'Spliting', 'Mortgage']
 
   const formInitialValues = {
-    price: 0
+    price: ''
   }
 
 
@@ -350,6 +352,7 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
     endTime: 0,
     salt: dateNow,
   }
+
 
   const listing = async () => {
     if (!promised) {
@@ -422,9 +425,67 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
             salt: (Date.parse(new Date().toString())) / 1000,
           }
 
-          await banksyWeb3.signer!.signMessage(JSON.stringify(order)).then(res => {
-            setSignature(res)
-          })
+          const HashMakerAsset = await keccak256(new Web3().eth.abi.encodeParameter({
+            'Asset': {
+              'settleType': 'uint256',
+              'baseAsset': {
+                'code': {
+                  'baseType': 'uint256',
+                  'extraType': 'uint256',
+                  'contractAddr': 'address'
+                },
+                'value': 'uint256'
+              },
+              'extraValue': 'uint256'
+            }
+          }, order.makerAsset))
+
+          const HashTakerAsset = await keccak256(new Web3().eth.abi.encodeParameter({
+            'Asset': {
+              'settleType': 'uint256',
+              'baseAsset': {
+                'code': {
+                  'baseType': 'uint256',
+                  'extraType': 'uint256',
+                  'contractAddr': 'address'
+                },
+                'value': 'uint256'
+              },
+              'extraValue': 'uint256'
+            }
+          }, order.takerAsset))
+
+          const origin = {
+            dir: order.dir,
+            maker: order.maker,
+            makerAssetHash: HashMakerAsset,
+            taker: order.taker,
+            takerAssetHash: HashTakerAsset,
+            fee: order.fee,
+            feeRecipient: order.feeRecipient,
+            startTime: order.startTime,
+            endTime: order.endTime,
+            salt: order.salt,
+          }
+
+          console.log(JSON.stringify(order))
+
+          const hashOrder = await keccak256(new Web3().eth.abi.encodeParameter({
+            'Order': {
+              'dir': 'uint256',
+              'maker': 'address',
+              'makerAssetHash': 'bytes32',
+              'taker': 'address',
+              'takerAssetHash': 'bytes32',
+              'fee': 'uint256',
+              'feeRecipient': 'address',
+              'startTime': 'uint256',
+              'endTime': 'uint256',
+              'salt': 'uint256',
+            }
+          }, origin))
+
+          setSignature(await banksyWeb3.signer!.signMessage(hashOrder))
 
           await sellOrder(sellingOrder).then(() => {
             init()

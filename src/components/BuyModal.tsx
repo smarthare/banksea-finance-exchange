@@ -9,6 +9,8 @@ import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../store/wallet'
 import { banksyWeb3 } from '../BanksyWeb3'
+import { keccak256 } from 'web3-utils'
+import Web3 from 'web3'
 
 const MyBuyModal = styled(Modal)`
   .ant-modal-content {
@@ -536,13 +538,72 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyDa
         salt: (Date.parse(new Date().toString())) / 1000,
       }
 
-      await banksyWeb3.signer!.signMessage(JSON.stringify(rightOrder)).then(res => {
-        setSignature(res)
-      })
+      const HashMakerAsset = await keccak256(new Web3().eth.abi.encodeParameter({
+        'Asset': {
+          'settleType': 'uint256',
+          'baseAsset': {
+            'code': {
+              'baseType': 'uint256',
+              'extraType': 'uint256',
+              'contractAddr': 'address'
+            },
+            'value': 'uint256'
+          },
+          'extraValue': 'uint256'
+        }
+      }, rightOrder.makerAsset))
 
-      console.log(leftOrder)
-      console.log(rightOrder)
+      const HashTakerAsset = await keccak256(new Web3().eth.abi.encodeParameter({
+        'Asset': {
+          'settleType': 'uint256',
+          'baseAsset': {
+            'code': {
+              'baseType': 'uint256',
+              'extraType': 'uint256',
+              'contractAddr': 'address'
+            },
+            'value': 'uint256'
+          },
+          'extraValue': 'uint256'
+        }
+      }, rightOrder.takerAsset))
+
+      const origin = {
+        dir: rightOrder.dir,
+        maker: rightOrder.maker,
+        makerAssetHash: HashMakerAsset,
+        taker: rightOrder.taker,
+        takerAssetHash: HashTakerAsset,
+        fee: rightOrder.fee,
+        feeRecipient: rightOrder.feeRecipient,
+        startTime: rightOrder.startTime,
+        endTime: rightOrder.endTime,
+        salt: rightOrder.salt,
+      }
+
+      const hashOrder = await keccak256(new Web3().eth.abi.encodeParameter({
+        'Order': {
+          'dir': 'uint256',
+          'maker': 'address',
+          'makerAssetHash': 'bytes32',
+          'taker': 'address',
+          'takerAssetHash': 'bytes32',
+          'fee': 'uint256',
+          'feeRecipient': 'address',
+          'startTime': 'uint256',
+          'endTime': 'uint256',
+          'salt': 'uint256',
+        }
+      }, origin))
+
+      console.log(hashOrder)
+
+      const signature = await banksyWeb3.signer!.signMessage(hashOrder)
+
+      console.log(JSON.stringify(leftOrder))
       console.log(buyData?.signature)
+      console.log(JSON.stringify(rightOrder))
+      console.log(signature)
 
       banksyWeb3.eth.Exchange.matchSingle(leftOrder, buyData?.signature, rightOrder, signature).then(res => {
         console.log(res)
