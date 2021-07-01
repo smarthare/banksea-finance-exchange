@@ -5,7 +5,7 @@ import { Button, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
-import { banksyNftDetail } from '../../utils/banksyNftList'
+import { banksyNftDetail, chooseOrder, NftDetailFavorite } from '../../utils/banksyNftList'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import copy from 'copy-to-clipboard'
@@ -18,7 +18,6 @@ import { useLocationQuery } from '../../utils'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import SellModal from '../../components/SellModal'
-import { NftDetailFavorite, chooseOrder } from '../../utils/banksyNftList'
 import BuyModal from '../../components/BuyModal'
 
 const Row = styled.div`
@@ -841,8 +840,8 @@ const CollectibleDetailPage: React.FC = () => {
           </OtherArtworksContainer>
         </OtherArtworksArea>
       </Row>
-      <SellModal visible={visible} onCancel={() => setVisible(false)} data={data} account={account} init={init} />
-      <BuyModal isBuyModalVisible={isBuyModalVisible} checkoutCancle={() => setBuyModalVisible(false)} data={data} buyData={buyData} />
+      <SellModal visible={visible} onCancel={() => setVisible(false)} data={data} init={init} />
+      <BuyModal isBuyModalVisible={isBuyModalVisible} checkoutCancel={() => setBuyModalVisible(false)} data={data} buyData={buyData} />
     </BundleDetailContainer>
   )
 

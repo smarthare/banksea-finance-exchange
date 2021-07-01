@@ -1,11 +1,27 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
 import styled from 'styled-components'
 import { sellOrder } from '../utils/banksyNftList'
 import { banksyWeb3 } from '../BanksyWeb3'
-import { keccak256 } from 'web3-utils'
-import Web3 from 'web3'
 import { ethers } from 'ethers'
+import clsx from 'clsx'
+import { toWei } from '../web3/utils'
+import { ExchangeOrder, ExchangeOrderAsset, SellingOrder } from '../BanksyWeb3/ethereum/services/exchange/types'
+import { hashExchangeOrder, hashExchangeOrderAsset } from '../BanksyWeb3/ethereum/services/exchange/utils'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../store/wallet'
+
+type MessageHintProps = {
+  message: string,
+  type?: 'error' | 'hint' | 'success'
+}
+
+type SellModalProps = {
+  visible: boolean,
+  onCancel: () => void,
+  data: any,
+  init: () => void
+}
 
 const SellingModal = styled(Modal)`
   .ant-modal-content {
@@ -46,6 +62,7 @@ const SellingModal = styled(Modal)`
         border: none;
         border-radius: 1rem;
         color: #7C6DEB;
+        font-size: 1.8rem;
       }
 
       .tabs__link {
@@ -272,11 +289,6 @@ const AuctionItem = styled.div`
 
 `
 
-type MessageHintProps = {
-  message: string,
-  type?: 'error' | 'hint' | 'success'
-}
-
 const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
   const color = type ? {
     'error': 'red',
@@ -291,179 +303,118 @@ const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
   )
 }
 
-const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) => {
-  const [promised, setPromised] = useState(false)
+const SellModal: React.FC<SellModalProps> = ({ visible, onCancel, data, init }) => {
+  const account = useSelector(getAccount)
 
-  const [current, setcurrent] = useState(0)
+  const [checked, setChecked] = useState(false)
 
-  const [dateNow, setDateNow] = useState<any>()
-
-  const [form] = Form.useForm()
-
-  const [price, setPrice] = useState<any>()
-
-  const [hintMessage, setHintMessage] = useState<MessageHintProps>({
-    message: '', type: 'hint'
-  })
-
-  const clickTabs = useCallback((item, key) => {
-    setcurrent(key)
-  }, [])
-
-  const tabs = ['Fixed price', 'Auction', 'Spliting', 'Mortgage']
+  const [current, setCurrent] = useState(0)
 
   const formInitialValues = {
     price: ''
   }
 
+  const [form] = Form.useForm<typeof formInitialValues>()
 
-  const listing = async () => {
-    if (!promised) {
+  const [hintMessage, setHintMessage] = useState<MessageHintProps>({
+    message: '', type: 'hint'
+  })
+
+  const tabs = ['Fixed price', 'Auction', 'Spliting', 'Mortgage']
+
+  const checkCheckbox = () => new Promise<void>((resolve, reject) => {
+    if (!checked) {
       setHintMessage({
         message: 'Please check the checkbox first!',
         type: 'error'
       })
-      return
-    } else {
-      form
-        .validateFields()
-        .then(async values => {
-
-          await banksyWeb3.eth.Banksy.isApprovedForAll(account, '0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A').then(res => {
-            if (res === false) {
-              banksyWeb3.eth.Banksy.setApprovalForAll('0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A', true)
-            }
-          })
-
-          const dateNow = (Date.parse(new Date().toString())) / 1000
-
-          const order = {
-            dir: 0,
-            maker: account,
-            makerAsset: {
-              settleType: 0,
-              baseAsset: {
-                code: {
-                  baseType: 3,
-                  extraType: data?.tokenId,
-                  contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
-                },
-                value: 1
-              },
-              extraValue: 0
-            },
-            taker: '0x0000000000000000000000000000000000000000',
-            takerAsset: {
-              settleType: 0,
-              baseAsset: {
-                code: {
-                  baseType: 1,
-                  extraType: 0,
-                  contractAddr: '0x0000000000000000000000000000000000000000'
-                },
-                value: values?.price
-              },
-              extraValue: 0
-            },
-            fee: 0,
-            feeRecipient: '0x0000000000000000000000000000000000000000',
-            startTime: 0,
-            endTime: 0,
-            salt: dateNow,
-          }
-
-          const HashMakerAsset = await keccak256(new Web3().eth.abi.encodeParameter({
-            'Asset': {
-              'settleType': 'uint256',
-              'baseAsset': {
-                'code': {
-                  'baseType': 'uint256',
-                  'extraType': 'uint256',
-                  'contractAddr': 'address'
-                },
-                'value': 'uint256'
-              },
-              'extraValue': 'uint256'
-            }
-          }, order.makerAsset))
-
-          const HashTakerAsset = await keccak256(new Web3().eth.abi.encodeParameter({
-            'Asset': {
-              'settleType': 'uint256',
-              'baseAsset': {
-                'code': {
-                  'baseType': 'uint256',
-                  'extraType': 'uint256',
-                  'contractAddr': 'address'
-                },
-                'value': 'uint256'
-              },
-              'extraValue': 'uint256'
-            }
-          }, order.takerAsset))
-
-          const origin = {
-            dir: order.dir,
-            maker: order.maker,
-            makerAssetHash: HashMakerAsset,
-            taker: order.taker,
-            takerAssetHash: HashTakerAsset,
-            fee: order.fee,
-            feeRecipient: order.feeRecipient,
-            startTime: order.startTime,
-            endTime: order.endTime,
-            salt: order.salt,
-          }
-
-          console.log(JSON.stringify(order))
-
-          const hashOrder = await keccak256(new Web3().eth.abi.encodeParameter({
-            'Order': {
-              'dir': 'uint256',
-              'maker': 'address',
-              'makerAssetHash': 'bytes32',
-              'taker': 'address',
-              'takerAssetHash': 'bytes32',
-              'fee': 'uint256',
-              'feeRecipient': 'address',
-              'startTime': 'uint256',
-              'endTime': 'uint256',
-              'salt': 'uint256',
-            }
-          }, origin))
-
-          const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashOrder))
-
-          console.log(signature)
-
-          const sellingOrder = {
-            dir: 'sell',
-            maker: account,
-            makerAssetSettleType: 0,
-            makerAssetBaseType: 3,
-            makerAssetExtraType: data?.tokenId,
-            makerAssetContractAddr: data?.addressContract,
-            makerAssetValue: values.price,
-            makerAssetExtraValue: 0,
-            fee: 0,
-            feeRecipient: 0,
-            startTime: 0,
-            endTime: 0,
-            signature: signature,
-            salt: dateNow,
-            valueUri: data?.valueUri
-          }
-
-          await sellOrder(sellingOrder).then(() => {
-            init()
-            onCancel()
-          }).catch(err => err)
-        })
+      reject()
     }
+    resolve()
+  })
+
+  const handleListing = async (values: typeof formInitialValues) => {
+    if (!await banksyWeb3.eth.Banksy.isApprovedForAll(account!, '0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A')) {
+      banksyWeb3.eth.Banksy.setApprovalForAll('0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A', true)
+    }
+
+    const salt = (Date.parse(new Date().toString())) / 1000
+
+    const price = toWei(values.price)
+
+    const makerAsset: ExchangeOrderAsset = {
+      settleType: 0,
+      baseAsset: {
+        code: {
+          baseType: 3,
+          extraType: data?.tokenId,
+          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+        },
+        value: 1
+      },
+      extraValue: 0
+    }
+
+    const takerAsset: ExchangeOrderAsset = {
+      settleType: 0,
+      baseAsset: {
+        code: {
+          baseType: 1,
+          extraType: 0,
+          contractAddr: '0x0000000000000000000000000000000000000000'
+        },
+        value: price
+      },
+      extraValue: 0
+    }
+
+    const order: ExchangeOrder = {
+      dir: 0,
+      maker: account!,
+      makerAssetHash: hashExchangeOrderAsset(makerAsset),
+      taker: '0x0000000000000000000000000000000000000000',
+      takerAssetHash: hashExchangeOrderAsset(takerAsset),
+      fee: 0,
+      feeRecipient: '0x0000000000000000000000000000000000000000',
+      startTime: 0,
+      endTime: 0,
+      salt
+    }
+
+    const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(order)))
+
+    const sellingOrder: SellingOrder = {
+      dir: 'sell',
+      maker: account,
+      makerAssetSettleType: 0,
+      makerAssetBaseType: 3,
+      makerAssetExtraType: data!.tokenId,
+      makerAssetContractAddr: data!.addressContract,
+      makerAssetValue: values.price,
+      makerAssetExtraValue: 0,
+      fee: 0,
+      feeRecipient: 0,
+      startTime: 0,
+      endTime: 0,
+      valueUri: data!.valueUri,
+      signature,
+      salt
+    }
+
+    await sellOrder(sellingOrder)
+    init()
+    onCancel()
+  }
+
+  const onListingButtonClicked = async () => {
+    checkCheckbox()
+      .then(() => form.validateFields())
+      .then(handleListing)
   }
 
   return (
-    <SellingModal title="Selling"
+    <SellingModal
+      title="Selling"
       visible={visible}
       onCancel={onCancel}
       footer={null}
@@ -472,21 +423,19 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
         <div className="checkout-list-title">Sell Method</div>
         <div className="sellMethodButton">
           {
-            tabs.map((item: any, i: number) => {
-              return (
-                // @ts-ignore
-                <Button className={i === current && 'tabs__link'}
-                  onClick={() => clickTabs(item, i)}
-                  key={i}
-                >
-                  {item}
-                </Button>
-              )
-            })
+            tabs.map((item: string, index: number) => (
+              <Button
+                className={clsx(index === current && 'tabs__link')}
+                onClick={() => setCurrent(index)}
+                key={index}
+              >
+                {item}
+              </Button>
+            ))
           }
         </div>
       </div>
-      <div className={'sellContent ' + (current === 0 ? 'active' : '')}>
+      <div className={clsx('sellContent', current === 0 && 'active')}>
         <p className="hightest">Set Price</p>
         <Form form={form} initialValues={formInitialValues}>
           <div className="fixedPrice">
@@ -504,13 +453,13 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
               </Form.Item>
             </Input.Group>
           </div>
-          <Button className="listing" onClick={listing}>Listing</Button>
+          <Button className="listing" onClick={onListingButtonClicked}>Listing</Button>
         </Form>
         <MessageHint {...hintMessage} />
         <Announcement>
           <Checkbox
-            checked={promised}
-            onChange={e => setPromised(e.target.checked)}
+            checked={checked}
+            onChange={e => setChecked(e.target.checked)}
           >
             <div className="text">
               Listing is free! At the time of the sale, the following fees will be decucted.

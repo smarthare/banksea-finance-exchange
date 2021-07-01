@@ -9,9 +9,17 @@ import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../store/wallet'
 import { banksyWeb3 } from '../BanksyWeb3'
-import { keccak256 } from 'web3-utils'
-import Web3 from 'web3'
 import { ethers } from 'ethers'
+import { ExchangeOrder, ExchangeOrderAsset } from '../BanksyWeb3/ethereum/services/exchange/types'
+import { hashExchangeOrder, hashExchangeOrderAsset } from '../BanksyWeb3/ethereum/services/exchange/utils'
+import { toWei } from '../web3/utils'
+
+type BuyModalProps = {
+  isBuyModalVisible: boolean,
+  checkoutCancel: () => void,
+  data: any,
+  buyData: any
+}
 
 const MyBuyModal = styled(Modal)`
   .ant-modal-content {
@@ -389,7 +397,7 @@ const MyAuthorizingModal = styled(Modal)`
 
 `
 
-const Deposit:React.FC<any> = ({ nextPart, handleCancel, isCheckoutModalVisible }) => {
+const Deposit: React.FC<any> = ({ nextPart, handleCancel, isCheckoutModalVisible }) => {
   return (
     <div>
       <MyCheckoutModal visible={isCheckoutModalVisible}
@@ -420,8 +428,7 @@ const Deposit:React.FC<any> = ({ nextPart, handleCancel, isCheckoutModalVisible 
   )
 }
 
-const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyData }) => {
-
+const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, data, buyData }) => {
   const account = useSelector(getAccount)
 
   const [isCheckoutModalVisible, setCheckoutModalVisible] = useState(false)
@@ -432,31 +439,15 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyDa
 
   const [isCaveatContent, setCaveatContent] = useState(false)
 
-  // const [promised, setPromised] = useState(false)
-
   const [isCheckOut, setCheckOut] = useState(true)
 
-  const [signature, setSignature] = useState<string>()
-
-  const [dateNow, setDateNow] = useState<any>()
-
-  const plainOptions = [
+  const checkboxOptions = [
     'By checking this box. I acknowledge that this item has not been reviewed or approved by Banksy',
     'By checking this box. I agree to Banksy\'s Terms of Services'
   ]
 
-
-
-
-
-
-
-  // const showAuthorizingModal = () => {
-  //   setAuthorizingModalVisible(true)
-  // }
-
   const showCheckoutModal = () => {
-    checkoutCancle()
+    checkoutCancel()
     setCheckoutModalVisible(true)
   }
 
@@ -464,163 +455,100 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyDa
     setDepositModalVisible(true)
   }
 
-  const nextPart = async () => {
+  const handlePurchase = async () => {
+    const price = toWei(buyData!.makerAsset!.baseAsset!.value)
+
+    const sellOrder: ExchangeOrder = {
+      dir: 0,
+      maker: data!.addressCreate,
+      makerAsset: {
+        settleType: 0,
+        baseAsset: {
+          code: {
+            baseType: 3,
+            extraType: data!.tokenId,
+            contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+          },
+          value: 1
+        },
+        extraValue: 0
+      },
+      taker: '0x0000000000000000000000000000000000000000',
+      takerAsset: {
+        settleType: 0,
+        baseAsset: {
+          code: {
+            baseType: 1,
+            extraType: 0,
+            contractAddr: '0x0000000000000000000000000000000000000000'
+          },
+          value: price
+        },
+        extraValue: 0
+      },
+      fee: 0,
+      feeRecipient: '0x0000000000000000000000000000000000000000',
+      startTime: 0,
+      endTime: 0,
+      salt: buyData?.salt
+    }
+
+    const makerAsset: ExchangeOrderAsset = {
+      settleType: 0,
+      baseAsset: {
+        code: {
+          baseType: 1,
+          extraType: 0,
+          contractAddr: '0x0000000000000000000000000000000000000000'
+        },
+        value: price
+      },
+      extraValue: 0
+    }
+
+    const takerAsset: ExchangeOrderAsset  = {
+      settleType: 0,
+      baseAsset: {
+        code: {
+          baseType: 3,
+          extraType: data?.tokenId,
+          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+        },
+        value: 1
+      },
+      extraValue: 0
+    }
+
+    const buyOrder: ExchangeOrder = {
+      dir: 1,
+      maker: account!,
+      makerAsset,
+      makerAssetHash: hashExchangeOrderAsset(makerAsset),
+      taker: data!.addressCreate,
+      takerAsset,
+      takerAssetHash: hashExchangeOrderAsset(takerAsset),
+      fee: 0,
+      feeRecipient: '0x0000000000000000000000000000000000000000',
+      startTime: 0,
+      endTime: 0,
+      salt: (Date.parse(new Date().toString())) / 1000
+    }
+
+    const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(buyOrder)))
+
+    console.log(await banksyWeb3.eth.Exchange.matchSingle(sellOrder, buyData!.signature, buyOrder, signature, `${makerAsset!.baseAsset.value}`))
+  }
+
+  const nextPart = () => {
     if (isBuyModalVisible) {
       showCheckoutModal()
-
-
-      const leftOrder = {
-        dir: 0,
-        maker: data?.addressCreate,
-        makerAsset: {
-          settleType: 0,
-          baseAsset: {
-            code: {
-              baseType: 3,
-              extraType: data?.tokenId,
-              contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
-            },
-            value: 1
-          },
-          extraValue: 0
-        },
-        taker: '0x0000000000000000000000000000000000000000',
-        takerAsset: {
-          settleType: 0,
-          baseAsset: {
-            code: {
-              baseType: 1,
-              extraType: 0,
-              contractAddr: '0x0000000000000000000000000000000000000000'
-            },
-            value: buyData?.makerAsset?.baseAsset?.value
-          },
-          extraValue: 0
-        },
-        fee: 0,
-        feeRecipient: '0x0000000000000000000000000000000000000000',
-        startTime: 0,
-        endTime: 0,
-        salt: buyData?.salt,
-      }
-
-      const rightOrder = {
-        dir: 1,
-        maker: account,
-        makerAsset: {
-          settleType: 0,
-          baseAsset: {
-            code: {
-              baseType: 1,
-              extraType: 0,
-              contractAddr: '0x0000000000000000000000000000000000000000'
-            },
-            value: buyData?.makerAsset?.baseAsset?.value
-          },
-          extraValue: 0
-        },
-        taker: data?.addressCreate,
-        takerAsset: {
-          settleType: 0,
-          baseAsset: {
-            code: {
-              baseType: 3,
-              extraType: data?.tokenId,
-              contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
-            },
-            value: 1
-          },
-          extraValue: 0
-        },
-        fee: 0,
-        feeRecipient: '0x0000000000000000000000000000000000000000',
-        startTime: 0,
-        endTime: 0,
-        salt: (Date.parse(new Date().toString())) / 1000,
-      }
-
-      const HashMakerAsset = await keccak256(new Web3().eth.abi.encodeParameter({
-        'Asset': {
-          'settleType': 'uint256',
-          'baseAsset': {
-            'code': {
-              'baseType': 'uint256',
-              'extraType': 'uint256',
-              'contractAddr': 'address'
-            },
-            'value': 'uint256'
-          },
-          'extraValue': 'uint256'
-        }
-      }, rightOrder.makerAsset))
-
-      const HashTakerAsset = await keccak256(new Web3().eth.abi.encodeParameter({
-        'Asset': {
-          'settleType': 'uint256',
-          'baseAsset': {
-            'code': {
-              'baseType': 'uint256',
-              'extraType': 'uint256',
-              'contractAddr': 'address'
-            },
-            'value': 'uint256'
-          },
-          'extraValue': 'uint256'
-        }
-      }, rightOrder.takerAsset))
-
-      const origin = {
-        dir: rightOrder.dir,
-        maker: rightOrder.maker,
-        makerAssetHash: HashMakerAsset,
-        taker: rightOrder.taker,
-        takerAssetHash: HashTakerAsset,
-        fee: rightOrder.fee,
-        feeRecipient: rightOrder.feeRecipient,
-        startTime: rightOrder.startTime,
-        endTime: rightOrder.endTime,
-        salt: rightOrder.salt,
-      }
-
-      const hashOrder = await keccak256(new Web3().eth.abi.encodeParameter({
-        'Order': {
-          'dir': 'uint256',
-          'maker': 'address',
-          'makerAssetHash': 'bytes32',
-          'taker': 'address',
-          'takerAssetHash': 'bytes32',
-          'fee': 'uint256',
-          'feeRecipient': 'address',
-          'startTime': 'uint256',
-          'endTime': 'uint256',
-          'salt': 'uint256',
-        }
-      }, origin))
-
-      console.log(hashOrder)
-
-      const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashOrder))
-
-      console.log(JSON.stringify(leftOrder))
-      console.log(buyData?.signature)
-      console.log(JSON.stringify(rightOrder))
-      console.log(signature)
-
-      banksyWeb3.eth.Exchange.matchSingle(leftOrder, buyData?.signature, rightOrder, signature).then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
+      handlePurchase()
     }
     if (isCheckoutModalVisible) {
       setCheckoutModalVisible(false)
       showDepositModal()
     }
   }
-
-  // const handleCheckoutOk = () => {
-  //   setCheckoutModalVisible(false)
-  // }
 
   const handleCancel = () => {
     setCheckoutModalVisible(false)
@@ -638,7 +566,7 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyDa
     <div>
       <MyBuyModal title="Checkout"
         visible={isBuyModalVisible}
-        onCancel={checkoutCancle}
+        onCancel={checkoutCancel}
         footer={null}
       >
         <Caveat onClick={showCaveatContent}>
@@ -685,10 +613,10 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyDa
         </div>
         <Divider />
         <Announcement>
-          <Checkbox.Group options={plainOptions} defaultValue={['Apple']} onChange={onChange} />
+          <Checkbox.Group options={checkboxOptions} defaultValue={['Apple']} onChange={onChange} />
         </Announcement>
         <div className="footer">
-          <Button onClick={nextPart} disabled={isCheckOut} >Checkout</Button>
+          <Button onClick={nextPart} disabled={isCheckOut}>Checkout</Button>
         </div>
       </MyBuyModal>
       <Deposit nextPart={nextPart} isCheckoutModalVisible={isCheckoutModalVisible} handleCancel={handleCancel} />
