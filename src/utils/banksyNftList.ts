@@ -47,5 +47,5 @@ export function NftDetailFavorite(uri: any) {
 }
 
 export function completeOrder(data: any) {
-  return banksyRequest.get<any>('nft/web/v1/transfer/order/complete', data)
+  return banksyRequest.post<any>('nft/web/v1/transfer/order/complete', data)
 }

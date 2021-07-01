@@ -5,6 +5,7 @@ import DepositIcon from '@/assets/images/allModalImg/deposit-icon.png'
 import Authorizing from '@/assets/images/allModalImg/authorizing.png'
 import danger from '@/assets/images/allModalImg/danger.png'
 import dangerDownArrow from '@/assets/images/allModalImg/dangerDownArrow.png'
+import successExchange from '@/assets/images/allModalImg/successExchange.png'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../store/wallet'
@@ -13,6 +14,9 @@ import { ethers } from 'ethers'
 import { ExchangeOrder, ExchangeOrderAsset } from '../BanksyWeb3/ethereum/services/exchange/types'
 import { hashExchangeOrder, hashExchangeOrderAsset } from '../BanksyWeb3/ethereum/services/exchange/utils'
 import { toWei } from '../web3/utils'
+import { completeOrder } from '../utils/banksyNftList'
+import { useHistory } from 'react-router-dom'
+import history from '@/assets/images/swap/history.png'
 
 type BuyModalProps = {
   isBuyModalVisible: boolean,
@@ -61,6 +65,7 @@ const MyBuyModal = styled(Modal)`
       display: flex;
 
       .nft-image {
+        object-fit: cover;
         width: 7.1rem;
         height: 7.1rem;
       }
@@ -394,8 +399,82 @@ const MyAuthorizingModal = styled(Modal)`
     margin-top: 5.1rem;
     margin-left: 17.8rem;
   }
-
 `
+
+const SuccessModal = styled(Modal)`
+  width: 62.3rem;
+  height: 49.4rem;
+  border-radius: 1rem;
+
+  .success-title {
+    width: 100%;
+    text-align: center;
+    font-size: 2.2rem;
+  }
+
+  img {
+    width: 7.6rem;
+    margin-left: calc((100% - 7.6rem) / 2);
+    margin-top: 5.4rem;
+  }
+
+  .toItem {
+    width: 25.3rem;
+    height: 5rem;
+    background: #7C6DEB;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.8rem;
+    margin-left: calc((100% - 25.3rem) / 2);
+    margin-top: 6.4rem;
+  }
+`
+
+const ExchangeSuccessModal: React.FC<{isSuccessVisible: boolean, handleCancel: () => void}> = ({ isSuccessVisible, handleCancel }) => {
+  const history = useHistory()
+
+  const backItem = () => {
+    history.push('/personal/home')
+  }
+
+  return (
+    <div>
+      <SuccessModal
+        visible={isSuccessVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <div className="success-title">Your transaction Succeeded！</div>
+        <img src={successExchange} alt="" />
+        <Button className="toItem" onClick={backItem}>BACK TO ALL ITEMS</Button>
+      </SuccessModal>
+    </div>
+  )
+}
+
+const BuySignModal: React.FC<{isAuthorizingModalVisible: boolean, handleCancel: () => void}> = ({ isAuthorizingModalVisible, handleCancel }) => {
+  return (
+    <div>
+      <MyAuthorizingModal
+        visible={isAuthorizingModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <div className="author-body">
+          <div className="author-title">
+            Authorizing your account for this order...
+          </div>
+          <div className="author-tip">if a signature request pops up, just click &quot;Sign&quot;</div>
+          <div className="author-tip">to verify that you own your wallet.</div>
+        </div>
+        <div className="author-img">
+          <img src={Authorizing} alt="" style={{ width: '21.1rem', height: '15.2rem' }} />
+        </div>
+      </MyAuthorizingModal>
+    </div>
+  )
+}
+
 
 const Deposit: React.FC<any> = ({ nextPart, handleCancel, isCheckoutModalVisible }) => {
   return (
@@ -440,6 +519,8 @@ const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, 
   const [isCaveatContent, setCaveatContent] = useState(false)
 
   const [isCheckOut, setCheckOut] = useState(true)
+
+  const [isSuccessVisible, setSuccessVisible] = useState(false)
 
   const checkboxOptions = [
     'By checking this box. I acknowledge that this item has not been reviewed or approved by Banksy',
@@ -536,12 +617,19 @@ const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, 
 
     const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(buyOrder)))
 
-    console.log(await banksyWeb3.eth.Exchange.matchSingle(sellOrder, buyData!.signature, buyOrder, signature, `${makerAsset!.baseAsset.value}`))
+    await banksyWeb3.eth.Exchange.matchSingle(sellOrder, buyData!.signature, buyOrder, signature, `${makerAsset!.baseAsset.value}`).then(res => {
+      setAuthorizingModalVisible(false)
+      completeOrder({
+        valueUri: data?.valueUri,
+        addressOwner: data?.addressOwner
+      }).then(res => setSuccessVisible(true))
+    })
   }
 
   const nextPart = () => {
     if (isBuyModalVisible) {
-      showCheckoutModal()
+      checkoutCancel()
+      setAuthorizingModalVisible(true)
       handlePurchase()
     }
     if (isCheckoutModalVisible) {
@@ -554,6 +642,7 @@ const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, 
     setCheckoutModalVisible(false)
     setDepositModalVisible(false)
     setAuthorizingModalVisible(false)
+    setSuccessVisible(false)
   }
 
   const showCaveatContent = () => {
@@ -639,22 +728,8 @@ const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, 
           </div>
         </div>
       </MyDepositModal>
-      <MyAuthorizingModal
-        visible={isAuthorizingModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <div className="author-body">
-          <div className="author-title">
-            Authorizing your account for this order...
-          </div>
-          <div className="author-tip">if a signature request pops up, just click &quot;Sign&quot;</div>
-          <div className="author-tip">to verify that you own your wallet.</div>
-        </div>
-        <div className="author-img">
-          <img src={Authorizing} alt="" style={{ width: '21.1rem', height: '15.2rem' }} />
-        </div>
-      </MyAuthorizingModal>
+      <BuySignModal isAuthorizingModalVisible={isAuthorizingModalVisible} handleCancel={handleCancel} />
+      <ExchangeSuccessModal isSuccessVisible={isSuccessVisible}  handleCancel={handleCancel} />
     </div>
   )
 }
