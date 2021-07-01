@@ -11,6 +11,7 @@ import { getAccount } from '../store/wallet'
 import { banksyWeb3 } from '../BanksyWeb3'
 import { keccak256 } from 'web3-utils'
 import Web3 from 'web3'
+import { ethers } from 'ethers'
 
 const MyBuyModal = styled(Modal)`
   .ant-modal-content {
@@ -475,7 +476,7 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyDa
           settleType: 0,
           baseAsset: {
             code: {
-              baseType: 1,
+              baseType: 3,
               extraType: data?.tokenId,
               contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
             },
@@ -523,7 +524,7 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyDa
           settleType: 0,
           baseAsset: {
             code: {
-              baseType: 1,
+              baseType: 3,
               extraType: data?.tokenId,
               contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
             },
@@ -598,7 +599,7 @@ const BuyModal:React.FC<any> = ({ isBuyModalVisible, checkoutCancle, data, buyDa
 
       console.log(hashOrder)
 
-      const signature = await banksyWeb3.signer!.signMessage(hashOrder)
+      const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashOrder))
 
       console.log(JSON.stringify(leftOrder))
       console.log(buyData?.signature)

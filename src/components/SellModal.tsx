@@ -5,6 +5,7 @@ import { sellOrder } from '../utils/banksyNftList'
 import { banksyWeb3 } from '../BanksyWeb3'
 import { keccak256 } from 'web3-utils'
 import Web3 from 'web3'
+import { ethers } from 'ethers'
 
 const SellingModal = styled(Modal)`
   .ant-modal-content {
@@ -295,8 +296,6 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
 
   const [current, setcurrent] = useState(0)
 
-  const [signature, setSignature] = useState<string>()
-
   const [dateNow, setDateNow] = useState<any>()
 
   const [form] = Form.useForm()
@@ -318,42 +317,6 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
   }
 
 
-  const order = {
-    dir: 0,
-    maker: account,
-    makerAsset: {
-      settleType: 0,
-      baseAsset: {
-        code: {
-          baseType: 1,
-          extraType: data?.tokenId,
-          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
-        },
-        value: 1
-      },
-      extraValue: 0
-    },
-    taker: '0x0000000000000000000000000000000000000000',
-    takerAsset: {
-      settleType: 0,
-      baseAsset: {
-        code: {
-          baseType: 1,
-          extraType: 0,
-          contractAddr: '0x0000000000000000000000000000000000000000'
-        },
-        value: price
-      },
-      extraValue: 0
-    },
-    fee: 0,
-    feeRecipient: '0x0000000000000000000000000000000000000000',
-    startTime: 0,
-    endTime: 0,
-    salt: dateNow,
-  }
-
-
   const listing = async () => {
     if (!promised) {
       setHintMessage({
@@ -372,23 +335,7 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
             }
           })
 
-          const sellingOrder = {
-            dir: 'sell',
-            maker: account,
-            makerAssetSettleType: 0,
-            makerAssetBaseType: 1,
-            makerAssetExtraType: data?.tokenId,
-            makerAssetContractAddr: data?.addressContract,
-            makerAssetValue: values.price,
-            makerAssetExtraValue: 0,
-            fee: 0,
-            feeRecipient: 0,
-            startTime: 0,
-            endTime: 0,
-            signature: signature,
-            salt: dateNow,
-            valueUri: data?.valueUri
-          }
+          const dateNow = (Date.parse(new Date().toString())) / 1000
 
           const order = {
             dir: 0,
@@ -397,7 +344,7 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
               settleType: 0,
               baseAsset: {
                 code: {
-                  baseType: 1,
+                  baseType: 3,
                   extraType: data?.tokenId,
                   contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
                 },
@@ -422,7 +369,7 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
             feeRecipient: '0x0000000000000000000000000000000000000000',
             startTime: 0,
             endTime: 0,
-            salt: (Date.parse(new Date().toString())) / 1000,
+            salt: dateNow,
           }
 
           const HashMakerAsset = await keccak256(new Web3().eth.abi.encodeParameter({
@@ -485,7 +432,27 @@ const SellModal: React.FC<any> = ({ visible, onCancel, data, account, init }) =>
             }
           }, origin))
 
-          setSignature(await banksyWeb3.signer!.signMessage(hashOrder))
+          const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashOrder))
+
+          console.log(signature)
+
+          const sellingOrder = {
+            dir: 'sell',
+            maker: account,
+            makerAssetSettleType: 0,
+            makerAssetBaseType: 3,
+            makerAssetExtraType: data?.tokenId,
+            makerAssetContractAddr: data?.addressContract,
+            makerAssetValue: values.price,
+            makerAssetExtraValue: 0,
+            fee: 0,
+            feeRecipient: 0,
+            startTime: 0,
+            endTime: 0,
+            signature: signature,
+            salt: dateNow,
+            valueUri: data?.valueUri
+          }
 
           await sellOrder(sellingOrder).then(() => {
             init()
