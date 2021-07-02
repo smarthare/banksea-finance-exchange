@@ -325,7 +325,7 @@ const AssetUpload: React.FC<AssetUploadProps> = ({ onUploadSuccess }) => {
       <Upload {...uploadProps}>
         {pinnedFileHash ? (
           <div className="upload-border">
-            <img className="pinned" src={`https://gateway.pinata.cloud/ipfs/${pinnedFileHash}`} alt="" />
+            <img className="pinned" src={`https://banksy.mypinata.cloud/ipfs/${pinnedFileHash}`} alt="" />
           </div>
         ) : uploading ? (
           <div className="upload-border">
@@ -415,7 +415,7 @@ const NFTCreate: React.FC = () => {
         const nftMetadata: NFTMetadata = {
           name: values.artworkName,
           description: values.briefIntroduction,
-          image: `https://gateway.pinata.cloud/ipfs/${assetIpfsHash}`
+          image: `https://banksy.mypinata.cloud/ipfs/${assetIpfsHash}`
           // attributes
         }
 

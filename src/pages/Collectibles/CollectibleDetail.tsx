@@ -554,7 +554,7 @@ const CollectibleDetailPage: React.FC = () => {
     <BundleDetailContainer>
       <div className="operating">
         {
-          account === data?.addressCreate ?
+          data?.tokenId > 0 && account === data?.addressOwner ?
             <Operating>
               {/*<Button className="edit">Edit</Button>*/}
               <Button className="sell" onClick={sellModalOpen}>Sell</Button>
@@ -647,7 +647,7 @@ const CollectibleDetailPage: React.FC = () => {
               </div>
             </div>
             {
-              data?.price && account !== data?.addressCreate ?
+              data?.onSale && data?.price && account !== data?.addressOwner ?
                 <BuyOperating>
                   <Button className="buyNow" onClick={handleOk}>Buy Now</Button>
                 </BuyOperating> :

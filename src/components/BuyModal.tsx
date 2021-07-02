@@ -499,7 +499,7 @@ const Deposit: React.FC<any> = ({ nextPart, handleCancel, isCheckoutModalVisible
             <div className="border-detail">
               You don&apos;t have enough funds to complete the purchase. Please deposit or convert your funds.
             </div>
-            <Button onClick={nextPart}>Deposit</Button>
+            {/*<Button onClick={nextPart}>Deposit</Button>*/}
           </div>
         </div>
       </MyCheckoutModal>
@@ -527,6 +527,7 @@ const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, 
     'By checking this box. I agree to Banksy\'s Terms of Services'
   ]
 
+
   const showCheckoutModal = () => {
     checkoutCancel()
     setCheckoutModalVisible(true)
@@ -541,7 +542,7 @@ const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, 
 
     const sellOrder: ExchangeOrder = {
       dir: 0,
-      maker: data!.addressCreate,
+      maker: data!.addressOwner,
       makerAsset: {
         settleType: 0,
         baseAsset: {
@@ -605,7 +606,7 @@ const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, 
       maker: account!,
       makerAsset,
       makerAssetHash: hashExchangeOrderAsset(makerAsset),
-      taker: data!.addressCreate,
+      taker: data!.addressOwner,
       takerAsset,
       takerAssetHash: hashExchangeOrderAsset(takerAsset),
       fee: 0,
@@ -615,16 +616,23 @@ const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, 
       salt: (Date.parse(new Date().toString())) / 1000
     }
 
+
+
+    // setAuthorizingModalVisible(true)
     const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(buyOrder)))
 
     await banksyWeb3.eth.Exchange.matchSingle(sellOrder, buyData!.signature, buyOrder, signature, `${makerAsset!.baseAsset.value}`).then(res => {
       setAuthorizingModalVisible(false)
       completeOrder({
         valueUri: data?.valueUri,
-        addressOwner: data?.addressOwner
+        addressOwner: account!
       }).then(res => setSuccessVisible(true))
+    }).catch(err => {
+      console.log(err)
     })
   }
+
+
 
   const nextPart = () => {
     if (isBuyModalVisible) {
