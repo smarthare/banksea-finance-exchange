@@ -571,7 +571,9 @@ const CollectibleDetailPage: React.FC = () => {
                 <div />
             }
             <img
-              src={data?.image}
+              src={data?.image?.slice(6)==='ipfs:/' ?
+                `https://banksy.mypinata.cloud${data?.image?.slice(6)}` :
+                `https://banksy.mypinata.cloud${data?.image?.slice(-52)}`}
               alt=""
             />
           </ImageContainer>
@@ -746,7 +748,6 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="artwork-img">
                   <img src={more1} style={{ height: '205px' }} alt="" />
                 </div>
-                <VoteIcon>Approve Vote</VoteIcon>
                 <div className="artwork-describe">Pikachu Baby Bimbo #0005</div>
               </div>
               <div className="artwork-like">
@@ -770,7 +771,6 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="artwork-img">
                   <img src={more2} style={{ height: '205px' }} alt="'" />
                 </div>
-                <VoteIcon>Approve Vote</VoteIcon>
                 <div className="artwork-describe">1 - The Elf</div>
               </div>
               <div className="artwork-like">
@@ -794,7 +794,6 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="artwork-img">
                   <img src={more3} style={{ height: '205px' }} alt="" />
                 </div>
-                <VoteIcon>Approve Vote</VoteIcon>
                 <div className="artwork-describe">Mona Lisa Smile &apos;Gamma Edition &apos;</div>
               </div>
               <div className="artwork-like">
@@ -818,7 +817,6 @@ const CollectibleDetailPage: React.FC = () => {
                 <div className="artwork-img">
                   <img src={more4} style={{ height: '205px' }} alt=""  />
                 </div>
-                <VoteIcon>Approve Vote</VoteIcon>
                 <div className="artwork-describe">Like you mean it</div>
               </div>
               <div className="artwork-like">

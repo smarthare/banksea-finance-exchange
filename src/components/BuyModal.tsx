@@ -628,7 +628,9 @@ const BuyModal: React.FC<BuyModalProps> = ({ isBuyModalVisible, checkoutCancel, 
         addressOwner: account!
       }).then(res => setSuccessVisible(true))
     }).catch(err => {
-      console.log(err)
+      if (err.code === 'INSUFFICIENT_FUNDS') {
+        setCheckoutModalVisible(true)
+      }
     })
   }
 

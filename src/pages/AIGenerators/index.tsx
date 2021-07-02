@@ -302,17 +302,17 @@ const SwiperTop: React.FC<{ list?: string[] }> = ({ list }) => {
         centeredSlides={true}
         slidesPerView={'auto'}
         coverflowEffect={{
-          'rotate': 100,
+          'rotate': 50,
           'stretch': 0,
           'depth': 100,
           'modifier': 1,
-          'slideShadows': true
+          'slideShadows': true,
         }}
         pagination={true}
       >
         {list?.map((item, key) => (
           <SwiperSlide key={key}>
-            <img style={{ height: '100%' }} src={item} key={item}  alt="" />
+            <img style={{ height: '100%', objectFit: 'cover', minWidth: '100%' }} src={item} key={item}  alt="" />
           </SwiperSlide>
         ))}
         <SwiperSlide />
