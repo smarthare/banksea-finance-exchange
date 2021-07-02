@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { Button, Table } from 'antd'
+import { Button, message, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
-import { banksyNftDetail, chooseOrder, NftDetailFavorite } from '../../utils/banksyNftList'
+import { banksyNftDetail, chooseOrder, completeOrder, NftDetailFavorite } from '../../utils/banksyNftList'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import copy from 'copy-to-clipboard'
@@ -14,11 +14,19 @@ import more1 from '@/assets/images/detailMoreImg/more1.jpg'
 import more2 from '@/assets/images/detailMoreImg/more2.png'
 import more3 from '@/assets/images/detailMoreImg/more3.jpg'
 import more4 from '@/assets/images/detailMoreImg/more4.png'
-import { useLocationQuery } from '../../utils'
+import { thumbnailAddress, useLocationQuery } from '../../utils'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import SellModal from '../../components/SellModal'
-import BuyModal from '../../components/BuyModal'
+import { toWei } from '../../web3/utils'
+import { ExchangeOrder, ExchangeOrderAsset } from '../../BanksyWeb3/ethereum/services/exchange/types'
+import { hashExchangeOrder, hashExchangeOrderAsset } from '../../BanksyWeb3/ethereum/services/exchange/utils'
+import { banksyWeb3 } from '../../BanksyWeb3'
+import { ethers } from 'ethers'
+import { usePurchaseCheckoutModal } from '../../hooks/modals/usePurchaseCheckoutModal'
+import { usePurchaseBlockedModal } from '../../hooks/modals/usePurchaseBlockedModal'
+import { usePurchaseAuthorizingModal } from '../../hooks/modals/usePurchaseAuthorizingModal'
+import { usePurchaseSuccessModal } from '../../hooks/modals/usePurchaseSuccessModal'
 
 const Row = styled.div`
   display: flex;
@@ -41,7 +49,6 @@ const BundleDetailContainer = styled.div`
     height: 7rem;
     position: relative;
   }
-
 `
 
 const LeftArea = styled.div`
@@ -90,41 +97,6 @@ const RightArea = styled.div`
   width: 53.9rem;
   margin-left: 1.3rem;
   position: relative;
-
-
-  .bundle-info {
-    margin-top: 0.8rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    .item {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      .info-label {
-        font-size: 1.6rem;
-        font-weight: 400;
-        color: #A196EF;
-        line-height: 2.2rem;
-        padding-right: 1.4rem;
-      }
-
-      .info-name {
-        font-size: 1.6rem;
-        font-weight: 500;
-        color: #7C6DEB;
-        line-height: 2.2rem;
-      }
-
-      .copy {
-        margin-left: 0.5rem;
-      }
-    }
-
-  }
-
 `
 
 const Operating = styled.div`
@@ -241,16 +213,6 @@ const ImageContainer = styled.div`
   }
 `
 
-const DescriptionContainer = styled.div`
-  margin-top: 1.2rem;
-  height: 12.5rem;
-  overflow-y: scroll;
-  font-size: 16px;
-  font-weight: 400;
-  color: #7C6DEB;
-  line-height: 22px;
-`
-
 const PriceContainer = styled.div`
   .item {
     display: flex;
@@ -281,12 +243,6 @@ const PriceContainer = styled.div`
     }
   }
 
-`
-
-const BundleName = styled.div`
-  font-size: 3.2rem;
-  font-weight: 400;
-  color: #7C6DEB;
 `
 
 const ItemsContainer = styled.div`
@@ -406,7 +362,7 @@ const OtherArtworksContainer = styled.div`
   }
 `
 
-const VoteIcon = styled.div`
+/*const VoteIcon = styled.div`
   width: 109px;
   height: 30px;
   background: #829FF2;
@@ -422,6 +378,96 @@ const VoteIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`*/
+
+const NFTBaseInfoContainer = styled.div`
+  .nft-name {
+    font-size: 3.2rem;
+    font-weight: 400;
+    color: #7C6DEB;
+  }
+
+  .description {
+    margin-top: 1.2rem;
+    height: 12.5rem;
+    overflow-y: scroll;
+    font-size: 16px;
+    font-weight: 400;
+    color: #7C6DEB;
+    line-height: 22px;
+  }
+
+  .info-row {
+    margin-top: 0.8rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &-label {
+        font-size: 1.6rem;
+        font-weight: 400;
+        color: #A196EF;
+        line-height: 2.2rem;
+        padding-right: 1.4rem;
+      }
+
+      &-value {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: #7C6DEB;
+        line-height: 2.2rem;
+      }
+
+      .icon-copy {
+        margin-left: 0.5rem;
+        color: #7C6DEB;
+        cursor: pointer;
+      }
+
+      .icon-favorite {
+        width: 2.4rem;
+        height: 1.4rem;
+        display: flex;
+        align-self: center;
+        margin-right: 0.4rem;
+      }
+    }
+  }
+
+  .price-favorite-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    div {
+      display: flex;
+      color: #A196EF;
+    }
+
+    .price {
+      align-items: flex-end;
+      line-height: 2.1rem;
+
+      .price-label {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #A196EF;
+        margin-right: 0.8rem;
+      }
+
+      .price-value {
+        font-size: 3rem;
+      }
+    }
+
+  }
 `
 
 /*const ConnectButton = styled(Button)`
@@ -453,53 +499,55 @@ const BuyOperating = styled.div`
   }
 `
 
-const CollectibleDetailPage: React.FC = () => {
-  moment.locale('en')
+const ETHIcon: React.FC = () => {
+  return (
+    <img
+      src={require('../../assets/images/eth.svg').default}
+      alt="ETH"
+      style={{ width: '1.2rem', marginRight: '0.8rem' }}
+    />
+  )
+}
 
-  const account = useSelector(getAccount)
+const Properties: React.FC = () => {
+  return (
+    <div>
+      <SubTitle>Properties</SubTitle>
+      <PropertiesArea>
+        <div className="properties-group">
+          <div className="properties-item">
+            <div className="key">CHARACTER</div>
+            <div className="value">Cats</div>
+            <div className="percent">25% have this trait</div>
+          </div>
+        </div>
+        <div className="properties-group">
+          <div className="properties-item">
+            <div className="key">CHARACTER</div>
+            <div className="value">Cats</div>
+            <div className="percent">25% have this trait</div>
+          </div>
+        </div>
+        <div className="properties-group">
+          <div className="properties-item">
+            <div className="key">CHARACTER</div>
+            <div className="value">Cats</div>
+            <div className="percent">25% have this trait</div>
+          </div>
+        </div>
+        <div className="properties-group">
+          <div className="properties-item">
+            <div className="key">CHARACTER</div>
+            <div className="value">Cats</div>
+            <div className="percent">25% have this trait</div>
+          </div>
+        </div>
+      </PropertiesArea>
+    </div>
+  )
+}
 
-  const [visible, setVisible] = useState(false)
-
-  const [data, setData] = useState<any>()
-
-  const uri = useLocationQuery('uri')
-
-  const type = useLocationQuery('type')
-
-  const contractAddress = useLocationQuery('contractAddress')
-
-  const [likeNum, setLikeNum] = useState<any>()
-
-  const [isBuyModalVisible, setBuyModalVisible] = useState(false)
-
-  const [buyData, setBuyData] = useState<any>()
-
-  const handleOk = async () => {
-    setBuyModalVisible(true)
-
-    await chooseOrder({
-      valueUri: data?.valueUri
-    }).then(res => {
-      setBuyData(res.data.data)
-    })
-  }
-
-  const init = useCallback(() => {
-    banksyNftDetail({ uri, contractAddress })
-      .then(res => {
-        setData(res.data.data)
-      })
-
-    NftDetailFavorite(uri).then(res => {
-      setLikeNum(res.data.data)
-    })
-  }, [type, uri, contractAddress])
-
-  useEffect(() => {
-    init()
-    window.scrollTo(0, 0)
-  }, [init])
-
+const TradingHistories: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
   const columns = [
     {
       title: 'Event',
@@ -532,317 +580,464 @@ const CollectibleDetailPage: React.FC = () => {
     }
   ]
 
-  const historyDataSource = data?.logTransferSingleVos?.map((item: any, index: number) => ({
-    key: index,
-    event: item?.tokenId,
-    price: 20,
-    from: `${item?.addressFrom.substring(0, 4)}...${item?.addressFrom.slice(-4)}`,
-    to: `${item?.addressTo.substring(0, 4)}...${item?.addressTo.slice(-4)}`,
-    date: moment(item.updateTime).fromNow()
-  })
-  )
+  const historyDataSource = nftDetail
+    ?.logTransferSingleVos
+    ?.map((item: any, index: number) => ({
+      key: index,
+      event: item?.tokenId,
+      price: 20,
+      from: thumbnailAddress(item?.addressFrom),
+      to: thumbnailAddress(item?.addressTo),
+      date: moment(item.updateTime).fromNow()
+    }))
 
-  const handleCopy = (addressCreate: any) => {
-    copy(addressCreate)
+  return (
+    <div>
+      <SubTitle>Trading Histories</SubTitle>
+      <TradingHistoryTable
+        columns={columns}
+        dataSource={historyDataSource}
+        scroll={{ x: 100 }}
+        pagination={false}
+      />
+    </div>
+  )
+}
+
+const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
+  const uri = useLocationQuery('uri')
+
+  const [likeNum, setLikeNum] = useState<any>()
+
+  const handleCopy = (content: any) => {
+    copy(content) && message.success('Copied successfully.', 1)
   }
+
+  const fetchLikeCount = useCallback(async () => {
+    NftDetailFavorite(uri).then(res => {
+      setLikeNum(res.data.data)
+    })
+  }, [uri])
+
+  useEffect(() => {
+    fetchLikeCount()
+  }, [fetchLikeCount])
+
+  return (
+    <NFTBaseInfoContainer>
+      <div className="nft-name">
+        {nftDetail?.name}
+      </div>
+      <div className="info-row">
+        <div className="info-row-item">
+          <div className="info-row-item-label">Artist</div>
+          <div className="info-row-item-value">
+            {
+              nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate)
+            }
+          </div>
+          <CopyOutlined
+            className="icon-copy"
+            onClick={() => handleCopy(nftDetail?.addressCreate)}
+          />
+        </div>
+        <div className="info-row-item">
+          <div className="info-row-item-label">Owner</div>
+          <div className="info-row-item-value">
+            {
+              thumbnailAddress(nftDetail?.addressOwner)
+            }
+          </div>
+          <CopyOutlined
+            className="icon-copy"
+            onClick={() => handleCopy(nftDetail?.addressCreate)}
+          />
+        </div>
+        <div className="info-row-item">
+          <img
+            src={Show}
+            alt=""
+            className="icon-favorite"
+          />
+          <div className="info-row-item-value">{likeNum?.view ? likeNum?.view : 0} views</div>
+        </div>
+      </div>
+      <div className="description">
+        {nftDetail?.description}
+      </div>
+      <PriceContainer>
+        <div className="price-favorite-row">
+          <div className="price">
+            <span className="price-label">Current Price</span>
+            <ETHIcon />
+            <span className="price-value">
+              {nftDetail?.onSale
+                ? nftDetail?.price
+                : '---'}
+            </span>
+            {/*<div className="price-in-usd">($297.21)</div>*/}
+          </div>
+          <div>
+            <img
+              src={Favorite}
+              alt=""
+              style={{
+                width: '2.4rem,',
+                height: '1.4rem',
+                display: 'flex',
+                alignSelf: 'center',
+                marginRight: '0.4rem'
+              }}
+            />
+            <div className="info-name">{likeNum?.favorite} favorites</div>
+          </div>
+        </div>
+      </PriceContainer>
+    </NFTBaseInfoContainer>)
+}
+
+const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
+  const type = useLocationQuery('type')
+
+  return (
+    <ItemsContainer>
+      <div className="item">
+        <div className="row">
+          <div className="label">NFT Contract ID：</div>
+          <div className="value">
+            {
+              type === 'own' ?
+                <div className="item-value">---</div> :
+                <div className="item-value">
+                  {thumbnailAddress(nftDetail?.addressContract)}
+                </div>
+            }
+          </div>
+        </div>
+        <div className="row">
+          <div className="label" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：</div>
+          <div className="value" style={{ marginTop: '1.5rem' }}>
+            {thumbnailAddress(nftDetail?.addressOwner)}
+          </div>
+        </div>
+      </div>
+      <div className="item">
+        <div className="row">
+          <div className="label">Creator&apos;s Address：</div>
+          <div className="value">
+            {thumbnailAddress(nftDetail?.addressCreate)}
+          </div>
+        </div>
+        <div className="row">
+          <div className="label" style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
+          <div className="value" style={{ marginTop: '1.5rem' }}>
+            {thumbnailAddress(nftDetail?.addressOwner)}
+          </div>
+        </div>
+      </div>
+    </ItemsContainer>
+  )
+}
+
+const MoreArtworks: React.FC = () => {
+  return (
+    <OtherArtworksArea>
+      <SubTitle>More Artworks</SubTitle>
+      <OtherArtworksContainer>
+        <div className="artwork-group">
+          <div className="artwork-info">
+            <div className="artwork-img">
+              <img src={more1} style={{ height: '205px' }} alt="" />
+            </div>
+            <div className="artwork-describe">Pikachu Baby Bimbo #0005</div>
+          </div>
+          <div className="artwork-like">
+            <img
+              src={Heart}
+              alt=""
+              style={{
+                width: '2.4rem,',
+                height: '1.4rem',
+                display: 'flex',
+                alignSelf: 'center',
+                marginRight: '0.4rem'
+              }}
+            />
+            <div className="liked">0</div>
+            <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+          </div>
+        </div>
+        <div className="artwork-group">
+          <div className="artwork-info">
+            <div className="artwork-img">
+              <img src={more2} style={{ height: '205px' }} alt="'" />
+            </div>
+            <div className="artwork-describe">1 - The Elf</div>
+          </div>
+          <div className="artwork-like">
+            <img
+              src={Heart}
+              alt=""
+              style={{
+                width: '2.4rem,',
+                height: '1.4rem',
+                display: 'flex',
+                alignSelf: 'center',
+                marginRight: '0.4rem'
+              }}
+            />
+            <div className="liked">0</div>
+            <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+          </div>
+        </div>
+        <div className="artwork-group">
+          <div className="artwork-info">
+            <div className="artwork-img">
+              <img src={more3} style={{ height: '205px' }} alt="" />
+            </div>
+            <div className="artwork-describe">Mona Lisa Smile &apos;Gamma Edition &apos;</div>
+          </div>
+          <div className="artwork-like">
+            <img
+              src={Heart}
+              alt=""
+              style={{
+                width: '2.4rem,',
+                height: '1.4rem',
+                display: 'flex',
+                alignSelf: 'center',
+                marginRight: '0.4rem'
+              }}
+            />
+            <div className="liked">0</div>
+            <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+          </div>
+        </div>
+        <div className="artwork-group">
+          <div className="artwork-info">
+            <div className="artwork-img">
+              <img src={more4} style={{ height: '205px' }} alt="" />
+            </div>
+            <div className="artwork-describe">Like you mean it</div>
+          </div>
+          <div className="artwork-like">
+            <img
+              src={Heart}
+              alt=""
+              style={{
+                width: '2.4rem,',
+                height: '1.4rem',
+                display: 'flex',
+                alignSelf: 'center',
+                marginRight: '0.4rem'
+              }}
+            />
+            <div className="liked">0</div>
+            <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+          </div>
+        </div>
+      </OtherArtworksContainer>
+    </OtherArtworksArea>
+  )
+}
+
+async function handlePurchase(nftDetail: any, account: string, onAuthorized: () => void, onSuccess: () => void) {
+  const buyData = (await chooseOrder({
+    valueUri: nftDetail?.valueUri
+  })).data.data
+
+  const price = toWei(buyData!.makerAsset!.baseAsset!.value)
+
+  const sellOrder: ExchangeOrder = {
+    dir: 0,
+    maker: nftDetail!.addressOwner,
+    makerAsset: {
+      settleType: 0,
+      baseAsset: {
+        code: {
+          baseType: 3,
+          extraType: nftDetail!.tokenId,
+          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+        },
+        value: 1
+      },
+      extraValue: 0
+    },
+    taker: '0x0000000000000000000000000000000000000000',
+    takerAsset: {
+      settleType: 0,
+      baseAsset: {
+        code: {
+          baseType: 1,
+          extraType: 0,
+          contractAddr: '0x0000000000000000000000000000000000000000'
+        },
+        value: price
+      },
+      extraValue: 0
+    },
+    fee: 0,
+    feeRecipient: '0x0000000000000000000000000000000000000000',
+    startTime: 0,
+    endTime: 0,
+    salt: buyData?.salt
+  }
+
+  const makerAsset: ExchangeOrderAsset = {
+    settleType: 0,
+    baseAsset: {
+      code: {
+        baseType: 1,
+        extraType: 0,
+        contractAddr: '0x0000000000000000000000000000000000000000'
+      },
+      value: price
+    },
+    extraValue: 0
+  }
+
+  const takerAsset: ExchangeOrderAsset = {
+    settleType: 0,
+    baseAsset: {
+      code: {
+        baseType: 3,
+        extraType: nftDetail?.tokenId,
+        contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
+      },
+      value: 1
+    },
+    extraValue: 0
+  }
+
+  const buyOrder: ExchangeOrder = {
+    dir: 1,
+    maker: account!,
+    makerAsset,
+    makerAssetHash: hashExchangeOrderAsset(makerAsset),
+    taker: nftDetail!.addressOwner,
+    takerAsset,
+    takerAssetHash: hashExchangeOrderAsset(takerAsset),
+    fee: 0,
+    feeRecipient: '0x0000000000000000000000000000000000000000',
+    startTime: 0,
+    endTime: 0,
+    salt: (Date.parse(new Date().toString())) / 1000
+  }
+
+  const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(buyOrder)))
+  onAuthorized()
+
+  await banksyWeb3.eth.Exchange.matchSingle(sellOrder, buyData!.signature, buyOrder, signature, `${makerAsset!.baseAsset.value}`)
+  await completeOrder({
+    valueUri: nftDetail?.valueUri,
+    addressOwner: account!
+  })
+  onSuccess()
+}
+
+const CollectibleDetailPage: React.FC = () => {
+  moment.locale('en')
+
+  const account = useSelector(getAccount)
+
+  const uri = useLocationQuery('uri')
+  const contractAddress = useLocationQuery('contractAddress')
+
+  const [visible, setVisible] = useState(false)
+  const [nftDetail, setNftDetail] = useState<any | undefined>()
+
+  const { purchaseBlockedModal, openPurchaseBlockedModal } = usePurchaseBlockedModal()
+  const { authorizingModal, openAuthorizingModal, closeAuthorizingModal } = usePurchaseAuthorizingModal()
+  const { purchaseSuccessModal, openPurchaseSuccessModal } = usePurchaseSuccessModal()
+
+  const checkoutPassed = () => {
+    openAuthorizingModal()
+    handlePurchase(nftDetail, account!, closeAuthorizingModal, openPurchaseSuccessModal)
+  }
+
+  const checkoutFailed = () => {
+    openPurchaseBlockedModal()
+  }
+
+  const { purchaseCheckoutModal, openPurchaseCheckoutModal } = usePurchaseCheckoutModal(nftDetail, checkoutPassed, checkoutFailed)
+
+  const init = useCallback(async () => {
+    const { data } = await banksyNftDetail({ uri, contractAddress })
+    setNftDetail(data.data)
+  }, [uri, contractAddress])
+
+  useEffect(() => {
+    init()
+    window.scrollTo(0, 0)
+  }, [init])
 
   const sellModalOpen = () => {
     setVisible(true)
   }
 
+  const isOwnerOfNFT = () => nftDetail?.tokenId > 0 && account === nftDetail?.addressOwner
+
+  const onClickBuyButton = () => {
+    openPurchaseCheckoutModal()
+  }
+
+  const coverImageUrl = useCallback(() => {
+    return nftDetail?.image?.startsWith('ipfs:/') ?
+      `https://banksy.mypinata.cloud${nftDetail?.image?.slice(6)}` :
+      `https://banksy.mypinata.cloud${nftDetail?.image?.slice(-52)}`
+  }, [nftDetail])
+
   return (
     <BundleDetailContainer>
       <div className="operating">
         {
-          data?.tokenId > 0 && account === data?.addressOwner ?
-            <Operating>
-              {/*<Button className="edit">Edit</Button>*/}
-              <Button className="sell" onClick={sellModalOpen}>Sell</Button>
-            </Operating> :
-            <div />
+          isOwnerOfNFT() &&
+          <Operating>
+            {/*<Button className="edit">Edit</Button>*/}
+            <Button className="sell" onClick={sellModalOpen}>Sell</Button>
+          </Operating>
         }
       </div>
       <Row>
         <LeftArea>
           <ImageContainer>
-            {
-              data?.onSale ?
-                <CornerFlag>on Sale</CornerFlag> :
-                <div />
-            }
-            <img
-              src={data?.image?.slice(6)==='ipfs:/' ?
-                `https://banksy.mypinata.cloud${data?.image?.slice(6)}` :
-                `https://banksy.mypinata.cloud${data?.image?.slice(-52)}`}
-              alt=""
-            />
+            {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
+            <img src={coverImageUrl()} alt={nftDetail?.name} />
           </ImageContainer>
         </LeftArea>
         <RightArea>
-          <BundleName>{data?.name}</BundleName>
-          <div className="bundle-info">
-            <div className="item">
-              <div className="info-label">Artist</div>
-              <div className="info-name"
-                onClick={() => handleCopy(data?.addressCreate)}
-              >{
-                  data?.addressContract === '0xb1e45866bf3298a9974a65577c067c477d38712a' ?
-                    data?.nameArtist :
-                    data?.addressCreate?.substring(0, 4) + '...' + data?.addressCreate?.slice(-4)
-                }
-              </div>
-              <CopyOutlined className="copy" style={{ color: '#7C6DEB' }} />
-            </div>
-            <div className="item">
-              <div className="info-label">Owner</div>
-              <div className="info-name"
-                onClick={() => handleCopy(data?.addressCreate)}
-              >{
-                  data?.addressContract === '0xb1e45866bf3298a9974a65577c067c477d38712a' ?
-                    data?.nameArtist :
-                    data?.addressCreate?.substring(0, 4) + '...' + data?.addressCreate?.slice(-4)
-                }
-              </div>
-            </div>
-            <div className="item">
-              <img
-                src={Show}
-                alt=""
-                style={{
-                  width: '2.4rem,',
-                  height: '1.4rem',
-                  display: 'flex',
-                  alignSelf: 'center',
-                  marginRight: '0.4rem'
-                }}
-              />
-              <div className="info-name">{likeNum?.view ? likeNum?.view : 0} views</div>
-            </div>
-          </div>
-          <DescriptionContainer>
-            {data?.description}
-          </DescriptionContainer>
-          <PriceContainer>
-            <div className="bundle-info">
-              <div className="item">
-                <div className="info-label">Current price</div>
-                {
-                  data?.onSale ?
-                    <div className="price">{data?.price}</div> :
-                    <div className="price">- - </div>
-                }
-                {/*<div className="price-in-usd">($297.21)</div>*/}
-              </div>
-              <div className="item">
-                <img
-                  src={Favorite}
-                  alt=""
-                  style={{
-                    width: '2.4rem,',
-                    height: '1.4rem',
-                    display: 'flex',
-                    alignSelf: 'center',
-                    marginRight: '0.4rem'
-                  }}
-                />
-                <div className="info-name">{likeNum?.favorite} favorites</div>
-              </div>
-            </div>
-            {
-              data?.onSale && data?.price && account !== data?.addressOwner ?
-                <BuyOperating>
-                  <Button className="buyNow" onClick={handleOk}>Buy Now</Button>
-                </BuyOperating> :
-                <div />
-            }
-          </PriceContainer>
-          <ItemsContainer>
-            <div className="item">
-              <div className="row">
-                <div className="label">NFT Contract ID：</div>
-                <div className="value">
-                  {
-                    type === 'own' ?
-                      <div className="item-value">---</div> :
-                      <div className="item-value">
-                        {data?.addressContract?.substring(0, 4)}...{data?.addressContract?.slice(-4)}
-                      </div>
-                  }
-                </div>
-              </div>
-              <div className="row">
-                <div className="label" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：</div>
-                <div className="value" style={{ marginTop: '1.5rem' }}>
-                  {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.slice(-4)}
-                </div>
-              </div>
-            </div>
-            <div className="item">
-              <div className="row">
-                <div className="label">Creator&apos;s Address：</div>
-                <div className="value">
-                  {data?.addressCreate?.substring(0, 4)}...{data?.addressCreate?.slice(-4)}
-                </div>
-              </div>
-              <div className="row">
-                <div className="label" style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
-                <div className="value" style={{ marginTop: '1.5rem' }}>
-                  {data?.addressOwner?.substring(0, 4)}...{data?.addressOwner?.slice(-4)}
-                </div>
-              </div>
-            </div>
-          </ItemsContainer>
+          <NFTBaseInfo nftDetail={nftDetail} />
+
+          {
+            nftDetail?.onSale && nftDetail?.price && account !== nftDetail?.addressOwner &&
+            <BuyOperating>
+              <Button className="buyNow" onClick={onClickBuyButton}>Buy Now</Button>
+            </BuyOperating>
+          }
+
+          <NFTMetadata nftDetail={nftDetail} />
         </RightArea>
       </Row>
       <Row>
         <LeftArea style={{ marginTop: '5rem' }}>
-          <SubTitle>Properties</SubTitle>
-          <PropertiesArea>
-            <div className="properties-group">
-              <div className="properties-item">
-                <div className="key">CHARACTER</div>
-                <div className="value">Cats</div>
-                <div className="percent">25% have this trait</div>
-              </div>
-            </div>
-            <div className="properties-group">
-              <div className="properties-item">
-                <div className="key">CHARACTER</div>
-                <div className="value">Cats</div>
-                <div className="percent">25% have this trait</div>
-              </div>
-            </div>
-            <div className="properties-group">
-              <div className="properties-item">
-                <div className="key">CHARACTER</div>
-                <div className="value">Cats</div>
-                <div className="percent">25% have this trait</div>
-              </div>
-            </div>
-            <div className="properties-group">
-              <div className="properties-item">
-                <div className="key">CHARACTER</div>
-                <div className="value">Cats</div>
-                <div className="percent">25% have this trait</div>
-              </div>
-            </div>
-
-          </PropertiesArea>
+          <Properties />
         </LeftArea>
         <RightArea style={{ marginTop: '5rem', height: '34rem' }}>
-          <SubTitle>Trading History</SubTitle>
-          <TradingHistoryTable
-            columns={columns}
-            dataSource={historyDataSource}
-            scroll={{ x: 100 }}
-            pagination={false}
-          />
+          <TradingHistories nftDetail={nftDetail} />
         </RightArea>
       </Row>
       <Row>
-        <OtherArtworksArea>
-          <SubTitle>More Artworks</SubTitle>
-          <OtherArtworksContainer>
-            <div className="artwork-group">
-              <div className="artwork-info">
-                <div className="artwork-img">
-                  <img src={more1} style={{ height: '205px' }} alt="" />
-                </div>
-                <div className="artwork-describe">Pikachu Baby Bimbo #0005</div>
-              </div>
-              <div className="artwork-like">
-                <img
-                  src={Heart}
-                  alt=""
-                  style={{
-                    width: '2.4rem,',
-                    height: '1.4rem',
-                    display: 'flex',
-                    alignSelf: 'center',
-                    marginRight: '0.4rem'
-                  }}
-                />
-                <div className="liked">0</div>
-                <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
-              </div>
-            </div>
-            <div className="artwork-group">
-              <div className="artwork-info">
-                <div className="artwork-img">
-                  <img src={more2} style={{ height: '205px' }} alt="'" />
-                </div>
-                <div className="artwork-describe">1 - The Elf</div>
-              </div>
-              <div className="artwork-like">
-                <img
-                  src={Heart}
-                  alt=""
-                  style={{
-                    width: '2.4rem,',
-                    height: '1.4rem',
-                    display: 'flex',
-                    alignSelf: 'center',
-                    marginRight: '0.4rem'
-                  }}
-                />
-                <div className="liked">0</div>
-                <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
-              </div>
-            </div>
-            <div className="artwork-group">
-              <div className="artwork-info">
-                <div className="artwork-img">
-                  <img src={more3} style={{ height: '205px' }} alt="" />
-                </div>
-                <div className="artwork-describe">Mona Lisa Smile &apos;Gamma Edition &apos;</div>
-              </div>
-              <div className="artwork-like">
-                <img
-                  src={Heart}
-                  alt=""
-                  style={{
-                    width: '2.4rem,',
-                    height: '1.4rem',
-                    display: 'flex',
-                    alignSelf: 'center',
-                    marginRight: '0.4rem'
-                  }}
-                />
-                <div className="liked">0</div>
-                <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
-              </div>
-            </div>
-            <div className="artwork-group">
-              <div className="artwork-info">
-                <div className="artwork-img">
-                  <img src={more4} style={{ height: '205px' }} alt=""  />
-                </div>
-                <div className="artwork-describe">Like you mean it</div>
-              </div>
-              <div className="artwork-like">
-                <img
-                  src={Heart}
-                  alt=""
-                  style={{
-                    width: '2.4rem,',
-                    height: '1.4rem',
-                    display: 'flex',
-                    alignSelf: 'center',
-                    marginRight: '0.4rem'
-                  }}
-                />
-                <div className="liked">0</div>
-                <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
-              </div>
-            </div>
-          </OtherArtworksContainer>
-        </OtherArtworksArea>
+        <MoreArtworks />
       </Row>
-      <SellModal visible={visible} onCancel={() => setVisible(false)} data={data} init={init} />
-      <BuyModal isBuyModalVisible={isBuyModalVisible} checkoutCancel={() => setBuyModalVisible(false)} data={data} buyData={buyData} />
+
+      {purchaseCheckoutModal}
+      {purchaseBlockedModal}
+      {authorizingModal}
+      {purchaseSuccessModal}
+
+      <SellModal visible={visible} onCancel={() => setVisible(false)} data={nftDetail} init={init} />
     </BundleDetailContainer>
   )
-
 }
 
-export default CollectibleDetailPage
+export { CollectibleDetailPage }

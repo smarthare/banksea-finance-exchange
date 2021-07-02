@@ -7,11 +7,14 @@ export function toBigNumber(value: string | number): BigNumber {
   return new BigNumber(value)
 }
 
-export function weiToBigNumber(value: string | number, decimalPlaces = 18): BigNumber {
+export function weiToBigNumber(value: string | number | BigNumber | undefined, decimalPlaces = 18): BigNumber {
+  if (value === undefined) {
+    return new BigNumber(0)
+  }
   return new BigNumber(web3Utils.fromWei(value.toString())).dp(decimalPlaces, BigNumber.ROUND_DOWN)
 }
 
-export function weiToString(value: string | number | undefined, decimalPlaces = 18): string {
+export function weiToString(value: string | number | BigNumber | undefined, decimalPlaces = 18): string {
   return value ? weiToBigNumber(value, decimalPlaces).toString() : ''
 }
 

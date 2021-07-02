@@ -6,7 +6,7 @@ import { ReactComponent as ArtistsIcon } from '../assets/images/menu-icons/artis
 import { ReactComponent as FarmsIcon } from '../assets/images/menu-icons/farms.svg'
 import { ReactComponent as OracleIcon } from '../assets/images/menu-icons/oracle.svg'
 import { ReactComponent as AiGeneratorsIcon } from '../assets/images/menu-icons/aiGenerators.svg'
-import CollectibleDetailPage from '../pages/Collectibles/CollectibleDetail'
+import { CollectibleDetailPage } from '../pages/Collectibles/CollectibleDetail'
 import NFTCreatePage from '../pages/Home/NFTCreate'
 import PersonalHomepage from '../pages/PersonalHomepage/index'
 import PleaseWaiting from '../pages/Home/PleaseWaiting'

@@ -266,7 +266,6 @@ const Filter: React.FC = () => {
   )
 }
 
-
 const TypeSelector: React.FC<any> = ({ setTypeSelectValue }) => {
 
   return (
