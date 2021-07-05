@@ -1,26 +1,21 @@
-import React, { useState } from 'react'
+import { useModal } from '../useModal'
 import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { sellOrder } from '../utils/banksyNftList'
-import { banksyWeb3 } from '../BanksyWeb3'
-import { ethers } from 'ethers'
 import clsx from 'clsx'
-import { toWei } from '../web3/utils'
-import { ExchangeOrder, ExchangeOrderAsset, SellingOrder } from '../BanksyWeb3/ethereum/services/exchange/types'
-import { hashExchangeOrder, hashExchangeOrderAsset } from '../BanksyWeb3/ethereum/services/exchange/utils'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../store/wallet'
+import { getAccount } from '../../store/wallet'
+import { banksyWeb3 } from '../../BanksyWeb3'
+import { toWei } from '../../web3/utils'
+import { ExchangeOrder, ExchangeOrderAsset, SellingOrder } from '../../BanksyWeb3/ethereum/services/exchange/types'
+import { hashExchangeOrder, hashExchangeOrderAsset } from '../../BanksyWeb3/ethereum/services/exchange/utils'
+import { ethers } from 'ethers'
+import { sellOrder } from '../../utils/banksyNftList'
+
 
 type MessageHintProps = {
   message: string,
   type?: 'error' | 'hint' | 'success'
-}
-
-type SellModalProps = {
-  visible: boolean,
-  onCancel: () => void,
-  data: any,
-  init: () => void
 }
 
 const SellingModal = styled(Modal)`
@@ -303,7 +298,11 @@ const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
   )
 }
 
-const SellModal: React.FC<SellModalProps> = ({ visible, onCancel, data, init }) => {
+type SellingModalProps = {
+  nftDetail: any, onSellingConfirmed: () => void
+}
+
+export const useSellingModal = ({ nftDetail, onSellingConfirmed }: SellingModalProps) => {
   const account = useSelector(getAccount)
 
   const [checked, setChecked] = useState(false)
@@ -347,7 +346,7 @@ const SellModal: React.FC<SellModalProps> = ({ visible, onCancel, data, init }) 
       baseAsset: {
         code: {
           baseType: 3,
-          extraType: data?.tokenId,
+          extraType: nftDetail?.tokenId,
           contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
         },
         value: 1
@@ -388,22 +387,22 @@ const SellModal: React.FC<SellModalProps> = ({ visible, onCancel, data, init }) 
       maker: account,
       makerAssetSettleType: 0,
       makerAssetBaseType: 3,
-      makerAssetExtraType: data!.tokenId,
-      makerAssetContractAddr: data!.addressContract,
+      makerAssetExtraType: nftDetail!.tokenId,
+      makerAssetContractAddr: nftDetail!.addressContract,
       makerAssetValue: values.price,
       makerAssetExtraValue: 0,
       fee: 0,
       feeRecipient: 0,
       startTime: 0,
       endTime: 0,
-      valueUri: data!.valueUri,
+      valueUri: nftDetail!.valueUri,
       signature,
       salt
     }
 
     await sellOrder(sellingOrder)
-    init()
-    onCancel()
+
+    onSellingConfirmed()
   }
 
   const onListingButtonClicked = async () => {
@@ -412,11 +411,11 @@ const SellModal: React.FC<SellModalProps> = ({ visible, onCancel, data, init }) 
       .then(handleListing)
   }
 
-  return (
+  const { modal, open, close } = useModal((_open, close, visible) => (
     <SellingModal
       title="Selling"
       visible={visible}
-      onCancel={onCancel}
+      onCancel={close}
       footer={null}
     >
       <div className="checkout-list">
@@ -485,7 +484,11 @@ const SellModal: React.FC<SellModalProps> = ({ visible, onCancel, data, init }) 
         </div>
       </div>
     </SellingModal>
-  )
-}
+  ))
 
-export default SellModal
+  return {
+    sellingModal: modal,
+    openSellingModal: open,
+    closeSellingModal: close
+  }
+}

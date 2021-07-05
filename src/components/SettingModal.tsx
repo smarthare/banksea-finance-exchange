@@ -3,7 +3,6 @@ import tip from '@/assets/images/swap/tip.png'
 import { Input, Modal, Radio, Switch } from 'antd'
 import styled from 'styled-components'
 
-
 const SettingModalMain = styled(Modal)`
   .ant-modal-content {
 
@@ -112,13 +111,12 @@ const InterfaceSettings = styled.div`
 `
 
 const SettingModal: React.FC<any> = ({ isSettingVisible, handleCancel }) => {
-
   return (
     <SettingModalMain title="Settings" visible={isSettingVisible} footer={null} onCancel={handleCancel}>
       <div className="main-title">Transaction Settings</div>
       <div className="sub-title">
         <span>Slippage tolerance</span>
-        <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }} />
+        <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }}  alt="" />
       </div>
       <div className="transaction-select" />
       <SettingRadio defaultValue="a" buttonStyle="solid">
@@ -128,7 +126,7 @@ const SettingModal: React.FC<any> = ({ isSettingVisible, handleCancel }) => {
         <Radio.Button value="d">0.5</Radio.Button>
       </SettingRadio>
       <div className="sub-title">Transaction deadline
-        <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }} />
+        <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }} alt="" />
       </div>
       <InputDeadline />
       <span className="unit">minutes</span>
@@ -136,19 +134,19 @@ const SettingModal: React.FC<any> = ({ isSettingVisible, handleCancel }) => {
       <InterfaceSettings>
         <div className="toggles">
           <div className="sub-title">Toggle Expert Mode
-            <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }} />
+            <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }} alt="" />
           </div>
           <Switch />
         </div>
         <div className="toggles">
           <div className="sub-title">Disable Multihops
-            <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }} />
+            <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }} alt="" />
           </div>
           <Switch />
         </div>
         <div className="toggles">
           <div className="sub-title">Audio
-            <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }} />
+            <img src={tip} style={{ width: '1.6rem', height: '1.6rem', marginLeft: '1rem', marginTop: '0.2rem' }} alt="" />
           </div>
           <Switch />
         </div>

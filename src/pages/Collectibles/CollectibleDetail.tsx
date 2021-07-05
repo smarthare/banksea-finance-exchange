@@ -17,7 +17,6 @@ import more4 from '@/assets/images/detailMoreImg/more4.png'
 import { thumbnailAddress, useLocationQuery } from '../../utils'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
-import SellModal from '../../components/SellModal'
 import { toWei } from '../../web3/utils'
 import { ExchangeOrder, ExchangeOrderAsset } from '../../BanksyWeb3/ethereum/services/exchange/types'
 import { hashExchangeOrder, hashExchangeOrderAsset } from '../../BanksyWeb3/ethereum/services/exchange/utils'
@@ -27,6 +26,7 @@ import { usePurchaseCheckoutModal } from '../../hooks/modals/usePurchaseCheckout
 import { usePurchaseBlockedModal } from '../../hooks/modals/usePurchaseBlockedModal'
 import { usePurchaseAuthorizingModal } from '../../hooks/modals/usePurchaseAuthorizingModal'
 import { usePurchaseSuccessModal } from '../../hooks/modals/usePurchaseSuccessModal'
+import { useSellingModal } from '../../hooks/modals/useSellingModal'
 
 const Row = styled.div`
   display: flex;
@@ -421,6 +421,7 @@ const NFTBaseInfoContainer = styled.div`
         font-weight: 500;
         color: #7C6DEB;
         line-height: 2.2rem;
+        user-select: none;
       }
 
       .icon-copy {
@@ -943,12 +944,23 @@ const CollectibleDetailPage: React.FC = () => {
   const uri = useLocationQuery('uri')
   const contractAddress = useLocationQuery('contractAddress')
 
-  const [visible, setVisible] = useState(false)
   const [nftDetail, setNftDetail] = useState<any | undefined>()
+
+  const init = useCallback(async () => {
+    const { data } = await banksyNftDetail({ uri, contractAddress })
+    setNftDetail(data.data)
+  }, [uri, contractAddress])
 
   const { purchaseBlockedModal, openPurchaseBlockedModal } = usePurchaseBlockedModal()
   const { authorizingModal, openAuthorizingModal, closeAuthorizingModal } = usePurchaseAuthorizingModal()
   const { purchaseSuccessModal, openPurchaseSuccessModal } = usePurchaseSuccessModal()
+  const { sellingModal, openSellingModal, closeSellingModal } = useSellingModal({
+    nftDetail,
+    onSellingConfirmed() {
+      init()
+      closeSellingModal()
+    }
+  })
 
   const checkoutPassed = () => {
     openAuthorizingModal()
@@ -959,21 +971,16 @@ const CollectibleDetailPage: React.FC = () => {
     openPurchaseBlockedModal()
   }
 
-  const { purchaseCheckoutModal, openPurchaseCheckoutModal } = usePurchaseCheckoutModal(nftDetail, checkoutPassed, checkoutFailed)
+  const {
+    purchaseCheckoutModal,
+    openPurchaseCheckoutModal
+  } = usePurchaseCheckoutModal(nftDetail, checkoutPassed, checkoutFailed)
 
-  const init = useCallback(async () => {
-    const { data } = await banksyNftDetail({ uri, contractAddress })
-    setNftDetail(data.data)
-  }, [uri, contractAddress])
 
   useEffect(() => {
     init()
     window.scrollTo(0, 0)
   }, [init])
-
-  const sellModalOpen = () => {
-    setVisible(true)
-  }
 
   const isOwnerOfNFT = () => nftDetail?.tokenId > 0 && account === nftDetail?.addressOwner
 
@@ -994,7 +1001,7 @@ const CollectibleDetailPage: React.FC = () => {
           isOwnerOfNFT() &&
           <Operating>
             {/*<Button className="edit">Edit</Button>*/}
-            <Button className="sell" onClick={sellModalOpen}>Sell</Button>
+            <Button className="sell" onClick={openSellingModal}>Selling</Button>
           </Operating>
         }
       </div>
@@ -1034,8 +1041,8 @@ const CollectibleDetailPage: React.FC = () => {
       {purchaseBlockedModal}
       {authorizingModal}
       {purchaseSuccessModal}
+      {sellingModal}
 
-      <SellModal visible={visible} onCancel={() => setVisible(false)} data={nftDetail} init={init} />
     </BundleDetailContainer>
   )
 }
