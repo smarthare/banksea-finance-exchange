@@ -270,6 +270,7 @@ const SCSelectedNFTColumn = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 2px dashed #fff;
 
     img {
       width: 19.2rem;
@@ -537,7 +538,8 @@ const AIGenerators: React.FC = () => {
               justifyContent: 'center',
               alignItems: 'center',
               padding: '1rem',
-              position: 'relative'
+              position: 'relative',
+              border: '2px dashed #fff'
             }}
             >
               {

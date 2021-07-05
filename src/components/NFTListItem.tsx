@@ -147,7 +147,7 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
               <img
                 style={{ display: loading ? 'none' : '' }}
                 key={data.id}
-                src={data?.thumbnail}
+                src={data?.thumbnail ? data?.thumbnail : data?.image}
                 alt=""
                 onLoad={() => setTimeout(() => setLoading(false), 1500)}
                 onError={() => setLoading(false)}
@@ -169,7 +169,9 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
               }
               {clickFavorite ? clickFavorite : 0}
             </div>
-            <div className="price">{data?.price ? `${data?.price}ETH` : ''}</div>
+            <div className="price">
+              {data?.price ? `${data?.price}ETH` : ''}
+            </div>
           </div>
         </div>
       </NFTItemCardContainer>

@@ -77,7 +77,7 @@ const Swap = styled.div`
   border-radius: 1rem;
   background: #fff;
 
-  .swapMainContainer {
+  .swap-main-container {
     padding: 2rem 2rem 2.4rem 2rem;
   }
 `
@@ -97,10 +97,10 @@ const FormsModalTop = styled.div`
   height: 10.2rem;
   padding: 1.9rem 3.3rem 2.1rem 2.5rem;
 
-  .formsModalTopLeft {
+  .forms-modal-top-left {
     float: left;
 
-    .formsModalTopTitle {
+    .forms-modal-top-title {
       color: #180E61;
       font-size: 2.2rem;
     }
@@ -111,7 +111,7 @@ const FormsModalTop = styled.div`
     }
   }
 
-  .formsModalTopRight {
+  .forms-modal-top-right {
     float: right;
     display: flex;
     margin-top: 0.8rem;
@@ -138,7 +138,7 @@ const InputItem = styled.div`
   border-radius: 1rem;
   padding: 1.5rem 1.7rem 2.1rem 2.3rem;
 
-  .swapMainContainer-title {
+  .swap-main-container-title {
     color: #181F61;
     font-size: 1.4rem;
   }
@@ -282,7 +282,7 @@ const AddMain = styled.div`
     display: none;
   }
 
-  .addliquidityContainer {
+  .addliquidity-container {
     padding: 2rem 2rem 2.4rem 2rem;
   }
 
@@ -410,11 +410,11 @@ const YourLiquidity: React.FC<any> = ({ liquidityCurrent }) => {
     <YourLiquidityMain>
       <div className={'yourLiquidity' + (liquidityCurrent === 0 ? 'active' : '')}>
         <FormsModalTop>
-          <div className="formsModalTopLeft">
-            <div className="formsModalTopTitle">Remove Liquidity</div>
+          <div className="forms-modal-top-left">
+            <div className="forms-modal-top-title">Remove Liquidity</div>
             <div className="formsModalTop-text">Remove Liquidity to receive tokens back</div>
           </div>
-          <div className="formsModalTopRight">
+          <div className="forms-modal-top-right">
             <img src={setting} />
             <img src={history} />
           </div>
@@ -436,18 +436,18 @@ const Add: React.FC<any> = ({ liquidityCurrent, liquidityValue }) => {
     <AddMain>
       <div className={'add' + (liquidityCurrent === 1 ? 'active' : '')}>
         <FormsModalTop>
-          <div className="formsModalTopLeft">
-            <div className="formsModalTopTitle">Remove Liquidity</div>
-            <div className="formsModalTop-text">Remove Liquidity to receive tokens back</div>
+          <div className="forms-modal-top-left">
+            <div className="forms-modal-top-title">Remove Liquidity</div>
+            <div className="forms-modal-top-text">Remove Liquidity to receive tokens back</div>
           </div>
-          <div className="formsModalTopRight">
+          <div className="forms-modal-top-right">
             <img src={setting} />
             <img src={history} />
           </div>
         </FormsModalTop>
-        <div className="addliquidityContainer">
+        <div className="addliquidity-container">
           <InputItem>
-            <div className="swapMainContainer-title">Input</div>
+            <div className="swap-main-container-title">Input</div>
             <div className="inputMain">
               <Input value={liquidityValue} />
               <CurrencySelect>
@@ -460,7 +460,7 @@ const Add: React.FC<any> = ({ liquidityCurrent, liquidityValue }) => {
             <img src={addImg} />
           </DownArray>
           <InputItem>
-            <div className="swapMainContainer-title">Input</div>
+            <div className="swap-main-container-title">Input</div>
             <div className="inputMain">
               <Input value={liquidityValue} />
               <CurrencySelect>
@@ -591,19 +591,19 @@ const FarmPage: React.FC = () => {
           formTabsCurrent === 'Swap' ?
             <Swap>
               <FormsModalTop>
-                <div className="formsModalTopLeft">
-                  <div className="formsModalTopTitle">Exchange</div>
+                <div className="forms-modal-top-left">
+                  <div className="forms-modal-top-title">Exchange</div>
                   <div className="formsModalTop-text">Trade tokens in an instant</div>
                 </div>
-                <div className="formsModalTopRight">
+                <div className="forms-modal-top-right">
                   <img src={setting} onClick={showSettingModal} />
                   <img src={history} />
                 </div>
               </FormsModalTop>
               <Line />
-              <div className="swapMainContainer">
+              <div className="swap-main-container">
                 <InputItem>
-                  <div className="swapMainContainer-title">from</div>
+                  <div className="swap-main-container-title">from</div>
                   <div className="inputMain">
                     <Input placeholder="0.0" />
                     <CurrencySelect>
@@ -617,7 +617,7 @@ const FarmPage: React.FC = () => {
                   <img src={toArray} />
                 </DownArray>
                 <InputItem>
-                  <div className="swapMainContainer-title">to</div>
+                  <div className="swap-main-container-title">to</div>
                   <div className="inputMain">
                     <Input placeholder="0.0" />
                     <CurrencySelect>
