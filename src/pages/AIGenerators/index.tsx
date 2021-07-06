@@ -17,18 +17,18 @@ import { aiStyleList, aiSwiperList } from '../../utils/banksyNftList'
 SwiperCore.use([Navigation, EffectCoverflow, Pagination])
 
 const AIGeneratorsContainer = styled.div`
-  margin: 0 auto;
+  margin: 0 calc((100% - 79.2rem) / 2);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 82.8rem;
-
+  width: 99.4rem;
   font-family: 'PingFang SC';
   padding: 5rem 11.2rem;
 `
 
 const MainCarousel = styled.div`
   position: relative;
+  margin-left: calc((100% - 82.2rem) / 2);
 
   .top-area {
     width: 82.8rem;
@@ -111,6 +111,7 @@ const GeneratorFooter = styled.div`
 `
 
 const Description = styled.div`
+  width: 99.4rem;
   padding: 2.6rem 5.7rem;
   margin-top: 2.5rem;
   text-align: center;

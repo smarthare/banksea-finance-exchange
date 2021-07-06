@@ -24,7 +24,7 @@ import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 
 const HomePageContainer = styled.div`
-  margin: 0 auto;
+  margin: 0 calc((100% - 100.2rem) / 2);
   width: 120.2rem;
   padding: 2rem 0;
   font-family: 'PingFang SC'

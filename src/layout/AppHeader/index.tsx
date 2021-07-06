@@ -70,6 +70,24 @@ const AvatarNone = styled.img`
   background: #c8d6e5;
 `
 
+const Vote = styled(Button)`
+  width: fit-content;
+  height: 3.5rem;
+  background: #7c6deb;
+  border-radius: 25px;
+  color: white;
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  margin-right: 3rem;
+
+  &:hover,
+  &:active {
+    color: white;
+    background: #a399f3;
+  }
+`
+
 const AppHeader = () => {
   const history = useHistory()
   const account = useSelector(getAccount)
@@ -99,6 +117,9 @@ const AppHeader = () => {
     <AppHeaderContainer>
       <img src={BanksyLogo} alt="banksy" style={{ width: '12.6rem' }} />
       <Row>
+        <Vote onClick={() => history.push('/vote')}>
+          Voting channel
+        </Vote>
         <Popover
           placement="bottom"
           title="Rinkeby Authenticated Faucet"

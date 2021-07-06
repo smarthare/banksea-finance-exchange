@@ -14,6 +14,7 @@ import NFTCreatedSuccess from '../pages/Home/NFTCreatedSuccess'
 import AIGenerators from '../pages/AIGenerators'
 import FarmPage from '../pages/Farms'
 import TestPage from '../pages/Test'
+import VotePage from '../pages/Vote'
 
 export type Route = {
   path: string
@@ -100,6 +101,12 @@ const routes: Route[] = [
     path: '/test',
     title: 'Test',
     component: TestPage,
+    hidden: true
+  },
+  {
+    path: '/vote',
+    title: 'vote',
+    component: VotePage,
     hidden: true
   }
 ]

@@ -583,6 +583,7 @@ const TradingHistories: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
 
   const historyDataSource = nftDetail
     ?.logTransferSingleVos
+    ?.slice(0,4)
     ?.map((item: any, index: number) => ({
       key: index,
       event: item?.tokenId,

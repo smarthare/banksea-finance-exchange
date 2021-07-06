@@ -21,10 +21,9 @@ const App: React.FC = () => {
             backgroundColor: '#FAF9FA',
             position: 'relative',
             top: '62px',
-            left: '202px'
           }}
         >
-          <div style={{ width: 'calc(100vw - 202px)' }}>
+          <div style={{ width: '100%' }}>
             {routes.map(route => (
               <Route path={route.path} exact component={route.component} key={route.path} />
             ))}
