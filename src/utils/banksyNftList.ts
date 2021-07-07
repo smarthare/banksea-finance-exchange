@@ -49,3 +49,16 @@ export function NftDetailFavorite(uri: any) {
 export function completeOrder(data: any) {
   return banksyRequest.post<any>('nft/web/v1/transfer/order/complete', data)
 }
+
+export function voteCreate(data: any) {
+  return banksyRequest.post<any>('nft/web/v1/vote/form', data)
+}
+
+export function filecoinList(data: any) {
+  return banksyRequest.post<any>('nft/web/v1/vote/query/filecoin', data)
+}
+
+export function solanaList(data: any) {
+  return banksyRequest.post<any>('nft/web/v1/vote/query/solana', data)
+}
+
