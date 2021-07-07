@@ -1,39 +1,50 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Input } from 'antd'
+import { Button, Form, Input, message, Statistic } from 'antd'
 import clsx from 'clsx'
 import { SearchOutlined } from '@ant-design/icons'
+import { voteCreate, filecoinList, solanaList } from '../../utils/banksyNftList'
 
 const VoteContainer = styled.div`
   min-height: 100vh;
+  background: #090F22;
 `
 
 const VoteContainerTop = styled.div`
+  width: calc(100% - 20.2rem);
   height: 34.4rem;
-  border: 1px solid gray;
+  background: gray;
   position: relative;
+  margin-left: 20.2rem;
+`
 
-  .vote-Top-bottom {
-    display: flex;
-    position: absolute;
-    bottom: 1.1rem;
-    right: 1rem;
+const ViewOperationSelect = styled.div`
+  display: flex;
+  float: right;
 
-    Button {
-      width: 14.5rem;
-      height: 4rem;
-      background: #7C6DEB;
-      border: none;
-      border-radius: 4rem;
-      color: #fff;
-      font-size: 1.4rem;
-      margin-left: 2rem;
-    }
+  div {
+    width: 14.5rem;
+    height: 7rem;
+    background: #4470C1;
+    color: #fff;
+    font-weight: bolder;
+    border-radius: 1rem;
+    margin-left: 2rem;
+    line-height: 10rem;
+    text-align: center;
+    margin-top: -3rem;
+    cursor: pointer;
+    transition: all 0.7s;
+  }
 
-    .tabs__link {
-      background-color: #7240CB;
-      color: #ffffff;
-    }
+  div:hover {
+    margin-top: -2rem;
+  }
+
+  .tabs__link {
+    background-color: #182C58;
+    color: #00FEFF;
+    margin-top: -2rem;
   }
 `
 
@@ -48,72 +59,62 @@ const Registration = styled.div`
   }
 `
 
-const RegistrationContainer = styled.div`
+const RegistrationContainer = styled(Form)`
   width: 116rem;
   display: flex;
   justify-content: space-between;
-  margin-top: 2.6rem;
+  margin-top: 9.6rem;
   margin-left: calc((100% - 93.8rem) / 2);
+`
 
-  .registration-item {
+const RegistrationItem = styled(Form.Item)`
+  width: 20rem;
+
+  p {
+    width: 100%;
+    height: 4rem;
+    text-align: center;
+    color: #9FC4FD;
+    font-weight: bolder;
+    margin-bottom: 2rem;
+    font-size: 1.4rem;
+  }
+
+  .ant-input {
     width: 20rem;
-
-    p {
-      width: 100%;
-      height: 4rem;
-      text-align: center;
-      color: #7240CB;
-      margin-bottom: 2rem;
-      font-size: 1.4rem;
-    }
-
-    .ant-input {
-      width: 20rem;
-      height: 4rem;
-      background-color: #e5e2fb;
-      color: #7c6deb;
-      font-weight: bold;
-      border-color: #7c6deb;
-      border-radius: 4rem;
-    }
+    height: 4rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #4470C1;
+    font-weight: bold;
+    border: 0.2rem solid #4470C1;
+    border-radius: 0.5rem;
   }
 `
 
 const ConfirmButton = styled(Button)`
   width: 20rem;
   height: 4rem;
-  background: #7240CB;
+  background: #6C48FF;
   border-radius: 2rem;
   color: #fff;
   font-size: 1.4rem;
   margin-left: calc((100% + 0.2rem) / 2);
-  margin-top: 4.1rem;
+  margin-top: 2.1rem;
   border: none;
+  font-weight: bolder;
 
   &.active,
   &:hover {
-    background: #7240CB;
+    background: #7A7AFF;
     color: #fff;
   }
 `
 
-const JoinBanksyText = styled.p`
-  margin-top: 3.7rem;
-  color: #666666;
-  font-size: 1.4rem;
-  margin-left: calc((100% - 93.8rem) / 2);
-`
+const VotesContainerTable = styled.div`
 
-const RoleDescription = styled.p`
-  margin-top: 2rem;
-  color: #666666;
-  font-size: 1.4rem;
-  margin-left: calc((100% - 93.8rem) / 2);
-`
+  margin-top: 5rem;
 
-const SolanaVotesContainer = styled.div`
-
-  .solanaVotes {
+  .votes {
     display: none;
 
     .search-box {
@@ -127,13 +128,13 @@ const SolanaVotesContainer = styled.div`
       .search-box-text {
         position: absolute;
         right: 0;
-        color: #7240CB;
+        color: #9FC4FD;
         font-size: 1.4rem;
       }
     }
   }
 
-  .solanaVotes.active {
+  .votes.active {
     display: block;
   }
 `
@@ -141,13 +142,13 @@ const SolanaVotesContainer = styled.div`
 const SearchInput = styled(Input)`
   width: 40rem;
   height: 4rem;
-  border-color: #7240CB;
+  border: 2px solid #3658A7;
   background: none;
   border-radius: 4rem;
 
   .ant-input {
     background: none;
-    color: #7240CB;
+    color: #3658A7;
     font-weight: bold;
   }
 `
@@ -171,17 +172,18 @@ const VoteStatistics = styled.section`
   table th, table td {
     height: 5.1rem;
     text-align: center;
+    border: 1px solid #4470C1;
   }
 
   table thead {
     color: white;
-    background-color: #A277F0;
+    background-color: #234890;
   }
 
   table tbody {
     color: white;
     display: block;
-    width: calc(100% + 8px);
+    width: 100%;
     height: 300px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -195,11 +197,11 @@ const VoteStatistics = styled.section`
   }
 
   table tbody tr:nth-of-type(odd) {
-    background: #B791FA;
+    background: #234890;
   }
 
   table tbody tr:nth-of-type(even) {
-    background: #B791FA;
+    background: #234890;
   }
 
   table tbody tr td{
@@ -207,66 +209,154 @@ const VoteStatistics = styled.section`
   }
 `
 
+type Solana = {
+  current: number,
+  solana: any,
+  onPressEnter: any
+}
 
-const VoteRegistration: React.FC<{current: number}> = ({ current }) => {
+const TwitterVotesTable: React.FC<any> = ({ current, onPressEnter }) => {
+  return (
+    <VotesContainerTable>
+      <div className={clsx('votes', current === 0 && 'active')}>
+        <div className="search-box">
+          <SearchInput
+            onPressEnter={onPressEnter}
+            prefix={<SearchOutlined style={{ color: '#3658A7', width: '1.5rem' }} />}
+          />
+          <span className="search-box-text">Unit/USDC</span>
+        </div>
+        <VoteStatistics className="table-box">
+          <table cellPadding="0" cellSpacing="0">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Wallet Address</th>
+                <th>Total Votes</th>
+              </tr>
+            </thead>
+            <tbody />
+          </table>
+        </VoteStatistics>
+      </div>
+    </VotesContainerTable>
+  )
+}
+
+const TwitterVoteRegistration: React.FC<{current: number, onPressEnter: any}> = ({ current, onPressEnter }) => {
   return (
     <Registration>
       <div className={clsx('registration', current === 0 && 'active')}>
         <RegistrationContainer>
-          <div className="registration-item">
-            <p>Discord ID or Twitter ID or Telegram ID, Or Others</p>
-            <Input />
-          </div>
-          <div className="registration-item">
+          <RegistrationItem>
+            <p>Twitter ID</p>
+            <Form.Item
+              name="twitterId"
+              rules={[{ required: true, message: 'Please fill out Discord ID or Twitter ID or Telegram ID!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
+          <RegistrationItem>
             <p>Transaction record</p>
-            <Input />
-          </div>
-          <div className="registration-item">
-            <p>Votes</p>
-            <Input />
-          </div>
-          <div className="registration-item">
+            <Form.Item
+              name="retweetLink"
+              rules={[{ required: true, message: 'Please fill out Transaction record!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
+          <RegistrationItem>
+            <p>Vote or not</p>
+            <Form.Item
+              name="vote"
+              rules={[{ required: true, message: 'Please fill out Votes!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
+          <RegistrationItem>
             <p>Wallet Address</p>
-            <Input />
-          </div>
-          <div className="registration-item">
+            <Form.Item
+              name="walletAddress"
+              rules={[{ required: true, message: 'Please fill out Wallet Address!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
+          <RegistrationItem>
             <p>Referrer Discord ID Or Other ID</p>
-            <Input />
-          </div>
+            <Form.Item
+              name="discordId"
+              rules={[{ required: true, message: 'Please fill out Referrer Discord ID Or Other ID!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
         </RegistrationContainer>
         <ConfirmButton>Confirm</ConfirmButton>
-        <JoinBanksyText>
-          Welcome to join Bansky community!<br />
-          Discord：https://discord.gg/NdRGt4BDFe<br />
-          Twitter: https://twitter.com/banksy_finance<br />
-          Telegram: https://t.me/Banskyfinance<br />
-          Facebook: https://www.facebook.com/Banksy-Finance-107964618196801
-        </JoinBanksyText>
-        <RoleDescription>
-          All your votes for Banksy can be added for a higher level Role and more airdrops!
-          Please make sure your information is correct before confirming. Thank you!!Special Roles in the Discord server.<br />
-          - Role OG, at least 1USDC of total votes, can get the OG Role.<br />
-          - Role Silver, at least 5 USDC of total votes, can get the Silver Role.<br />
-          - Role Gold, at least 15 USDC of total votes, can get the Gold Role.<br />
-          - Role Platinum, at least 20USDC of total votes, can get the Platinum Role.<br />
-          - Role Diamond, at least 50USDC of total votes, can get the Diamond Role.<br />
-          - Role Hero, at least 80 USDC of total votes, can get the Hero Role.<br />
-          - Role Hunter, for inviting members at least 50. Please invite members in by sharing the invite links from the server created by yourself.<br />
-          - Role Rare, for voting referrer at least 15 valid votes. Please make sure voters apply your Discord ID in the form.
-        </RoleDescription>
       </div>
+      <TwitterVotesTable current={current} onPressEnter={onPressEnter} />
     </Registration>
   )
 }
 
-const SolanaVotes: React.FC<{current: number}> = ({ current }) => {
+const SolanaVotes: React.FC<Solana> = ({ current, solana, onPressEnter }) => {
 
+  console.log(solana)
+  return (
+    <VotesContainerTable>
+      <div className={clsx('votes', current === 2 && 'active')}>
+        <div className="search-box">
+          <SearchInput
+            onPressEnter={onPressEnter}
+            prefix={<SearchOutlined style={{ color: '#3658A7', width: '1.5rem' }} />}
+          />
+          <span className="search-box-text">Unit/USDC</span>
+        </div>
+        <VoteStatistics className="table-box">
+          <table cellPadding="0" cellSpacing="0">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Wallet Address</th>
+                <th>Total Votes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                solana?.map((item: any, index: number) => (
+                  <tr key={index}>
+                    <td>{item?.ranking}</td>
+                    <td>{item?.source}</td>
+                    <td>{item?.solanaVoting}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </VoteStatistics>
+      </div>
+    </VotesContainerTable>
+  )
+}
+
+type Filecoin = {
+  current: number,
+  filecoin: Array<any>,
+  onPressEnter: any
+}
+
+const FilecoinVotes: React.FC<Filecoin> = ({ current, filecoin, onPressEnter }) => {
 
   return (
-    <SolanaVotesContainer>
-      <div className={clsx('solanaVotes', current === 1 && 'active')}>
+    <VotesContainerTable>
+      <div className={clsx('votes', current === 1 && 'active')}>
         <div className="search-box">
-          <SearchInput prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />} />
+          <SearchInput
+            onPressEnter={onPressEnter}
+            prefix={<SearchOutlined style={{ color: '#3658A7', width: '1.5rem' }} />}
+          />
           <span className="search-box-text">Unit/USDC</span>
         </div>
         <VoteStatistics className="table-box">
@@ -276,56 +366,197 @@ const SolanaVotes: React.FC<{current: number}> = ({ current }) => {
                 <th>Rank</th>
                 <th>Discord ID or Twitter ID or Telegram ID, Or Others</th>
                 <th>Wallet Address</th>
-                <th>Solana Votes</th>
-                <th>Filecoin Votes</th>
                 <th>Total Votes</th>
               </tr>
             </thead>
             <tbody>
-              {/*<tr>*/}
-              {/*  <td>001</td>*/}
-              {/*  <td>Name</td>*/}
-              {/*  <td>28</td>*/}
-              {/*  <td>女</td>*/}
-              {/*  <td>Mobile</td>*/}
-              {/*  <td>Mobile</td>*/}
-              {/*</tr>*/}
+              {
+                filecoin?.map((item: any, index: number) => (
+                  <tr key={index}>
+                    <td>{item?.ranking}</td>
+                    <td>{item?.discordId}</td>
+                    <td>{item?.filecoinVotes}</td>
+                    <td>{item?.referrerId}</td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </VoteStatistics>
       </div>
-    </SolanaVotesContainer>
+    </VotesContainerTable>
   )
 }
 
+const VoteRegistration: React.FC<{current: number, filecoin: any, onPressEnter: any}> = ({ current, filecoin, onPressEnter }) => {
+
+  const [form] = Form.useForm()
+
+  const formInitialValues = {
+    userId: '',
+    record: '',
+    votes: '',
+    walletAddress: '',
+    discordId: ''
+  }
+
+  const confirmCreat = () => {
+    form.validateFields().then(values => {
+      const confirmCreatForm = {
+        discordId: values?.userId,
+        transactionRecord: values?.record,
+        votes: values?.votes,
+        walletAddress: values?.walletAddress,
+        referrerId: values?.discordId
+      }
+
+      voteCreate(confirmCreatForm).then(res => {
+        message.success('Form submit successfully. ')
+      }).catch((err:any) => {
+        message.error('Please do not submit this transaction record twice. If you have any questions, please contact us.')
+      })
+    })
+  }
+
+  return (
+    <Registration>
+      <div className={clsx('registration', current === 1 && 'active')}>
+        <RegistrationContainer form={form} initialValues={formInitialValues}>
+          <RegistrationItem>
+            <p>Discord ID or Twitter ID or Telegram ID, Or Others</p>
+            <Form.Item
+              name="userId"
+              rules={[{ required: true, message: 'Please fill out Discord ID or Twitter ID or Telegram ID!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
+          <RegistrationItem>
+            <p>Transaction record</p>
+            <Form.Item
+              name="record"
+              rules={[{ required: true, message: 'Please fill out Transaction record!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
+          <RegistrationItem>
+            <p>Votes</p>
+            <Form.Item
+              name="votes"
+              rules={[{ required: true, message: 'Please fill out Votes!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
+          <RegistrationItem>
+            <p>Wallet Address</p>
+            <Form.Item
+              name="walletAddress"
+              rules={[{ required: true, message: 'Please fill out Wallet Address!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
+          <RegistrationItem>
+            <p>Referrer Discord ID Or Other ID</p>
+            <Form.Item
+              name="discordId"
+              rules={[{ required: true, message: 'Please fill out Referrer Discord ID Or Other ID!' }]}
+            >
+              <Input />
+            </Form.Item>
+          </RegistrationItem>
+        </RegistrationContainer>
+        <ConfirmButton onClick={confirmCreat}>Confirm</ConfirmButton>
+      </div>
+      <FilecoinVotes current={current} filecoin={filecoin} onPressEnter={onPressEnter} />
+    </Registration>
+  )
+}
 
 const VotePage: React.FC = () => {
 
   const [current, setCurrent] = useState(0)
 
-  const tabs = ['Vote Registration', 'Solana Votes', 'Filection Votes', 'Leader Board']
+  const [searchKey, setSearchKey] = useState<any>()
+
+  const [filecoin, setFilecoin] = useState<any>()
+
+  const [solana, setSolana] = useState<any>()
+
+  const tabs = ['Retweet', 'Filection Votes', 'Solana Votes']
+
+
+  const init = useCallback(async (searchKey: any) => {
+    console.log(current)
+    if (current === 1) {
+      await filecoinList({
+        searchKey: searchKey
+      }).then((res: any) => {
+        setFilecoin(res.data.data)
+      })
+    }
+    if (current === 2) {
+      await solanaList({
+        searchKey: searchKey
+      }).then((res: any) => {
+        setSolana(res.data.data)
+      })
+    }
+  },[current, searchKey])
+
+  useEffect(() => {
+    init(searchKey)
+  },[init])
+
+  const onPressEnter = (e: any) => {
+    setSearchKey(e.target.attributes[2].value)
+    init(e.target.attributes[2].value)
+  }
+
 
   return (
     <VoteContainer>
-      <VoteContainerTop>
-        <div className="vote-Top-bottom">
-          {
-            tabs.map((item: string, index: number) => (
-              <Button
-                className={clsx(index === current && 'tabs__link')}
-                onClick={() => setCurrent(index)}
-                key={index}
-              >
-                {item}
-              </Button>
-            ))
-          }
-        </div>
-      </VoteContainerTop>
-      <VoteRegistration current={current} />
-      <SolanaVotes current={current} />
+      <VoteContainerTop />
+      <ViewOperationSelect>
+        {
+          tabs.map((item: string, index: number) => (
+            <div
+              className={clsx(index === current && 'tabs__link')}
+              onClick={() => setCurrent(index)}
+              key={index}
+            >
+              {item}
+            </div>
+          ))
+        }
+      </ViewOperationSelect>
+      <TwitterVoteRegistration current={current} onPressEnter={onPressEnter} />
+      <VoteRegistration current={current} filecoin={filecoin} onPressEnter={onPressEnter} />
+      <SolanaVotes current={current} solana={solana} onPressEnter={onPressEnter} />
     </VoteContainer>
   )
 }
 
 export default VotePage
+
+{/*<JoinBanksyText>*/}
+{/*  Welcome to join Bansky community!<br />*/}
+{/*  Discord：https://discord.gg/NdRGt4BDFe<br />*/}
+{/*  Twitter: https://twitter.com/banksy_finance<br />*/}
+{/*  Telegram: https://t.me/Banskyfinance<br />*/}
+{/*  Facebook: https://www.facebook.com/Banksy-Finance-107964618196801*/}
+{/*</JoinBanksyText>*/}
+{/*<RoleDescription>*/}
+{/*  All your votes for Banksy can be added for a higher level Role and more airdrops!*/}
+{/*  Please make sure your information is correct before confirming. Thank you!!Special Roles in the Discord server.<br />*/}
+{/*  - Role OG, at least 1USDC of total votes, can get the OG Role.<br />*/}
+{/*  - Role Silver, at least 5 USDC of total votes, can get the Silver Role.<br />*/}
+{/*  - Role Gold, at least 15 USDC of total votes, can get the Gold Role.<br />*/}
+{/*  - Role Platinum, at least 20USDC of total votes, can get the Platinum Role.<br />*/}
+{/*  - Role Diamond, at least 50USDC of total votes, can get the Diamond Role.<br />*/}
+{/*  - Role Hero, at least 80 USDC of total votes, can get the Hero Role.<br />*/}
+{/*  - Role Hunter, for inviting members at least 50. Please invite members in by sharing the invite links from the server created by yourself.<br />*/}
+{/*  - Role Rare, for voting referrer at least 15 valid votes. Please make sure voters apply your Discord ID in the form.*/}
+{/*</RoleDescription>*/}
