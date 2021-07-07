@@ -14,12 +14,10 @@ const PageContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   height: fit-content;
-  background: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default}) no-repeat;
-  background-size: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #7c6deb;
+  color: #97BCF6;
 `
 
 const Title = styled.div`
@@ -33,7 +31,7 @@ const FilterContainer = styled.div`
   padding: 2rem 3rem 0.4rem 3rem;
   width: 120.2rem;
   margin-left: calc((100% - 120.2rem) / 2);
-  background: rgba(255, 255, 255, 0.7);
+  background: #0C152B;
   border-radius: 10px;
 
   .filter-item {
@@ -46,7 +44,7 @@ const FilterContainer = styled.div`
     .key {
       flex: 2;
       margin-right: 2rem;
-      color: #341f97;
+      color: #97BCF6;
       font-weight: bolder;
     }
 
@@ -65,8 +63,8 @@ const FilterContainer = styled.div`
 
       .value.active {
         border-radius: 10px;
-        background-color: #7c6deb;
-        color: white
+        background-color: #97BCF6;
+        color: black;
       }
     }
   }
@@ -101,13 +99,13 @@ const MintArtworksButton = styled(Button)`
 const SearchInput = styled(Input)`
   width: 22rem;
   height: 4rem;
-  border-color: #7c6deb;
-  background-color: #e5e2fb;
+  border-color: #305099;
+  background-color: #305099;
   border-radius: 10px;
 
   .ant-input {
-    background-color: #e5e2fb;
-    color: #7c6deb;
+    background-color: #305099;
+    color: white;
     font-weight: bold;
   }
 `
@@ -122,12 +120,12 @@ const MySelect = styled(Select)`
   }
 
   .ant-select-selector {
-    border-color: #7c6deb !important;
+    border-color: #305099 !important;
     border-radius: 10px !important;
     width: fit-content;
     height: 5rem !important;
-    background-color: #e5e2fb !important;
-    color: #7c6deb;
+    background-color: #305099 !important;
+    color: white;
     height: 4rem !important;
     display: flex;
     align-items: center
@@ -147,6 +145,7 @@ const NFTListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-left: calc((100% - 120.2rem) / 2);
+  border-radius: 1rem;
 `
 
 const CustomPagination = styled(Pagination)`
@@ -154,7 +153,7 @@ const CustomPagination = styled(Pagination)`
 
   .ant-pagination-prev .ant-pagination-item-link {
     border: none !important;
-    background-color: rgba(124, 109, 235, 0.2) !important;
+    background-color: #305099 !important;
     color: #7C6DEB;
   }
 
@@ -186,7 +185,7 @@ const CustomPagination = styled(Pagination)`
   }
 
   .ant-select {
-    color: #7C6DEB;
+    color: #305099;
   }
 
   .ant-select-arrow {
@@ -341,10 +340,12 @@ const CollectiblesPage: React.FC = () => {
       transactionStatus: typeSelectValue
     })
       .then(res => {
+
         const _data = res.data.data.records.map((item: any) => ({
           ...item,
           image: item?.image?.slice(6)==='ipfs:/' ? `https://banksy.mypinata.cloud${item?.image?.slice(6)}` : `https://banksy.mypinata.cloud${item?.image?.slice(-52)}`
         }))
+
         setList(_data)
         setTotal(res.data.data.total)
         setLoading(false)
@@ -374,7 +375,7 @@ const CollectiblesPage: React.FC = () => {
         <div style={{ display: 'flex' }} />
         <div style={{ display: 'flex' }}>
           <SearchInput onPressEnter={onPressEnter}
-            prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
+            prefix={<SearchOutlined style={{ color: '#305099', width: '1.5rem' }} />}
           />
           <TypeSelector typeSelectValue={typeSelectValue} setTypeSelectValue={setTypeSelectValue} />
           <OrderSelector />

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.png'
+import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.svg'
 import { Button, Popover } from 'antd'
 import Wallet from '../../components/Wallet'
 import { useHistory } from 'react-router-dom'
@@ -19,7 +19,7 @@ import avatar9 from '../../assets/images/headAvatar/avatar9.png'
 import avatar10 from '../../assets/images/headAvatar/avatar10.png'
 
 const AppHeaderContainer = styled.div`
-  background-color: white;
+  background-color: black;
   width: 100%;
   height: 6.5rem;
   display: flex;
@@ -115,7 +115,7 @@ const AppHeader = () => {
 
   return (
     <AppHeaderContainer>
-      <img src={BanksyLogo} alt="banksy" style={{ width: '12.6rem' }} />
+      <img src={BanksyLogo} alt="banksy" style={{ width: '15.6rem' }} />
       <Row>
         <Vote onClick={() => history.push('/vote')}>
           Voting channel

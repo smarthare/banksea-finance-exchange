@@ -18,7 +18,7 @@ const App: React.FC = () => {
         </Layout.Sider>
         <Layout.Content
           style={{
-            backgroundColor: '#FAF9FA',
+            backgroundColor: 'black',
             position: 'relative',
             top: '62px',
           }}

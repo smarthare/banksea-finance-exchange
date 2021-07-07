@@ -40,7 +40,7 @@ const MainCarousel = styled.div`
   .bottom-area {
     width: 82.8rem;
     height: 12rem;
-    background-image: linear-gradient(#3F47C2, #7C6DEB);
+
   }
 
   .swiperTop {
@@ -68,31 +68,40 @@ const GeneratorTop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 20rem;
+  width: 500rem;
+  background-color: black;
+
+  .introduce{
+    text-align: center;
+
+    color: #97BCF9;
+  }
+`
+
+const MyAntdImage = styled(AntdImage)`
+
 `
 
 const GeneratorBody = styled.div`
   padding: 1.8rem 0;
-  width: 82.8rem;
+  width: 89.8rem;
+
+
 
   .head {
     display: flex;
+    justify-content: center;
     flex-direction: column;
 
     .title {
-      flex-direction: column;
+      text-align: center;
       font-size: 1.8rem;
       font-weight: 500;
       color: #7C6DEB;
       line-height: 2.5rem;
     }
 
-    .split-border {
-      width: 20px;
-      height: 5px;
-      background: #00FFFF;
-      border-radius: 3px;
-      margin-top: 0.5rem;
-    }
   }
 
 
@@ -185,7 +194,6 @@ const GenerateResultContainer = styled.div`
   margin-top: 4rem;
   width: 99.4rem;
   height: 53.1rem;
-  background: #7C6DEB;
   border-radius: 1rem;
   padding: 3.5rem 5.9rem;
   position: relative;
@@ -265,19 +273,21 @@ const SCSelectedNFTColumn = styled.div`
   width: 21.2rem;
 
   .item {
-    width: 21.2rem;
-    height: 15rem;
-    background-color: rgba(255, 255, 255, 0.5);
+    width: 20rem;
+    height: 21rem;
+    background-color: #111C3A;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px dashed #fff;
+   border-radius: 1rem;
 
     img {
-      width: 19.2rem;
-      height: 13rem;
+      width: 20rem;
+      height: 21rem;
       object-fit: cover;
       cursor: pointer;
+      border-radius: 1rem;
+
     }
 
     .add {
@@ -373,7 +383,7 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
           width: '23',
           height: ' 23',
           top: '1rem',
-          left: '16rem',
+          left: '11rem',
           zIndex: 1,
           opacity: 0.7
         }}
@@ -391,11 +401,11 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
       }}
       onClick={() => onSelect(src)}
     >
-      <AntdImage
-        width={192}
-        height={130}
+      <MyAntdImage
+        width={200}
+        height={210}
         src={src}
-        style={{ objectFit: 'cover', cursor: 'pointer' }}
+        style={{ objectFit: 'cover', cursor: 'pointer', borderRadius: '1rem', margin:'0' }}
         preview={false}
       />
       <SelectBtn />
@@ -479,25 +489,26 @@ const AIGenerators: React.FC = () => {
   return (
     <AIGeneratorsContainer>
       <GeneratorTop>
-        <MainCarousel>
+        <div className="introduce" >
+          <p>Al Generation uses artificial intelligence algorithms</p>
+          <p>to extract the image style of Style Gene NFT and integrate it with the image of My</p>
+          <p>NFT to reconstruct a brand-new NFT, which is a very interesting gameplay.</p>
+        </div>
+        {/*<MainCarousel>
           <div className="top-area" />
           <div className="bottom-area" />
           <SwiperTop list={swiperList?.map((style: { url: any }) => style?.url)} />
-        </MainCarousel>
+        </MainCarousel>*/}
       </GeneratorTop>
       <GeneratorBody>
         <div className="head">
           <p id="/ai-generators#style-gene" style={{ position: 'relative', bottom: '5rem' }} />
           <div className="title">Style Gene</div>
-          <div className="split-border" />
         </div>
         <SelectableNFTList selectedValue={style}
           onSelect={v => setStyle(v)}
           list={styleList?.map((style: { url: any }) => style?.url)}
         />
-        <div className="plus-icon">
-          <img src={Plus} style={{ width: '2.6rem', marginTop: '3.1rem' }} alt="" />
-        </div>
         <div className="head">
           <p id="/ai-generators#my-nft" style={{ position: 'relative', bottom: '5rem' }} />
           <div className="title">My NFT</div>
@@ -511,11 +522,6 @@ const AIGenerators: React.FC = () => {
         {/*<AssetUpload />*/}
       </GeneratorBody>
       <GeneratorFooter>
-        <img src={DownArrow} style={{ width: '2.6rem', height: '3.2rem', marginTop: '0.6rem' }} alt="" />
-        <Description>
-          AI Generation uses artificial intelligence algorithms to extract the image style of Style Gene NFT and
-          integrate it with the image of My NFT to reconstruct a brand-new NFT, which is a very interesting gameplay.
-        </Description>
         <GenerateResultContainer>
           <SelectedNft style={style} content={content} />
           <RightArrow />
@@ -569,6 +575,7 @@ const AIGenerators: React.FC = () => {
             }
           </CreatButton>
         </GenerateResultContainer>
+
       </GeneratorFooter>
     </AIGeneratorsContainer>
   )

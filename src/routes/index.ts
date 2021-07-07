@@ -15,6 +15,7 @@ import AIGenerators from '../pages/AIGenerators'
 import FarmPage from '../pages/Farms'
 import TestPage from '../pages/Test'
 import VotePage from '../pages/Vote'
+import PoolsPage from '../pages/Pools/index'
 
 export type Route = {
   path: string
@@ -57,6 +58,12 @@ const routes: Route[] = [
     match: /^\/collectible\//,
     icon: CollectiblesIcon,
     component: CollectiblesPage
+  },
+  {
+    path: '/pools',
+    title: 'Pools',
+    icon: CollectiblesIcon,
+    component: PoolsPage
   },
   {
     path: '/collectible/:id',

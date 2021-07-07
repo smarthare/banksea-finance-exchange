@@ -9,9 +9,14 @@ import telegramIcon from '../../assets/images/slidebarLink/telegram.png'
 const Container = styled.div`
   width: 20.2rem;
   height: calc(100vh - 6.1rem);
-  background-color: white;
+  background-color: black;
   position: relative;
+  .ant-menu-root.ant-menu-vertical, .ant-menu-root.ant-menu-vertical-left, .ant-menu-root.ant-menu-vertical-right, .ant-menu-root.ant-menu-inline {
+    background: black; !important;
+    box-shadow: none;
+  }
 `
+
 
 const CustomizedMenu = styled(Menu)`
   font-weight: 500;
@@ -28,7 +33,7 @@ const CustomizedMenu = styled(Menu)`
   }
 
   .ant-menu-item-selected {
-    background-color: #7c6deb !important;
+    background-color: rgb(25,45,79) !important;
 
     a {
       color: white !important;
@@ -70,14 +75,14 @@ const AppSideBar: React.FC = () => {
 
   return (
     <Container>
-      <CustomizedMenu selectedKeys={[selectedKey]} mode="inline">
+      <CustomizedMenu selectedKeys={[selectedKey]} mode="inline" theme="dark">
         {
           routes.filter(route => !route.hidden).map((route: Route) => {
-            const fillColor = (route.path === pathname || route.match?.test(pathname)) ? 'white' : '#7c6deb'
+            const fillColor = (route.path === pathname || route.match?.test(pathname)) ? 'white' : 'rgb(178,178,178)'
 
             return (
-              <Menu.Item key={route.path} icon={<route.icon fill={fillColor} />}>
-                <Link to={route.path} style={{ userSelect: 'none', color: '#7C6DEB' }}>
+              <Menu.Item key={route.path} icon={<route.icon fill={fillColor}  />}>
+                <Link to={route.path} style={{ userSelect: 'none', color: 'rgb(178,178,178)' }}>
                   {route.title}
                 </Link>
               </Menu.Item>

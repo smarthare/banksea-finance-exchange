@@ -13,9 +13,8 @@ const NFTItemCardContainer = styled.div`
   color: #7c6deb;
   width: 26.2rem;
   height: 40rem;
-  background-color: white;
+  background-color: #111C3A;
   border-radius: 10px;
-  padding: 1rem;
   margin-bottom: 2.5rem;
   margin-right: 2.5rem;
   font-weight: bold;
@@ -25,10 +24,10 @@ const NFTItemCardContainer = styled.div`
 
   img, .spin {
     object-fit: cover;
-    width: 24.2rem;
+    width: 26.2rem;
     height: 28.5rem;
     margin-bottom: 1.5rem;
-    border-radius: 10px;
+
   }
 
   .spin {
@@ -40,6 +39,7 @@ const NFTItemCardContainer = styled.div`
     margin-bottom: 1.5rem;
     width: 100%;
     overflow: hidden;
+    color: white;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -50,9 +50,11 @@ const NFTItemCardContainer = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
+    color: white;
 
     .heart {
       margin-right: 0.5rem;
+      color: white;
     }
   }
 
@@ -145,7 +147,7 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
           <Link to={url} target={'_blank'}>
             <LazyLoad>
               <img
-                style={{ display: loading ? 'none' : '' }}
+                style={{ display: loading ? 'none' : '', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}
                 key={data.id}
                 src={data?.thumbnail ? data?.thumbnail : data?.image}
                 alt=""
@@ -156,19 +158,27 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
             {
               loading && <Spin className="spin" />
             }
-            <div className="name">{data?.name}</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2rem' }}>
+              <div className="name">{data?.name}</div>
+              <div>
+                <div className="like" onClick={favoriteHandle}>
+                  {
+                    isHeart
+                      ?<HeartFilled className="heart" />
+                      :<HeartOutlined className="heart" />
+                  }
+                  {clickFavorite ? clickFavorite : 0}
+                </div>
+              </div>
+
+            </div>
+
+
           </Link>
         </div>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
-            <div className="like" onClick={favoriteHandle}>
-              {
-                isHeart
-                  ?<HeartFilled className="heart" />
-                  :<HeartOutlined className="heart" />
-              }
-              {clickFavorite ? clickFavorite : 0}
-            </div>
+
             <div className="price">
               {data?.price ? `${data?.price}ETH` : ''}
             </div>

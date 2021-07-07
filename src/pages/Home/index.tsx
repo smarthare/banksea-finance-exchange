@@ -1,186 +1,275 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import TitlePen from '@/assets/images/homePageImg/title-pen1.png'
-import TitlePencil from '@/assets/images/homePageImg/title-pen2.png'
-import DrawPen from '@/assets/images/homePageImg/draw-pen.png'
-import DrawPen2 from '@/assets/images/homePageImg/draw-pen2.png'
-import Bamboo1 from '@/assets/images/homePageImg/bamboo1.png'
-import Bamboo2 from '@/assets/images/homePageImg/bamboo2.png'
-import Pencil1 from '@/assets/images/homePageImg/pencil1.png'
-import Pencil2 from '@/assets/images/homePageImg/pencil2.png'
-import MarkPen1 from '@/assets/images/homePageImg/markpen1.png'
-import MarkPen2 from '@/assets/images/homePageImg/markpen2.png'
-import Pen1 from '@/assets/images/homePageImg/pen1.png'
-import Pen2 from '@/assets/images/homePageImg/pen2.png'
-import Pen3 from '@/assets/images/homePageImg/pen3.png'
-import Pen4 from '@/assets/images/homePageImg/pen4.png'
-import Pen5 from '@/assets/images/homePageImg/pen5.png'
-import Pen6 from '@/assets/images/homePageImg/pen6.png'
-import { NftHomeCreateData } from '../../utils/banksyNftList'
+
+import Auction from '@/assets/images/homePageImg/auction-bg.svg'
+import Splitting from '@/assets/images/homePageImg/splitting-bg.svg'
+import Mortgage from '@/assets/images/homePageImg/mortgage-bg.svg'
+import Liquidity from '@/assets/images/homePageImg/liquidity-bg.svg'
+import RightArrow from '@/assets/images/homePageImg/right-arrow.svg'
+import CornerFlag from '@/assets/images/homePageImg/corner-flag-ai.svg'
+
+
+import { banksyNftList, NftHomeCreateData } from '../../utils/banksyNftList'
 
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
+import NFTListItem from '../../components/NFTListItem'
 
 const HomePageContainer = styled.div`
-  margin: 0 calc((100% - 100.2rem) / 2);
-  width: 120.2rem;
-  padding: 2rem 0;
+
   font-family: 'PingFang SC'
 `
 
-const HeadLine = styled.div`
-  display: flex;
-  height: 17rem;
-  align-items: center;
-  justify-content: space-between;
+const BodyContainer = styled.div`
+  margin: 0 calc((100% - 100.2rem) / 2);
+  width: 120.2rem;
+  padding: 6rem 2rem;
+`
 
-  .Banksy {
-    color: #7c6deb;
-    font-size: 6rem;
-    font-weight: bolder;
+const HeadLine = styled.div`
+  height: 30rem;
+  background-color: #7c6deb;
+
+`
+
+const InfoContainer = styled.div`
+
+
+  .row1{
+    flex-basis: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-  }
-`
 
-const BodyRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
-
-const MainColumnContainer = styled.div`
-  position: relative;
-  width: 57.9rem;
-  height: 45.4rem;
-  background: #ffffff;
-  border-radius: 2rem;
-  margin-top: 6rem;
-  display: flex;
-`
-
-const SubColumnContainer = styled.div`
-  position: relative;
-  width: 37.2rem;
-  height: 33.1rem;
-  background: #ffffff;
-  border-radius: 2rem;
-  margin-top: 6.5rem;
-`
-
-const PositionedImage = styled.img<{
-  right: string
-  top: string
-}>`
-  position: absolute;
-  height: ${props => props.height};
-  width: ${props => props.width};
-
-  right: ${props => props.right};
-
-  top: ${props => props.top};
-`
-
-const InfoDetail = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2.3rem 3rem;
-  font-family: 'PingFang SC';
-  font-weight: 500;
-
-  .info-title {
-    font-size: 5rem;
-    color: #161043;
-    line-height: 7rem;
-    font-weight: bold;
-  }
-
-  .info-title-2 {
-    font-size: 3rem;
-    color: #161043;
-    line-height: 4.2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .info {
-    margin-top: 0.4rem;
-
-    .info-name {
-      font-size: 1.4rem;
-      color: #161043;
-      line-height: 2rem;
+    .lend-and-borrow:hover
+    {
+      box-shadow: rgb(11, 234, 235) -5px 5px 15px;
     }
 
-    .info-value {
-      font-size: 2rem;
-      color: rgb(40, 13, 95);
-      line-height: 2.8rem;
+      .lend-and-borrow {
+        position: relative;
+        width: 56.4rem;
+        border-radius: 2rem;
+        margin-bottom: 3rem;
+        padding: 2.5rem 4.5rem;
+
+        background: url(${require('../../assets/images/homePageImg/lend-borrow-bg.svg').default}) no-repeat;
+        background-size: 100%;
+
+
+
+
+      .main-title {
+        color: black;
+        font-size: 4.5rem;
+        font-weight: 550;
+        margin-bottom: 7.6rem;
+      }
+      .sub-title {
+        margin-top: 2rem;
+        color: black;
+        font-size: 2.5rem;
+        font-weight: 550;
+      }
+      .value{
+        color: white;
+        font-size: 4.8rem;
+        font-weight: 550;
+      }
+    }
+
+    .auction-and-splitting{
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+
+      .info-panel:hover {
+        background: #18284C;
+      }
+
+      .info-panel:active {
+        background: #111C3A;
+        border: solid 0.1rem #4E46EC;
+      }
+
+
+      .info-panel {
+        padding: 2.5rem 4.5rem;
+        position: relative;
+
+        width: 56.4rem;
+        height: 23.8rem;
+        background: #111C3A;
+        border-radius: 2rem;
+        margin-bottom: 3rem;
+
+
+        .main-title2 {
+          color: #97BCF9;
+          font-size: 3.8rem;
+          font-weight: 550;
+          margin-bottom: 1.2rem;
+        }
+        .sub-title2 {
+          color: #97BCF9;
+          font-size: 1.8rem;
+          font-weight: 400;
+          margin-bottom: 1.2rem;
+        }
+
+        .nft-values{
+          display: flex;
+          align-items: center;
+          .sub-title2 {
+            padding-top: 1rem;
+            color: #97BCF9;
+            font-size: 1.8rem;
+            font-weight: 400;
+          }
+          .value{
+            margin-left: 1.2rem;
+            color: #01F9FF;
+            font-size: 2.8rem;
+            font-weight: 550;
+          }
+        }
+
+      }
+    }
+  }
+
+  .row2 {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .info-panel:hover {
+      background: #18284C;
+    }
+
+    .info-panel:active {
+      background: #111C3A;
+      border: solid 0.1rem #4E46EC;
+    }
+
+    .info-panel {
+      padding: 2.5rem;
+      position: relative;
+      width: 56.4rem;
+      height: 23.8rem;
+      background: #111C3A;
+      border-radius: 2rem;
+      margin-bottom: 3rem;
+
+
+      .main-title2 {
+        color: #97BCF9;
+        font-size: 3.8rem;
+        margin-bottom: 1.2rem;
+        font-weight: 550;
+        margin-bottom: 1.2rem;
+      }
+      .sub-title2 {
+        color: #97BCF9;
+        font-size: 1.8rem;
+        font-weight: 400;
+        margin-bottom: 1.2rem;
+      }
+
+      .nft-values{
+        display: flex;
+        align-items: center;
+        .sub-title2 {
+          padding-top: 1rem;
+          color: #97BCF9;
+          font-size: 1.8rem;
+          font-weight: 400;
+        }
+        .value{
+          margin-left: 1.2rem;
+          color: #01F9FF;
+          font-size: 2.8rem;
+          font-weight: 550;
+        }
+      }
     }
   }
 `
 
-const Column = styled.div`
-  flex: 1;
-  margin-top: 3.3rem;
-`
-
-const Column2 = styled.div`
-  margin-top: 1.3rem;
-`
-
-const SubTitle = styled.div`
-  font-size: 1.8rem;
-  font-weight: 500;
-  color: rgb(122, 110, 170);
-  line-height: 2.5rem;
-`
-
-const InfoValue = styled.div`
-  font-size: 2rem;
-  font-weight: 500;
-  color: #b2bec3;
-  line-height: 3.6rem;
-`
-
-const SubmitButton = styled(Button)`
-  width: 100%;
-  height: 4.5rem;
-  background: #7c6deb;
-  border-radius: 1.5rem;
-  margin-top: 2.4rem;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-
-  &:hover {
-    background: #a29bfe;
-    color: #fff;
-    border: none;
+const NFTContainer = styled.div`
+  margin-top: 4rem;
+  .title{
+    color: #97BCF5;
+    font-size: 2.6rem;
+    font-weight: 500;
+    margin-bottom: 1.6rem
   }
 `
+const NFTListContainer = styled.div`
+  width: 120.2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 
-const SubmitButtonSmall = styled(Button)`
-  width: 100%;
-  height: 4rem;
-  background: #7c6deb;
-  border-radius: 1rem;
-  margin-top: 0.9rem;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-
-  &:hover {
-    background: #a29bfe;
-    color: #fff;
-    border: none;
-  }
 `
+
+const NFTList:React.FC<any> = ({ list })=> {
+  return (
+    <NFTListContainer>
+      {list?.map((nft: any, index: number) => (
+        <NFTListItem data={nft} key={index} type="nftList" />
+      ))}
+    </NFTListContainer>
+  )
+}
+
+const PanelIcon:React.FC<any>=({ iconName })=>{
+  return (
+    <div>
+      <img src = {iconName}
+        style = {{
+          position: 'absolute',
+          width: '12rem',
+          left: '42rem',
+          bottom: '10rem'
+        }}
+      />
+    </div>
+  )
+}
+
+const AIFlag:React.FC<any> = () => {
+  // @ts-ignore
+  return (
+    <div>
+      <img src = {CornerFlag}
+        style={{
+          position:'absolute',
+          zIndex: 1,
+          width: '16rem',
+          left: '41.3rem',
+          bottom:'36rem'
+        }}
+      />
+    </div>
+  )
+}
+
+const GotoArrow:React.FC<any> = () => {
+  return (
+    <div>
+      <img src = {RightArrow}
+        style = {{
+          position: 'absolute',
+          width: '2.5rem',
+          left:'51.5rem',
+          cursor:'pointer'
+        }}
+      />
+    </div>
+  )
+}
 
 const HomePage: React.FC = () => {
   const history = useHistory()
@@ -201,217 +290,128 @@ const HomePage: React.FC = () => {
     history.push('/collectibles', { code: 'buy' })
   }
 
+  const [list, setList] = useState<any>()
+
+  const [typeSelectValue, setTypeSelectValue] = useState<any>()
+
+  const [current, setCurrent] = useState<number>(1)
+
+  const [total, setTotal] = useState<number>()
+
+  const [searchKey, setSearchKey] = useState<any>()
+
+  const [loading, setLoading] = useState<boolean>(true)
+
+  const fetch = useCallback( (searchKey: any, current: any) => {
+    setList([])
+    setLoading(true)
+
+    banksyNftList({
+      current: current,
+      size: 20,
+      searchKey: searchKey,
+      transactionStatus: typeSelectValue
+    })
+      .then(res => {
+        const _data = res.data.data.records.map((item: any) => ({
+          ...item,
+          image: item?.image?.slice(6)==='ipfs:/' ? `https://banksy.mypinata.cloud${item?.image?.slice(6)}` : `https://banksy.mypinata.cloud${item?.image?.slice(-52)}`
+        }))
+        setList(_data)
+        setTotal(res.data.data.total)
+        setLoading(false)
+      })
+  }, [current, searchKey, typeSelectValue])
+
+  useEffect(() => {
+    fetch(searchKey, current)
+  }, [fetch])
+
+
   return (
     <HomePageContainer>
       <HeadLine>
-        <img src={TitlePen} alt="title-pen" style={{ width: '17.2rem', height: '17.0rem' }} />
-        <div style={{ display: 'flex' }}>
-          <div className="Banksy">Banksy</div>
-        </div>
-        <img
-          src={TitlePencil}
-          alt="title-pencil"
-          style={{ width: '7.8rem', height: '13.8rem', marginLeft: '9.4rem' }}
-        />
+        <div>Banksy</div>
       </HeadLine>
-      <BodyRow>
-        <MainColumnContainer>
-          <InfoDetail>
-            <div className="info-title">Create</div>
-            <img src={DrawPen2} alt="draw-pen2" style={{ width: '2.3rem', height: '5.5rem', marginLeft: '3.0rem' }} />
-            <Column>
-              <SubTitle>NFT Number</SubTitle>
-              <InfoValue>{account! && data?.createNftNumber ? data?.createNftNumber : '- - -'}</InfoValue>
-            </Column>
-            <Column>
-              <SubTitle>Total Values</SubTitle>
-              <InfoValue>${account! && data?.createTotalValues ? data?.createTotalValues : '- - -'}</InfoValue>
-            </Column>
-            <SubmitButton onClick={() => history.push('/nft/create')}>CREATE</SubmitButton>
-          </InfoDetail>
-          <PositionedImage
-            src={DrawPen}
-            alt="draw-pen"
-            width="7.9rem"
-            height="19.2rem"
-            right="3.9rem"
-            top="2rem"
-          />
-        </MainColumnContainer>
-        <MainColumnContainer>
-          <InfoDetail>
-            <div className="info-title">Buy</div>
-            <img src={Bamboo2} alt="bamboo" style={{ width: '1.4rem', height: '4.9rem', marginLeft: '3.0rem' }} />
-            <Column2>
-              <SubTitle>Selling</SubTitle>
-              <InfoValue
-                style={{ lineHeight: '3rem' }}
-              >{account! && data?.buySelling ? data?.buySelling : '- - -'}
-              </InfoValue>
-            </Column2>
-            <Column2>
-              <SubTitle>NFT Values</SubTitle>
-              <InfoValue
-                style={{ lineHeight: '3rem' }}
-              >${account! && data?.buyNftValues ? data?.buyNftValues : '- - -'}
-              </InfoValue>
-            </Column2>
-            <Column2>
-              <SubTitle>NFT Number</SubTitle>
-              <InfoValue
-                style={{ lineHeight: '3rem' }}
-              >{account! && data?.buyNftNumber ? data?.buyNftNumber : '- - -'}
-              </InfoValue>
-            </Column2>
-            <SubmitButton onClick={toOnSale}>BUY</SubmitButton>
-          </InfoDetail>
+      <BodyContainer>
+        <InfoContainer >
 
-          <PositionedImage
-            src={Bamboo1}
-            alt="draw-pen"
-            width="4.8rem"
-            height="18.2rem"
-            right="4rem"
-            top="1.9rem"
-          />
-        </MainColumnContainer>
-      </BodyRow>
-      <BodyRow>
-        <SubColumnContainer>
-          <InfoDetail>
-            <div className="info-title-2">Auction</div>
-            <img src={Pen2} alt="pen" style={{ width: '2.4rem', height: '3.0rem', marginLeft: '2.1rem' }} />
-            <div className="info">
-              <div className="info-name">NFT Number</div>
-              <div className="info-value">- - -</div>
+          <div className="row1">
+            <div className="lend-and-borrow" >
+              <AIFlag />
+              <div className="main-title">Lend/Borrow</div>
+              <div className="sub-title">Mowketsize</div>
+              <div className="value">$125,300,00</div>
+              <div className="sub-title">Earn up to</div>
+              <div className="value">303.75%</div>
             </div>
-            <div className="info">
-              <div className="info-name">Selling</div>
-              <div className="info-value">- - -</div>
-            </div>
-            <div className="info">
-              <div className="info-name">NFT Values</div>
-              <div className="info-value">$- - -</div>
-            </div>
-            <SubmitButtonSmall onClick={() => history.push('/pleaseWaiting')}>AUCTION</SubmitButtonSmall>
-          </InfoDetail>
 
-          <PositionedImage
-            src={Pen1}
-            alt="draw-pen"
-            width="8.6rem"
-            height="11.6rem"
-            right="0.8rem"
-            top="1.1rem"
-          />
-        </SubColumnContainer>
-        <SubColumnContainer>
-          <InfoDetail>
-            <div className="info-title-2">Lend</div>
-            <img src={Pen4} alt="pen" style={{ width: '1.0rem', height: '3.9rem', marginLeft: '1.5rem' }} />
-            <div className="info" style={{ marginTop: '0.2rem' }}>
-              <div className="info-name">NFT Number</div>
-              <div className="info-value">- - -</div>
-            </div>
-            <div className="info">
-              <div className="info-name">Selling</div>
-              <div className="info-value">- - -</div>
-            </div>
-            <div className="info">
-              <div className="info-name">NFT Values</div>
-              <div className="info-value">$- - -</div>
-            </div>
-            <SubmitButtonSmall onClick={() => history.push('/pleaseWaiting')}>LEND</SubmitButtonSmall>
-          </InfoDetail>
+            <div className="auction-and-splitting">
+              <div className="info-panel" >
+                <div className="main-title2" >Auction
+                  <PanelIcon iconName={Auction} />
+                </div>
+                <div className="sub-title2">NFT Number : 3220</div>
+                <div className="nft-values">
+                  <div className="sub-title2">NFT Values :</div>
+                  <div className="value">$65,280,00</div>
+                </div>
+                <GotoArrow />
+              </div>
 
-          <PositionedImage
-            src={Pen3}
-            alt="draw-pen"
-            width="2.7rem"
-            height="12.2rem"
-            top="1.2rem"
-            right="2.5rem"
-          />
-        </SubColumnContainer>
-        <SubColumnContainer>
-          <InfoDetail>
-            <div className="info-title-2">Splitting</div>
-            <img src={Pen6} alt="pen" style={{ width: '3.1rem', height: '3.5rem', marginLeft: '2.1rem' }} />
-            <div className="info" style={{ marginTop: '0.5rem' }}>
-              <div className="info-name">NFT Number</div>
-              <div className="info-value">- - -</div>
+              <div className="info-panel" >
+                <div className="main-title2" >Splitting
+                  <PanelIcon iconName={Splitting} />
+                </div>
+                <div className="sub-title2">NFT Number : 3220</div>
+                <div className="nft-values">
+                  <div className="sub-title2">NFT Values :</div>
+                  <div className="value">$65,280,00</div>
+                </div>
+                <GotoArrow />
+              </div>
             </div>
-            <div className="info">
-              <div className="info-name">Selling</div>
-              <div className="info-value">- - -</div>
+          </div>
+
+          <div className="row2">
+            <div className="info-panel" >
+              <div className="main-title2" >Create
+                <PanelIcon iconName={Mortgage} />
+              </div>
+              <div className="sub-title2">NFT Number : 3220</div>
+              <div className="nft-values">
+                <div className="sub-title2">NFT Values :</div>
+                <div className="value">$65,280,00</div>
+              </div>
+              <GotoArrow />
             </div>
-            <div className="info">
-              <div className="info-name">NFT Values</div>
-              <div className="info-value">$- - -</div>
+
+            <div className="info-panel" >
+              <div className="main-title2" >Liquidity
+                <PanelIcon iconName={Liquidity} />
+              </div>
+              <div className="sub-title2">NFT Number : 3220</div>
+              <div className="nft-values">
+                <div className="sub-title2">NFT Values :</div>
+                <div className="value">$65,280,00</div>
+              </div>
+              <GotoArrow />
             </div>
-            <SubmitButtonSmall onClick={() => history.push('/pleaseWaiting')}>SPLITTING</SubmitButtonSmall>
-          </InfoDetail>
 
-          <PositionedImage
-            src={Pen5}
-            alt="draw-pen"
-            width="8.8rem"
-            height="9.8rem"
-            top="1.7rem"
-            right="0.8rem"
-          />
-        </SubColumnContainer>
-      </BodyRow>
-      <BodyRow>
-        <MainColumnContainer>
-          <InfoDetail>
-            <div className="info-title">Mortgage</div>
-            <img src={Pencil2} alt="pencil" style={{ width: '1.9rem', height: '4.7rem', marginLeft: '3.0rem' }} />
-            <Column>
-              <SubTitle>NFT Number</SubTitle>
-              <InfoValue>- - -</InfoValue>
-            </Column>
-            <Column>
-              <SubTitle>Total Values</SubTitle>
-              <InfoValue>$- - -</InfoValue>
-            </Column>
-            <SubmitButton onClick={() => history.push('/pleaseWaiting')}>MORTGAGE</SubmitButton>
-          </InfoDetail>
+          </div>
+        </InfoContainer>
 
-          <PositionedImage
-            src={Pencil1}
-            alt="draw-pen"
-            width="6.3rem"
-            height="15.4rem"
-            top="1.2rem"
-            right="2.3rem"
-          />
-        </MainColumnContainer>
-        <MainColumnContainer>
-          <InfoDetail>
-            <div className="info-title">Liquidity</div>
-            <img src={MarkPen2} alt="mark pen" style={{ width: '3.3rem', height: '4.0rem', marginLeft: '3.0rem' }} />
-            <Column>
-              <SubTitle>NFT Number</SubTitle>
-              <InfoValue>- - -</InfoValue>
-            </Column>
-            <Column>
-              <SubTitle>Total Values</SubTitle>
-              <InfoValue>$- - -</InfoValue>
-            </Column>
-            <SubmitButton onClick={() => history.push('/pleaseWaiting')}>LIQUIDITY</SubmitButton>
-          </InfoDetail>
+        <NFTContainer>
+          <div className="title">New NFTs</div>
+          <NFTList list={list} fetch={fetch} />
+        </NFTContainer>
 
-          <PositionedImage
-            src={MarkPen1}
-            alt="draw-pen"
-            width="11.1rem"
-            height="13.8rem"
-            top="1.9rem"
-            right="1.7rem"
-          />
-        </MainColumnContainer>
-      </BodyRow>
+
+
+
+
+      </BodyContainer>
+
 
 
     </HomePageContainer>
