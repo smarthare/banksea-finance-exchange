@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Checkbox, Image as AntdImage, Image } from 'antd'
+import { Button, Checkbox, Image as AntdImage, Image, Divider } from 'antd'
 import Plus from '@/assets/images/AIGeneratorsImg/plus.png'
 import DownArrow from '@/assets/images/AIGeneratorsImg/arrow-down.png'
 import download from '@/assets/images/AIGeneratorsImg/download.png'
@@ -68,15 +68,26 @@ const GeneratorTop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20rem;
+  height: 25rem;
   width: 500rem;
-  background-color: black;
+  background-color: #0B111E;
+  border: solid 0.3rem #4D4D4D;
 
-  .introduce{
+  .introduce {
     text-align: center;
-
     color: #97BCF9;
+
+    .title {
+      font-weight: 550;
+      font-size: 4.6rem;
+
+      background-image: -webkit-linear-gradient(left, #7fe6ec, #4b0fe5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+    }
   }
+
 `
 
 const MyAntdImage = styled(AntdImage)`
@@ -94,11 +105,26 @@ const GeneratorBody = styled.div`
     justify-content: center;
     flex-direction: column;
 
+    .hr-line-gene{
+      margin:0 auto;
+      height: 0.7rem;
+      width: 100%;
+      background: radial-gradient(#5349F9 14%, #0B111E 80%);
+    }
+
+    .hr-line-nft {
+      margin:0 auto;
+      height: 0.7rem;
+      width: 100%;
+      background: radial-gradient(#B2B2B2 14%, #0B111E 80%);
+    }
+
     .title {
       text-align: center;
-      font-size: 1.8rem;
-      font-weight: 500;
-      color: #7C6DEB;
+      font-size: 2.4rem;
+      padding: 1.2rem 0;
+      font-weight: 550;
+      color: #5349F9;
       line-height: 2.5rem;
     }
 
@@ -279,7 +305,7 @@ const SCSelectedNFTColumn = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-   border-radius: 1rem;
+    border-radius: 1rem;
 
     img {
       width: 20rem;
@@ -413,6 +439,12 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
   )
 }
 
+const DeepLearningBG: React.FC<any> = () => {
+  return (
+    <div />
+  )
+}
+
 
 const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string) => void, list?: string[] }> = ({
   selectedValue,
@@ -440,21 +472,31 @@ const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string)
 const RightArrow: React.FC = () => {
   return (
     <div style={{ height: '18.2rem', display: 'flex', alignItems: 'center' }}>
-      <div
+
+      <img
+        src={require('../../assets/images/AIGeneratorsImg/deep-learning-line.png').default}
+        alt=""
         style={{
-          borderRight: '1px solid #ffffff',
-          width: '1rem',
-          height: '18.2rem',
-          borderTop: '1px solid #ffffff',
-          borderBottom: '1px solid #ffffff'
+          width: '48.5rem'
         }}
       />
-      <img
-        src={require('../../assets/images/AIGeneratorsImg/arrow-right.png').default}
-        alt=""
-        style={{ width: '3.2rem', height: '2.6rem' }}
-      />
-    </div>)
+
+      <div style={{
+        position:'absolute'
+      }}
+      >
+        <img src={require('../../assets/images/AIGeneratorsImg/deep-learning-model.png').default}
+          alt=""
+          style={{
+            width: '16rem',
+            marginLeft: '22rem'
+          }}
+
+        />
+      </div>
+
+    </div>
+  )
 }
 
 const AIGenerators: React.FC = () => {
@@ -490,10 +532,13 @@ const AIGenerators: React.FC = () => {
     <AIGeneratorsContainer>
       <GeneratorTop>
         <div className="introduce" >
+          <p className="title">Level Up</p>
           <p>Al Generation uses artificial intelligence algorithms</p>
           <p>to extract the image style of Style Gene NFT and integrate it with the image of My</p>
           <p>NFT to reconstruct a brand-new NFT, which is a very interesting gameplay.</p>
         </div>
+
+
         {/*<MainCarousel>
           <div className="top-area" />
           <div className="bottom-area" />
@@ -502,51 +547,48 @@ const AIGenerators: React.FC = () => {
       </GeneratorTop>
       <GeneratorBody>
         <div className="head">
+          <div className="hr-line-gene" />
           <p id="/ai-generators#style-gene" style={{ position: 'relative', bottom: '5rem' }} />
           <div className="title">Style Gene</div>
+
+          <SelectableNFTList selectedValue={style}
+            onSelect={v => setStyle(v)}
+            list={styleList?.map((style: { url: any }) => style?.url)}
+          />
+          <div className="hr-line-gene" style={{ marginTop: '3.4rem' }} />
         </div>
-        <SelectableNFTList selectedValue={style}
-          onSelect={v => setStyle(v)}
-          list={styleList?.map((style: { url: any }) => style?.url)}
-        />
-        <div className="head">
+        <div className="head" style={{ marginTop: '5rem' }}>
+          <div className="hr-line-nft" />
           <p id="/ai-generators#my-nft" style={{ position: 'relative', bottom: '5rem' }} />
           <div className="title">My NFT</div>
           <div className="split-border" />
+
+          <SelectableNFTList
+            selectedValue={content}
+            onSelect={v => setContent(v)}
+            list={personalNfts?.map((nft: { image: any }) => nft.image)}
+          />
+
+          <div className="hr-line-nft" style={{ marginTop: '3.4rem' }} />
         </div>
-        <SelectableNFTList
-          selectedValue={content}
-          onSelect={v => setContent(v)}
-          list={personalNfts?.map((nft: { image: any }) => nft.image)}
-        />
         {/*<AssetUpload />*/}
       </GeneratorBody>
       <GeneratorFooter>
         <GenerateResultContainer>
           <SelectedNft style={style} content={content} />
           <RightArrow />
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '5rem' }}>
-            <img src={require('../../assets/images/AIGeneratorsImg/deep-learning-model.png').default}
-              alt=""
-              style={{ height: '18.2rem' }}
-            />
-            <p style={{ color: '#eeeeee', fontSize: '1.4rem', marginTop: '1.3rem' }}>Deep Learning Model</p>
-          </div>
-          <img
-            src={require('../../assets/images/AIGeneratorsImg/arrow-right.png').default}
-            alt=""
-            style={{ width: '3.2rem', height: '2.6rem', marginLeft: '0.3rem', marginRight: '0.3rem' }}
-          />
+
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.5)',
+              backgroundColor: '#111C3A',
               width: '21.2rem',
+              height: '25rem',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               padding: '1rem',
               position: 'relative',
-              border: '2px dashed #fff'
+              borderRadius:'1rem'
             }}
             >
               {

@@ -17,6 +17,8 @@ import avatar7 from '../../assets/images/headAvatar/avatar7.png'
 import avatar8 from '../../assets/images/headAvatar/avatar8.png'
 import avatar9 from '../../assets/images/headAvatar/avatar9.png'
 import avatar10 from '../../assets/images/headAvatar/avatar10.png'
+import UserAvatar from '../../assets/images/headAvatar/user-avatar.svg'
+
 
 const AppHeaderContainer = styled.div`
   background-color: black;
@@ -35,8 +37,9 @@ const ConnectButton = styled(Button)`
   &:active {
     width: fit-content;
     height: 3.5rem;
-    background: #7c6deb;
-    border-radius: 25px;
+    background: #554BFF;
+    border-radius: 1rem;
+    border-color: #3a31bd;
     color: white;
     font-size: 1.6rem;
     font-weight: bold;
@@ -45,7 +48,7 @@ const ConnectButton = styled(Button)`
 
   &:hover,
   &:active {
-    background: #a399f3;
+    background: #3a31bd;
   }
 `
 
@@ -62,19 +65,20 @@ const Avatar = styled.img`
   cursor: pointer;
 `
 
-const AvatarNone = styled.img`
+const AvatarNone = styled.div`
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 100%;
   margin-left: 3.3rem;
-  background: #c8d6e5;
+  background: url(${require('../../assets/images/headAvatar/user-avatar.svg').default}) no-repeat;
 `
 
 const Vote = styled(Button)`
   width: fit-content;
   height: 3.5rem;
-  background: #7c6deb;
-  border-radius: 25px;
+  background: #554BFF;
+  border-radius: 1rem;
+  border-color: #3a31bd;
   color: white;
   font-size: 1.6rem;
   font-weight: bold;
@@ -83,8 +87,8 @@ const Vote = styled(Button)`
 
   &:hover,
   &:active {
-    color: white;
-    background: #a399f3;
+
+    background: #3a31bd;
   }
 `
 
