@@ -7,6 +7,7 @@ import Mortgage from '@/assets/images/homePageImg/mortgage-bg.svg'
 import Liquidity from '@/assets/images/homePageImg/liquidity-bg.svg'
 import RightArrow from '@/assets/images/homePageImg/right-arrow.svg'
 import CornerFlag from '@/assets/images/homePageImg/corner-flag-ai.svg'
+import banksyLineItem from '@/assets/images/homePageImg/banksyItem.png'
 
 
 import { banksyNftList, NftHomeCreateData } from '../../utils/banksyNftList'
@@ -217,6 +218,7 @@ const NFTListContainer = styled.div`
 
 `
 
+
 const NFTList:React.FC<any> = ({ list })=> {
   return (
     <NFTListContainer>
@@ -227,14 +229,14 @@ const NFTList:React.FC<any> = ({ list })=> {
   )
 }
 
-const PanelIcon:React.FC<any>=({ iconName })=>{
+const PanelIcon:React.FC<any> = ({ iconName })=>{
   return (
     <div>
       <img src = {iconName}
         style = {{
           position: 'absolute',
-          width: '12rem',
-          left: '42rem',
+          height: '12.5rem',
+          right: '5rem',
           bottom: '10rem'
         }}
       />
@@ -385,7 +387,10 @@ const HomePage: React.FC = () => {
                 <div className="main-title2" >Deposit
                   <PanelIcon iconName={Splitting} />
                 </div>
-                <div className="sub-title2">Pool size : $92,983,485.09</div>
+                <div className="nft-values">
+                  <div className="sub-title2">Pool size :</div>
+                  <div className="value">$92,983,485.09</div>
+                </div>
                 <div className="nft-values">
                   <div className="sub-title2" />
                   <div className="value" />
@@ -412,7 +417,10 @@ const HomePage: React.FC = () => {
               <div className="main-title2" >Borrow
                 <PanelIcon iconName={Liquidity} />
               </div>
-              <div className="sub-title2">Borrow size : $8,093,233.07</div>
+              <div className="nft-values">
+                <div className="sub-title2">Borrow size :</div>
+                <div className="value">$8,093,233.07</div>
+              </div>
               <div className="nft-values">
                 <div className="sub-title2" />
                 <div className="value" />
