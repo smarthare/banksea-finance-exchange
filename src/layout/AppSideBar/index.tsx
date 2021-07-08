@@ -9,10 +9,10 @@ import telegramIcon from '../../assets/images/slidebarLink/telegram.png'
 const Container = styled.div`
   width: 20.2rem;
   height: calc(100vh - 6.1rem);
-  background-color: black;
+  background-color: #0D1B34;
   position: relative;
   .ant-menu-root.ant-menu-vertical, .ant-menu-root.ant-menu-vertical-left, .ant-menu-root.ant-menu-vertical-right, .ant-menu-root.ant-menu-inline {
-    background: black; !important;
+    background: #0D1B34; !important;
     box-shadow: none;
   }
 `
