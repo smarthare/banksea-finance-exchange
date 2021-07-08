@@ -11,11 +11,11 @@ const VoteContainer = styled.div`
 `
 
 const VoteContainerTop = styled.div`
-  width: calc(100% - 20.2rem);
+  width: 100% ;
   height: 34.4rem;
   background: gray;
   position: relative;
-  margin-left: 20.2rem;
+  // margin-left: 20.2rem;
 `
 
 const ViewOperationSelect = styled.div`
@@ -25,7 +25,7 @@ const ViewOperationSelect = styled.div`
   div {
     width: 14.5rem;
     height: 7rem;
-    background: #4470C1;
+    background: #405099;
     color: #fff;
     font-weight: bolder;
     border-radius: 1rem;
@@ -42,7 +42,7 @@ const ViewOperationSelect = styled.div`
   }
 
   .tabs__link {
-    background-color: #182C58;
+    background-color: #405099;
     color: #00FEFF;
     margin-top: -2rem;
   }
@@ -62,13 +62,14 @@ const Registration = styled.div`
 const RegistrationContainer = styled(Form)`
   width: 116rem;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   margin-top: 9.6rem;
-  margin-left: calc((100% - 93.8rem) / 2);
+  margin-left: calc((100% - 116rem) / 2);
 `
 
 const RegistrationItem = styled(Form.Item)`
   width: 20rem;
+  margin-right: 4rem;
 
   p {
     width: 100%;
@@ -83,11 +84,11 @@ const RegistrationItem = styled(Form.Item)`
   .ant-input {
     width: 20rem;
     height: 4rem;
-    background: rgba(255, 255, 255, 0.1);
+    background: #405099;
     color: #4470C1;
     font-weight: bold;
     border: 0.2rem solid #4470C1;
-    border-radius: 0.5rem;
+    border-radius: 0.8rem;
   }
 `
 
@@ -98,7 +99,7 @@ const ConfirmButton = styled(Button)`
   border-radius: 2rem;
   color: #fff;
   font-size: 1.4rem;
-  margin-left: calc((100% + 0.2rem) / 2);
+  margin-left: calc((100% - 20rem) / 2);
   margin-top: 2.1rem;
   border: none;
   font-weight: bolder;
@@ -113,7 +114,6 @@ const ConfirmButton = styled(Button)`
 const VotesContainerTable = styled.div`
 
   margin-top: 5rem;
-
   .votes {
     display: none;
 
@@ -121,7 +121,7 @@ const VotesContainerTable = styled.div`
       width: 116rem;
       position: relative;
       margin-top: 2.1rem;
-      margin-left: calc((100% - 93.8rem) / 2);
+      margin-left: calc((100% - 116rem) / 2);
       display: flex;
       align-items: center;
 
@@ -145,6 +145,9 @@ const SearchInput = styled(Input)`
   border: 2px solid #3658A7;
   background: none;
   border-radius: 4rem;
+  position:absolute;
+  right:0;
+  margin-bottom:2rem;
 
   .ant-input {
     background: none;
@@ -154,7 +157,7 @@ const SearchInput = styled(Input)`
 `
 
 const VoteStatistics = styled.section`
-  margin: 3rem calc((100% - 93.8rem) / 2);
+  margin: 3rem calc((100% - 116rem) / 2);
   width: 116rem;
 
   table {
@@ -177,7 +180,7 @@ const VoteStatistics = styled.section`
 
   table thead {
     color: white;
-    background-color: #234890;
+    background-color: #405099;
   }
 
   table tbody {
@@ -197,16 +200,32 @@ const VoteStatistics = styled.section`
   }
 
   table tbody tr:nth-of-type(odd) {
-    background: #234890;
+    background: #405099;
   }
 
   table tbody tr:nth-of-type(even) {
-    background: #234890;
+    background: #405099;
   }
 
   table tbody tr td{
     border-bottom: none;
   }
+  table tbody{
+    &::-webkit-scrollbar {
+        height: 5px;
+     
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background: #fff;
+    }
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: none;
+        border-radius: 0;
+        background: #405099;
+        border: 1px solid #4470C1;
+    }
+}
 `
 
 type VotesType = {
@@ -227,7 +246,7 @@ const TwitterVotesTable: React.FC<VotesType> = ({ current, onPressEnter, retweet
             onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#3658A7', width: '1.5rem' }} />}
           />
-          <span className="search-box-text">Unit/USDC</span>
+          {/* <span className="search-box-text">Unit/USDC</span> */}
         </div>
         <VoteStatistics className="table-box">
           <table cellPadding="0" cellSpacing="0">
@@ -237,7 +256,7 @@ const TwitterVotesTable: React.FC<VotesType> = ({ current, onPressEnter, retweet
                 <th>twitterId</th>
                 <th>retweetLink</th>
                 <th>walletAddress</th>
-                <th>referrerId</th>
+                <th>referrerId(USDC)</th>
               </tr>
             </thead>
             <tbody>
@@ -337,13 +356,13 @@ const TwitterVoteRegistration: React.FC<VotesType> = ({ current, onPressEnter, r
 const SolanaVotes: React.FC<VotesType> = ({ current, solana, onPressEnter }) => {
   return (
     <VotesContainerTable>
-      <div className={clsx('votes', current === 2 && 'active')}>
+      <div className={clsx('votes', current === 2 && 'active')} style={{ marginTop:'12rem' }}>
         <div className="search-box">
-          <SearchInput
+          <SearchInput 
             onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#3658A7', width: '1.5rem' }} />}
           />
-          <span className="search-box-text">Unit/USDC</span>
+          {/* <span className="search-box-text">Unit/USDC</span> */}
         </div>
         <VoteStatistics className="table-box">
           <table cellPadding="0" cellSpacing="0">
@@ -351,7 +370,7 @@ const SolanaVotes: React.FC<VotesType> = ({ current, solana, onPressEnter }) => 
               <tr>
                 <th>Rank</th>
                 <th>Wallet Address</th>
-                <th>Total Votes</th>
+                <th>Total Votes(USDC)</th>
               </tr>
             </thead>
             <tbody>
@@ -388,7 +407,7 @@ const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter })
             onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#3658A7', width: '1.5rem' }} />}
           />
-          <span className="search-box-text">Unit/USDC</span>
+          {/* <span className="search-box-text">Unit/USDC</span> */}
         </div>
         <VoteStatistics className="table-box">
           <table cellPadding="0" cellSpacing="0">
@@ -397,7 +416,7 @@ const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter })
                 <th>Rank</th>
                 <th>Discord ID or Twitter ID or Telegram ID, Or Others</th>
                 <th>Wallet Address</th>
-                <th>Total Votes</th>
+                <th>Total Votes(USDC)</th>
               </tr>
             </thead>
             <tbody>
