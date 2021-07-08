@@ -11,11 +11,12 @@ import CornerFlag from '@/assets/images/homePageImg/corner-flag-ai.svg'
 
 import { banksyNftList, NftHomeCreateData } from '../../utils/banksyNftList'
 
-import { Button } from 'antd'
+import { Carousel } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import NFTListItem from '../../components/NFTListItem'
+
 
 const HomePageContainer = styled.div`
 
@@ -30,8 +31,10 @@ const BodyContainer = styled.div`
 
 const HeadLine = styled.div`
   height: 30rem;
-  background-color: #7c6deb;
+`
 
+const MyCarousel = styled(Carousel)`
+  height: 30rem;
 `
 
 const InfoContainer = styled.div`
@@ -271,6 +274,8 @@ const GotoArrow:React.FC<any> = () => {
   )
 }
 
+
+
 const HomePage: React.FC = () => {
   const history = useHistory()
   const account = useSelector(getAccount)
@@ -328,10 +333,24 @@ const HomePage: React.FC = () => {
   }, [fetch])
 
 
+
   return (
     <HomePageContainer>
       <HeadLine>
-        <div>Banksy</div>
+        <MyCarousel autoplay >
+          <div>
+            <h3><img src={CornerFlag}  alt="logo" style={{ height:'30rem' }} /></h3>
+          </div>
+          <div>
+            <h3><img src={CornerFlag}  alt="logo" style={{ height:'30rem' }} /></h3>
+          </div>
+          <div>
+            <h3><img src={CornerFlag}  alt="logo" style={{ height:'30rem' }} /></h3>
+          </div>
+          <div>
+            <h3><img src={CornerFlag}  alt="logo" style={{ height:'30rem' }} /></h3>
+          </div>
+        </MyCarousel>
       </HeadLine>
       <BodyContainer>
         <InfoContainer >

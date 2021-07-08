@@ -105,18 +105,20 @@ const GeneratorBody = styled.div`
     justify-content: center;
     flex-direction: column;
 
-    .hr-line-gene{
+    .hr-line {
       margin:0 auto;
-      height: 0.7rem;
-      width: 100%;
-      background: radial-gradient(#5349F9 14%, #0B111E 80%);
-    }
-
-    .hr-line-nft {
-      margin:0 auto;
-      height: 0.7rem;
+      height: 0.4rem;
       width: 100%;
       background: radial-gradient(#B2B2B2 14%, #0B111E 80%);
+    }
+
+    .nft-border:hover {
+      .hr-line{
+        margin:0 auto;
+        height: 0.7rem;
+        width: 100%;
+        background: radial-gradient(#5349F9 14%, #0B111E 80%);
+      }
     }
 
     .title {
@@ -547,29 +549,33 @@ const AIGenerators: React.FC = () => {
       </GeneratorTop>
       <GeneratorBody>
         <div className="head">
-          <div className="hr-line-gene" />
-          <p id="/ai-generators#style-gene" style={{ position: 'relative', bottom: '5rem' }} />
-          <div className="title">Style Gene</div>
+          <div className="nft-border">
+            <div className="hr-line" />
+            <p id="/ai-generators#style-gene" style={{ position: 'relative', bottom: '5rem' }} />
+            <div className="title">Style Gene</div>
 
-          <SelectableNFTList selectedValue={style}
-            onSelect={v => setStyle(v)}
-            list={styleList?.map((style: { url: any }) => style?.url)}
-          />
-          <div className="hr-line-gene" style={{ marginTop: '3.4rem' }} />
+            <SelectableNFTList selectedValue={style}
+              onSelect={v => setStyle(v)}
+              list={styleList?.map((style: { url: any }) => style?.url)}
+            />
+            <div className="hr-line" style={{ marginTop: '3.4rem' }} />
+          </div>
         </div>
         <div className="head" style={{ marginTop: '5rem' }}>
-          <div className="hr-line-nft" />
-          <p id="/ai-generators#my-nft" style={{ position: 'relative', bottom: '5rem' }} />
-          <div className="title">My NFT</div>
-          <div className="split-border" />
+          <div className="nft-border">
+            <div className="hr-line" />
+            <p id="/ai-generators#my-nft" style={{ position: 'relative', bottom: '5rem' }} />
+            <div className="title">My NFT</div>
+            <div className="split-border" />
 
-          <SelectableNFTList
-            selectedValue={content}
-            onSelect={v => setContent(v)}
-            list={personalNfts?.map((nft: { image: any }) => nft.image)}
-          />
+            <SelectableNFTList
+              selectedValue={content}
+              onSelect={v => setContent(v)}
+              list={personalNfts?.map((nft: { image: any }) => nft.image)}
+            />
 
-          <div className="hr-line-nft" style={{ marginTop: '3.4rem' }} />
+            <div className="hr-line" style={{ marginTop: '3.4rem' }} />
+          </div>
         </div>
         {/*<AssetUpload />*/}
       </GeneratorBody>

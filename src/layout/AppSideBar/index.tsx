@@ -9,10 +9,10 @@ import telegramIcon from '../../assets/images/slidebarLink/telegram.png'
 const Container = styled.div`
   width: 20.2rem;
   height: calc(100vh - 6.1rem);
-  background-color: #0D1B34;
+  background-color: #101A2D;
   position: relative;
   .ant-menu-root.ant-menu-vertical, .ant-menu-root.ant-menu-vertical-left, .ant-menu-root.ant-menu-vertical-right, .ant-menu-root.ant-menu-inline {
-    background: #0D1B34; !important;
+    background: #101A2D; !important;
     box-shadow: none;
   }
 `
@@ -45,7 +45,7 @@ const CustomizedMenu = styled(Menu)`
   }
 
   .ant-menu-item-active:not(.ant-menu-item-selected) {
-    background-color: rgb(229, 226, 251) !important;
+    background-color: rgb(25, 45, 79) !important;
   }
 `
 

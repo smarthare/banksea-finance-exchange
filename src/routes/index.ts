@@ -5,7 +5,11 @@ import { ReactComponent as CollectiblesIcon } from '../assets/images/menu-icons/
 import { ReactComponent as ArtistsIcon } from '../assets/images/menu-icons/artists.svg'
 import { ReactComponent as FarmsIcon } from '../assets/images/menu-icons/farms.svg'
 import { ReactComponent as OracleIcon } from '../assets/images/menu-icons/oracle.svg'
-import { ReactComponent as AiGeneratorsIcon } from '../assets/images/menu-icons/aiGenerators.svg'
+import { ReactComponent as LevelUpIcon } from '../assets/images/menu-icons/level-up.svg'
+import { ReactComponent as PoolsIcon } from '../assets/images/menu-icons/pools.svg'
+import { ReactComponent as MarketplaceIcon } from '../assets/images/menu-icons/marketplace.svg'
+
+
 import { CollectibleDetailPage } from '../pages/Collectibles/CollectibleDetail'
 import NFTCreatePage from '../pages/Home/NFTCreate'
 import PersonalHomepage from '../pages/PersonalHomepage/index'
@@ -35,9 +39,16 @@ const routes: Route[] = [
     component: HomePage
   },
   {
+    path: '/collectibles',
+    title: 'Marketplace',
+    match: /^\/collectible\//,
+    icon: MarketplaceIcon,
+    component: CollectiblesPage
+  },
+  {
     path: '/ai-generators',
-    title: 'AI Generators',
-    icon: AiGeneratorsIcon,
+    title: 'Level Up',
+    icon: LevelUpIcon,
     component: AIGenerators,
   },
   {
@@ -53,16 +64,9 @@ const routes: Route[] = [
     hidden: true
   },
   {
-    path: '/collectibles',
-    title: 'Collectibles',
-    match: /^\/collectible\//,
-    icon: CollectiblesIcon,
-    component: CollectiblesPage
-  },
-  {
     path: '/pools',
     title: 'Pools',
-    icon: CollectiblesIcon,
+    icon: PoolsIcon,
     component: PoolsPage
   },
   {
