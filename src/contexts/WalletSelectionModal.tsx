@@ -3,6 +3,8 @@ import { SUPPORT_WALLETS, useConnectToWallet, Wallet } from '../web3/wallets'
 import { Modal } from 'antd'
 import { useWeb3EnvContext } from './Web3EnvProvider'
 import styled from 'styled-components'
+import CloseIcn from '@/assets/images/wallets/close-icon.png'
+
 
 type WalletCardProps = {
   wallet: Wallet
@@ -16,13 +18,15 @@ const WalletItemContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  border: 0.2rem solid rgba(124,109,235,0.5);
-  border-radius: 3rem;
-  padding: 1.1rem 2.4rem;
-  background: #e5e2fb;
-  color: #7c6deb;
-  font-size: 1.6rem;
+  border: 0.2rem solid #372fbd;
+  border-radius: 1rem;
+  padding: 1rem 2.2rem;
+  background: #554BFF;
+  color: white;
+  font-size: 1.8rem;
   font-weight: 500;
+
+
 
   img {
     width: 5rem;
@@ -34,6 +38,28 @@ const CustomModal = styled(Modal)`
   .ant-modal-content {
     border-radius: 1rem;
   }
+
+  .ant-modal-body,
+  .ant-modal-header{
+    background-color: #111C3A; !important;
+  }
+  .ant-modal-header {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    border-bottom: solid 0.3rem #0BE8FF;
+  }
+
+  .ant-modal-title{
+    color: white;
+    font-weight: 550;
+    font-size: 1.6rem;
+  }
+
+.ant-modal-close-icon {
+  color: white;
+}
+
+
 `
 
 const WalletSelectionModalContext = React.createContext({
@@ -73,7 +99,7 @@ const WalletSelectionModalProvider: React.FC = ({ children }) => {
   return (
     <WalletSelectionModalContext.Provider value={{ open }}>
       {children}
-      <CustomModal title="Connect To Wallet" visible={visible} footer="" onCancel={close}>
+      <CustomModal title="Connect To Wallet" visible={visible} footer="" onCancel={close} >
         {SUPPORT_WALLETS.filter(o => !o.disable).map(wallet => (
           <WalletItem wallet={wallet} key={wallet.name} />
         ))}

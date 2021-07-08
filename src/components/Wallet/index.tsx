@@ -37,6 +37,11 @@ const WalletModal = styled(Modal)`
     width: 62.3rem;
   }
 
+  .ant-modal-body,
+  .ant-modal-header{
+    background-color: #111C3A;
+  }
+
   .ant-modal-header {
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
@@ -47,10 +52,12 @@ const WalletModal = styled(Modal)`
     justify-content: center;
     font-weight: 550;
     font-size: 1.8rem;
+    color: white;
   }
 
   .walletModal-Title {
-    color: #7C6DEB;
+    text-align: center;
+    color: white;
     font-weight: bolder;
     font-size: 1.8rem;
   }
@@ -62,10 +69,11 @@ const WalletModal = styled(Modal)`
   .walletModalClose {
     width: 12.6rem;
     height: 4rem;
-    background: #7C6DEB;
+    background: #554BFF;
     border: none;
     border-radius: 1rem;
     color: #ffffff;
+    font-weight: bolder;
     margin-left: calc((100% - 12.6rem) / 2);
     margin-top: 20px;
   }
@@ -73,12 +81,12 @@ const WalletModal = styled(Modal)`
   .disconnect {
     width: 12.6rem;
     height: 4rem;
-    background: #ffffff;
+    background: #305099;
+    font-weight: bolder;
     border: none;
     border-radius: 1rem;
-    color: #7C6DEB;
+    color: #ffffff;
     margin-left: calc((100% - 12.6rem) / 2);
-    border: 1px solid #7C6DEB;
     margin-top: 20px;
   }
 `
