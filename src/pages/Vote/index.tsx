@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Button, Form, Input, message, Statistic } from 'antd'
 import clsx from 'clsx'
 import { SearchOutlined } from '@ant-design/icons'
-import { voteCreate, filecoinList, solanaList } from '../../utils/banksyNftList'
+import { voteCreate, filecoinList, solanaList, retweetCreat, retweetList } from '../../utils/banksyNftList'
 
 const VoteContainer = styled.div`
   min-height: 100vh;
@@ -209,13 +209,16 @@ const VoteStatistics = styled.section`
   }
 `
 
-type Solana = {
-  current: number,
-  solana: any,
+type VotesType = {
+  current: number
   onPressEnter: any
+  retweetTable?: any
+  init?: any
+  filecoin?: any
+  solana?: any
 }
 
-const TwitterVotesTable: React.FC<any> = ({ current, onPressEnter }) => {
+const TwitterVotesTable: React.FC<VotesType> = ({ current, onPressEnter, retweetTable }) => {
   return (
     <VotesContainerTable>
       <div className={clsx('votes', current === 0 && 'active')}>
@@ -230,12 +233,26 @@ const TwitterVotesTable: React.FC<any> = ({ current, onPressEnter }) => {
           <table cellPadding="0" cellSpacing="0">
             <thead>
               <tr>
-                <th>Rank</th>
-                <th>Wallet Address</th>
-                <th>Total Votes</th>
+                <th>Serial number</th>
+                <th>twitterId</th>
+                <th>retweetLink</th>
+                <th>walletAddress</th>
+                <th>referrerId</th>
               </tr>
             </thead>
-            <tbody />
+            <tbody>
+              {
+                retweetTable?.map((item: any, index: number) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item?.twitterId}</td>
+                    <td>{item?.retweetLink}</td>
+                    <td>{item?.walletAddress}</td>
+                    <td>{item?.referrerId}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
           </table>
         </VoteStatistics>
       </div>
@@ -243,11 +260,36 @@ const TwitterVotesTable: React.FC<any> = ({ current, onPressEnter }) => {
   )
 }
 
-const TwitterVoteRegistration: React.FC<{current: number, onPressEnter: any}> = ({ current, onPressEnter }) => {
+const TwitterVoteRegistration: React.FC<VotesType> = ({ current, onPressEnter, retweetTable, init }) => {
+
+  const [twitterForm] = Form.useForm()
+
+  const twitterFormValues = {
+    twitterId: '',
+    retweetLink: '',
+    walletAddress: '',
+    discordId: ''
+  }
+  const confirmTwitter = () => {
+    twitterForm
+      .validateFields()
+      .then(values => {
+        retweetCreat({
+          twitterId: values?.twitterId,
+          retweetLink: values?.retweetLink,
+          walletAddress: values?.walletAddress,
+          referrerId: values?.discordId
+        }).then(() => {
+          message.success('Form submit successfully!')
+          init()
+        })
+      })
+  }
+
   return (
     <Registration>
       <div className={clsx('registration', current === 0 && 'active')}>
-        <RegistrationContainer>
+        <RegistrationContainer form={twitterForm} initialValues={twitterFormValues} >
           <RegistrationItem>
             <p>Twitter ID</p>
             <Form.Item
@@ -258,19 +300,10 @@ const TwitterVoteRegistration: React.FC<{current: number, onPressEnter: any}> = 
             </Form.Item>
           </RegistrationItem>
           <RegistrationItem>
-            <p>Transaction record</p>
+            <p>Retweet Link</p>
             <Form.Item
               name="retweetLink"
               rules={[{ required: true, message: 'Please fill out Transaction record!' }]}
-            >
-              <Input />
-            </Form.Item>
-          </RegistrationItem>
-          <RegistrationItem>
-            <p>Vote or not</p>
-            <Form.Item
-              name="vote"
-              rules={[{ required: true, message: 'Please fill out Votes!' }]}
             >
               <Input />
             </Form.Item>
@@ -294,16 +327,14 @@ const TwitterVoteRegistration: React.FC<{current: number, onPressEnter: any}> = 
             </Form.Item>
           </RegistrationItem>
         </RegistrationContainer>
-        <ConfirmButton>Confirm</ConfirmButton>
+        <ConfirmButton onClick={confirmTwitter}>Confirm</ConfirmButton>
       </div>
-      <TwitterVotesTable current={current} onPressEnter={onPressEnter} />
+      <TwitterVotesTable current={current} retweetTable={retweetTable} onPressEnter={onPressEnter} />
     </Registration>
   )
 }
 
-const SolanaVotes: React.FC<Solana> = ({ current, solana, onPressEnter }) => {
-
-  console.log(solana)
+const SolanaVotes: React.FC<VotesType> = ({ current, solana, onPressEnter }) => {
   return (
     <VotesContainerTable>
       <div className={clsx('votes', current === 2 && 'active')}>
@@ -347,7 +378,7 @@ type Filecoin = {
   onPressEnter: any
 }
 
-const FilecoinVotes: React.FC<Filecoin> = ({ current, filecoin, onPressEnter }) => {
+const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter }) => {
 
   return (
     <VotesContainerTable>
@@ -388,7 +419,7 @@ const FilecoinVotes: React.FC<Filecoin> = ({ current, filecoin, onPressEnter }) 
   )
 }
 
-const VoteRegistration: React.FC<{current: number, filecoin: any, onPressEnter: any}> = ({ current, filecoin, onPressEnter }) => {
+const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter, init }) => {
 
   const [form] = Form.useForm()
 
@@ -411,7 +442,8 @@ const VoteRegistration: React.FC<{current: number, filecoin: any, onPressEnter: 
       }
 
       voteCreate(confirmCreatForm).then(res => {
-        message.success('Form submit successfully. ')
+        message.success('Form submit successfully!')
+        init()
       }).catch((err:any) => {
         message.error('Please do not submit this transaction record twice. If you have any questions, please contact us.')
       })
@@ -485,11 +517,19 @@ const VotePage: React.FC = () => {
 
   const [solana, setSolana] = useState<any>()
 
+  const [retweetTable, setRetweetTable] = useState<any>()
+
   const tabs = ['Retweet', 'Filection Votes', 'Solana Votes']
 
 
   const init = useCallback(async (searchKey: any) => {
-    console.log(current)
+    if (current === 0) {
+      await retweetList({
+        searchKey: searchKey
+      }).then((res: any) => {
+        setRetweetTable(res.data.data)
+      })
+    }
     if (current === 1) {
       await filecoinList({
         searchKey: searchKey
@@ -532,8 +572,8 @@ const VotePage: React.FC = () => {
           ))
         }
       </ViewOperationSelect>
-      <TwitterVoteRegistration current={current} onPressEnter={onPressEnter} />
-      <VoteRegistration current={current} filecoin={filecoin} onPressEnter={onPressEnter} />
+      <TwitterVoteRegistration current={current} retweetTable={retweetTable} onPressEnter={onPressEnter} init={init} />
+      <VoteRegistration current={current} filecoin={filecoin} onPressEnter={onPressEnter} init={init} />
       <SolanaVotes current={current} solana={solana} onPressEnter={onPressEnter} />
     </VoteContainer>
   )

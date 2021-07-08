@@ -242,24 +242,24 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
       onCancel={close}
       footer={null}
     >
-      <Caveat
-        onClick={() => setCaveatContentVisible(!isCaveatContentVisible)}
-      >
-        <img className="danger" src={danger} alt="" />
-        <span>This item has not been reviewed by Banksy</span>
-        <img className="dangerDownArrow" src={dangerDownArrow} alt="" />
-      </Caveat>
-      {
-        isCaveatContentVisible ?
-          <CaveatContent>
-            You should proceed with extra caution. Anyone can
-            create a digital item on a blockchain with any name.
-            Including fake versions of existing items. Please take
-            extra caution an do your research when interacting with
-            this item to ensure it&apos;s what it claims to be.
-          </CaveatContent> :
-          <div />
-      }
+      {/*<Caveat*/}
+      {/*  onClick={() => setCaveatContentVisible(!isCaveatContentVisible)}*/}
+      {/*>*/}
+      {/*  <img className="danger" src={danger} alt="" />*/}
+      {/*  <span>This item has not been reviewed by Banksy</span>*/}
+      {/*  <img className="dangerDownArrow" src={dangerDownArrow} alt="" />*/}
+      {/*</Caveat>*/}
+      {/*{*/}
+      {/*  isCaveatContentVisible ?*/}
+      {/*    <CaveatContent>*/}
+      {/*      You should proceed with extra caution. Anyone can*/}
+      {/*      create a digital item on a blockchain with any name.*/}
+      {/*      Including fake versions of existing items. Please take*/}
+      {/*      extra caution an do your research when interacting with*/}
+      {/*      this item to ensure it&apos;s what it claims to be.*/}
+      {/*    </CaveatContent> :*/}
+      {/*    <div />*/}
+      {/*}*/}
       <div className="checkout-list">
         <p>Item</p>
         <p>Subtotal</p>

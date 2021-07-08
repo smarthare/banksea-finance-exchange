@@ -62,3 +62,10 @@ export function solanaList(data: any) {
   return banksyRequest.post<any>('nft/web/v1/vote/query/solana', data)
 }
 
+export function retweetCreat(data: any) {
+  return banksyRequest.post<any>('nft/web/v1/vote/form/retweet', data)
+}
+
+export function retweetList(data: any) {
+  return banksyRequest.post<any>('nft/web/v1/vote/list/retweet', data)
+}
