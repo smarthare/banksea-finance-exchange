@@ -322,14 +322,17 @@ const HomePage: React.FC = () => {
           ...item,
           image: item?.image?.slice(6)==='ipfs:/' ? `https://banksy.mypinata.cloud${item?.image?.slice(6)}` : `https://banksy.mypinata.cloud${item?.image?.slice(-52)}`
         }))
+        console.log(_data)
         setList(_data)
         setTotal(res.data.data.total)
         setLoading(false)
       })
+
   }, [current, searchKey, typeSelectValue])
 
   useEffect(() => {
     fetch(searchKey, current)
+
   }, [fetch])
 
 
@@ -358,8 +361,8 @@ const HomePage: React.FC = () => {
           <div className="row1">
             <div className="lend-and-borrow" >
               <AIFlag />
-              <div className="main-title">Lend/Borrow</div>
-              <div className="sub-title">Mowketsize</div>
+              <div className="main-title">NFT Lending</div>
+              <div className="sub-title">Market size</div>
               <div className="value">$125,300,00</div>
               <div className="sub-title">Earn up to</div>
               <div className="value">303.75%</div>
@@ -367,25 +370,25 @@ const HomePage: React.FC = () => {
 
             <div className="auction-and-splitting">
               <div className="info-panel" >
-                <div className="main-title2" >Auction
+                <div className="main-title2" >Safety pool
                   <PanelIcon iconName={Auction} />
                 </div>
-                <div className="sub-title2">NFT Number : 3220</div>
+                <div className="sub-title2">KSY pool : $89,294,879.98</div>
                 <div className="nft-values">
-                  <div className="sub-title2">NFT Values :</div>
-                  <div className="value">$65,280,00</div>
+                  <div className="sub-title2">BPT(KSY/ETH) :</div>
+                  <div className="value">$982,987,374.93</div>
                 </div>
                 <GotoArrow />
               </div>
 
               <div className="info-panel" >
-                <div className="main-title2" >Splitting
+                <div className="main-title2" >Deposit
                   <PanelIcon iconName={Splitting} />
                 </div>
-                <div className="sub-title2">NFT Number : 3220</div>
+                <div className="sub-title2">Pool size : $92,983,485.09</div>
                 <div className="nft-values">
-                  <div className="sub-title2">NFT Values :</div>
-                  <div className="value">$65,280,00</div>
+                  <div className="sub-title2" />
+                  <div className="value" />
                 </div>
                 <GotoArrow />
               </div>
@@ -400,19 +403,19 @@ const HomePage: React.FC = () => {
               <div className="sub-title2">NFT Number : 3220</div>
               <div className="nft-values">
                 <div className="sub-title2">NFT Values :</div>
-                <div className="value">$65,280,00</div>
+                <div className="value">$3,210,00</div>
               </div>
               <GotoArrow />
             </div>
 
             <div className="info-panel" >
-              <div className="main-title2" >Liquidity
+              <div className="main-title2" >Borrow
                 <PanelIcon iconName={Liquidity} />
               </div>
-              <div className="sub-title2">NFT Number : 3220</div>
+              <div className="sub-title2">Borrow size : $8,093,233.07</div>
               <div className="nft-values">
-                <div className="sub-title2">NFT Values :</div>
-                <div className="value">$65,280,00</div>
+                <div className="sub-title2" />
+                <div className="value" />
               </div>
               <GotoArrow />
             </div>

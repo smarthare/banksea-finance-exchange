@@ -8,6 +8,7 @@ import LazyLoad from 'react-lazyload'
 import { useWalletSelectionModal } from '../contexts/WalletSelectionModal'
 import { useWeb3EnvContext } from '../contexts/Web3EnvProvider'
 import { NftFavorite } from '../utils/banksyNftList'
+import PriceIcon from '@/assets/images/homePageImg/price-icon.svg'
 
 const NFTItemCardContainer = styled.div`
   color: #7c6deb;
@@ -46,6 +47,17 @@ const NFTItemCardContainer = styled.div`
     -webkit-box-orient: vertical;
   }
 
+  .artist-name {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    color: #999999;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
   .like {
     display: flex;
     align-items: center;
@@ -56,6 +68,17 @@ const NFTItemCardContainer = styled.div`
       margin-right: 0.5rem;
       color: white;
     }
+  }
+
+  .price {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    color: white;
+  }
+  .price-value {
+    margin-bottom: 1.2rem;
+    margin-left: 0.7rem;
   }
 
   .button {
@@ -158,7 +181,7 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
             {
               loading && <Spin className="spin" />
             }
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 2rem', marginTop:'1.2rem' }}>
               <div className="name">{data?.name}</div>
               <div>
                 <div className="like" onClick={favoriteHandle}>
@@ -172,6 +195,26 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
               </div>
 
             </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: ' 0 2rem', flexDirection:'row' }}>
+              <div className="artist-name"> {data?.nameArtist} </div>
+
+              <div>
+                <div className="price">
+                  <img src={PriceIcon}
+                    style={{
+                      width:'1.2rem',
+                      height:'1.8rem',
+
+                    }}
+                  />
+                  <div className="price-value"> {data?.price} </div>
+                </div>
+              </div>
+
+
+
+            </div>
+
 
 
           </Link>
