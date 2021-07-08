@@ -23,7 +23,7 @@ const App: React.FC = () => {
             top: '62px',
           }}
         >
-          <div style={{ width: '100%' }}>
+          <div style={{ width: 'calc(100% - 20.2rem)', marginLeft: '20.2rem' }}>
             {routes.map(route => (
               <Route path={route.path} exact component={route.component} key={route.path} />
             ))}

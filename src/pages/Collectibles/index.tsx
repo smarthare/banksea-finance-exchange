@@ -30,7 +30,6 @@ const FilterContainer = styled.div`
   margin-bottom: 3rem;
   padding: 2rem 3rem 0.4rem 3rem;
   width: 120.2rem;
-  margin-left: calc((100% - 120.2rem) / 2);
   background: #0C152B;
   border-radius: 10px;
 
@@ -144,7 +143,6 @@ const NFTListContainer = styled.div`
   padding-left: 4rem;
   display: flex;
   flex-wrap: wrap;
-  margin-left: calc((100% - 120.2rem) / 2);
   border-radius: 1rem;
 `
 
@@ -371,7 +369,7 @@ const CollectiblesPage: React.FC = () => {
     <PageContainer>
       <Title>NFT Marketplace</Title>
       <Filter />
-      <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem', marginLeft: 'calc((100% - 120.2rem) / 2)' }}>
+      <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
         <div style={{ display: 'flex' }} />
         <div style={{ display: 'flex' }}>
           <SearchInput onPressEnter={onPressEnter}

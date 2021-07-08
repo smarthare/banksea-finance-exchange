@@ -23,7 +23,7 @@ const HomePageContainer = styled.div`
 `
 
 const BodyContainer = styled.div`
-  margin: 0 calc((100% - 100.2rem) / 2);
+  margin: 0 auto;
   width: 120.2rem;
   padding: 6rem 2rem;
 `

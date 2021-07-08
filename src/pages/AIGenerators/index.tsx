@@ -17,7 +17,7 @@ import { aiStyleList, aiSwiperList } from '../../utils/banksyNftList'
 SwiperCore.use([Navigation, EffectCoverflow, Pagination])
 
 const AIGeneratorsContainer = styled.div`
-  margin: 0 calc((100% - 79.2rem) / 2);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
