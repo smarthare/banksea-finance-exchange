@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Checkbox, Image as AntdImage, Image, Divider } from 'antd'
-import Plus from '@/assets/images/AIGeneratorsImg/plus.png'
-import DownArrow from '@/assets/images/AIGeneratorsImg/arrow-down.png'
+import { Button, Checkbox, Image as AntdImage, Image } from 'antd'
 import download from '@/assets/images/AIGeneratorsImg/download.png'
-import { usePersonalNfts } from '../../hooks/usePersonalNfts'
+import { usePersonalNFTsQuery } from '../../hooks/queries/usePersonalNFTsQuery'
 import { aiGeneratorFastStyle } from '../../apis/ai'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.scss'
@@ -12,7 +10,7 @@ import SwiperCore, { EffectCoverflow, Navigation, Pagination } from 'swiper'
 import 'swiper/components/navigation/navigation.scss'
 import 'swiper/components/effect-coverflow/effect-coverflow.min.css'
 import 'swiper/components/pagination/pagination.min.css'
-import { aiStyleList, aiSwiperList } from '../../utils/banksyNftList'
+import { aiStyleList } from '../../utils/banksyNftList'
 
 SwiperCore.use([Navigation, EffectCoverflow, Pagination])
 
@@ -26,7 +24,7 @@ const AIGeneratorsContainer = styled.div`
   padding: 5rem 11.2rem;
 `
 
-const MainCarousel = styled.div`
+/*const MainCarousel = styled.div`
   position: relative;
   margin-left: calc((100% - 82.2rem) / 2);
 
@@ -62,7 +60,7 @@ const MainCarousel = styled.div`
     }
   }
 
-`
+`*/
 
 const GeneratorTop = styled.div`
   display: flex;
@@ -147,7 +145,7 @@ const GeneratorFooter = styled.div`
   margin-top: 2rem;
 `
 
-const Description = styled.div`
+/*const Description = styled.div`
   width: 99.4rem;
   padding: 2.6rem 5.7rem;
   margin-top: 2.5rem;
@@ -155,7 +153,7 @@ const Description = styled.div`
   border: 2px dashed #7C6DEB;
   background: #E5E2FB;
   color: #7C6DEB;
-`
+`*/
 
 /*const GenerateButton = styled.div`
   width: 405px;
@@ -239,7 +237,6 @@ const NewNftperating = styled.div`
     width: 2.2rem;
   }
 `
-
 
 /*const NFTItem: React.FC<{ src: string }> = ({ src }) => {
   const SelectBtn: React.FC = () => {
@@ -333,7 +330,7 @@ const SCSelectedNFTColumn = styled.div`
   }
 `
 
-const SwiperTop: React.FC<{ list?: string[] }> = ({ list }) => {
+/*const SwiperTop: React.FC<{ list?: string[] }> = ({ list }) => {
   return (
     <div className="swiperTop">
       <Swiper
@@ -359,7 +356,7 @@ const SwiperTop: React.FC<{ list?: string[] }> = ({ list }) => {
       </Swiper>
     </div>
   )
-}
+}*/
 
 const SelectedNft: React.FC<{ style: string, content: string }> = ({ style, content }) => {
   return (
@@ -441,13 +438,6 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
   )
 }
 
-const DeepLearningBG: React.FC<any> = () => {
-  return (
-    <div />
-  )
-}
-
-
 const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string) => void, list?: string[] }> = ({
   selectedValue,
   onSelect,
@@ -502,17 +492,18 @@ const RightArrow: React.FC = () => {
 }
 
 const AIGenerators: React.FC = () => {
-  const { data: personalNfts } = usePersonalNfts()
+  const { data: personalNFTs } = usePersonalNFTsQuery({})
   const [styleList, setStyleList] = useState<any>()
-  const [swiperList, setSwiperList] = useState<any>()
+  // const [swiperList, setSwiperList] = useState<any>()
   const [generating, setGenerating] = useState(false)
+
   const init = useCallback(async () => {
     aiStyleList().then(res => {
       setStyleList(res.data.data)
     })
-    aiSwiperList().then(res => {
-      setSwiperList(res.data.data)
-    })
+    // aiSwiperList().then(res => {
+    //   setSwiperList(res.data.data)
+    // })
   }, [])
 
   useEffect(() => {
@@ -571,7 +562,7 @@ const AIGenerators: React.FC = () => {
             <SelectableNFTList
               selectedValue={content}
               onSelect={v => setContent(v)}
-              list={personalNfts?.map((nft: { image: any }) => nft.image)}
+              list={(personalNFTs as any)?.map((nft: { image: any }) => nft.image)}
             />
 
             <div className="hr-line" style={{ marginTop: '3.4rem' }} />

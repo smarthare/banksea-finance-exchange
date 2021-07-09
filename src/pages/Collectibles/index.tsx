@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Input, Pagination, Select } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
 import '../../styles/override-antd-select-dropdown.scss'
-import { banksyNftList } from '../../utils/banksyNftList'
 import NFTListItem from '../../components/NFTListItem'
 import clsx from 'clsx'
 import ListPageLoading from '../../components/ListPageLoading'
+import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
 
 const PageContainer = styled.div`
   padding-top: 5.6rem;
@@ -107,7 +107,6 @@ const SearchInput = styled(Input)`
     color: white;
     font-weight: bold;
   }
-
 
 `
 
@@ -274,7 +273,6 @@ const Filter: React.FC = () => {
 }
 
 const TypeSelector: React.FC<any> = ({ setTypeSelectValue }) => {
-
   return (
     <MySelect defaultValue="" onChange={(value: any) => setTypeSelectValue(value)}>
       <Select.Option value="">All items</Select.Option>
@@ -322,55 +320,25 @@ const NFTList: React.FC<any> = ({ list }) => {
 }
 
 const CollectiblesPage: React.FC = () => {
+  const [typeSelectValue, setTypeSelectValue] = useState<string>()
 
-  const [list, setList] = useState<any>()
-
-  const [typeSelectValue, setTypeSelectValue] = useState<any>()
-
-  const [current, setCurrent] = useState<number>(1)
-
-  const [total, setTotal] = useState<number>()
-
+  const [current, setCurrent] = useState(1)
+  const [size, setSize] = useState(20)
   const [searchKey, setSearchKey] = useState<any>()
 
-  const [loading, setLoading] = useState<boolean>(true)
-
-  const fetch = useCallback( (searchKey: any, current: any) => {
-    setList([])
-    setLoading(true)
-
-    banksyNftList({
-      current: current,
-      size: 20,
-      searchKey: searchKey,
-      transactionStatus: typeSelectValue
-    })
-      .then(res => {
-
-        const _data = res.data.data.records.map((item: any) => ({
-          ...item,
-          image: item?.image?.slice(6)==='ipfs:/' ? `https://banksy.mypinata.cloud${item?.image?.slice(6)}` : `https://banksy.mypinata.cloud${item?.image?.slice(-52)}`
-        }))
-
-        setList(_data)
-        setTotal(res.data.data.total)
-        setLoading(false)
-      })
-  }, [current, searchKey, typeSelectValue])
+  const { data: pagingData, isLoading } = useNFTsQuery({ current, size, searchKey, transactionStatus: typeSelectValue })
 
   useEffect(() => {
-    fetch(searchKey, current)
-  }, [fetch])
+    window.scrollTo(0, 0)
+  }, [pagingData])
 
-
-  const onChangePage = (pageNumber: number) => {
-    setCurrent(pageNumber)
-    fetch(searchKey, pageNumber)
+  const onChangePage = (page: number, pageSize?: number) => {
+    setCurrent(page)
+    pageSize && setSize(pageSize)
   }
 
   const onPressEnter = (e: any) => {
     setSearchKey(e.target.attributes[2].value)
-    fetch(e.target.attributes[2].value, current)
   }
 
   return (
@@ -380,21 +348,27 @@ const CollectiblesPage: React.FC = () => {
       <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
         <div style={{ display: 'flex' }} />
         <div style={{ display: 'flex' }}>
-          <SearchInput onPressEnter={onPressEnter}
+          <SearchInput
+            onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
           />
           <TypeSelector typeSelectValue={typeSelectValue} setTypeSelectValue={setTypeSelectValue} />
           <OrderSelector />
         </div>
       </div>
-      <ListPageLoading loading={loading} />
-      <NFTList list={list} fetch={fetch} />
-      <CustomPagination defaultCurrent={current}
-        total={total}
-        onChange={onChangePage}
-        pageSize={20}
-        pageSizeOptions={['20']}
-      />
+      <ListPageLoading loading={isLoading} />
+      <NFTList list={pagingData?.records} fetch={fetch} />
+      {
+        !isLoading && (
+          <CustomPagination
+            current={current}
+            total={pagingData?.total}
+            onChange={onChangePage}
+            pageSize={size}
+            pageSizeOptions={['12', '20', '28', '40']}
+          />
+        )
+      }
     </PageContainer>
   )
 }

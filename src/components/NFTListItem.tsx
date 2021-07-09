@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Spin } from 'antd'
-import { HeartOutlined, HeartFilled } from '@ant-design/icons'
+import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 // @ts-ignore
 import LazyLoad from 'react-lazyload'
@@ -23,17 +23,24 @@ const NFTItemCardContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  img, .spin {
+  .img-container {
+    width: 26.2rem;
+    height: 28.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  img {
     object-fit: cover;
     width: 26.2rem;
     height: 28.5rem;
     margin-bottom: 1.5rem;
-
   }
 
   .spin {
     position: relative;
     top: 10rem;
+    height: 18.5rem;
   }
 
   .name {
@@ -76,6 +83,7 @@ const NFTItemCardContainer = styled.div`
     align-self: center;
     color: white;
   }
+
   .price-value {
     margin-bottom: 1.2rem;
     margin-left: 0.7rem;
@@ -91,25 +99,28 @@ const NFTItemCardContainer = styled.div`
   }
 `
 
-const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, type }) => {
-
+const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, type }) => {
   const [clickFavorite, setClickFavorite] = useState<number>(data?.favorite)
 
   const { providerInitialized } = useWeb3EnvContext()
 
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  const [isHeart, setHeart] = useState<boolean>(false)
 
   const { open: openWalletSelectionModal } = useWalletSelectionModal()
 
-  const [, setImage] = useState<any>()
+  const imageUrl = useCallback(() => {
+    const url = data?.image ?? data?.thumbnail
 
-  const [isHeart, setHeart] = useState<boolean>(false)
+    if (url?.startsWith('https://gateway.pinata.cloud')) {
+      return `https://banksy.mypinata.cloud${data?.image.slice(-52)}`
+    }
 
-  if (data?.image?.slice(28) === 'https://gateway.pinata.cloud') {
-    setImage(`https://banksy.mypinata.cloud${data?.image.slice(-52)}`)
-  }
+    return url
+  }, [data])
 
-  const CornerFlag: React.FC = () => {
+  const CornerFlag: React.FC<{ status: 'On Sale' | 'On Auction' }> = ({ status }) => {
     return (
       <div
         style={{
@@ -126,22 +137,20 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
           backgroundSize: 'cover'
         }}
       >
-        on Sale
+        {status}
       </div>
     )
   }
 
-  const url = '/collectible/nftdetail?' + new URLSearchParams({
+  const detailUrl = '/collectible/nftdetail?' + new URLSearchParams({
     id: data.name,
     uri: data.valueUri,
     addressContract: data.addressContract,
     type
   }).toString()
 
-
   useEffect(() => {
     setLoading(true)
-    // console.log(data.image)
   }, [data])
 
   const favoriteHandle = () => {
@@ -162,75 +171,72 @@ const NFTListItem: React.FC<{data: any, type: 'nftList' | 'own'}> = ({ data, typ
     <div style={{ position: 'relative' }}>
       {
         data.onSale ?
-          <CornerFlag />:
+          <CornerFlag status="On Sale" /> :
           <div />
       }
       <NFTItemCardContainer>
-        <div style={{ cursor: 'pointer' }}>
-          <Link to={url} target={'_blank'}>
+        <Link to={detailUrl} target={'_blank'}>
+          <div className="img-container">
             <LazyLoad>
               <img
-                style={{ display: loading ? 'none' : '', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}
+                style={{ display: loading || error ? 'none' : '', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}
                 key={data.id}
-                src={data?.thumbnail ? data?.thumbnail : data?.image}
+                src={imageUrl()}
                 alt=""
-                onLoad={() => setTimeout(() => setLoading(false), 1500)}
-                onError={() => setLoading(false)}
+                onLoad={() => setLoading(false)}
+                onError={() => {
+                  setLoading(false)
+                  setError(true)
+                }}
               />
             </LazyLoad>
             {
               loading && <Spin className="spin" />
             }
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 2rem', marginTop:'1.2rem' }}>
-              <div className="name">{data?.name}</div>
-              <div>
-                <div className="like" onClick={favoriteHandle}>
-                  {
-                    isHeart
-                      ?<HeartFilled className="heart" />
-                      :<HeartOutlined className="heart" />
-                  }
-                  {clickFavorite ? clickFavorite : 0}
-                </div>
-              </div>
-
+            {
+              error && <Spin className="spin" />
+            }
+          </div>
+        </Link>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 2rem', marginTop: '1.2rem' }}>
+          <div className="name">{data?.name}</div>
+          <div>
+            <div className="like" onClick={favoriteHandle}>
+              {
+                isHeart
+                  ? <HeartFilled className="heart" />
+                  : <HeartOutlined className="heart" />
+              }
+              {clickFavorite ? clickFavorite : 0}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: ' 0 2rem', flexDirection:'row' }}>
-              <div className="artist-name"> {data?.nameArtist} </div>
-
-              <div>
-                <div className="price">
-                  <img src={PriceIcon}
-                    style={{
-                      width:'1.2rem',
-                      height:'1.8rem',
-
-                    }}
-                  />
-                  <div className="price-value"> {data?.price} </div>
-                </div>
-              </div>
-
-
-
-            </div>
-
-
-
-          </Link>
+          </div>
         </div>
-        <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: ' 0 2rem', flexDirection: 'row' }}>
+          <div className="artist-name"> {data?.nameArtist} </div>
+          <div>
+            <div className="price">
+              <img
+                src={PriceIcon}
+                style={{
+                  width: '1.2rem',
+                  height: '1.8rem'
+                }}
+                alt=""
+              />
+              <div className="price-value"> {data?.price} </div>
+            </div>
+          </div>
+        </div>
+        {/*<div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.4rem' }}>
-
             <div className="price">
               {data?.price ? `${data?.price}ETH` : ''}
             </div>
           </div>
-        </div>
+        </div>*/}
       </NFTItemCardContainer>
     </div>
   )
 }
-
 
 export default NFTListItem

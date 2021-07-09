@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Button, Input, Pagination, Select } from 'antd'
 import CopyIcon from '@/assets/images/PersonalPageImg/copy.png'
@@ -12,9 +12,9 @@ import { ReactComponent as HeartIcon } from '../../assets/images/PersonalPageImg
 import { SearchOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
-import { personalNftList } from '../../utils/banksyNftList'
 import NFTListItem from '../../components/NFTListItem'
 import ListPageLoading from '../../components/ListPageLoading'
+import { usePersonalNFTsQuery } from '../../hooks/queries/usePersonalNFTsQuery'
 
 const PersonalContainer = styled.div`
   width: 120.2rem;
@@ -80,29 +80,17 @@ const UserOptions = styled.div`
 
 `
 
-const OptionBtn = styled(Button)`
+const OptionButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 1.5rem;
   width: 15rem;
   height: 5rem;
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: #999999;
-  background: #FAF9FA;
   line-height: 2.2rem;
-  border: 0px;
-  border-radius: 1rem;
 
   .option-name {
     margin-left: 1.3rem;
-  }
-
-  :hover, :focus {
-    color: #fff !important;
-    background: #7C6DEB !important;
-    border-color: #7C6DEB !important;
   }
 `
 
@@ -241,43 +229,17 @@ const UserNFTList: React.FC<any> = ({ list }) => {
 const PersonalHomepage: React.FC = () => {
   const account = useSelector(getAccount)
   const [current, setCurrent] = useState<number>(1)
-  const [total, setTotal] = useState<number>()
-  const [data, setData] = useState<any>()
-  const [loading, setLoading] = useState(true)
   const [searchKey, setSearchKey] = useState<any>()
 
-
-  const fetch = useCallback(async (searchKey: any, current: any) => {
-    setLoading(true)
-
-    personalNftList({
-      addressOwner: account,
-      current: current,
-      size: 20,
-      searchKey: searchKey
-    }).then((res: any) => {
-      const _data = res.data.data.records.map((item: any) => ({
-        ...item,
-        image: `https://banksy.mypinata.cloud${item?.image.slice(-52)}`
-      }))
-      setLoading(false)
-      setData(_data)
-      setTotal(res.data.data.total)
-    })
-  }, [current])
-
-  useEffect(() => {
-    fetch(searchKey, current)
-  }, [fetch])
+  const { data: NFTs, isLoading } = usePersonalNFTsQuery({ current, searchKey })
 
   const onChangePage = (pageNumber: number) => {
     setCurrent(pageNumber)
-    fetch(searchKey, pageNumber)
   }
 
   const onPressEnter = (e: any) => {
     setSearchKey(e.target.attributes[2].value)
-    fetch(e.target.attributes[2].value, current)
+    // fetch(e.target.attributes[2].value, current)
   }
 
   return (
@@ -296,18 +258,18 @@ const PersonalHomepage: React.FC = () => {
         </div>
       </UserInfo>
       <UserOptions>
-        <OptionBtn icon={<WalletIcon />}>
+        <OptionButton icon={<WalletIcon />}>
           <div className="option-name">in Wallet</div>
-        </OptionBtn>
-        <OptionBtn icon={<ActivityIcon />}>
+        </OptionButton>
+        <OptionButton icon={<ActivityIcon />}>
           <div className="option-name">Activity</div>
-        </OptionBtn>
-        <OptionBtn icon={<OfferIcon />}>
+        </OptionButton>
+        <OptionButton icon={<OfferIcon />}>
           <div className="option-name">Offers</div>
-        </OptionBtn>
-        <OptionBtn icon={<HeartIcon />}>
+        </OptionButton>
+        <OptionButton icon={<HeartIcon />}>
           <div className="option-name">Favorite</div>
-        </OptionBtn>
+        </OptionButton>
       </UserOptions>
       <div style={{ width: '100%', height: '15rem', position: 'relative' }}>
         <PersonalSelectors>
@@ -318,10 +280,10 @@ const PersonalHomepage: React.FC = () => {
           <OrderSelector />
         </PersonalSelectors>
       </div>
-      <ListPageLoading loading={loading} />
-      <UserNFTList list={data} />
+      <ListPageLoading loading={isLoading} />
+      <UserNFTList list={NFTs} />
       <CustomPagination defaultCurrent={current}
-        total={total}
+        total={NFTs?.length}
         onChange={onChangePage}
         pageSize={20}
         pageSizeOptions={['20']}
