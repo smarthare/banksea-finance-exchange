@@ -40,6 +40,7 @@ const WalletModal = styled(Modal)`
   .ant-modal-body,
   .ant-modal-header{
     background-color: #111C3A;
+    border: none;
   }
 
   .ant-modal-header {
@@ -89,6 +90,15 @@ const WalletModal = styled(Modal)`
     margin-left: calc((100% - 12.6rem) / 2);
     margin-top: 20px;
   }
+`
+
+const Line = styled.div`
+  position: absolute;
+  right: 0rem;
+  top: 5rem;
+  width: 100%;
+  height: 0.15rem;
+  background: linear-gradient(to right, #00FFFF, #7702FF);
 `
 
 const WalletModalContent: React.FC<WalletModalContentProps> = ({ account }) => {
@@ -164,6 +174,7 @@ const CurrentAccount: React.FC<CurrentAccountProps> = ({ account }) => {
         visible={isModalVisible}
         footer={null}
       >
+        <Line />
         <WalletModalContent account={account} />
         <Button className="walletModalClose" onClick={closeModal}>
           Close

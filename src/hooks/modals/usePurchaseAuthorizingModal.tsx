@@ -1,14 +1,17 @@
 import React from 'react'
-import Authorizing from '@/assets/images/allModalImg/authorizing.png'
+import Authorizing from '@/assets/images/allModalImg/authorizing.svg'
 import styled from 'styled-components'
 import { Modal } from 'antd'
 import { useModal } from '../useModal'
 
 const AuthorizingModal = styled(Modal)`
+  .ant-modal-close-icon {
+    color: white;
+  }
   .ant-modal-content {
     width: 62.3rem;
     height: 49.4rem;
-    background: #FFFFFF;
+    background-color: #111C3A; !important;
     border-radius: 1rem;
   }
 
@@ -25,17 +28,17 @@ const AuthorizingModal = styled(Modal)`
 
     .author-title {
       font-size: 2.2rem;
-      font-weight: 400;
-      color: #000000;
+      font-weight: 550;
+      color: white;
       line-height: 3rem;
       margin-top: 7.1rem;
       margin-bottom: 2.5rem;
     }
 
     .author-tip {
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: #000000;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: #97BCF8;
       line-height: 2rem;
     }
   }

@@ -142,9 +142,10 @@ const Operating = styled.div`
   }
 
   .sell {
-    width: 15rem;
+    width: 10rem;
     height: 40px;
-    background: #7C6DEB;
+    background: #354d86;
+    border: none;
     border-radius: 10px;
     font-size: 1.4rem;
     font-weight: 500;
@@ -1073,7 +1074,7 @@ const CollectibleDetailPage: React.FC = () => {
           isOwnerOfNFT() &&
           <Operating>
             {/*<Button className="edit">Edit</Button>*/}
-            <Button className="sell" onClick={openSellingModal}>Selling</Button>
+            <Button className="sell" onClick={openSellingModal}>Sell</Button>
           </Operating>
         }
       </div>

@@ -25,9 +25,13 @@ const ArtistPageContainer = styled.div`
   align-items: center;
 
   .title {
-    font-size: 3rem;
-    font-weight: 500;
-    color: #7c6deb;
+    font-weight: 550;
+    font-size: 4.6rem;
+
+    background-image: -webkit-linear-gradient(left, #aef9ff, #571eef);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
     line-height: 4.2rem;
     padding-bottom: 4.7rem;
   }
@@ -38,41 +42,34 @@ const ArtistForm = styled(Form)`
   flex-direction: column;
   align-items: center;
   width: 82.8rem;
-  background: #ffffff;
+  background: #111C3A;
   border-radius: 5rem;
   padding: 3rem 8rem 12.2rem 8rem;
   margin-bottom: 5rem;
-
-  .split-line {
-    width: 66.8rem;
-    height: 0.1rem;
-    color: #e5e2fb;
-    margin-top: 5.8rem;
-  }
 
   h1 {
     text-align: center;
     font-size: 2rem;
     font-weight: 500;
-    color: #7c6deb;
+    color: white;
     line-height: 2.8rem;
     padding-top: 3rem;
   }
 
   .text-area {
     &::placeholder {
-      color: rgba(124, 109, 235, 0.5) !important;
+      color: #4779B5 !important;
     }
 
     width: 66.8rem !important;
     height: 10rem !important;
-    background: #e5e2fb !important;
+    background: #305099 !important;
     border-radius: 1rem !important;
-    border: 0.1rem solid #7c6deb !important;
+    border: none;
 
     font-size: 1.4rem !important;
     font-weight: 500 !important;
-    color: rgba(124, 109, 235, 1) !important;
+    color: white !important;
     line-height: 2rem !important;
   }
 `
@@ -84,38 +81,39 @@ const CustomFormItem = styled(Form.Item)`
   .ant-form-item-label > label {
     font-size: 1.6rem;
     font-weight: 500;
-    color: #7c6deb;
+    color: #98BDF9;
     line-height: 2.2rem;
-    margin-bottom: 1rem;
+
   }
 
   .ant-input {
     &::placeholder {
-      color: rgba(124, 109, 235, 0.5);
+      color: #4779B5;
     }
 
     width: 66.8rem !important;
-    height: 5rem !important;
-    background: #e5e2fb !important;
+    height: 3.6rem ;
+    background: #305099 !important;
     border-radius: 1rem !important;
-    border: 0.1rem solid #7c6deb !important;
+    border: none;
 
     font-size: 1.4rem !important;
     font-weight: 500 !important;
-    color: rgba(124, 109, 235, 1) !important;
+    color: white !important;
     line-height: 2rem !important;
   }
 `
 
 const Selector = styled(Select)`
-  width: 16.4rem !important;
+  width: 14.4rem !important;
+  border: none;
 
   .ant-select-selector {
-    width: 16.4rem !important;
-    height: 5rem !important;
-    background: #e5e2fb !important;
+    width: 14.4rem !important;
+    height: 3.6rem !important;
+    background: #305099 !important;
     border-radius: 1rem !important;
-    border-color: #7c6deb !important;
+    border: none;
   }
 
   .ant-select-clear {
@@ -128,9 +126,12 @@ const Selector = styled(Select)`
     justify-content: center !important;
     font-size: 1.4rem !important;
     font-weight: 500 !important;
-    color: #7c6deb !important;
+    color: white !important;
     line-height: 2rem !important;
     padding-right: 5rem !important;
+  }
+  span {
+    color: white;
   }
 
 `
@@ -144,9 +145,9 @@ const AssetUploadContainer = styled.div`
 
   .upload-border {
     width: fit-content;
-    background: #e5e2fb;
+    background: #305099;
     border-radius: 1rem;
-    border: 0.2rem solid rgba(124, 109, 235, 0.5);
+    border: none;
 
     display: flex;
     align-items: center;
@@ -164,7 +165,7 @@ const AssetUploadContainer = styled.div`
       width: 15.4rem;
       font-size: 1.4rem;
       font-weight: 500;
-      color: #7c6deb;
+      color: black;
       opacity: 0.5;
       filter: alpha(opacity=50); /* IE8 及其更早版本 */
       margin-left: 7.2rem;
@@ -187,7 +188,7 @@ const AssetUploadContainer = styled.div`
     .loading {
       margin: 14rem 10rem;
       font-size: 10rem;
-      color: #7c6deb;
+      color: #4779B5;
     }
   }
 
@@ -217,28 +218,21 @@ const Announcement = styled.div`
     height: 5rem;
     font-size: 1.6rem;
     font-weight: 500;
-    color: #7c6deb;
+    color: #4779B5;
     line-height: 2.5rem;
     padding-top: 6.4rem;
   }
 
-  .text2 {
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: #7c6deb;
-    line-height: 2.5rem;
-    padding-top: 5rem;
-  }
 `
 
 const CreateButton = styled(Button)`
-  width: 30.2rem;
+  width: 25.2rem;
   height: 6rem;
   margin: 5.2rem 0 1.2rem 0;
-  background: #7c6deb;
+  background: #554BFF;
   border-radius: 1rem;
   text-align: center;
-
+  border: none;
   font-size: 1.6rem;
   font-weight: 500;
   color: #ffffff;
@@ -571,7 +565,6 @@ const NFTCreate: React.FC = () => {
 
         <AssetUpload onUploadSuccess={onAssetUploadSuccess} />
 
-        <hr className="split-line" />
 
         <Announcement>
           <Checkbox

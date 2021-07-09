@@ -9,29 +9,39 @@ import styled from 'styled-components'
 import { useModal } from '../useModal'
 
 const PurchaseCheckoutModal = styled(Modal)`
+
+  .ant-modal-close-icon {
+    color: white;
+  }
+
   .ant-modal-content {
     border-radius: 1rem;
     width: 62.3rem;
-    padding-bottom: 4rem;
+
   }
 
+  .ant-modal-body,
+  .ant-modal-header{
+    background-color: #111C3A; !important;
+  }
   .ant-modal-header {
-    border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    border-bottom: none;
   }
 
   .ant-modal-header .ant-modal-title {
     display: flex;
     justify-content: center;
     font-weight: 550;
-    font-size: 1.8rem;
+    color: white;
+    font-size: 2.1rem;
   }
 
   .checkout-list {
     display: flex;
     justify-content: space-between;
-    margin-top: 3.2rem;
-
+    color: #97BCF8;
     p {
       line-height: 25px;
       font-size: 1.8rem;
@@ -60,7 +70,7 @@ const PurchaseCheckoutModal = styled(Modal)`
         .artist-name {
           font-size: 1.8rem;
           font-weight: 500;
-          color: #7C6DEB;
+          color: #97BCF8;
           line-height: 2.5rem;
         }
 
@@ -68,29 +78,37 @@ const PurchaseCheckoutModal = styled(Modal)`
           font-size: 1.8rem;
           font-weight: 550;
           line-height: 2.5rem;
+          color: #97BCF8;
+
         }
       }
     }
 
     .nft-value {
       display: flex;
+      justify-content: flex-end;
       flex-direction: column;
+
       align-self: center;
-      text-align: right;
 
       .nft-price {
+        display: flex;
+        justify-content: flex-end;
+        color: #97BCF8;
         font-size: 1.8rem;
         font-weight: 500;
         line-height: 2.5rem;
-        width: 7.1rem;
+        width: 15.1rem;
       }
 
       .nft-price-dollar {
-        font-size: 1.4rem;
+        display: flex;
+        justify-content: flex-end;
+        color: #97BCF8;
+        font-size: 1.8rem;
         font-weight: 500;
-        color: #999999;
         line-height: 20px;
-        width: 7.1rem;
+        width: 15.1rem;
       }
     }
   }
@@ -98,11 +116,14 @@ const PurchaseCheckoutModal = styled(Modal)`
   .total-price {
     display: flex;
     justify-content: space-between;
+    margin-top: 4rem;
 
     .total {
+
       line-height: 25px;
       font-size: 1.8rem;
       font-weight: 550;
+      color: #97BCF8;
     }
 
     .nft-value {
@@ -112,19 +133,23 @@ const PurchaseCheckoutModal = styled(Modal)`
       text-align: right;
 
       .nft-price {
-        font-size: 2.2rem;
+        display: flex;
+        justify-content: flex-end;
+        font-size: 1.8rem;
         font-weight: 500;
-        color: #7C6DEB;
+        color: #97BCF8;
         line-height: 3rem;
-        width: 9.1rem;
+        width: 15.1rem;
       }
 
       .nft-price-dollar {
+        display: flex;
+        justify-content: flex-end;
         font-size: 1.8rem;
         font-weight: 500;
-        color: #999999;
+        color: #97BCF8;
         line-height: 2.5rem;
-        width: 9.1rem;
+        width: 15.1rem;
       }
     }
   }
@@ -137,10 +162,10 @@ const PurchaseCheckoutModal = styled(Modal)`
     .ant-btn {
       color: #FFFFFF !important;
       font-size: 1.8rem !important;
-
       width: 16.1rem;
       height: 5rem;
-      background: #7C6DEB;
+      background: #554BFF;
+      border: none;
       border-radius: 1rem;
     }
 
@@ -189,25 +214,20 @@ const Announcement = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding-bottom: 6rem;
 
-  .text {
-    width: 54.6rem;
-    height: 5rem;
-    font-size: 1.6rem;
-    font-weight: 500;
-    color: #7c6deb;
-    line-height: 2.5rem;
-    padding-top: 4.4rem;
-  }
 
-  .text2 {
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: #7c6deb;
-    line-height: 2.5rem;
-    padding-top: 5rem;
+  .ant-checkbox + span {
+    color: #97BCF8;
+    font-size: 1.2  rem;
   }
+`
+const Line = styled.div`
+  position: absolute;
+  right: 0rem;
+  top: 5rem;
+  width: 100%;
+  height: 0.15rem;
+  background: linear-gradient(to right, #00FFFF, #7702FF);
 `
 
 export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => void, checkoutFailed: () => void) => {
@@ -242,6 +262,7 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
       onCancel={close}
       footer={null}
     >
+      <Line />
       {/*<Caveat*/}
       {/*  onClick={() => setCaveatContentVisible(!isCaveatContentVisible)}*/}
       {/*>*/}
@@ -264,7 +285,7 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
         <p>Item</p>
         <p>Subtotal</p>
       </div>
-      <Divider style={{ marginTop: '-8px' }} />
+      <Line style={{ marginTop: '16.5rem' }} />
       <div className="checkout-detail">
         <div className="ntf-info">
           <img className="nft-image" src={nftDetail?.image} alt="" />
@@ -278,7 +299,7 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
           <div className="nft-price-dollar">($- - -)</div>
         </div>
       </div>
-      <Divider />
+      <Line style={{ marginTop: '24.5rem' }} />
       <div className="total-price">
         <div className="total">Total</div>
         <div className="nft-value">

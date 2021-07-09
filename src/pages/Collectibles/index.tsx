@@ -107,11 +107,14 @@ const SearchInput = styled(Input)`
     color: white;
     font-weight: bold;
   }
+
+
 `
 
 const MySelect = styled(Select)`
   margin-left: 2rem;
   margin-left: 2rem;
+
 
   &,
   .ant-select {
@@ -132,9 +135,14 @@ const MySelect = styled(Select)`
 
   .ant-select-selection-item {
     font-weight: bold;
+    color:white; !important;
     text-align: center !important;
     line-height: 5rem !important;
     margin: 0 0.5rem !important;
+  }
+
+  span {
+    color: white;
   }
 `
 
@@ -373,7 +381,7 @@ const CollectiblesPage: React.FC = () => {
         <div style={{ display: 'flex' }} />
         <div style={{ display: 'flex' }}>
           <SearchInput onPressEnter={onPressEnter}
-            prefix={<SearchOutlined style={{ color: '#305099', width: '1.5rem' }} />}
+            prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
           />
           <TypeSelector typeSelectValue={typeSelectValue} setTypeSelectValue={setTypeSelectValue} />
           <OrderSelector />

@@ -47,8 +47,6 @@ const CustomModal = styled(Modal)`
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     border-bottom: none;
-
-
   }
 
   .ant-modal-title{
@@ -67,7 +65,7 @@ const Line = styled.div`
   right: 0rem;
   top: 5rem;
   width: 100%;
-  height: 0.3rem;
+  height: 0.15rem;
   background: linear-gradient(to right, #00FFFF, #7702FF);
 `
 

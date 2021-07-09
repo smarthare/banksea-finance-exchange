@@ -297,6 +297,11 @@ const HomePage: React.FC = () => {
     history.push('/collectibles', { code: 'buy' })
   }
 
+  const toCreate = () => {
+    history.push('/nft/create')
+  }
+
+
   const [list, setList] = useState<any>()
 
   const [typeSelectValue, setTypeSelectValue] = useState<any>()
@@ -336,7 +341,6 @@ const HomePage: React.FC = () => {
     fetch(searchKey, current)
 
   }, [fetch])
-
 
 
   return (
@@ -401,9 +405,9 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className="row2">
-            <div className="info-panel" >
+            <div className="info-panel" onClick={toCreate} >
               <div className="main-title2" >Create
-                <PanelIcon iconName={Mortgage} />
+                <PanelIcon iconName={Mortgage} onClick={toCreate} />
               </div>
               <div className="sub-title2">NFT Number : 3220</div>
               <div className="nft-values">

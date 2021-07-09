@@ -19,19 +19,28 @@ type MessageHintProps = {
 }
 
 const SellingModal = styled(Modal)`
+  .ant-modal-close-icon {
+    color: white;
+  }
   .ant-modal-content {
     border-radius: 1rem;
-    width: 62.3rem;
+    width: 58.3rem;
+  }
+  .ant-modal-body,
+  .ant-modal-header{
+    background-color: #111C3A; !important;
   }
 
   .ant-modal-header {
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
+    border-bottom: none;
   }
 
   .ant-modal-header .ant-modal-title {
     display: flex;
     justify-content: center;
+    color: white;
     font-weight: 550;
     font-size: 1.8rem;
   }
@@ -39,29 +48,31 @@ const SellingModal = styled(Modal)`
   .checkout-list {
 
     .checkout-list-title {
+      color: white;
       line-height: 25px;
-      font-size: 1.8rem;
-      font-weight: 550;
+      font-size: 1.6rem;
+
     }
 
     .sellMethodButton {
       display: flex;
       justify-content: space-between;
-      margin-top: 2rem;
+      margin-top: 0.5rem;
       margin-bottom: 3.6rem;
 
       Button {
-        width: 12.6rem;
-        height: 5rem;
-        background: #E0DDF6;
+        width: 11.6rem;
+        height: 4.2rem;
+        background: #554BFF;
         border: none;
         border-radius: 1rem;
-        color: #7C6DEB;
-        font-size: 1.8rem;
+        color: white;
+        font-size: 1.6rem;
+        font-weight: 550;
       }
 
       .tabs__link {
-        background-color: #7C6DEB;
+        background-color: #6974FF;
         color: #ffffff;
       }
     }
@@ -70,11 +81,14 @@ const SellingModal = styled(Modal)`
   .sellContent {
     width: 100%;
     display: none;
+    margin-top: -1rem;
 
     .hightest {
+      color: white;
       line-height: 25px;
-      font-size: 1.8rem;
-      font-weight: 550;
+      font-size: 1.6rem;
+
+
     }
 
     .fixedPrice {
@@ -87,14 +101,18 @@ const SellingModal = styled(Modal)`
       }
 
       .ant-select-selector {
+
         height: 5rem;
         display: flex;
         align-items: center;
-        color: #7C6DEB;
-        background: #E5E2FB !important;
-        border-top: 1px solid #7C6DEB;
-        border-left: 1px solid #7C6DEB;
-        border-bottom: 1px solid #7C6DEB;
+        color: white;
+        background: #554BFF !important;
+        border: none;
+
+      }
+      .ant-select-selection-item {
+        color:white;
+        font-weight: 550;
       }
 
       .ant-input-group.ant-input-group-compact > *:first-child, .ant-input-group.ant-input-group-compact > .ant-select:first-child > .ant-select-selector, .ant-input-group.ant-input-group-compact > .ant-select-auto-complete:first-child .ant-input, .ant-input-group.ant-input-group-compact > .ant-cascader-picker:first-child .ant-input {
@@ -103,31 +121,33 @@ const SellingModal = styled(Modal)`
       }
 
       .ant-input {
+
         width: 130% !important;
         height: 5rem;
-        color: #7C6DEB;
-        background: #E5E2FB !important;
-        border-top: 1px solid #7C6DEB;
-        border-right: 1px solid #7C6DEB;
-        border-bottom: 1px solid #7C6DEB;
+        color: white;
+        font-size: 1.6rem;
+        font-weight: 550;
+        background: #305099 !important;
         border-top-right-radius: 1rem;
         border-bottom-right-radius: 1rem;
+        border: none;
       }
 
       span {
-        color: #7C6DEB;
+        color: white;
       }
     }
 
     .listing {
       width: 100%;
       height: 5rem;
-      margin-top: 4rem;
-      background: #7C6DEB;
+
+      background: #554BFF;
       border: none;
       color: #ffffff;
+      font-weight: 550;
       border-radius: 1rem;
-      font-size: 1.8rem;
+      font-size: 2.4rem;
     }
   }
 
@@ -250,16 +270,13 @@ const Announcement = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding-bottom: 6rem;
+
 
   .text {
     width: 54.6rem;
-    height: 5rem;
-    font-size: 1.6rem;
-    font-weight: 500;
-    color: #7c6deb;
+    font-size: 1.3rem;
+    color: #97BCF8;
     line-height: 2.5rem;
-    padding-top: 4.4rem;
   }
 
   .text2 {
@@ -267,20 +284,27 @@ const Announcement = styled.div`
     font-weight: 400;
     color: #7c6deb;
     line-height: 2.5rem;
-    padding-top: 5rem;
+    padding: 3rem;
   }
 `
 
 const Line = styled.div`
+  position: absolute;
+  right: 0rem;
+  top: 5.5rem;
   width: 100%;
-  height: 1px;
-  background: #DCDCDC;
+  height: 0.15rem;
+  background: linear-gradient(to right, #00FFFF, #7702FF);
 `
 
 const AuctionItem = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+
+  .auctionItemLeft {
+    color: white;
+  }
 
 `
 
@@ -418,6 +442,7 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed }: SellingModalP
       onCancel={close}
       footer={null}
     >
+      <Line />
       <div className="checkout-list">
         <div className="checkout-list-title">Sell Method</div>
         <div className="sellMethodButton">
@@ -438,7 +463,7 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed }: SellingModalP
         <p className="hightest">Set Price</p>
         <Form form={form} initialValues={formInitialValues}>
           <div className="fixedPrice">
-            <Input.Group compact>
+            <Input.Group compact >
               <Select defaultValue="ETH">
                 <Select.Option value="ETH">
                   ETH
@@ -459,18 +484,20 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed }: SellingModalP
           <Checkbox
             checked={checked}
             onChange={e => setChecked(e.target.checked)}
+            style={{ marginLeft:'5rem' }}
           >
             <div className="text">
               Listing is free! At the time of the sale, the following fees will be decucted.
             </div>
+            <div className="text">Total fees ----------------------------------------------------------- 2%</div>
+
           </Checkbox>
-          <div className="text">Total fees ----------------------------------------------------------- 2%</div>
         </Announcement>
       </div>
 
       <div className={'sellContent ' + (current === 1 ? 'active' : '')}>
         <p className="hightest">Highest Bid</p>
-        <Line />
+        <Line style={{ marginTop:'15.2rem' }} />
         <div>
           <AuctionItem>
             <div className="auctionItemLeft">

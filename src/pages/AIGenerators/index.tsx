@@ -81,7 +81,7 @@ const GeneratorTop = styled.div`
       font-weight: 550;
       font-size: 4.6rem;
 
-      background-image: -webkit-linear-gradient(left, #7fe6ec, #4b0fe5);
+      background-image: -webkit-linear-gradient(left, #aef9ff, #571eef);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 2rem;
