@@ -4,7 +4,7 @@ import { Button, Form, Input, message, Statistic } from 'antd'
 import clsx from 'clsx'
 import { SearchOutlined } from '@ant-design/icons'
 import { voteCreate, filecoinList, solanaList, retweetCreat, retweetList } from '../../utils/banksyNftList'
-
+import VoteBanner from '@/assets/images/VoteImg/VoteBanner.png'
 const VoteContainer = styled.div`
   min-height: 100vh;
   background: #090F22;
@@ -13,7 +13,8 @@ const VoteContainer = styled.div`
 const VoteContainerTop = styled.div`
   width: 100% ;
   height: 34.4rem;
-  background: gray;
+  background: url(${VoteBanner}) no-repeat;
+  background-size:100% 100%;
   position: relative;
   // margin-left: 20.2rem;
 `
