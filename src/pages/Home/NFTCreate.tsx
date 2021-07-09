@@ -255,7 +255,7 @@ const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
   const color = type ? {
     'error': 'red',
     'success': 'rgb(82,196,26)',
-    'hint': '#7c6deb'
+    'hint': 'red'
   }[type] : ''
 
   return (
