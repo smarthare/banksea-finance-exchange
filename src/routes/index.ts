@@ -13,7 +13,7 @@ import { ReactComponent as PriceAirDropIcon } from '../assets/images/menu-icons/
 
 import { CollectibleDetailPage } from '../pages/Collectibles/CollectibleDetail'
 import NFTCreatePage from '../pages/Home/NFTCreate'
-import PersonalHomepage from '../pages/PersonalHomepage/index'
+import PersonalHomepage from '../pages/PersonalHome/index'
 import PleaseWaiting from '../pages/Home/PleaseWaiting'
 import NFTCreatedSuccess from '../pages/Home/NFTCreatedSuccess'
 import AIGenerators from '../pages/AIGenerators'

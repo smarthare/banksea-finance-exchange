@@ -24,9 +24,11 @@ import { banksyWeb3 } from '../../BanksyWeb3'
 import { ethers } from 'ethers'
 import { usePurchaseCheckoutModal } from '../../hooks/modals/usePurchaseCheckoutModal'
 import { usePurchaseBlockedModal } from '../../hooks/modals/usePurchaseBlockedModal'
-import { usePurchaseAuthorizingModal } from '../../hooks/modals/usePurchaseAuthorizingModal'
-import { usePurchaseSuccessModal } from '../../hooks/modals/usePurchaseSuccessModal'
+import { useAuthorizingModal } from '../../hooks/modals/useAuthorizingModal'
+import { usePurchaseTransactionSentModal } from '../../hooks/modals/usePurchaseTransactionSentModal'
 import { useSellingModal } from '../../hooks/modals/useSellingModal'
+import ETHIcon from '../../components/ETHIcon'
+import { usePurchaseWaitingConfirmationModal } from '../../hooks/modals/usePurchaseWaitingConfirmationModal'
 
 const Row = styled.div`
   display: flex;
@@ -58,7 +60,7 @@ const LeftArea = styled.div`
 
 `
 
-const TradingHistoryTable = styled(Table) `
+const TradingHistoryTable = styled(Table)`
   width: 100%;
   margin-top: 1.5rem;
 
@@ -76,7 +78,6 @@ const TradingHistoryTable = styled(Table) `
     background-color: #0B111E !important;
   }
 
-
   .ant-table-thead .ant-table-cell {
     font-size: 14px;
     font-weight: 550;
@@ -90,7 +91,6 @@ const TradingHistoryTable = styled(Table) `
     line-height: 20px;
     font-weight: 550;
   }
-
 
   .ant-table-tbody .ant-table-cell :first-child {
     border-radius: 5rem;
@@ -112,9 +112,9 @@ const TradingHistoryTable = styled(Table) `
     border-top: 4px solid #0B111E;
   }
 
-
-
-
+  .ant-table-empty {
+    background-color: transparent;
+  }
 `
 
 const RightArea = styled.div`
@@ -242,7 +242,8 @@ const ImageContainer = styled.div`
   border: 1px solid #98BDF9;
 
   img {
-    max-height: 34.4rem;
+    max-height: 98%;
+    max-width: 98%;
     border-radius: 2rem;
   }
 `
@@ -276,7 +277,6 @@ const PriceContainer = styled.div`
       margin-left: 1rem;
     }
   }
-
 `
 
 const ItemsContainer = styled.div`
@@ -559,16 +559,6 @@ const BuyOperating = styled.div`
   }
 `
 
-const ETHIcon: React.FC = () => {
-  return (
-    <img
-      src={require('../../assets/images/eth.svg').default}
-      alt="ETH"
-      style={{ width: '1.2rem', marginRight: '0.8rem' }}
-    />
-  )
-}
-
 const Properties: React.FC = () => {
   return (
     <div>
@@ -642,7 +632,7 @@ const TradingHistories: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
 
   const historyDataSource = nftDetail
     ?.logTransferSingleVos
-    ?.slice(0,4)
+    ?.slice(0, 4)
     ?.map((item: any, index: number) => ({
       key: index,
       event: item?.tokenId,
@@ -721,7 +711,7 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
           alt=""
           className="icon-favorite"
         />
-        <div className="info-row-item-value" >{likeNum?.view ? likeNum?.view : 0}</div>
+        <div className="info-row-item-value">{likeNum?.view ? likeNum?.view : 0}</div>
       </div>
 
       {/*<div className="description">
@@ -729,16 +719,18 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
       </div>*/}
       <PriceContainer>
         <div className="price-favorite-row">
-          <div className="price">
-            <span className="price-label">Current Price</span>
-            <ETHIcon />
-            <span className="price-value">
-              {nftDetail?.onSale
-                ? nftDetail?.price
-                : '---'}
-            </span>
-            {/*<div className="price-in-usd">($297.21)</div>*/}
-          </div>
+          {
+            nftDetail?.onSale ? (
+              <div className="price">
+                <span className="price-label">Current Price</span>
+                <ETHIcon />
+                <span className="price-value">
+                  {nftDetail?.price}
+                </span>
+                {/*<div className="price-in-usd">($297.21)</div>*/}
+              </div>
+            ) : <div />
+          }
           <div>
             <img
               src={Favorite}
@@ -809,7 +801,7 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more1} style={{ borderRadius:'1rem', objectFit:'cover' }} alt="" />
+              <img src={more1} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="" />
             </div>
             <div className="artwork-describe">Pikachu Baby Bimbo #0005</div>
           </div>
@@ -835,7 +827,7 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more2} style={{ borderRadius:'1rem', objectFit:'cover' }} alt="'" />
+              <img src={more2} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="'" />
             </div>
             <div className="artwork-describe">1 - The Elf</div>
           </div>
@@ -861,7 +853,7 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more3} style={{ borderRadius:'1rem', objectFit:'cover' }} alt="" />
+              <img src={more3} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="" />
             </div>
             <div className="artwork-describe">Mona Lisa Smile &apos;Gamma Edition &apos;</div>
           </div>
@@ -887,7 +879,7 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more4} style={{ borderRadius:'1rem', objectFit:'cover' }} alt="" />
+              <img src={more4} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="" />
             </div>
             <div className="artwork-describe">Like you mean it</div>
           </div>
@@ -915,7 +907,10 @@ const MoreArtworks: React.FC = () => {
   )
 }
 
-async function handlePurchase(nftDetail: any, account: string, onAuthorized: () => void, onSuccess: () => void) {
+async function handlePurchase(nftDetail: any, account: string, {
+  onAuthorized,
+  onSuccess
+}: { onAuthorized: () => void, onSuccess: () => void }) {
   const buyData = (await chooseOrder({
     valueUri: nftDetail?.valueUri
   })).data.data
@@ -1019,25 +1014,36 @@ const CollectibleDetailPage: React.FC = () => {
 
   const [nftDetail, setNftDetail] = useState<any | undefined>()
 
-  const init = useCallback(async () => {
-    const { data } = await banksyNftDetail({ uri, contractAddress })
-    setNftDetail(data.data)
-  }, [uri, contractAddress])
-
   const { purchaseBlockedModal, openPurchaseBlockedModal } = usePurchaseBlockedModal()
-  const { authorizingModal, openAuthorizingModal, closeAuthorizingModal } = usePurchaseAuthorizingModal()
-  const { purchaseSuccessModal, openPurchaseSuccessModal } = usePurchaseSuccessModal()
-  const { sellingModal, openSellingModal, closeSellingModal } = useSellingModal({
+  const { authorizingModal, openAuthorizingModal, closeAuthorizingModal } = useAuthorizingModal()
+  const {
+    purchaseWaitingConfirmationModal,
+    openPurchaseWaitingConfirmationModal,
+    closePurchaseWaitingConfirmationModal
+  } = usePurchaseWaitingConfirmationModal()
+  const { purchaseTransactionSentModal, openPurchaseTransactionSentModal } = usePurchaseTransactionSentModal()
+  const { sellingModal, openSellingModal } = useSellingModal({
     nftDetail,
     onSellingConfirmed() {
-      init()
-      closeSellingModal()
-    }
+      window.location.reload()
+    },
+    onStart: openAuthorizingModal
   })
 
   const checkoutPassed = () => {
     openAuthorizingModal()
-    handlePurchase(nftDetail, account!, closeAuthorizingModal, openPurchaseSuccessModal)
+    handlePurchase(nftDetail, account!, {
+      onAuthorized: () => {
+        closeAuthorizingModal()
+        openPurchaseWaitingConfirmationModal()
+      },
+      onSuccess: () => {
+        openPurchaseTransactionSentModal()
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        closePurchaseCheckoutModal()
+        closePurchaseWaitingConfirmationModal()
+      }
+    })
   }
 
   const checkoutFailed = () => {
@@ -1046,9 +1052,14 @@ const CollectibleDetailPage: React.FC = () => {
 
   const {
     purchaseCheckoutModal,
-    openPurchaseCheckoutModal
+    openPurchaseCheckoutModal,
+    closePurchaseCheckoutModal
   } = usePurchaseCheckoutModal(nftDetail, checkoutPassed, checkoutFailed)
 
+  const init = useCallback(async () => {
+    const { data } = await banksyNftDetail({ uri, contractAddress })
+    setNftDetail(data.data)
+  }, [uri, contractAddress])
 
   useEffect(() => {
     init()
@@ -1113,7 +1124,8 @@ const CollectibleDetailPage: React.FC = () => {
       {purchaseCheckoutModal}
       {purchaseBlockedModal}
       {authorizingModal}
-      {purchaseSuccessModal}
+      {purchaseWaitingConfirmationModal}
+      {purchaseTransactionSentModal}
       {sellingModal}
 
     </BundleDetailContainer>

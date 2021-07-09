@@ -250,7 +250,6 @@ type MessageHintProps = {
 }
 
 
-
 const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
   const color = type ? {
     'error': 'red',
@@ -340,6 +339,14 @@ const AssetUpload: React.FC<AssetUploadProps> = ({ onUploadSuccess }) => {
   )
 }
 
+type NFTCreateForm = {
+  artworkName: string;
+  artistName: string;
+  briefIntroduction: string;
+  artworkType: string;
+  socialMedia: string
+}
+
 const NFTCreate: React.FC = () => {
   const { providerInitialized, networkReady } = useWeb3EnvContext()
 
@@ -349,12 +356,11 @@ const NFTCreate: React.FC = () => {
 
   const account = useSelector(getAccount)
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<NFTCreateForm>()
 
   const { walletErrorMessageGetter } = useWalletErrorMessageGetter()
 
-  const [visible, setVisible] = useState(false)
-
+  const [loading, setLoading] = useState(false)
 
   const [promised, setPromised] = useState(false)
   const [assetIpfsHash, setAssetIpfsHash] = useState('')
@@ -362,7 +368,7 @@ const NFTCreate: React.FC = () => {
     message: '', type: 'hint'
   })
 
-  const formInitialValues = {
+  const formInitialValues: NFTCreateForm = {
     artworkType: 'pictures',
     artworkName: '',
     artistName: '',
@@ -370,15 +376,25 @@ const NFTCreate: React.FC = () => {
     briefIntroduction: ''
   }
 
-  const onArtworkTypeChange = (value: any) => {
-    form.setFieldsValue({ artworkType: value })
-  }
-
   const onAssetUploadSuccess = (assetIpfsHash: string) => {
     setAssetIpfsHash(assetIpfsHash)
   }
 
-  const handleCreate = () => {
+  const generateNftMetadata = (values: NFTCreateForm): NFTMetadata => {
+    /*const attributes: NFTMetadataAttribute[] = Object.keys(values).map(key => ({
+      key,
+      value: values[key]
+    }))*/
+
+    return {
+      name: values.artworkName,
+      description: values.briefIntroduction,
+      image: `https://banksy.mypinata.cloud/ipfs/${assetIpfsHash}`
+      // attributes
+    }
+  }
+
+  const handleCreate = async () => {
     if (!promised) {
       setHintMessage({
         message: 'Please check the checkbox first!',
@@ -399,89 +415,86 @@ const NFTCreate: React.FC = () => {
       message: ''
     })
 
-    form
-      .validateFields()
-      .then(values => {
-        /*const attributes: NFTMetadataAttribute[] = Object.keys(values).map(key => ({
-          key,
-          value: values[key]
-        }))*/
-        const nftMetadata: NFTMetadata = {
-          name: values.artworkName,
-          description: values.briefIntroduction,
-          image: `https://banksy.mypinata.cloud/ipfs/${assetIpfsHash}`
-          // attributes
-        }
-
-        setHintMessage({
-          message: 'Pinning asset JSON to IPFS...',
-          type: 'hint'
-        })
-
-        pinJsonToIPFS(nftMetadata)
-          .then(r => {
-            setHintMessage({
-              message: 'Pinned successful! Please confirm in your wallet...',
-              type: 'hint'
-            })
-
-            const { IpfsHash } = r.data
-
-            const tokenUri = `https://gateway.pinata.cloud/ipfs/${IpfsHash}`
-
-            const createForm = {
-              uri: IpfsHash,
-              addressCreate: account!,
-              tokenId: '',
-              group: '',
-              nameArtist: values.artistName
-            }
-
-            createNFT(createForm)
-
-            setVisible(true)
-
-
-            banksyWeb3.eth.Banksy.contract!.on('URI', async (...args) => {
-              const [ tokenUriFromEvent] = args
-              if (tokenUri === tokenUriFromEvent) {
-                await createNFT(createForm)
-              }
-            })
-
-            banksyWeb3.eth.Banksy.awardItem(account!, tokenUri)
-              .then(res => {
-                setVisible(false)
-                setHintMessage({ message: '' })
-                message.success('Create successfully!')
-                history.push(`/nft/create/success?img=${assetIpfsHash}&name=${values.artworkName}`)
-                setHintMessage({
-                  message: 'Your creation request has been submitted!',
-                  type: 'hint'
-                })
-                console.log(res)
-              })
-              .catch(e => {
-                setHintMessage({
-                  message: walletErrorMessageGetter(e),
-                  type: 'error'
-                })
-              })
-          })
-          .catch(e => {
-            const error = e.response.data.error
-            setHintMessage({
-              message: `Error occurred when pinning JSON to IPFS, retry again. [${error}]`,
-              type: 'error'
-            })
-          })
+    const formValues = await form.validateFields().catch(() => {
+      setHintMessage({
+        message: 'Please complete the form first!',
+        type: 'error'
       })
-      .catch(() => {
+    })
+
+    if (!formValues) {
+      return
+    }
+
+    const nftMetadata = generateNftMetadata(formValues)
+
+    setHintMessage({
+      message: 'Pinning asset JSON to IPFS...',
+      type: 'hint'
+    })
+
+    const pinResult = await pinJsonToIPFS(nftMetadata).catch(e => {
+      const error = e.response.data.error
+      setHintMessage({
+        message: `Error occurred when pinning JSON to IPFS, retry again. [${error}]`,
+        type: 'error'
+      })
+    })
+
+    if (!pinResult) {
+      return
+    }
+
+    setHintMessage({
+      message: 'Pinned successful! Please confirm in your wallet...',
+      type: 'hint'
+    })
+
+    const { IpfsHash } = pinResult
+
+    const tokenUri = `https://gateway.pinata.cloud/ipfs/${IpfsHash}`
+
+    const createForm = {
+      uri: IpfsHash,
+      addressCreate: account!,
+      tokenId: '',
+      group: '',
+      nameArtist: form.getFieldsValue().artistName
+    }
+
+    await createNFT(createForm)
+
+    setLoading(true)
+
+    // bind URI event first
+    banksyWeb3.eth.Banksy.contract!.on('URI', async (...args) => {
+      const [tokenUriFromEvent] = args
+      if (tokenUri === tokenUriFromEvent) {
+        await createNFT(createForm)
+      }
+    })
+
+    const awardResult = await banksyWeb3.eth.Banksy.awardItem(account!, tokenUri)
+      .catch(e => {
         setHintMessage({
-          message: 'Please complete the form first!',
+          message: walletErrorMessageGetter(e),
           type: 'error'
         })
       })
+
+    if (!awardResult) {
+      return
+    }
+
+    setHintMessage({
+      message: 'Your creation request has been submitted!',
+      type: 'hint'
+    })
+    setLoading(false)
+    setHintMessage({ message: '' })
+    message.success('Create successfully!')
+    history.push(`/nft/create/success?img=${assetIpfsHash}&name=${formValues.artworkName}`)
+
 
   }
 
@@ -516,12 +529,13 @@ const NFTCreate: React.FC = () => {
           label="Artwork Type"
           rules={[{ required: true, message: 'Artwork Type is Required!' }]}
         >
-          <Selector onChange={onArtworkTypeChange}>
+          <Selector
+            onChange={(value: any) => {
+              form.setFieldsValue({ artworkType: value })
+            }}
+          >
             <Select.Option value="pictures">
-              {/*<div className="test" style={{ display: 'flex' }}>*/}
-              {/*<img src={PicIcon} alt="pic" style={{ width: '1.8rem', height: '1.8rem', marginRight: '0.5rem' }} />*/}
               Pictures
-              {/*</div>*/}
             </Select.Option>
             <Select.Option value="gif">GIF</Select.Option>
             <Select.Option value="video">Video</Select.Option>
@@ -603,7 +617,7 @@ const NFTCreate: React.FC = () => {
 
         <MessageHint {...hintMessage} />
       </ArtistForm>
-      <LoadingModal visible={visible} onCancel={() => setVisible(false)} />
+      <LoadingModal visible={loading} onCancel={() => setLoading(false)} />
     </ArtistPageContainer>
   )
 }

@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { toBigNumber, weiToBigNumber } from '../../web3/utils'
 import { banksyWeb3 } from '../../BanksyWeb3'
-import danger from '@/assets/images/allModalImg/danger.png'
-import dangerDownArrow from '@/assets/images/allModalImg/dangerDownArrow.png'
 import { Button, Checkbox, Divider, Modal } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useModal } from '../useModal'
+import ETHIcon from '../../components/ETHIcon'
 
 const PurchaseCheckoutModal = styled(Modal)`
 
@@ -175,7 +174,7 @@ const PurchaseCheckoutModal = styled(Modal)`
   }
 `
 
-const Caveat = styled.div`
+/*const Caveat = styled.div`
   width: 100%;
   height: 4.3rem;
   display: flex;
@@ -200,14 +199,14 @@ const Caveat = styled.div`
     position: absolute;
     right: 1.5rem;
   }
-`
+`*/
 
-const CaveatContent = styled.div`
+/*const CaveatContent = styled.div`
   width: 100%;
   padding: 2rem;
   background: #FDFDF4;
   border: 1px solid #EFC300;
-`
+`*/
 
 const Announcement = styled.div`
   display: flex;
@@ -231,7 +230,7 @@ const Line = styled.div`
 `
 
 export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => void, checkoutFailed: () => void) => {
-  const [isCaveatContentVisible, setCaveatContentVisible] = useState(false)
+  // const [isCaveatContentVisible, setCaveatContentVisible] = useState(false)
   const [allChecked, setAllChecked] = useState(false)
   const [checking, setChecking] = useState(false)
 
@@ -295,16 +294,22 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
           </div>
         </div>
         <div className="nft-value">
-          <div className="nft-price">{nftDetail?.price ? nftDetail?.price : '---'}</div>
-          <div className="nft-price-dollar">($- - -)</div>
+          <div className="nft-price">
+            <ETHIcon />
+            {nftDetail?.price ? nftDetail?.price : '---'}
+          </div>
+          <div className="nft-price-dollar">( $ - )</div>
         </div>
       </div>
       <Line style={{ marginTop: '24.5rem' }} />
       <div className="total-price">
         <div className="total">Total</div>
         <div className="nft-value">
-          <div className="nft-price">{nftDetail?.price ? nftDetail?.price : '- - -'}</div>
-          <div className="nft-price-dollar">($- - -)</div>
+          <div className="nft-price">
+            <ETHIcon />
+            {nftDetail?.price ? nftDetail?.price : '- - -'}
+          </div>
+          <div className="nft-price-dollar">( $ - )</div>
         </div>
       </div>
       <Divider />

@@ -50,7 +50,7 @@ const AuthorizingModal = styled(Modal)`
   }
 `
 
-export const usePurchaseAuthorizingModal = () => {
+export const useAuthorizingModal = () => {
   const { modal, open, close } = useModal((_open, close, visible) => (
     <AuthorizingModal
       visible={visible}
@@ -61,8 +61,8 @@ export const usePurchaseAuthorizingModal = () => {
         <div className="author-title">
           Authorizing your account for this order...
         </div>
-        <div className="author-tip">if a signature request pops up, just click &quot;Sign&quot;</div>
-        <div className="author-tip">to verify that you own your wallet.</div>
+        <div className="author-tip">If a signature request pops up,</div>
+        <div className="author-tip">please click &quot;Sign&quot; to verify that you own your wallet.</div>
       </div>
       <div className="author-img">
         <img src={Authorizing} alt="" style={{ width: '21.1rem', height: '15.2rem' }} />

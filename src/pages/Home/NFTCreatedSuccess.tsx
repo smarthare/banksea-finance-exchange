@@ -9,9 +9,8 @@ type NFTCreatedSuccessProps = {
 }
 
 const SCNFTCreatedSuccessContainer = styled.div`
-  margin: 5rem auto;
+  margin: 0 auto;
   width: 50rem;
-  background-color: white;
   padding: 4.2rem 3rem;
   display: flex;
   flex-direction: column;
@@ -21,10 +20,12 @@ const SCNFTCreatedSuccessContainer = styled.div`
 const SCTitle = styled.div`
   margin-bottom: 4rem;
   font-size: 1.8rem;
-  color: #666666;
+  color: #ececec;
 
   b {
-    color: black;
+    background-image: -webkit-linear-gradient(left, #aef9ff, #571eef);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   b:after {
@@ -34,7 +35,9 @@ const SCTitle = styled.div`
 `
 
 const SCImage = styled.img`
-  width: 30.2rem;
+  max-width: 60rem;
+  max-height: 44rem;
+  object-fit: cover;
   margin-bottom: 5.2rem;
 `
 
@@ -65,18 +68,18 @@ const NFTCreatedSuccess: React.FC<NFTCreatedSuccessProps> = () => {
   }, [name, img])
 
   return (
-    <div style={{ height: 'calc(100vh - 65px)' }}>
+    <div style={{ height: 'calc(100vh - 62px)' }}>
       <SCNFTCreatedSuccessContainer>
         <SCTitle>
           <b>
             {name}
           </b>
-          has been created!
+          has been created !
         </SCTitle>
         <SCImage src={`https://gateway.pinata.cloud/ipfs/${img}`} alt={name} />
         <SCButtonRow>
           <Button
-            style={{ color: 'white', backgroundColor: '#7C6DEB', flex: 6 }}
+            style={{ color: 'white', backgroundColor: 'rgb(78,82,255)', flex: 6 }}
             onClick={() => history.push('/personal/home')}
           >
             Go to Personal Home

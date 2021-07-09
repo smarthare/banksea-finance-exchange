@@ -1,5 +1,4 @@
 import banksyRequest from './banksyRequest'
-import axios from 'axios'
 import { SellingOrder } from '../BanksyWeb3/ethereum/services/exchange/types'
 
 export function banksyNftList(data: any) {
@@ -19,7 +18,7 @@ export function NftHomeCreateData() {
 }
 
 export function createNFT(data: { uri: string, addressCreate: string, tokenId: string, group: string }) {
-  return axios.post('http://43.129.189.139:25566/nft/web/v1/create/uri', data)
+  return banksyRequest.post('/nft/web/v1/create/uri', data)
 }
 
 export function sellOrder(data: SellingOrder) {

@@ -42,7 +42,7 @@ const UserInfo = styled.div`
   .user-name {
     font-size: 3rem;
     font-weight: 500;
-    color: #000000;
+    color: #fff;
     line-height: 4.2rem;
   }
 

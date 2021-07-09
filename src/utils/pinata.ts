@@ -30,7 +30,7 @@ function pinFileToIPFS(file: any) {
   return request.post<PinataResult>(url, data, config)
 }
 
-function pinJsonToIPFS(data: any) {
+async function pinJsonToIPFS(data: any): Promise<PinataResult> {
   const url = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
 
   // const boundary = data._boundary
@@ -44,7 +44,8 @@ function pinJsonToIPFS(data: any) {
     }
   }
 
-  return request.post<PinataResult>(url, data, config)
+  const result = await request.post<PinataResult>(url, data, config)
+  return result.data
 }
 
 export { pinFileToIPFS, pinJsonToIPFS }

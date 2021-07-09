@@ -323,10 +323,12 @@ const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
 }
 
 type SellingModalProps = {
-  nftDetail: any, onSellingConfirmed: () => void
+  nftDetail: any,
+  onSellingConfirmed: () => void
+  onStart: () => void
 }
 
-export const useSellingModal = ({ nftDetail, onSellingConfirmed }: SellingModalProps) => {
+export const useSellingModal = ({ nftDetail, onSellingConfirmed, onStart }: SellingModalProps) => {
   const account = useSelector(getAccount)
 
   const [checked, setChecked] = useState(false)
@@ -357,6 +359,7 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed }: SellingModalP
   })
 
   const handleListing = async (values: typeof formInitialValues) => {
+    onStart()
     if (!await banksyWeb3.eth.Banksy.isApprovedForAll(account!, '0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A')) {
       banksyWeb3.eth.Banksy.setApprovalForAll('0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A', true)
     }

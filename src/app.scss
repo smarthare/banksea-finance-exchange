@@ -17,4 +17,19 @@
   margin: auto;
 }
 
+.ant-btn {
+  background: #554BFF;
+
+  &:hover {
+    background-color: rgb(105,116,255);
+  }
+
+  &, &:hover {
+    border: none;
+    color: #ffffff;
+    font-weight: 550;
+    border-radius: 1rem;
+    color: #ffffff;
+  }
+}
 
