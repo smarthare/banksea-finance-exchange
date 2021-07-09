@@ -172,19 +172,19 @@ const Description = styled.div`
 const CreatButton = styled(Button)`
   width: 211px;
   height: 50px;
-  background: #ffffff;
+  background: #334ed0;
   border: none;
   border-radius: 10px;
   font-size: 16px;
   font-weight: 500;
-  color: #7C6DEB;
+  color: white;
   line-height: 22px;
   position: absolute;
   bottom: 3.7rem;
   left: calc((100% - 211px) / 2);
 
   :hover {
-    background: #00FFFF;
+    background: #2942b6;
     border: none;
     border-radius: 10px;
     font-size: 16px;
@@ -411,7 +411,7 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
           width: '23',
           height: ' 23',
           top: '1rem',
-          left: '11rem',
+          left: '16rem',
           zIndex: 1,
           opacity: 0.7
         }}
