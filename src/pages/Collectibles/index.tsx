@@ -23,6 +23,11 @@ const PageContainer = styled.div`
 const Title = styled.div`
   font-size: 3rem;
   font-weight: 500;
+  background-image: -webkit-linear-gradient(left, #aef9ff, #571eef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+  line-height: 4.2rem;
 `
 
 const FilterContainer = styled.div`

@@ -319,6 +319,7 @@ const HomePage: React.FC = () => {
               <div className="value">$125,300,00</div>
               <div className="sub-title">Earn up to</div>
               <div className="value">303.75%</div>
+              <GotoArrow />
             </div>
 
             <div className="auction-and-splitting">
