@@ -40,8 +40,6 @@ const BundleDetailContainer = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   padding: 2rem 10rem;
-  background: url(${require('../../assets/images/Banksy-Collectible-BG@2x.png').default}) no-repeat;
-  background-size: 100%;
   position: relative;
 
   .operating {
@@ -60,22 +58,22 @@ const LeftArea = styled.div`
 
 `
 
-const TradingHistoryTable = styled(Table)`
+const TradingHistoryTable = styled(Table) `
   width: 100%;
   margin-top: 1.5rem;
 
   .ant-table-container table > thead > tr:first-child th:first-child {
-    border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
+
+
   }
 
   .ant-table-container table > thead > tr:first-child th:last-child {
-    border-top-right-radius: 1rem;
-    border-bottom-right-radius: 1rem;
+
+
   }
 
   .ant-table-thead > tr > th {
-    background-color: #E0DDF6 !important;
+    background-color: #0B111E !important;
   }
 
 
@@ -83,14 +81,40 @@ const TradingHistoryTable = styled(Table)`
     font-size: 14px;
     font-weight: 550;
     line-height: 20px;
-    color: #7C6DEB !important;
+    color: #B3B3B3 !important;
   }
 
   .ant-table-tbody .ant-table-cell {
-    font-size: 14px;
-    color: #7C6DEB;
+    font-size: 1.4rem;
+    color: white;
     line-height: 20px;
+    font-weight: 550;
   }
+
+
+  .ant-table-tbody .ant-table-cell :first-child {
+    border-radius: 5rem;
+  }
+
+  .ant-table-row {
+    background-color: #18284C;
+    user-select: none;
+  }
+
+  .ant-table-tbody {
+    > tr:hover:not(.ant-table-expanded-row) > td, .ant-table-row-hover, .ant-table-row-hover > td {
+      background: #354d86 !important;
+    }
+  }
+
+  .ant-table-tbody > tr > td {
+    border-bottom: 4px solid #0B111E;
+    border-top: 4px solid #0B111E;
+  }
+
+
+
+
 `
 
 const RightArea = styled.div`
@@ -132,20 +156,28 @@ const Operating = styled.div`
 `
 
 const PropertiesArea = styled.div`
-  height: 28.8rem;
-  width: 36rem;
+  height: 21.4rem;
+  width: 31.6rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
-  padding: 2.1rem;
+
   overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #98BDF9;
+    border-radius: 0.5rem;
+    margin-left: 0.5rem;
+  }
 
   .properties-group {
     width: 14.3rem;
     height: 9.1rem;
-    background: #E0DDF6;
+    background: #305099;
     border-radius: 0.5rem;
-    border: 0.1rem solid #7C6DEB;
+    margin-left: -0.5rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -160,7 +192,7 @@ const PropertiesArea = styled.div`
     .key {
       font-size: 1.4rem;
       font-weight: 550;
-      color: #7C6DEB;
+      color: white;
       line-height: 2rem;
       margin-top: 1.2rem;
     }
@@ -169,7 +201,7 @@ const PropertiesArea = styled.div`
       margin-top: 0.8rem;
       font-size: 1.2rem;
       font-weight: 500;
-      color: #A196EF;
+      color: #98BDF9;
       line-height: 1.7rem;
     }
 
@@ -177,7 +209,7 @@ const PropertiesArea = styled.div`
       margin-top: 0.4rem;
       font-size: 1.2rem;
       font-weight: 500;
-      color: #A196EF;
+      color: #98BDF9;
       line-height: 1.7rem;
     }
   }
@@ -201,15 +233,16 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 35.2rem;
-  height: 42.9rem;
-  border-radius: 1rem;
+  width: 31.2rem;
+  height: 34.4rem;
+  border-radius: 2rem;
   justify-content: center;
   position: relative;
-  border: 1px solid #BAB3F2;
+  border: 1px solid #98BDF9;
 
   img {
-    max-height: 40.9rem;
+    max-height: 34.4rem;
+    border-radius: 2rem;
   }
 `
 
@@ -252,10 +285,9 @@ const ItemsContainer = styled.div`
 
   .item {
     width: 25.9rem;
-    height: 8.9rem;
-    background: #E0DDF6;
+    height: 9.2rem;
+    background: #305099;
     border-radius: 1rem;
-    border: 1px solid #7C6DEB;
 
     padding: 2rem 1.1rem;
     flex-wrap: wrap;
@@ -267,15 +299,15 @@ const ItemsContainer = styled.div`
       .label {
         font-size: 1.2rem;
         font-weight: 500;
-        color: #A196EF;
+        color: #B3B3B3;
         line-height: 1.7rem;
 
       }
 
       .value {
         font-size: 1.2rem;
-        font-weight: 400;
-        color: #7C6DEB;
+        font-weight: 550;
+        color: white;
         line-height: 17px;
         overflow: hidden;
         white-space: nowrap;
@@ -287,10 +319,11 @@ const ItemsContainer = styled.div`
 `
 
 const SubTitle = styled.div`
-  font-size: 1.6rem;
+  font-size: 2.2rem;
   font-weight: 550;
-  color: #7C6DEB;
+  color: #98BDF9;
   line-height: 2.2rem;
+  margin-bottom: 4rem;
 `
 
 const OtherArtworksArea = styled.div`
@@ -309,9 +342,9 @@ const OtherArtworksContainer = styled.div`
   margin-top: 3rem;
 
   .artwork-group {
-    height: 37rem;
-    width: 19.2rem;
-    background-color: white;
+    height: 30rem;
+    width: 22rem;
+    background-color: #111C3A;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
@@ -325,8 +358,9 @@ const OtherArtworksContainer = styled.div`
       position: relative;
 
       .artwork-img {
-        width: 172px;
-        height: 205px;
+        height: 22rem;
+        width: 22rem;
+        object-fit: cover;
         border-radius: 10px;
         display: flex;
         justify-content: center;
@@ -336,7 +370,7 @@ const OtherArtworksContainer = styled.div`
         width: 100%;
         font-size: 14px;
         font-weight: 550;
-        color: #7C6DEB;
+        color: white;
         padding: 0 1rem;
         margin-top: 1.5rem;
         margin-bottom: 1.5rem;
@@ -351,11 +385,13 @@ const OtherArtworksContainer = styled.div`
     .artwork-like {
       display: flex;
       padding: 1.0rem 1rem;
+      justify-content: space-between;
 
       .liked {
+        display: flex;
         font-size: 14px;
         font-weight: 500;
-        color: #7C6DEB;
+        color: white;
         line-height: 20px;
       }
     }
@@ -382,9 +418,9 @@ const OtherArtworksContainer = styled.div`
 
 const NFTBaseInfoContainer = styled.div`
   .nft-name {
-    font-size: 3.2rem;
-    font-weight: 400;
-    color: #7C6DEB;
+    font-size: 4.5rem;
+    font-weight: 550;
+    color: #98BDF9;
   }
 
   .description {
@@ -400,7 +436,7 @@ const NFTBaseInfoContainer = styled.div`
   .info-row {
     margin-top: 0.8rem;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
 
     &-item {
@@ -410,8 +446,8 @@ const NFTBaseInfoContainer = styled.div`
 
       &-label {
         font-size: 1.6rem;
-        font-weight: 400;
-        color: #A196EF;
+        font-weight: 500;
+        color: #98BDF9;
         line-height: 2.2rem;
         padding-right: 1.4rem;
       }
@@ -419,25 +455,40 @@ const NFTBaseInfoContainer = styled.div`
       &-value {
         font-size: 1.6rem;
         font-weight: 500;
-        color: #7C6DEB;
+        color: #98BDF9;
         line-height: 2.2rem;
         user-select: none;
       }
 
       .icon-copy {
         margin-left: 0.5rem;
-        color: #7C6DEB;
+        color: #98BDF9;
         cursor: pointer;
       }
 
-      .icon-favorite {
-        width: 2.4rem;
-        height: 1.4rem;
-        display: flex;
-        align-self: center;
-        margin-right: 0.4rem;
-      }
+
     }
+  }
+
+  .info-row-favorite {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6rem;
+
+    .info-row-item-value {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .icon-favorite {
+      width: 2rem;
+      height: 1.2rem;
+      display: flex;
+      align-self: center;
+      margin-right: 0.4rem;
+    }
+
+
   }
 
   .price-favorite-row {
@@ -449,7 +500,8 @@ const NFTBaseInfoContainer = styled.div`
 
     div {
       display: flex;
-      color: #A196EF;
+      color: #98BDF9;
+      font-weight: 550;
     }
 
     .price {
@@ -459,13 +511,19 @@ const NFTBaseInfoContainer = styled.div`
       .price-label {
         font-size: 1.6rem;
         font-weight: bold;
-        color: #A196EF;
+        color: #98BDF9;
         margin-right: 0.8rem;
       }
 
       .price-value {
-        font-size: 3rem;
+        font-size: 1.6rem;
       }
+    }
+
+    .info-name {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 1.6rem;
     }
 
   }
@@ -491,7 +549,7 @@ const BuyOperating = styled.div`
   .buyNow {
     width: 25.9rem;
     height: 40px;
-    background: #7C6DEB;
+    background: #305099;
     border-radius: 10px;
     font-size: 1.4rem;
     font-weight: 500;
@@ -655,18 +713,19 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
             onClick={() => handleCopy(nftDetail?.addressCreate)}
           />
         </div>
-        <div className="info-row-item">
-          <img
-            src={Show}
-            alt=""
-            className="icon-favorite"
-          />
-          <div className="info-row-item-value">{likeNum?.view ? likeNum?.view : 0} views</div>
-        </div>
       </div>
-      <div className="description">
+      <div className="info-row-favorite">
+        <img
+          src={Show}
+          alt=""
+          className="icon-favorite"
+        />
+        <div className="info-row-item-value" >{likeNum?.view ? likeNum?.view : 0}</div>
+      </div>
+
+      {/*<div className="description">
         {nftDetail?.description}
-      </div>
+      </div>*/}
       <PriceContainer>
         <div className="price-favorite-row">
           <div className="price">
@@ -691,7 +750,7 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
                 marginRight: '0.4rem'
               }}
             />
-            <div className="info-name">{likeNum?.favorite} favorites</div>
+            <div className="info-name">{likeNum?.favorite}</div>
           </div>
         </div>
       </PriceContainer>
@@ -749,93 +808,105 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more1} style={{ height: '205px' }} alt="" />
+              <img src={more1} style={{ borderRadius:'1rem', objectFit:'cover' }} alt="" />
             </div>
             <div className="artwork-describe">Pikachu Baby Bimbo #0005</div>
           </div>
           <div className="artwork-like">
-            <img
-              src={Heart}
-              alt=""
-              style={{
-                width: '2.4rem,',
-                height: '1.4rem',
-                display: 'flex',
-                alignSelf: 'center',
-                marginRight: '0.4rem'
-              }}
-            />
-            <div className="liked">0</div>
-            <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+            <div className="liked">
+              <img
+                src={Heart}
+                alt=""
+                style={{
+                  width: '2.4rem,',
+                  height: '1.4rem',
+                  display: 'flex',
+                  alignSelf: 'center',
+                  marginRight: '0.2rem'
+                }}
+              />
+              0
+            </div>
+
+            <div className="liked"> 5BAKE</div>
           </div>
         </div>
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more2} style={{ height: '205px' }} alt="'" />
+              <img src={more2} style={{ borderRadius:'1rem', objectFit:'cover' }} alt="'" />
             </div>
             <div className="artwork-describe">1 - The Elf</div>
           </div>
           <div className="artwork-like">
-            <img
-              src={Heart}
-              alt=""
-              style={{
-                width: '2.4rem,',
-                height: '1.4rem',
-                display: 'flex',
-                alignSelf: 'center',
-                marginRight: '0.4rem'
-              }}
-            />
-            <div className="liked">0</div>
-            <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+            <div className="liked">
+              <img
+                src={Heart}
+                alt=""
+                style={{
+                  width: '2.4rem,',
+                  height: '1.4rem',
+                  display: 'flex',
+                  alignSelf: 'center',
+                  marginRight: '0.2rem'
+                }}
+              />
+              0
+            </div>
+
+            <div className="liked"> 5BAKE</div>
           </div>
         </div>
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more3} style={{ height: '205px' }} alt="" />
+              <img src={more3} style={{ borderRadius:'1rem', objectFit:'cover' }} alt="" />
             </div>
             <div className="artwork-describe">Mona Lisa Smile &apos;Gamma Edition &apos;</div>
           </div>
           <div className="artwork-like">
-            <img
-              src={Heart}
-              alt=""
-              style={{
-                width: '2.4rem,',
-                height: '1.4rem',
-                display: 'flex',
-                alignSelf: 'center',
-                marginRight: '0.4rem'
-              }}
-            />
-            <div className="liked">0</div>
-            <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+            <div className="liked">
+              <img
+                src={Heart}
+                alt=""
+                style={{
+                  width: '2.4rem,',
+                  height: '1.4rem',
+                  display: 'flex',
+                  alignSelf: 'center',
+                  marginRight: '0.2rem'
+                }}
+              />
+              0
+            </div>
+
+            <div className="liked"> 5BAKE</div>
           </div>
         </div>
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more4} style={{ height: '205px' }} alt="" />
+              <img src={more4} style={{ borderRadius:'1rem', objectFit:'cover' }} alt="" />
             </div>
             <div className="artwork-describe">Like you mean it</div>
           </div>
           <div className="artwork-like">
-            <img
-              src={Heart}
-              alt=""
-              style={{
-                width: '2.4rem,',
-                height: '1.4rem',
-                display: 'flex',
-                alignSelf: 'center',
-                marginRight: '0.4rem'
-              }}
-            />
-            <div className="liked">0</div>
-            <div className="liked" style={{ marginLeft: '8.6rem' }}> 5BAKE</div>
+            <div className="liked">
+              <img
+                src={Heart}
+                alt=""
+                style={{
+                  width: '2.4rem,',
+                  height: '1.4rem',
+                  display: 'flex',
+                  alignSelf: 'center',
+                  marginRight: '0.2rem'
+                }}
+              />
+              0
+            </div>
+
+            <div className="liked"> 5BAKE</div>
           </div>
         </div>
       </OtherArtworksContainer>

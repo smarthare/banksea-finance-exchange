@@ -3,8 +3,8 @@ import { Menu } from 'antd'
 import styled from 'styled-components'
 import { Link, useLocation } from 'react-router-dom'
 import routes, { Route } from '../../routes'
-import twitterIcon from '../../assets/images/slidebarLink/twitter.png'
-import telegramIcon from '../../assets/images/slidebarLink/telegram.png'
+import twitterIcon from '../../assets/images/slidebarLink/twitter.svg'
+import telegramIcon from '../../assets/images/slidebarLink/telegram.svg'
 
 const Container = styled.div`
   width: 20.2rem;
@@ -55,7 +55,9 @@ const CustomizedLink = styled.div`
   position: absolute;
   bottom: 100px;
   display: flex;
+  justify-content: space-around;
   align-items: center;
+  padding-right: 5rem ;
 
   &,
   a {

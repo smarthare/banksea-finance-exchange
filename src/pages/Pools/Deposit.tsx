@@ -65,7 +65,7 @@ const DepositAreaRight = styled.div`
 const Line = styled.div`
   width: 100%;
   height: 0.1rem;
-  background: linear-gradient(to right, #00D4D7, #5D00B3);
+  background: linear-gradient(to right, #00FFFF, #5D00B3);
 `
 
 const CoinTabsArea = styled.div`
