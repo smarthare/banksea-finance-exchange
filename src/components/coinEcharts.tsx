@@ -4,13 +4,13 @@ import ReactECharts from 'echarts-for-react'
 const Page: React.FC = () => {
   const option = {
     title: {
-      text: '堆叠区域图'
+      text: 'Historical rates'
     },
     tooltip : {
       trigger: 'axis'
     },
     legend: {
-      data:['邮件营销','联盟广告','视频广告']
+      data:[]
     },
     toolbox: {
       feature: {
@@ -27,7 +27,7 @@ const Page: React.FC = () => {
       {
         type : 'category',
         boundaryGap : false,
-        data : ['周一','周二','周三','周四','周五','周六','周日']
+        data : ['May 7','May 14','May 21','May 28 ','Jun 5','Jun 12']
       }
     ],
     yAxis : [
@@ -37,17 +37,25 @@ const Page: React.FC = () => {
     ],
     series : [
       {
-        name:'邮件营销',
+        name:'Historical rates',
         type:'line',
-        stack: '总量',
-        areaStyle: { normal: {} },
-        data:[120, 132, 101, 134, 90, 230, 210]
+        itemStyle : {
+          normal : {
+            lineStyle:{
+              color:'#6243F1'
+            }
+          }
+        },
+        areaStyle: { normal: {
+          color: '#101D44'
+        } },
+        data:[0.1, 0.15, 0.3, 0.2, 0.7, 0.9, 0.12]
       }
     ]
   }
 
 
-  return <ReactECharts option={option} style={{ height: 400 }} />
+  return <ReactECharts option={option} style={{ width: 800, height: 200 }} />
 }
 
 export default Page

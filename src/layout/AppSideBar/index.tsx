@@ -80,7 +80,7 @@ const AppSideBar: React.FC = () => {
       <CustomizedMenu selectedKeys={[selectedKey]} mode="inline" theme="dark">
         {
           routes.filter(route => !route.hidden).map((route: Route) => {
-            const fillColor = (route.path === pathname || route.match?.test(pathname)) ? 'white' : 'rgb(178,178,178)'
+            const fillColor = (route.path === pathname || route.match?.test(pathname)) ? 'white' : '#fff'
 
             return (
               <Menu.Item key={route.path} icon={<route.icon fill={fillColor}  />}>

@@ -8,6 +8,7 @@ import { ReactComponent as OracleIcon } from '../assets/images/menu-icons/oracle
 import { ReactComponent as LevelUpIcon } from '../assets/images/menu-icons/level-up.svg'
 import { ReactComponent as PoolsIcon } from '../assets/images/menu-icons/pools.svg'
 import { ReactComponent as MarketplaceIcon } from '../assets/images/menu-icons/marketplace.svg'
+import { ReactComponent as PriceAirDropIcon } from '../assets/images/menu-icons/priceAirDrop.svg'
 
 
 import { CollectibleDetailPage } from '../pages/Collectibles/CollectibleDetail'
@@ -20,6 +21,7 @@ import FarmPage from '../pages/Farms'
 import TestPage from '../pages/Test'
 import VotePage from '../pages/Vote'
 import PoolsPage from '../pages/Pools/index'
+import NFTMortgageDetailPage from '../pages/Pools/NFTMortgageDetail'
 
 export type Route = {
   path: string
@@ -115,9 +117,15 @@ const routes: Route[] = [
     hidden: true
   },
   {
-    path: '/vote',
-    title: 'vote',
-    component: VotePage,
+    path: '/PriceAirdrop',
+    title: 'PriceAirdrop',
+    icon: PriceAirDropIcon,
+    component: VotePage
+  },
+  {
+    path: '/nftMortgageDetailPage',
+    title: 'nftMortgageDetailPage',
+    component: NFTMortgageDetailPage,
     hidden: true
   }
 ]

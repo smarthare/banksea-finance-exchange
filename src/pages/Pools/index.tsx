@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import MarkePage from './Marke'
+import MarkePage from './Market'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import MyDashboardPage from './MyDashboard'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
@@ -27,6 +27,7 @@ const PoolsContainerMenu = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-weight: bolder;
 
     .container-menu-item {
       color: #9EA0A3;

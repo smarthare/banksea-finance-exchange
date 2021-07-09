@@ -15,48 +15,15 @@ const MarkeContainer = styled.div`
 `
 
 const MarkeTotal = styled.div`
-  height: 17rem;
-  background: #0F192F;
+  width: 130rem;
+  margin-left: calc((100% - 130rem) / 2);
   padding-top: 3.3rem;
-
-  .markeTotal-title {
-    margin-left: calc((100% - 130rem) / 2);
-    color: #fff;
-    font-weight: bolder;
-    font-size: 3rem;
-  }
-
-  .markeTotal-text {
-    font-size: 4.6rem;
-    color: #554BFF;
-    font-weight: bolder;
-    margin-left: calc((100% - 130rem) / 2);
-    margin-top: -3rem;
-  }
 `
 
-const CurrencyTabs = styled.div`
-  width: 12.3rem;
-  height: 2.7rem;
-  background: #111C3A;
-  color: #fff;
-  border-radius: 1rem;
-  display: flex;
-  margin-top: 5.1rem;
-  margin-left: calc((100% - 130rem) / 2);
-
-  .currency {
-    width: 6.15rem;
-    height: 2.7rem;
-    text-align: center;
-    line-height: 2.7rem;
-    cursor: pointer;
-  }
-
-  .tabs__link {
-    background: #554BFF;
-    border-radius: 1rem;
-  }
+const MarkeTotalLeft = styled.div`
+  width: 58rem;
+  height: 30rem;
+  background: #000c17;
 `
 
 const USDPoolContainer = styled.div`
@@ -66,11 +33,6 @@ const USDPoolContainer = styled.div`
   .UsdPool-container {
     width: 130rem;
     margin-left: calc((100% - 130rem) / 2);
-    display: none;
-  }
-
-  .UsdPool-container.active {
-    display: block;
   }
 `
 
@@ -129,13 +91,13 @@ const USDPollTableMain = styled.div`
   }
 `
 
-const USDPool:React.FC<{ currencyCurrent: number }> = ({ currencyCurrent }) => {
+const USDPool:React.FC = () => {
 
   const usdTableTop = ['Assets', 'Market size', 'Total borrowed', 'Deposit APY', 'Borrow APY', 'Borrow APY']
 
   return (
     <USDPoolContainer>
-      <div className={clsx('UsdPool-container', currencyCurrent === 0 && 'active')}>
+      <div className="UsdPool-container">
         <USDPoolTableTop>
           {
             usdTableTop.map((item: string, index) => (
@@ -160,31 +122,16 @@ const USDPool:React.FC<{ currencyCurrent: number }> = ({ currencyCurrent }) => {
 
 const MarkePage:React.FC<any> = ({ current }) => {
 
-  const tabs = ['USD', 'KSY']
-
-  const [currencyCurrent, setCurrencyCurrent] = useState<number>(0)
 
   return (
     <MarkeContainer>
       <div className={clsx('marke', current === 0 && 'active')}>
         <MarkeTotal>
-          <p className="markeTotal-title">Total market size</p>
-          <p className="markeTotal-text">$665, 550, 000 </p>
+          <MarkeTotalLeft>
+            11
+          </MarkeTotalLeft>
         </MarkeTotal>
-        <CurrencyTabs>
-          {
-            tabs?.map((item: any, index) => (
-              <div
-                className={clsx('currency', currencyCurrent === index && 'tabs__link')}
-                onClick={() => setCurrencyCurrent(index)}
-                key="index"
-              >
-                {item}
-              </div>
-            ))
-          }
-        </CurrencyTabs>
-        <USDPool currencyCurrent={currencyCurrent} />
+        <USDPool />
       </div>
     </MarkeContainer>
   )
