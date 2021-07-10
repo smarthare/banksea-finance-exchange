@@ -267,8 +267,8 @@ const TwitterVotesTable: React.FC<VotesType> = ({ current, onPressEnter, retweet
                     <td>{index + 1}</td>
                     <td>{item?.twitterId}</td>
                     <td>{item?.retweetLink}</td>
-                    <td>{item?.referrerId}</td>
                     <td>{item?.walletAddress}</td>
+                    <td>{item?.referrerId}</td>
                   </tr>
                 ))
               }
@@ -426,8 +426,9 @@ const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter })
                   <tr key={index}>
                     <td>{item?.ranking}</td>
                     <td>{item?.discordId}</td>
+                    <td>{item?.filecoinWalletAddress}</td>
                     <td>{item?.filecoinVotes}</td>
-                    <td>{item?.referrerId}</td>
+                    
                   </tr>
                 ))
               }

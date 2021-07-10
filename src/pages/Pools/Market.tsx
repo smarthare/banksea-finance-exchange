@@ -329,7 +329,7 @@ const MarkePage:React.FC<any> = ({ current }) => {
       <div className={clsx('marke', current === 0 && 'active')}>
         <MarkeTotal>
           <Tatistics>
-            <AreaTitle>Availble to deposit</AreaTitle>
+            <AreaTitle>Deposit size</AreaTitle>
             <Line />
             <MarketSizeStatistics>
               <div className="market-size">$3,987,654,456,00</div>
