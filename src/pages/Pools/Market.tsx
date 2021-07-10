@@ -305,7 +305,7 @@ const USDPool:React.FC<{current: number}> = ({ current }) => {
           <div className="table-item" onClick={() => history.push('/storagePoolDetail')}>
             <div>
               <USDIcon />
-              USDC
+              
             </div>
             <div>$ 1.14B</div>
             <div>$ 884.44M</div>
@@ -329,7 +329,7 @@ const MarkePage:React.FC<any> = ({ current }) => {
       <div className={clsx('marke', current === 0 && 'active')}>
         <MarkeTotal>
           <Tatistics>
-            <AreaTitle>Availble to mortgage</AreaTitle>
+            <AreaTitle>Availble to deposit</AreaTitle>
             <Line />
             <MarketSizeStatistics>
               <div className="market-size">$3,987,654,456,00</div>
