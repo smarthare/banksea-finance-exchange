@@ -267,7 +267,7 @@ const USDPool:React.FC<{current: number}> = ({ current }) => {
   return (
     <PoolContainer>
       <div className="UsdPool-container">
-        <AreaTitle>Storage Pools</AreaTitle>
+        <AreaTitle>Deposit Pools</AreaTitle>
         <TableTop>
           {
             usdTableTop.map((item: string, index) => (
@@ -305,7 +305,7 @@ const USDPool:React.FC<{current: number}> = ({ current }) => {
           <div className="table-item" onClick={() => history.push('/storagePoolDetail')}>
             <div>
               <USDIcon />
-              Matic(MATIC)
+              USDC
             </div>
             <div>$ 1.14B</div>
             <div>$ 884.44M</div>
