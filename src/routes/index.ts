@@ -118,8 +118,8 @@ const routes: Route[] = [
     hidden: true
   },
   {
-    path: '/PriceAirdrop',
-    title: 'PriceAirdrop',
+    path: '/Airdrop',
+    title: 'Airdrop',
     icon: PriceAirDropIcon,
     component: VotePage
   },

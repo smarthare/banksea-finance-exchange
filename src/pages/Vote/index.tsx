@@ -241,7 +241,7 @@ type VotesType = {
 const TwitterVotesTable: React.FC<VotesType> = ({ current, onPressEnter, retweetTable }) => {
   return (
     <VotesContainerTable>
-      <div className={clsx('votes', current === 0 && 'active')}>
+      <div className={clsx('votes', current === 1 && 'active')}>
         <div className="search-box">
           <SearchInput
             onPressEnter={onPressEnter}
@@ -308,7 +308,7 @@ const TwitterVoteRegistration: React.FC<VotesType> = ({ current, onPressEnter, r
 
   return (
     <Registration>
-      <div className={clsx('registration', current === 0 && 'active')}>
+      <div className={clsx('registration', current === 1 && 'active')}>
         <RegistrationContainer form={twitterForm} initialValues={twitterFormValues} >
           <RegistrationItem>
             <p>Twitter ID</p>
@@ -402,7 +402,7 @@ const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter })
 
   return (
     <VotesContainerTable>
-      <div className={clsx('votes', current === 1 && 'active')}>
+      <div className={clsx('votes', current === 0 && 'active')}>
         <div className="search-box">
           <SearchInput
             onPressEnter={onPressEnter}
@@ -473,7 +473,7 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
   // @ts-ignore
   return (
     <Registration>
-      <div className={clsx('registration', current === 1 && 'active')}>
+      <div className={clsx('registration', current === 0 && 'active')}>
         <RegistrationContainer form={form} initialValues={formInitialValues}>
           <RegistrationItem>
             <p>Discord ID or Twitter ID or Telegram ID, Or Others</p>
@@ -540,22 +540,22 @@ const VotePage: React.FC = () => {
 
   const [retweetTable, setRetweetTable] = useState<any>()
 
-  const tabs = ['Retweet', 'Filection Votes', 'Solana Votes']
+  const tabs = [ 'Filection Votes','Retweet', 'Solana Votes']
 
 
   const init = useCallback(async (searchKey: any) => {
     if (current === 0) {
-      await retweetList({
-        searchKey: searchKey
-      }).then((res: any) => {
-        setRetweetTable(res.data.data)
-      })
-    }
-    if (current === 1) {
       await filecoinList({
         searchKey: searchKey
       }).then((res: any) => {
         setFilecoin(res.data.data)
+      })
+    }
+    if (current === 1) {
+      await retweetList({
+        searchKey: searchKey
+      }).then((res: any) => {
+        setRetweetTable(res.data.data)
       })
     }
     if (current === 2) {
@@ -593,8 +593,8 @@ const VotePage: React.FC = () => {
           ))
         }
       </ViewOperationSelect>
-      <TwitterVoteRegistration current={current} retweetTable={retweetTable} onPressEnter={onPressEnter} init={init} />
       <VoteRegistration current={current} filecoin={filecoin} onPressEnter={onPressEnter} init={init} />
+      <TwitterVoteRegistration current={current} retweetTable={retweetTable} onPressEnter={onPressEnter} init={init} />
       <SolanaVotes current={current} solana={solana} onPressEnter={onPressEnter} />
     </VoteContainer>
   )

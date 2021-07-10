@@ -520,7 +520,7 @@ const NFTCreate: React.FC = () => {
 
   return (
     <ArtistPageContainer>
-      <div className="title">Banksy Artists</div>
+      <div className="title">Banksy Artwork</div>
       <ArtistForm form={form} colon={false} layout="vertical" initialValues={formInitialValues}>
         <h1>1. Artwork Information</h1>
 
