@@ -421,7 +421,7 @@ const MortgagePage:React.FC<{current: number}> = ({ current }) => {
     <MortgageMain className={clsx(current === 4 && 'active')}>
       <MortgagesTitle>NFT Mortgages</MortgagesTitle>
       <MortgageMainLeft>
-        <AreaTitle>Availble to deposit</AreaTitle>
+        <AreaTitle>Availble to mortgage</AreaTitle>
         <Line />
         <SerielsTop>
           <span>Crypto Punks Seriels</span>
