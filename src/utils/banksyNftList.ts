@@ -69,7 +69,7 @@ export function completeOrder(data: any) {
 }
 
 export function voteCreate(data: any) {
-  return banksyRequest.post<BanksyApiResponse<any>>('nft/web/v1/vote/form', data)
+  return banksyRequest.post<BanksyApiResponse<any>>('nft/web/v1/vote/form/filecoin', data)
 }
 
 export function filecoinList(data: any) {

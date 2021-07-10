@@ -6,9 +6,21 @@ import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import MyDashboardPage from './MyDashboard'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import DepositPage from './Deposit'
+import StakePage from './Stake'
+import BorrowPage from './Borrow'
+import MortgagePage from './Mortgage'
+import coding from '../../assets/images/mockImg/coding.png'
 
 const PoolsContainer = styled.div`
   min-height: 100vh;
+  position: relative;
+
+  .coding {
+    width: 15rem;
+    position: absolute;
+    top: 3rem;
+    right: 0;
+  }
 `
 
 const PoolsContainerMenu = styled.div`
@@ -49,7 +61,7 @@ const PoolsPage:React.FC = () => {
   const [current, setCurrent] = useState<number>(0)
 
 
-  const menuTabs = ['MARKET', 'MY DASHBOARD', 'DEPOSIT', 'BORROW', 'STAKE']
+  const menuTabs = ['MARKET', 'MY DASHBOARD', 'DEPOSIT', 'BORROW', 'MORTGAGES', 'STAKE']
 
   const init = useCallback(() => {
     if (current === 1) {
@@ -65,6 +77,7 @@ const PoolsPage:React.FC = () => {
 
   return (
     <PoolsContainer>
+      <img className="coding" src={coding} alt="" />
       <PoolsContainerMenu>
         <div className="container-menu-main">
           {
@@ -81,8 +94,11 @@ const PoolsPage:React.FC = () => {
         </div>
       </PoolsContainerMenu>
       <MarkePage current={current} />
-      <MyDashboardPage current={current} />
+      <MyDashboardPage current={current} providerInitialized={providerInitialized} />
       <DepositPage current={current} />
+      <StakePage current={current} />
+      <BorrowPage current={current} setCurrent={setCurrent} />
+      <MortgagePage current={current} />
     </PoolsContainer>
   )
 }

@@ -22,6 +22,7 @@ import TestPage from '../pages/Test'
 import VotePage from '../pages/Vote'
 import PoolsPage from '../pages/Pools/index'
 import NFTMortgageDetailPage from '../pages/Pools/NFTMortgageDetail'
+import StoragePoolDetail from '../pages/Pools/StoragePoolDetail'
 
 export type Route = {
   path: string
@@ -126,6 +127,12 @@ const routes: Route[] = [
     path: '/nftMortgageDetailPage',
     title: 'nftMortgageDetailPage',
     component: NFTMortgageDetailPage,
+    hidden: true
+  },
+  {
+    path: '/storagePoolDetail',
+    title: 'storagePoolDetail',
+    component: StoragePoolDetail,
     hidden: true
   }
 ]

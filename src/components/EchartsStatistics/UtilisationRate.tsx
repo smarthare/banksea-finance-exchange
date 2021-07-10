@@ -1,22 +1,15 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
 
-const Page: React.FC = () => {
+const UtilisationRate: React.FC = () => {
   const option = {
-    title: {
-      text: 'Historical rates'
-    },
     tooltip : {
       trigger: 'axis'
     },
     legend: {
       data:[]
     },
-    toolbox: {
-      feature: {
-        saveAsImage: {}
-      }
-    },
+    toolbox: {},
     grid: {
       left: '3%',
       right: '4%',
@@ -42,7 +35,7 @@ const Page: React.FC = () => {
         itemStyle : {
           normal : {
             lineStyle:{
-              color:'#6243F1'
+              color:'#fff'
             }
           }
         },
@@ -55,7 +48,7 @@ const Page: React.FC = () => {
   }
 
 
-  return <ReactECharts option={option} style={{ width: 800, height: 200 }} />
+  return <ReactECharts option={option} style={{ width: '100%', height: 150, }} />
 }
 
-export default Page
+export default UtilisationRate

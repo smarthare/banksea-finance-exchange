@@ -21,11 +21,12 @@ const PageContainer = styled.div`
 `
 
 const Title = styled.div`
-  font-size: 3rem;
+  font-size: 4.6rem;
   font-weight: 500;
   background-image: -webkit-linear-gradient(left, #aef9ff, #571eef);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 3px #aef9ff, 0 0 5px #571eef, 0 0 10px #aef9ff, 0 0 15px #571eef;
   margin-bottom: 2rem;
   line-height: 4.2rem;
 `

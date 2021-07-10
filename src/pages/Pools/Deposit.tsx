@@ -102,12 +102,16 @@ const AllCoinTableTop = styled.div`
   display: flex;
 
   div {
-    width: 30%;
     color: #B3B3B3;
     font-size: 1.7rem;
   }
 
+  div:nth-of-type(1) {
+    width: 28%;
+  }
+
   div:nth-of-type(2), div:nth-of-type(3) {
+    width: 25%;
     text-align: center;
   }
 `
@@ -125,13 +129,22 @@ const AllCoinTableMain = styled.div`
     margin-top: 1.5rem;
 
     div {
-      width: 30%;
       color: #ffffff;
+    }
+
+    div:nth-of-type(1) {
+      width: 28%;
+    }
+
+    div:nth-of-type(2), div:nth-of-type(3) {
+      width: 25%;
+      text-align: center;
     }
 
     .assets {
       font-size: 1.8rem;
       padding-left: 3rem;
+      display: flex;
     }
 
     .walletBalance {
@@ -172,6 +185,18 @@ const AllCoinTableMain = styled.div`
   }
 `
 
+const DepositButton = styled.div`
+  width: 7rem;
+  height: 2rem;
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  background: #234890;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+  cursor: pointer;
+`
+
 const ETHIcon: React.FC = () => {
   return (
     <img
@@ -193,7 +218,10 @@ const AllCoinContainer:React.FC = () => {
       </AllCoinTableTop>
       <AllCoinTableMain>
         <div className="allCoin-table-item">
-          <div className="assets">Ethereum（ETH)</div>
+          <div className="assets">
+            <ETHIcon />
+            <span>Ethereum（ETH)</span>
+          </div>
           <div className="walletBalance">
             <p>12.000</p>
             <p>$11.3445</p>
@@ -202,6 +230,72 @@ const AllCoinContainer:React.FC = () => {
             <p>12.000</p>
             <p>$11.3445</p>
           </div>
+          <DepositButton>deposit</DepositButton>
+          <DepositButton>Withdraw</DepositButton>
+        </div>
+        <div className="allCoin-table-item">
+          <div className="assets">
+            <ETHIcon />
+            <span>Ethereum（ETH)</span>
+          </div>
+          <div className="walletBalance">
+            <p>12.000</p>
+            <p>$11.3445</p>
+          </div>
+          <div className="apy">
+            <p>12.000</p>
+            <p>$11.3445</p>
+          </div>
+          <DepositButton>deposit</DepositButton>
+          <DepositButton>Withdraw</DepositButton>
+        </div>
+        <div className="allCoin-table-item">
+          <div className="assets">
+            <ETHIcon />
+            <span>Ethereum（ETH)</span>
+          </div>
+          <div className="walletBalance">
+            <p>12.000</p>
+            <p>$11.3445</p>
+          </div>
+          <div className="apy">
+            <p>12.000</p>
+            <p>$11.3445</p>
+          </div>
+          <DepositButton>deposit</DepositButton>
+          <DepositButton>Withdraw</DepositButton>
+        </div>
+        <div className="allCoin-table-item">
+          <div className="assets">
+            <ETHIcon />
+            <span>Ethereum（ETH)</span>
+          </div>
+          <div className="walletBalance">
+            <p>12.000</p>
+            <p>$11.3445</p>
+          </div>
+          <div className="apy">
+            <p>12.000</p>
+            <p>$11.3445</p>
+          </div>
+          <DepositButton>deposit</DepositButton>
+          <DepositButton>Withdraw</DepositButton>
+        </div>
+        <div className="allCoin-table-item">
+          <div className="assets">
+            <ETHIcon />
+            <span>Ethereum（ETH)</span>
+          </div>
+          <div className="walletBalance">
+            <p>12.000</p>
+            <p>$11.3445</p>
+          </div>
+          <div className="apy">
+            <p>12.000</p>
+            <p>$11.3445</p>
+          </div>
+          <DepositButton>deposit</DepositButton>
+          <DepositButton>Withdraw</DepositButton>
         </div>
       </AllCoinTableMain>
     </AllCoinTable>

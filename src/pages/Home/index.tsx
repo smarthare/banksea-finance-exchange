@@ -7,6 +7,7 @@ import Mortgage from '@/assets/images/homePageImg/mortgage-bg.svg'
 import Liquidity from '@/assets/images/homePageImg/liquidity-bg.svg'
 import RightArrow from '@/assets/images/homePageImg/right-arrow.svg'
 import CornerFlag from '@/assets/images/homePageImg/corner-flag-ai.svg'
+import voteBanner from '@/assets/images/VoteImg/VoteBanner.png'
 
 import { Carousel } from 'antd'
 import { useHistory } from 'react-router-dom'
@@ -49,9 +50,9 @@ const InfoContainer = styled.div`
       border-radius: 2rem;
       margin-bottom: 3rem;
       padding: 2.5rem 4.5rem;
-
       background: url(${require('../../assets/images/homePageImg/lend-borrow-bg.svg').default}) no-repeat;
       background-size: 100%;
+      transition: all 1s;
 
 
       .main-title {
@@ -93,7 +94,6 @@ const InfoContainer = styled.div`
       .info-panel {
         padding: 2.5rem 4.5rem;
         position: relative;
-
         width: 56.4rem;
         height: 23.8rem;
         background: #111C3A;
@@ -160,6 +160,7 @@ const InfoContainer = styled.div`
       background: #111C3A;
       border-radius: 2rem;
       margin-bottom: 3rem;
+      transition: all 1s;
 
 
       .main-title2 {
@@ -295,16 +296,7 @@ const HomePage: React.FC = () => {
       <HeadLine>
         <MyCarousel autoplay>
           <div>
-            <h3><img src={CornerFlag} alt="logo" style={{ height: '30rem' }} /></h3>
-          </div>
-          <div>
-            <h3><img src={CornerFlag} alt="logo" style={{ height: '30rem' }} /></h3>
-          </div>
-          <div>
-            <h3><img src={CornerFlag} alt="logo" style={{ height: '30rem' }} /></h3>
-          </div>
-          <div>
-            <h3><img src={CornerFlag} alt="logo" style={{ height: '30rem' }} /></h3>
+            <img src={voteBanner} alt="logo" style={{ height: '30rem', margin: '0 auto' }} />
           </div>
         </MyCarousel>
       </HeadLine>
@@ -312,7 +304,7 @@ const HomePage: React.FC = () => {
         <InfoContainer>
 
           <div className="row1">
-            <div className="lend-and-borrow">
+            <div className="lend-and-borrow" onClick={() => history.push('/pools')}>
               <AIFlag />
               <div className="main-title">NFT Lending</div>
               <div className="sub-title">Market size</div>
@@ -323,7 +315,7 @@ const HomePage: React.FC = () => {
             </div>
 
             <div className="auction-and-splitting">
-              <div className="info-panel">
+              <div className="info-panel" onClick={() => history.push('/pools')}>
                 <div className="main-title2">Safety pool
                   <PanelIcon iconName={Auction} />
                 </div>
@@ -335,7 +327,7 @@ const HomePage: React.FC = () => {
                 <GotoArrow />
               </div>
 
-              <div className="info-panel">
+              <div className="info-panel" onClick={() => history.push('/pools')}>
                 <div className="main-title2">Deposit
                   <PanelIcon iconName={Splitting} />
                 </div>
@@ -365,7 +357,7 @@ const HomePage: React.FC = () => {
               <GotoArrow />
             </div>
 
-            <div className="info-panel">
+            <div className="info-panel" onClick={() => history.push('/pools')}>
               <div className="main-title2">Borrow
                 <PanelIcon iconName={Liquidity} />
               </div>

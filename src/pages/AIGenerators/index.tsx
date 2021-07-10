@@ -78,10 +78,10 @@ const GeneratorTop = styled.div`
     .title {
       font-weight: 550;
       font-size: 4.6rem;
-
       background-image: -webkit-linear-gradient(left, #aef9ff, #571eef);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 3px #aef9ff, 0 0 5px #571eef, 0 0 10px #aef9ff, 0 0 15px #571eef;
       margin-bottom: 2rem;
     }
   }

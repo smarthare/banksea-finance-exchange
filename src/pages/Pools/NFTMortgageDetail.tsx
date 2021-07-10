@@ -2,11 +2,15 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useLocationQuery } from '../../utils'
 import { NftDetailFavorite } from '../../utils/banksyNftList'
-import { CopyOutlined } from '@ant-design/icons'
+import { CopyOutlined, LeftOutlined } from '@ant-design/icons'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import { Button } from 'antd'
-import Page from '../../components/coinEcharts'
+import HistoricalRates from '../../components/EchartsStatistics/HistoricalRates'
+import { useHistory } from 'react-router-dom'
+import { useMortgageComfirmModal } from '../../hooks/modals/NFTMortgageComfirmModal'
+import neuralNetworksImg from '../../assets/images/Pools/neuralNetworksImg.png'
+import myDashboard1 from '../../assets/images/mockImg/myDashboard1.png'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
@@ -234,7 +238,7 @@ const ItemsContainer = styled.div`
 
 const EvaluateMain = styled.div`
   width: 92.2rem;
-  height: 60rem;
+  height: 110rem;
   margin-left: calc((100% - 92.2rem) / 2);
   background: #101D44;
   border-radius: 2rem;
@@ -271,8 +275,8 @@ const EvaluateStatistics = styled.div`
 const ComfirmButton = styled(Button)`
   width: 16.9rem;
   height: 5.2rem;
-  margin-left: calc((100% - 19.1rem) / 2);
-  background: #554BFF;
+  margin-left: calc((100% - 16.9rem) / 2);
+  background: #6C48FF;
   border-radius: 1rem;
   border: none;
   color: #fff;
@@ -287,6 +291,53 @@ const ComfirmButton = styled(Button)`
   }
 `
 
+const BackIconButton = styled.div`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #284779;
+  transition: all 0.7s;
+
+  &:hover {
+    background: #6C48FF;
+  }
+`
+
+const NeuralNetworks = styled.div`
+  position: relative;
+  margin-top: 6rem;
+
+  .NeuralNetworksMain {
+    position: absolute;
+    top: 4.5rem;
+    right: 7rem;
+    text-align: center;
+
+    .networksValue-name {
+      color: #98BAF2;
+      font-size: 2rem;
+      margin-top: 1rem;
+    }
+
+    .networksValue-value {
+      color: #fff;
+      font-size: 2.4rem;
+      font-weight: bolder;
+    }
+  }
+`
+
+const BackIcon:React.FC = () => {
+  const history = useHistory()
+  return (
+    <BackIconButton onClick={() => history.goBack()}>
+      <LeftOutlined style={{ fontSize: '1.6rem', color: '#fff' }} />
+    </BackIconButton>
+  )
+}
 
 const ETHIcon: React.FC = () => {
   return (
@@ -378,10 +429,6 @@ const NFTBaseInfo: React.FC = () => {
         />
         <div className="info-row-item-value" >0</div>
       </div>
-
-      {/*<div className="description">
-        {nftDetail?.description}
-      </div>*/}
       <PriceContainer>
         <div className="price-favorite-row">
           <div className="price">
@@ -390,7 +437,6 @@ const NFTBaseInfo: React.FC = () => {
             <span className="price-value">
               - - -
             </span>
-            {/*<div className="price-in-usd">($297.21)</div>*/}
           </div>
           <div>
             <img
@@ -411,25 +457,17 @@ const NFTBaseInfo: React.FC = () => {
     </NFTBaseInfoContainer>)
 }
 
-const EvaluateContainer:React.FC = () => {
-  return (
-    <EvaluateMain>
-      <EvaluateButton>Evaluate</EvaluateButton>
-      <EvaluateStatistics>
-        <Page />
-      </EvaluateStatistics>
-      <ComfirmButton>Comfirm</ComfirmButton>
-    </EvaluateMain>
-  )
-}
-
 const NFTMortgageDetailPage:React.FC = () => {
+
+  const { mortgageComfirmModal, openmortgageComfirmModal, closemortgageComfirmModal } = useMortgageComfirmModal()
+
   return (
     <NFTMortgageDetailContainer>
+      <BackIcon />
       <Row>
         <LeftArea>
           <ImageContainer>
-            <img />
+            <img src={myDashboard1} alt="" />
           </ImageContainer>
         </LeftArea>
         <RightArea>
@@ -437,7 +475,24 @@ const NFTMortgageDetailPage:React.FC = () => {
           <NFTMetadata />
         </RightArea>
       </Row>
-      <EvaluateContainer />
+      <EvaluateMain>
+        <EvaluateButton>Evaluate</EvaluateButton>
+        <EvaluateStatistics>
+          <HistoricalRates />
+        </EvaluateStatistics>
+        <NeuralNetworks>
+          <img src={neuralNetworksImg} alt="" />
+          <div className="NeuralNetworksMain">
+            <div className="networksValue-name">Evaluation Value</div>
+            <div className="networksValue-value">$ 78,983</div>
+            <div className="networksValue-name">Mortgage Rate</div>
+            <div className="networksValue-value">43.7%</div>
+          </div>
+        </NeuralNetworks>
+        <ComfirmButton onClick={openmortgageComfirmModal}>Comfirm</ComfirmButton>
+      </EvaluateMain>
+
+      {mortgageComfirmModal}
     </NFTMortgageDetailContainer>
   )
 }

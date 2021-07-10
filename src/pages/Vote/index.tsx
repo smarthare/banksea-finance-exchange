@@ -214,7 +214,7 @@ const VoteStatistics = styled.section`
   table tbody{
     &::-webkit-scrollbar {
         height: 5px;
-     
+
     }
     &::-webkit-scrollbar-thumb {
         border-radius: 5px;
@@ -267,8 +267,8 @@ const TwitterVotesTable: React.FC<VotesType> = ({ current, onPressEnter, retweet
                     <td>{index + 1}</td>
                     <td>{item?.twitterId}</td>
                     <td>{item?.retweetLink}</td>
-                    <td>{item?.walletAddress}</td>
                     <td>{item?.referrerId}</td>
+                    <td>{item?.walletAddress}</td>
                   </tr>
                 ))
               }
@@ -359,7 +359,7 @@ const SolanaVotes: React.FC<VotesType> = ({ current, solana, onPressEnter }) => 
     <VotesContainerTable>
       <div className={clsx('votes', current === 2 && 'active')} style={{ marginTop:'12rem' }}>
         <div className="search-box">
-          <SearchInput 
+          <SearchInput
             onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#3658A7', width: '1.5rem' }} />}
           />
@@ -470,6 +470,7 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
     })
   }
 
+  // @ts-ignore
   return (
     <Registration>
       <div className={clsx('registration', current === 1 && 'active')}>

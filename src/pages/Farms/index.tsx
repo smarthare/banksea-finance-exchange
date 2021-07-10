@@ -449,7 +449,7 @@ const FarmPage: React.FC = () => {
                     <Input placeholder="0.0" />
                     <CurrencySelect>
                       <img className="babImg" src={babImg} />
-                      BAB
+                      BNB
                       <img className="selectArrow" src={selectArrow} />
                     </CurrencySelect>
                   </div>

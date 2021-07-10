@@ -3,6 +3,12 @@ import styled from 'styled-components'
 import clsx from 'clsx'
 import { Button, Progress, Switch } from 'antd'
 import { useHistory } from 'react-router-dom'
+import myDashboard1 from '../../assets/images/mockImg/myDashboard1.png'
+import myDashboard2 from '../../assets/images/mockImg/myDashboard2.png'
+import myDashboard3 from '../../assets/images/mockImg/myDashboard3.png'
+import myDashboard4 from '../../assets/images/mockImg/myDashboard4.png'
+import myDashboard5 from '../../assets/images/mockImg/myDashboard5.png'
+import myDashboard6 from '../../assets/images/mockImg/myDashboard6.png'
 
 const MyDashboardContainer = styled.div`
   width: 133.6rem;
@@ -84,7 +90,7 @@ const BorrowInformationLeft = styled.div`
         }
       }
 
-      .detalls {
+      .details {
         width: 6rem;
         height: 2.5rem;
         text-align: center;
@@ -139,7 +145,7 @@ const MyAccessTableYop = styled.div`
     font-size: 1.4rem;
   }
   div:nth-of-type(1) {
-    width: 22%;
+    width: 24%;
     padding-left: 3rem;
   }
 
@@ -167,7 +173,7 @@ const MyAccessTableMain = styled.div`
     }
 
     div:nth-of-type(1) {
-      width: 22%;
+      width: 24%;
     }
 
     div:nth-of-type(2), div:nth-of-type(3) {
@@ -189,6 +195,7 @@ const MyAccessTableMain = styled.div`
     .assets {
       font-size: 1.4rem;
       padding-left: 3rem;
+      display: flex;
     }
 
     .universal-item-text {
@@ -210,7 +217,7 @@ const MyAccessTableMain = styled.div`
 
       .checked {
         margin-right: 0.5rem;
-        color: #88D12E;
+        color: #fff;
       }
 
       .ant-switch-checked {
@@ -258,9 +265,16 @@ const NFTMortgagesMain = styled.div`
 
     .mortgages-item-image {
       height: 17rem;
-      background: gray;
       border-top-left-radius: 1rem;
       border-top-right-radius: 1rem;
+
+      img {
+        object-fit: cover;
+        width: 18.2rem;
+        height: 100%;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
     }
 
     .mortgages-item-text {
@@ -306,6 +320,16 @@ const WithdrawButton = styled(Button)`
   }
 `
 
+const ETHIcon: React.FC = () => {
+  return (
+    <img
+      src={require('../../assets/images/eth.svg').default}
+      alt="ETH"
+      style={{ width: '1.2rem', marginRight: '0.8rem' }}
+    />
+  )
+}
+
 const NFTMortgages:React.FC = () => {
 
   const history = useHistory()
@@ -317,102 +341,102 @@ const NFTMortgages:React.FC = () => {
       <NFTMortgagesMain>
         <div className="mortgages-item" onClick={ () => history.push('/nftMortgageDetailPage') }>
           <div className="mortgages-item-image">
-            <img />
+            <img src={myDashboard1} alt="" />
           </div>
           <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">balabalbababa</p>
+            <p className="mortgages-item-text-name">CryptoPunk 7804</p>
             <MortgagesItemText>
               <p className="message-name">Values:</p>
-              <p className="message-number">12.000 ETH</p>
+              <p className="message-number">$ 6.5M</p>
             </MortgagesItemText>
             <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">12:00</p>
+              <p className="message-name">Mortgage Rate:</p>
+              <p className="message-number">45.7%</p>
             </MortgagesItemText>
             <WithdrawButton>Withdraw</WithdrawButton>
           </div>
         </div>
         <div className="mortgages-item">
           <div className="mortgages-item-image">
-            <img />
+            <img src={myDashboard2} alt="" />
           </div>
           <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">balabalbababa</p>
+            <p className="mortgages-item-text-name">CryptoPunk 2140</p>
             <MortgagesItemText>
               <p className="message-name">Values:</p>
-              <p className="message-number">12.000 ETH</p>
+              <p className="message-number">$ 1.1M</p>
             </MortgagesItemText>
             <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">12:00</p>
+              <p className="message-name">Mortgage Rate:</p>
+              <p className="message-number">40.7%</p>
             </MortgagesItemText>
             <WithdrawButton>Withdraw</WithdrawButton>
           </div>
         </div>
         <div className="mortgages-item">
           <div className="mortgages-item-image">
-            <img />
+            <img src={myDashboard3} alt="" />
           </div>
           <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">balabalbababa</p>
+            <p className="mortgages-item-text-name">CryptoPunk 4156</p>
             <MortgagesItemText>
               <p className="message-name">Values:</p>
-              <p className="message-number">12.000 ETH</p>
+              <p className="message-number">$ 0.9M</p>
             </MortgagesItemText>
             <MortgagesItemText>
               <p className="message-name">Pinggu time:</p>
-              <p className="message-number">12:00</p>
+              <p className="message-number">37.8%</p>
             </MortgagesItemText>
             <WithdrawButton>Withdraw</WithdrawButton>
           </div>
         </div>
         <div className="mortgages-item">
           <div className="mortgages-item-image">
-            <img />
+            <img src={myDashboard4} alt="" />
           </div>
           <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">balabalbababa</p>
+            <p className="mortgages-item-text-name">Gaga Daintylink</p>
             <MortgagesItemText>
               <p className="message-name">Values:</p>
-              <p className="message-number">12.000 ETH</p>
+              <p className="message-number">$ 1.2k</p>
             </MortgagesItemText>
             <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">12:00</p>
+              <p className="message-name">Mortgage Rate:</p>
+              <p className="message-number">27.8%</p>
             </MortgagesItemText>
             <WithdrawButton>Withdraw</WithdrawButton>
           </div>
         </div>
         <div className="mortgages-item">
           <div className="mortgages-item-image">
-            <img />
+            <img src={myDashboard5} alt="" />
           </div>
           <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">balabalbababa</p>
+            <p className="mortgages-item-text-name">Vol - 2xCheeky </p>
             <MortgagesItemText>
               <p className="message-name">Values:</p>
-              <p className="message-number">12.000 ETH</p>
+              <p className="message-number">$ 0.9k</p>
             </MortgagesItemText>
             <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">12:00</p>
+              <p className="message-name">Mortgage Rate:</p>
+              <p className="message-number">125.8%</p>
             </MortgagesItemText>
             <WithdrawButton>Withdraw</WithdrawButton>
           </div>
         </div>
         <div className="mortgages-item">
           <div className="mortgages-item-image">
-            <img />
+            <img src={myDashboard6} alt="" />
           </div>
           <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">balabalbababa</p>
+            <p className="mortgages-item-text-name">Vol - 2xCheeky</p>
             <MortgagesItemText>
               <p className="message-name">Values:</p>
-              <p className="message-number">12.000 ETH</p>
+              <p className="message-number">$ 0.9k </p>
             </MortgagesItemText>
             <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">12:00</p>
+              <p className="message-name">Mortgage Rate:</p>
+              <p className="message-number">25.8%</p>
             </MortgagesItemText>
             <WithdrawButton>Withdraw</WithdrawButton>
           </div>
@@ -422,114 +446,227 @@ const NFTMortgages:React.FC = () => {
   )
 }
 
-const MyDashboardPage:React.FC<{ current: number }> = ({ current }) => {
+const MyDashboardPage:React.FC<{ current: number, providerInitialized: any }> = ({ current, providerInitialized }) => {
 
+  console.log(providerInitialized)
   return (
     <MyDashboardContainer className={clsx(current === 1 && 'active')}>
-      <MyDashboardData>
-        <MyDeposits>
-          <AreaTitle>My deposits</AreaTitle>
-          <Line />
-          <BorrowInformation>
-            <BorrowInformationLeft>
-              <LeftTitle>Borrow Information</LeftTitle>
-              <div className="left-text-main">
-                <div className="left-text-column">
-                  <div className="left-text-line-item">
-                    <p>Your borrowed</p>
-                    <p>$10.333 ETH</p>
-                  </div>
-                  <div className="left-text-line-item">
-                    <p>Your collateral</p>
-                    <p>$110.500 ETH</p>
-                  </div>
-                  <div className="left-text-line-item">
-                    <p>Current LTV</p>
-                    <p>15%</p>
-                  </div>
-                </div>
-                <div className="left-text-column">
-                  <div className="left-text-line-item-health">
-                    <p>Health factor</p>
-                    <p>6.43</p>
-                  </div>
-                  <div className="left-text-line-item">
-                    <p>Borrowing Power Used</p>
-                    <p>45.65%</p>
-                  </div>
-                  <div className="detalls">
-                    detalls
-                  </div>
-                </div>
-                <Progress type="circle" width={130} strokeColor={'#88D12E'} percent={30} format={() => 'Borrow Composition'} />
-              </div>
-            </BorrowInformationLeft>
-          </BorrowInformation>
-          <Line />
-          <DepositInformation>
-            <LeftTitle>Deposit Information</LeftTitle>
-            <p>Approximate balance</p>
-            <p>$10.333 ETH</p>
-          </DepositInformation>
-        </MyDeposits>
-        <MyAccess>
-          <MyAccessTable>
-            <MyAccessTableYop>
-              <div>Your deposits</div>
-              <div>Current balance</div>
-              <div>APY</div>
-              <div>Collateral</div>
-            </MyAccessTableYop>
-            <MyAccessTableMain>
-              <div className="allCoin-table-item">
-                <div className="assets">Ethereum（ETH)</div>
-                <div className="universal-item-text">
-                  <p>12.000</p>
-                  <p>$11.3445</p>
-                </div>
-                <div className="universal-item-text">
-                  <p>12.000</p>
-                  <p>$11.3445</p>
-                </div>
-                <div className="collateral">
-                  <span className="checked">yes</span>
-                  <Switch />
-                </div>
-                <DepositButton>deposit</DepositButton>
-                <DepositButton>Withdraw</DepositButton>
-              </div>
-            </MyAccessTableMain>
-          </MyAccessTable>
-          <MyAccessTable>
-            <MyAccessTableYop>
-              <div>Your deposits</div>
-              <div>Current balance</div>
-              <div>APY</div>
-              <div>Collateral</div>
-            </MyAccessTableYop>
-            <MyAccessTableMain>
-              <div className="allCoin-table-item">
-                <div className="assets">Ethereum（ETH)</div>
-                <div className="universal-item-text">
-                  <p>12.000</p>
-                  <p>$11.3445</p>
-                </div>
-                <div className="universal-item-text">
-                  <p>12.000</p>
-                  <p>$11.3445</p>
-                </div>
-                <div className="collateral">
-                  <span className="checked">yes</span>
-                  <Switch />
-                </div>
-                <DepositButton>deposit</DepositButton>
-                <DepositButton>Withdraw</DepositButton>
-              </div>
-            </MyAccessTableMain>
-          </MyAccessTable>
-        </MyAccess>
-      </MyDashboardData>
-      <NFTMortgages />
+      {
+        !providerInitialized ?
+          <div /> :
+          <div>
+            <MyDashboardData>
+              <MyDeposits>
+                <AreaTitle>My deposits</AreaTitle>
+                <Line />
+                <BorrowInformation>
+                  <BorrowInformationLeft>
+                    <LeftTitle>Borrow Information</LeftTitle>
+                    <div className="left-text-main">
+                      <div className="left-text-column">
+                        <div className="left-text-line-item">
+                          <p>Your borrowed</p>
+                          <p>$10.333 ETH</p>
+                        </div>
+                        <div className="left-text-line-item">
+                          <p>Your collateral</p>
+                          <p>$110.500 ETH</p>
+                        </div>
+                        <div className="left-text-line-item">
+                          <p>Current LTV</p>
+                          <p>15%</p>
+                        </div>
+                      </div>
+                      <div className="left-text-column">
+                        <div className="left-text-line-item-health">
+                          <p>Health factor</p>
+                          <p>6.43</p>
+                        </div>
+                        <div className="left-text-line-item">
+                          <p>Borrowing Power Used</p>
+                          <p>45.65%</p>
+                        </div>
+                        <div className="details">
+                          details
+                        </div>
+                      </div>
+                      <Progress type="circle" width={130} strokeColor={'#88D12E'} percent={30} format={() => 'Borrow Composition'} />
+                    </div>
+                  </BorrowInformationLeft>
+                </BorrowInformation>
+                <Line />
+                <DepositInformation>
+                  <LeftTitle>Deposit Information</LeftTitle>
+                  <p>Approximate balance</p>
+                  <p>$10.333 ETH</p>
+                </DepositInformation>
+              </MyDeposits>
+              <MyAccess>
+                <MyAccessTable>
+                  <MyAccessTableYop>
+                    <div>Your deposits</div>
+                    <div>Current balance</div>
+                    <div>APY</div>
+                    <div>Collateral</div>
+                  </MyAccessTableYop>
+                  <MyAccessTableMain>
+                    <div className="allCoin-table-item">
+                      <div className="assets">
+                        <ETHIcon />
+                        Ethereum（ETH)
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="collateral">
+                        <span className="checked">Variable</span>
+                        <Switch />
+                      </div>
+                      <DepositButton>deposit</DepositButton>
+                      <DepositButton>Withdraw</DepositButton>
+                    </div>
+                    <div className="allCoin-table-item">
+                      <div className="assets">
+                        <ETHIcon />
+                        Ethereum（ETH)
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="collateral">
+                        <span className="checked">Variable</span>
+                        <Switch />
+                      </div>
+                      <DepositButton>deposit</DepositButton>
+                      <DepositButton>Withdraw</DepositButton>
+                    </div>
+                    <div className="allCoin-table-item">
+                      <div className="assets">
+                        <ETHIcon />
+                        Ethereum（ETH)
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="collateral">
+                        <span className="checked">Variable</span>
+                        <Switch />
+                      </div>
+                      <DepositButton>deposit</DepositButton>
+                      <DepositButton>Withdraw</DepositButton>
+                    </div>
+                  </MyAccessTableMain>
+                </MyAccessTable>
+                <MyAccessTable>
+                  <MyAccessTableYop>
+                    <div>Your deposits</div>
+                    <div>Current balance</div>
+                    <div>APY</div>
+                    <div>Collateral</div>
+                  </MyAccessTableYop>
+                  <MyAccessTableMain>
+                    <div className="allCoin-table-item">
+                      <div className="assets">
+                        <ETHIcon />
+                        Ethereum（ETH)
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="collateral">
+                        <span className="checked">Variable</span>
+                        <Switch />
+                      </div>
+                      <DepositButton>deposit</DepositButton>
+                      <DepositButton>Withdraw</DepositButton>
+                    </div>
+                    <div className="allCoin-table-item">
+                      <div className="assets">
+                        <ETHIcon />
+                        Ethereum（ETH)
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="collateral">
+                        <span className="checked">Variable</span>
+                        <Switch />
+                      </div>
+                      <DepositButton>deposit</DepositButton>
+                      <DepositButton>Withdraw</DepositButton>
+                    </div>
+                    <div className="allCoin-table-item">
+                      <div className="assets">
+                        <ETHIcon />
+                        Ethereum（ETH)
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="collateral">
+                        <span className="checked">Variable</span>
+                        <Switch />
+                      </div>
+                      <DepositButton>deposit</DepositButton>
+                      <DepositButton>Withdraw</DepositButton>
+                    </div>
+                    <div className="allCoin-table-item">
+                      <div className="assets">
+                        <ETHIcon />
+                        Ethereum（ETH)
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="universal-item-text">
+                        <p>12.000</p>
+                        <p>$11.3445</p>
+                      </div>
+                      <div className="collateral">
+                        <span className="checked">Variable</span>
+                        <Switch />
+                      </div>
+                      <DepositButton>deposit</DepositButton>
+                      <DepositButton>Withdraw</DepositButton>
+                    </div>
+                  </MyAccessTableMain>
+                </MyAccessTable>
+              </MyAccess>
+            </MyDashboardData>
+            <NFTMortgages />
+          </div>
+      }
     </MyDashboardContainer>
   )
 }
