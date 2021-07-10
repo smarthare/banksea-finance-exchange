@@ -166,7 +166,7 @@ const StakePage:React.FC<{ current: number }> = ({ current }) => {
   return (
     <StakeMain className={clsx(current == 5 && 'active')}>
       <StakeMainLeft>
-        <AreaTitle>How would you like to stake</AreaTitle>
+        <AreaTitle>Safety pool</AreaTitle>
         <Line />
         <StakeMainText>
           You can either stake KSY or BPT<br />
@@ -189,21 +189,21 @@ const StakePage:React.FC<{ current: number }> = ({ current }) => {
       <StakeMainRight>
         <StakeMainPledge>
           <div className="stakeMain-item">
-            <div className="stakeMain-item-name">SKY Staked</div>
+            <div className="stakeMain-item-name">KSY Staked</div>
             <div className="stakeMain-item-number">20.000</div>
             <div className="stakeMain-item-value">$123 USD</div>
             <div className="stakeMain-item-button">Activate Cooldown</div>
           </div>
           <div className="stakeMain-item">
-            <div className="stakeMain-item-name">Claimable SKY</div>
+            <div className="stakeMain-item-name">BPT Staked</div>
             <div className="stakeMain-item-number">15.000</div>
             <div className="stakeMain-item-value">$123 USD</div>
-            <div className="stakeMain-item-button">Claim</div>
+            <div className="stakeMain-item-button">Activate Cooldown</div>
           </div>
         </StakeMainPledge>
         <StakeMainRightContainer>
           <div className="container-item">
-            <div className="container-item-name">SKY per month</div>
+            <div className="container-item-name">KSY per month</div>
             <div className="container-item-value">
               <div>112</div>
               <div>$10</div>

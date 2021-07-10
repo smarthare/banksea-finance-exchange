@@ -305,7 +305,7 @@ const USDPool:React.FC<{current: number}> = ({ current }) => {
           <div className="table-item" onClick={() => history.push('/storagePoolDetail')}>
             <div>
               <USDIcon />
-              
+              USDC
             </div>
             <div>$ 1.14B</div>
             <div>$ 884.44M</div>

@@ -541,7 +541,7 @@ const VotePage: React.FC = () => {
 
   const [retweetTable, setRetweetTable] = useState<any>()
 
-  const tabs = [ 'Filection Votes','Retweet', 'Solana Votes']
+  const tabs = [ 'Filecoin Votes','Retweet', 'Solana Votes']
 
 
   const init = useCallback(async (searchKey: any) => {
