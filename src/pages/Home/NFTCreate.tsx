@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, Checkbox, Form, Input, message, Select, Upload } from 'antd'
 import UploadBtn from '@/assets/images/upload-button.png'
-import { pinFileToIPFS, pinJsonToIPFS } from '../../utils/pinata'
+import { pinFileToIPFS } from '../../utils/pinata'
 import { UploadProps } from 'antd/lib/upload/interface'
 import { RcFile } from 'antd/es/upload'
 import { LoadingOutlined } from '@ant-design/icons'
@@ -12,8 +12,6 @@ import { getAccount } from '../../store/wallet'
 import { useWalletErrorMessageGetter } from '../../hooks'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
-import { createNFT } from '../../utils/banksyNftList'
-import { NFTMetadata } from '../../types/NFTMetadata'
 import { useHistory } from 'react-router-dom'
 import LoadingModal from '../../components/PleaseWaitModal'
 
@@ -339,12 +337,14 @@ const AssetUpload: React.FC<AssetUploadProps> = ({ onUploadSuccess }) => {
   )
 }
 
-type NFTCreateForm = {
-  artworkName: string;
-  artistName: string;
-  briefIntroduction: string;
-  artworkType: string;
+export type NFTCreateForm = {
+  artworkName: string
+  artistName: string
+  briefIntroduction: string
+  artworkType: string
   socialMedia: string
+
+  assetIpfsHash: string
 }
 
 const NFTCreate: React.FC = () => {
@@ -363,7 +363,6 @@ const NFTCreate: React.FC = () => {
   const [loading, setLoading] = useState(false)
 
   const [promised, setPromised] = useState(false)
-  const [assetIpfsHash, setAssetIpfsHash] = useState('')
   const [hintMessage, setHintMessage] = useState<MessageHintProps>({
     message: '', type: 'hint'
   })
@@ -373,25 +372,18 @@ const NFTCreate: React.FC = () => {
     artworkName: '',
     artistName: '',
     socialMedia: '',
-    briefIntroduction: ''
+    briefIntroduction: '',
+    assetIpfsHash: ''
+    // artistName: 'Wlop',
+    // artworkName: 'Moring 2',
+    // artworkType: 'pictures',
+    // briefIntroduction: '1',
+    // socialMedia: 'https://twitter.com/wlopwangling',
+    // assetIpfsHash: 'QmcgCqadauot3eRDpkwQxMU4r1YApVrtp8GqtDUzhZpYTp'
   }
 
   const onAssetUploadSuccess = (assetIpfsHash: string) => {
-    setAssetIpfsHash(assetIpfsHash)
-  }
-
-  const generateNftMetadata = (values: NFTCreateForm): NFTMetadata => {
-    /*const attributes: NFTMetadataAttribute[] = Object.keys(values).map(key => ({
-      key,
-      value: values[key]
-    }))*/
-
-    return {
-      name: values.artworkName,
-      description: values.briefIntroduction,
-      image: `https://banksy.mypinata.cloud/ipfs/${assetIpfsHash}`
-      // attributes
-    }
+    form.setFieldsValue({ assetIpfsHash })
   }
 
   const handleCreate = async () => {
@@ -403,7 +395,7 @@ const NFTCreate: React.FC = () => {
       return
     }
 
-    if (!assetIpfsHash) {
+    if (!form.getFieldsValue().assetIpfsHash) {
       setHintMessage({
         message: 'Please upload artwork image first!',
         type: 'error'
@@ -426,75 +418,38 @@ const NFTCreate: React.FC = () => {
       return
     }
 
-    const nftMetadata = generateNftMetadata(formValues)
-
-    setHintMessage({
-      message: 'Pinning asset JSON to IPFS...',
-      type: 'hint'
-    })
-
-    const pinResult = await pinJsonToIPFS(nftMetadata).catch(e => {
-      const error = e.response.data.error
-      setHintMessage({
-        message: `Error occurred when pinning JSON to IPFS, retry again. [${error}]`,
-        type: 'error'
+    banksyWeb3.services.createNft(formValues, account!)
+      .on('pinning_json', () => {
+        setHintMessage({
+          message: 'Pinning asset JSON to IPFS...',
+          type: 'hint'
+        })
       })
-    })
-
-    if (!pinResult) {
-      return
-    }
-
-    setHintMessage({
-      message: 'Pinned successful! Please confirm in your wallet...',
-      type: 'hint'
-    })
-
-    const { IpfsHash } = pinResult
-
-    const tokenUri = `https://gateway.pinata.cloud/ipfs/${IpfsHash}`
-
-    const createForm = {
-      uri: IpfsHash,
-      addressCreate: account!,
-      tokenId: '',
-      group: '',
-      nameArtist: form.getFieldsValue().artistName
-    }
-
-    await createNFT(createForm)
-
-    setLoading(true)
-
-    // bind URI event first
-    banksyWeb3.eth.Banksy.contract!.on('URI', async (...args) => {
-      const [tokenUriFromEvent] = args
-      if (tokenUri === tokenUriFromEvent) {
-        await createNFT(createForm)
-      }
-    })
-
-    const awardResult = await banksyWeb3.eth.Banksy.awardItem(account!, tokenUri)
-      .catch(e => {
+      .on('json_pinned', () => {
+        setHintMessage({
+          message: 'Pinned successful! Please confirm in your wallet...',
+          type: 'hint'
+        })
+      })
+      .on('submitted', () => {
+        setHintMessage({
+          message: 'Your creation request has been submitted! Waiting the transaction on chain confirmed. Please DO NOT close this page now!',
+          type: 'hint'
+        })
+        setLoading(false)
+      })
+      .on('complete', () => {
+        message.success('Create successfully!')
+        history.push(`/nft/create/success?img=${formValues.assetIpfsHash}&name=${formValues.artworkName}`)
+      })
+      .on('wallet_error', e => {
+        console.log('get wallet_error: ', walletErrorMessageGetter(e))
         setHintMessage({
           message: walletErrorMessageGetter(e),
           type: 'error'
         })
       })
-
-    if (!awardResult) {
-      return
-    }
-
-    setHintMessage({
-      message: 'Your creation request has been submitted!',
-      type: 'hint'
-    })
-    setLoading(false)
-    setHintMessage({ message: '' })
-    message.success('Create successfully!')
-    history.push(`/nft/create/success?img=${assetIpfsHash}&name=${formValues.artworkName}`)
-
+      .exec()
 
   }
 
@@ -509,14 +464,6 @@ const NFTCreate: React.FC = () => {
       setHintMessage({ message: '' })
     }
   }, [providerInitialized, networkReady])
-
-  useEffect(() => {
-    return () => {
-      console.log('remove all listener')
-      banksyWeb3.eth.Banksy.contract?.removeAllListeners()
-      console.log(banksyWeb3.eth.Banksy.contract?.listeners())
-    }
-  }, [])
 
   return (
     <ArtistPageContainer>
@@ -577,7 +524,12 @@ const NFTCreate: React.FC = () => {
 
         <h1>2. Upload Artwork Image</h1>
 
-        <AssetUpload onUploadSuccess={onAssetUploadSuccess} />
+        <CustomFormItem
+          name="assetIpfsHash"
+          rules={[{ required: true }]}
+        >
+          <AssetUpload onUploadSuccess={onAssetUploadSuccess} />
+        </CustomFormItem>
 
 
         <Announcement>

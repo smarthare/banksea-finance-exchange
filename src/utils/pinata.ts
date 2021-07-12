@@ -48,4 +48,11 @@ async function pinJsonToIPFS(data: any): Promise<PinataResult> {
   return result.data
 }
 
-export { pinFileToIPFS, pinJsonToIPFS }
+function getPinataUriByIpfsHash(ipfsHash: string) {
+  const gateway = 'https://banksy.mypinata.cloud'
+
+  return `${gateway}/ipfs/${ipfsHash}`
+
+}
+
+export { pinFileToIPFS, pinJsonToIPFS, getPinataUriByIpfsHash }

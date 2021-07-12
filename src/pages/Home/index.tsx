@@ -265,31 +265,27 @@ const AIFlag: React.FC<any> = () => {
   )
 }
 
-const GotoArrow: React.FC<any> = () => {
+const GotoArrow: React.FC<{path?: string}> = ({ path }) => {
+  const history = useHistory()
+
   return (
-    <div>
-      <img
-        alt=""
-        src={RightArrow}
-        style={{
-          position: 'absolute',
-          width: '2.5rem',
-          left: '51.5rem',
-          cursor: 'pointer'
-        }}
-      />
-    </div>
+    <img
+      alt=""
+      src={RightArrow}
+      onClick={() => path && history.push(path)}
+      style={{
+        position: 'absolute',
+        width: '2.5rem',
+        left: '51.5rem',
+        cursor: path ? 'pointer' : 'not-allowed'
+      }}
+    />
   )
 }
 
 const HomePage: React.FC = () => {
+  const { data } = useNFTsQuery({ size: 8 })
   const history = useHistory()
-
-  const toCreate = () => {
-    history.push('/nft/create')
-  }
-
-  const { data } = useNFTsQuery({ size :8 })
 
   return (
     <HomePageContainer>
@@ -345,16 +341,16 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className="row2">
-            <div className="info-panel" onClick={toCreate}>
+            <div className="info-panel">
               <div className="main-title2">Create
-                <PanelIcon iconName={Mortgage} onClick={toCreate} />
+                <PanelIcon iconName={Mortgage} />
               </div>
               <div className="sub-title2">NFT Number : 3220</div>
               <div className="nft-values">
                 <div className="sub-title2">NFT Values :</div>
                 <div className="value">$3,210,00</div>
               </div>
-              <GotoArrow />
+              <GotoArrow path="/nft/create" />
             </div>
 
             <div className="info-panel" onClick={() => history.push('/pools')}>
