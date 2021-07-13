@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import { setChainId, setRpcUrl } from '../store/wallet'
-import { useInitializeProvider, useSetupNetwork } from '../hooks'
+import { useSetupNetwork } from '../hooks/useSetupNetwork'
+import { useInitializeProvider } from '../hooks/useInitializeProvider'
 
 const Web3EnvContext = React.createContext({ providerInitialized: false, networkReady: false })
 

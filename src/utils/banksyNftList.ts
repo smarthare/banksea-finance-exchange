@@ -1,5 +1,5 @@
 import banksyRequest from './banksyRequest'
-import { SellingOrder } from '../BanksyWeb3/ethereum/services/exchange/types'
+import { SellingOrder } from '../BanksyWeb3/contracts/ethereum/services/exchange/types'
 
 export type BanksyApiResponse<T> = {
   code: number

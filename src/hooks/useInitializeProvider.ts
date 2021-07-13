@@ -1,21 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { PhantomProvider } from '../types/Phantom'
 import { Dispatch, useCallback, useEffect, useState } from 'react'
-import { getSelectedWallet, setAccount, setSelectedWallet } from './store/wallet'
-import { getWeb3ProviderByWallet, WalletNames } from './web3/wallets'
-import { providers } from 'ethers'
-import WalletConnectProvider from '@walletconnect/web3-provider'
-import {
-  EthereumChainParams,
-  setupBinanceWalletNetwork,
-  setupMetamaskNetwork,
-  setupWalletConnectNetwork
-} from './BanksyWeb3/ethereum/networkHelper'
 import { Web3Provider } from '@ethersproject/providers'
-import { banksyWeb3 } from './BanksyWeb3'
-import ContractSettings from './BanksyWeb3/ethereum/ContractSettings'
-import { getPhantomProvider } from './web3/providers/Phantom'
+import WalletConnectProvider from '@walletconnect/web3-provider'
+import { getSelectedWallet, setAccount, setSelectedWallet } from '../store/wallet'
+import { getPhantomProvider } from '../web3/providers/Phantom'
 import { PublicKey } from '@solana/web3.js'
-import { PhantomProvider } from './types/Phantom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getWeb3ProviderByWallet, WalletNames } from '../web3/wallets'
+import { providers } from 'ethers'
+import { banksyWeb3 } from '../BanksyWeb3'
+import ContractSettings from '../BanksyWeb3/contracts/ethereum/ContractSettings'
 
 type InitAndDestroy = {
   init: (_?: PhantomProvider) => void,
@@ -118,7 +112,7 @@ async function initPhantom(dispatch: Dispatch<any>, { init, destroy }: InitAndDe
   provider.on('disconnect', destroy)
 }
 
-export function useInitializeProvider(chainId: number, RPCUrl?: string): boolean {
+function useInitializeProvider(chainId: number, RPCUrl?: string): boolean {
   const dispatch = useDispatch()
 
   const selectedWallet = useSelector(getSelectedWallet) as WalletNames
@@ -173,88 +167,4 @@ export function useInitializeProvider(chainId: number, RPCUrl?: string): boolean
   return initialized
 }
 
-export function useSetupNetwork(providerInitialized: boolean, params: EthereumChainParams): boolean {
-  const chainId = parseInt(params.chainId, 16)
-  const [RPCUrl] = params.rpcUrls
-
-  const dispatch = useDispatch()
-  const selectedWallet = useSelector(getSelectedWallet) as WalletNames
-  const [ready, setReady] = useState(false)
-
-  const setup = useCallback(async () => {
-    if (!selectedWallet || !providerInitialized) {
-      setReady(false)
-      return
-    }
-
-    const web3Provider = ((await getWeb3ProviderByWallet(
-      {
-        chainId,
-        RPCUrl
-      },
-      selectedWallet
-    )) as unknown) as Web3Provider
-
-    if (selectedWallet === 'WalletConnect') {
-      if (await setupWalletConnectNetwork(params, web3Provider)) {
-        setReady(true)
-      } else {
-        setReady(false)
-        dispatch(setAccount(''))
-        dispatch(setSelectedWallet(undefined))
-      }
-      return
-    }
-
-    // WalletConnect couldn't use this method because not enable() before
-    web3Provider?.ready
-      ?.then(async network => {
-        if (network.chainId === parseInt(params.chainId, 16)) {
-          setReady(true)
-          return
-        }
-
-        if (selectedWallet === 'Metamask') {
-          setReady(await setupMetamaskNetwork(params))
-        } else if (selectedWallet === 'BSC') {
-          setReady(await setupBinanceWalletNetwork(params))
-        }
-      })
-      .catch(async () => {
-        if (selectedWallet === 'Metamask') {
-          setReady(await setupMetamaskNetwork(params))
-        } else if (selectedWallet === 'BSC') {
-          setReady(await setupBinanceWalletNetwork(params))
-        }
-      })
-  }, [selectedWallet, providerInitialized, params])
-
-  useEffect(() => {
-    setup()
-  }, [setup])
-
-  return ready
-}
-
-export function useWalletErrorMessageGetter(): { walletErrorMessageGetter: (_e: any) => any } {
-  const selectedWallet = useSelector(getSelectedWallet) as WalletNames | undefined
-
-  const walletErrorMessageGetter = useCallback((e: any) => {
-    if (!selectedWallet) {
-      return 'No Wallet Connected'
-    } else if (selectedWallet === 'Metamask') {
-      const detailMessage = e.data ? ` (${e.data.message})` : ''
-      return `${e.message}${detailMessage}`
-    } else if (selectedWallet === 'BSC') {
-      return e.error
-    } else if (selectedWallet === 'WalletConnect') {
-      return e.toString()
-    } else {
-      throw new Error('Unknown selected wallet')
-    }
-  }, [selectedWallet])
-
-  return {
-    walletErrorMessageGetter
-  }
-}
+export { useInitializeProvider }

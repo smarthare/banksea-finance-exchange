@@ -9,12 +9,11 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { banksyWeb3 } from '../../BanksyWeb3'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
-import { useWalletErrorMessageGetter } from '../../hooks'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import { useHistory } from 'react-router-dom'
 import LoadingModal from '../../components/PleaseWaitModal'
-
+import { useWalletErrorMessageGetter } from '../../hooks/useWalletErrorMessageGetter'
 
 const ArtistPageContainer = styled.div`
   padding-top: 5.6rem;
@@ -237,7 +236,6 @@ const CreateButton = styled(Button)`
   line-height: 2.2rem;
 `
 
-
 type AssetUploadProps = {
   onUploadSuccess: (_assetIpfsHash: string) => void
 }
@@ -246,7 +244,6 @@ type MessageHintProps = {
   message: string,
   type?: 'error' | 'hint' | 'success'
 }
-
 
 const MessageHint: React.FC<MessageHintProps> = ({ message, type }) => {
   const color = type ? {
@@ -358,7 +355,7 @@ const NFTCreate: React.FC = () => {
 
   const [form] = Form.useForm<NFTCreateForm>()
 
-  const { walletErrorMessageGetter } = useWalletErrorMessageGetter()
+  const { getWalletErrorMessage } = useWalletErrorMessageGetter()
 
   const [loading, setLoading] = useState(false)
 
@@ -368,18 +365,18 @@ const NFTCreate: React.FC = () => {
   })
 
   const formInitialValues: NFTCreateForm = {
-    artworkType: 'pictures',
-    artworkName: '',
-    artistName: '',
-    socialMedia: '',
-    briefIntroduction: '',
-    assetIpfsHash: ''
-    // artistName: 'Wlop',
-    // artworkName: 'Moring 2',
     // artworkType: 'pictures',
-    // briefIntroduction: '1',
-    // socialMedia: 'https://twitter.com/wlopwangling',
-    // assetIpfsHash: 'QmcgCqadauot3eRDpkwQxMU4r1YApVrtp8GqtDUzhZpYTp'
+    // artworkName: '',
+    // artistName: '',
+    // socialMedia: '',
+    // briefIntroduction: '',
+    // assetIpfsHash: ''
+    artistName: 'Wlop',
+    artworkName: 'Moring 2',
+    artworkType: 'pictures',
+    briefIntroduction: '1',
+    socialMedia: 'https://twitter.com/wlopwangling',
+    assetIpfsHash: 'QmcgCqadauot3eRDpkwQxMU4r1YApVrtp8GqtDUzhZpYTp'
   }
 
   const onAssetUploadSuccess = (assetIpfsHash: string) => {
@@ -431,6 +428,13 @@ const NFTCreate: React.FC = () => {
           type: 'hint'
         })
       })
+      .on('json_pinned_failed', (e: any) => {
+        setHintMessage({
+          message: `Error occurred when pinning JSON to IPFS, retry again. (${e.toString()})`,
+          type: 'error'
+        })
+        setLoading(false)
+      })
       .on('submitted', () => {
         setHintMessage({
           message: 'Your creation request has been submitted! Waiting the transaction on chain confirmed. Please DO NOT close this page now!',
@@ -443,9 +447,9 @@ const NFTCreate: React.FC = () => {
         history.push(`/nft/create/success?img=${formValues.assetIpfsHash}&name=${formValues.artworkName}`)
       })
       .on('wallet_error', e => {
-        console.log('get wallet_error: ', walletErrorMessageGetter(e))
+        console.log('get wallet_error: ', getWalletErrorMessage(e))
         setHintMessage({
-          message: walletErrorMessageGetter(e),
+          message: getWalletErrorMessage(e),
           type: 'error'
         })
       })

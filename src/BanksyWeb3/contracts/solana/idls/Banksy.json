@@ -16,6 +16,16 @@
           "isSigner": true
         },
         {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
           "name": "rent",
           "isMut": false,
           "isSigner": false
@@ -29,12 +39,7 @@
       "args": [
         {
           "name": "uri",
-          "type": {
-            "array": [
-              "u8",
-              128
-            ]
-          }
+          "type": "string"
         },
         {
           "name": "supply",
@@ -58,6 +63,11 @@
         {
           "name": "authority",
           "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": false,
           "isSigner": true
         },
         {
@@ -74,32 +84,6 @@
       "args": []
     },
     {
-      "name": "distTo",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "nft",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
       "name": "transfer",
       "accounts": [
         {
@@ -110,32 +94,6 @@
         {
           "name": "to",
           "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "approval",
-      "accounts": [
-        {
-          "name": "to",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "delegate",
-          "isMut": false,
           "isSigner": false
         },
         {
@@ -163,17 +121,12 @@
             "type": "u64"
           },
           {
-            "name": "remain",
-            "type": "u64"
+            "name": "uri",
+            "type": "string"
           },
           {
-            "name": "uri",
-            "type": {
-              "array": [
-                "u8",
-                128
-              ]
-            }
+            "name": "authority",
+            "type": "publicKey"
           }
         ]
       }
@@ -227,6 +180,16 @@
           "index": false
         },
         {
+          "name": "fromAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "toAuthority",
+          "type": "publicKey",
+          "index": false
+        },
+        {
           "name": "amount",
           "type": "u64",
           "index": false
@@ -243,12 +206,7 @@
         },
         {
           "name": "uri",
-          "type": {
-            "array": [
-              "u8",
-              128
-            ]
-          },
+          "type": "string",
           "index": false
         },
         {
@@ -258,8 +216,5 @@
         }
       ]
     }
-  ],
-  "metadata": {
-    "address": "7x8qYd4dNg4yWSdcKpUCaruJntvgS9ieA5M6JRzeJ5KX"
-  }
+  ]
 }

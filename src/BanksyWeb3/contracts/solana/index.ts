@@ -1,6 +1,6 @@
 import { Program, Provider } from '@project-serum/anchor'
 import { Connection } from '@solana/web3.js'
-import { PhantomProvider } from '../../types/Phantom'
+import { PhantomProvider } from '../../../types/Phantom'
 
 export class BanksySolanaWeb3 {
 
@@ -12,7 +12,7 @@ export class BanksySolanaWeb3 {
     if (phantomProvider) {
       this.provider = new Provider(new Connection('https://api.devnet.solana.com'), phantomProvider, {})
 
-      this.Banksy = new Program(require('./idls/Banksy.json'), '7x8qYd4dNg4yWSdcKpUCaruJntvgS9ieA5M6JRzeJ5KX', this.provider)
+      this.Banksy = new Program(require('./idls/Banksy.json'), 'A5ws9phjEaNwrSjzGkRRxH53QDzmaJuQY1xompPpBwXf', this.provider)
     }
   }
 }
