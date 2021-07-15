@@ -9,7 +9,11 @@ const MarketSize: React.FC = () => {
     legend: {
       data:[]
     },
-    toolbox: {},
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
+    },
     grid: {
       left: '3%',
       right: '4%',
@@ -40,7 +44,7 @@ const MarketSize: React.FC = () => {
           }
         },
         areaStyle: { normal: {
-          color: '#000D17'
+          color: '#101D44'
         } },
         data:[0.1, 0.15, 0.3, 0.2, 0.7, 0.9, 0.12]
       }

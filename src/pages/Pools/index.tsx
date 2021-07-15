@@ -20,6 +20,7 @@ const PoolsContainer = styled.div`
     position: absolute;
     top: 3rem;
     right: 0;
+    z-index: 1;
   }
 `
 
@@ -61,7 +62,7 @@ const PoolsPage:React.FC = () => {
   const [current, setCurrent] = useState<number>(0)
 
 
-  const menuTabs = ['MARKET', 'MY DASHBOARD', 'DEPOSIT', 'BORROW', 'MORTGAGES', 'STAKE']
+  const menuTabs = ['MARKET', 'MY DASHBOARD', 'DEPOSIT', 'BORROW', 'Liquidation list', 'STAKE']
 
   const init = useCallback(() => {
     if (current === 1) {

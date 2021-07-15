@@ -7,7 +7,7 @@ const BorrowMain = styled.div`
   width: 113.6rem;
   margin-left: calc((100% - 113.6rem) / 2);
   display: none;
-  padding-top: 8.8rem;
+  padding-top: 4rem;
 
   &.active {
     display: block;
@@ -16,7 +16,7 @@ const BorrowMain = styled.div`
 
 const DepositAreaLeft = styled.div`
   width: 78.1rem;
-  height: 61rem;
+  height: 54rem;
   background: #101D44;
   border-radius: 1.5rem;
   float: left;
@@ -112,11 +112,12 @@ const AllCoinTableTop = styled.div`
   }
 
   div:nth-of-type(1) {
-    width: 28%;
+    width: 30%;
+    padding-left: 3rem;
   }
 
   div:nth-of-type(2), div:nth-of-type(3) {
-    width: 25%;
+    width: 30%;
     text-align: center;
   }
 `
@@ -138,11 +139,11 @@ const AllCoinTableMain = styled.div`
     }
 
     div:nth-of-type(1) {
-      width: 28%;
+      width: 30%;
     }
 
     div:nth-of-type(2), div:nth-of-type(3) {
-      width: 25%;
+      width: 30%;
       text-align: center;
     }
 
@@ -262,8 +263,6 @@ const AllCoinContainer:React.FC = () => {
             <p>12.000</p>
             <p>$11.3445</p>
           </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
         </div>
         <div className="allCoin-table-item">
           <div className="assets">
@@ -278,8 +277,6 @@ const AllCoinContainer:React.FC = () => {
             <p>12.000</p>
             <p>$11.3445</p>
           </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
         </div>
         <div className="allCoin-table-item">
           <div className="assets">
@@ -294,8 +291,6 @@ const AllCoinContainer:React.FC = () => {
             <p>12.000</p>
             <p>$11.3445</p>
           </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
         </div>
         <div className="allCoin-table-item">
           <div className="assets">
@@ -310,8 +305,6 @@ const AllCoinContainer:React.FC = () => {
             <p>12.000</p>
             <p>$11.3445</p>
           </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
         </div>
         <div className="allCoin-table-item">
           <div className="assets">
@@ -326,8 +319,6 @@ const AllCoinContainer:React.FC = () => {
             <p>12.000</p>
             <p>$11.3445</p>
           </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
         </div>
       </AllCoinTableMain>
     </AllCoinTable>
@@ -336,28 +327,11 @@ const AllCoinContainer:React.FC = () => {
 
 const BorrowPage:React.FC<{ current: number, setCurrent: any }> = ({ current, setCurrent }) => {
 
-  const [coinCurrent, setCoinCurrent] = useState<number>(0)
-
-  const coinTabs = ['All', 'Stable Coins']
-
   return (
     <BorrowMain className={clsx(current === 3 && 'active')}>
       <DepositAreaLeft>
         <AreaTitle>Availble to Borrow</AreaTitle>
         <Line />
-        <CoinTabsArea>
-          {
-            coinTabs.map((item: any, index) => (
-              <div
-                className={clsx('coin-tab-item', coinCurrent === index && 'tabs__link')}
-                onClick={() => setCoinCurrent(index)}
-                key={index}
-              >
-                {item}
-              </div>
-            ))
-          }
-        </CoinTabsArea>
         <AllCoinContainer />
       </DepositAreaLeft>
       <DepositAreaRight>
@@ -378,23 +352,6 @@ const BorrowPage:React.FC<{ current: number, setCurrent: any }> = ({ current, se
           </div>
           <MortgageButton onClick={() => setCurrent(4)}>Mortgage</MortgageButton>
         </MyNFTMortgage>
-        <MyBorrows>
-          <AreaTitle>My Borrows</AreaTitle>
-          <Line />
-          <div className="MyTotal">
-            <div className="MyTotal-name">
-              <ETHIcon />
-              <span>Ethereum</span>
-            </div>
-            <div className="MyTotalNum">12.000</div>
-          </div>
-          <div className="MyTotal">
-            <div className="MyTotal-name">
-              <span>Ethereum</span>
-            </div>
-            <div className="MyTotalNum">12.000</div>
-          </div>
-        </MyBorrows>
       </DepositAreaRight>
     </BorrowMain>
   )

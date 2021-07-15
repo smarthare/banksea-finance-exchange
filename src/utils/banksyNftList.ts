@@ -1,4 +1,5 @@
 import banksyRequest from './banksyRequest'
+import banksyTestRequest from './banksyTestRequest'
 import { SellingOrder } from '../BanksyWeb3/contracts/ethereum/services/exchange/types'
 
 export type BanksyApiResponse<T> = {
@@ -86,4 +87,12 @@ export function retweetCreat(data: any) {
 
 export function retweetList(data: any) {
   return banksyRequest.post<BanksyApiResponse<any>>('/vote/list/retweet', data)
+}
+
+export function depositPoolsList(data: any) {
+  return banksyTestRequest.post<BanksyApiResponse<any>>('/pools/deposit/pool/list', data)
+}
+
+export function depositPoolsDetail(data: any) {
+  return banksyTestRequest.post<BanksyApiResponse<any>>('/pools/deposit/pool/detail', data)
 }

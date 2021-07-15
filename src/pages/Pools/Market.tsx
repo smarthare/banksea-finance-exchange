@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import styled from 'styled-components'
 import MarketSize from '../../components/EchartsStatistics/MarketSize'
@@ -7,15 +7,21 @@ import mortgagePools1 from '../../assets/images/mockImg/mortgagePools1.png'
 import mortgagePools2 from '../../assets/images/mockImg/mortgagePools2.png'
 import mortgagePools3 from '../../assets/images/mockImg/mortgagePools3.png'
 
-const MarkeContainer = styled.div`
-  padding-top: 4rem;
+import { depositPoolsList } from '../../utils/banksyNftList'
 
-  .marke {
+const MarkeContainer = styled.div`
+  padding-top: 2rem;
+
+  .market {
     display: none;
   }
 
-  .marke.active {
+  .market.active {
     display: block;
+  }
+
+  p {
+    margin: 0;
   }
 `
 
@@ -36,7 +42,6 @@ const Tatistics = styled.div`
 
 const PoolContainer = styled.div`
   width: 100%;
-  margin-top: 6rem;
 
   .UsdPool-container {
     width: 130rem;
@@ -61,11 +66,21 @@ const TableTop = styled.div`
   div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5), div:nth-of-type(6) {
     width: 14%;
     text-align: center;
+
+    .variable {
+      font-size: 1.4rem;
+      color: darkgray;
+    }
+
+    .stable {
+      font-size: 1.4rem;
+      color: darkgray;
+    }
   }
 `
 
 const TableMain = styled.div`
-  margin-bottom: 5rem;
+  margin-bottom: 1rem;
 
   .table-item {
     width: 100%;
@@ -105,7 +120,7 @@ const TableMain = styled.div`
 
   .mortgage-table-item {
     width: 100%;
-    height: 10.7rem;
+    height: 5.7rem;
     background: #3658A7;
     border-radius: 1.5rem;
     margin-top: 1.5rem;
@@ -121,8 +136,8 @@ const TableMain = styled.div`
       padding-left: 3rem;
 
       img {
-        width: 8rem;
-        height: 8rem;
+        width: 4.7rem;
+        height: 4.7rem;
       }
     }
 
@@ -176,15 +191,6 @@ const DepositButton = styled.div`
   margin-left: 2rem;
 `
 
-const MaticIcon: React.FC = () => {
-  return (
-    <img
-      src={require('../../assets/images/mockImg/maticIcon.png').default}
-      alt="ETH"
-      style={{ width: '2.5rem', marginRight: '0.8rem' }}
-    />
-  )
-}
 
 const DAIIcon: React.FC = () => {
   return (
@@ -208,6 +214,8 @@ const USDIcon: React.FC = () => {
 
 const MortgagePools:React.FC = () => {
 
+  const history = useHistory()
+
   const usdTableTop = ['', 'NFT Name', 'Market size', 'Mortgage Number', 'Mortgage rate', 'Borrow Rate']
 
   return (
@@ -222,7 +230,7 @@ const MortgagePools:React.FC = () => {
           }
         </TableTop>
         <TableMain>
-          <div className="mortgage-table-item">
+          <div className="mortgage-table-item" onClick={() => history.push('/mortgagePoolDetail')}>
             <div>
               <img src={mortgagePools1} />
             </div>
@@ -258,63 +266,52 @@ const MortgagePools:React.FC = () => {
   )
 }
 
-const USDPool:React.FC<{current: number}> = ({ current }) => {
+const USDPool:React.FC<{current: number, depositList: any}> = ({ current, depositList }) => {
 
   const history = useHistory()
 
-  const usdTableTop = ['Assets', 'Market size', 'Total borrowed', 'Deposit APY', 'Borrow APY', 'Borrow APY']
+  const usdTableTop = ['Assets', 'Market size', 'Total borrowed', 'Deposit APY', 'Deposit APY', 'Borrow APY']
 
   return (
     <PoolContainer>
       <div className="UsdPool-container">
         <AreaTitle>Deposit Pools</AreaTitle>
         <TableTop>
-          {
-            usdTableTop.map((item: string, index) => (
-              <div key={index}>{item}</div>
-            ))
-          }
+          <div>Assets</div>
+          <div>Market size</div>
+          <div>Total borrowed</div>
+          <div>Deposit APY</div>
+          <div>
+            <p className="variable">Variable</p>
+            <p>Borrow APY</p>
+          </div>
+          <div>
+            <p className="stable">Stable</p>
+            <p>Borrow APY</p>
+          </div>
         </TableTop>
         <TableMain>
-          <div className="table-item" onClick={() => history.push('/storagePoolDetail')}>
-            <div>
-              <MaticIcon />
-              Matic(MATIC)
-            </div>
-            <div>$ 189.14M</div>
-            <div>$ 54.71M</div>
-            <div>1.04%</div>
-            <div>4.50%</div>
-            <div>--</div>
-            <DepositButton>deposit</DepositButton>
-            <DepositButton>Withdraw</DepositButton>
-          </div>
-          <div className="table-item" onClick={() => history.push('/storagePoolDetail')}>
-            <div>
-              <DAIIcon />
-              DAI
-            </div>
-            <div>$ 940.17M</div>
-            <div>$ 720.57M</div>
-            <div>2.64%</div>
-            <div>3.83%</div>
-            <div>--</div>
-            <DepositButton>deposit</DepositButton>
-            <DepositButton>Withdraw</DepositButton>
-          </div>
-          <div className="table-item" onClick={() => history.push('/storagePoolDetail')}>
-            <div>
-              <USDIcon />
-              USDC
-            </div>
-            <div>$ 1.14B</div>
-            <div>$ 884.44M</div>
-            <div>2.42%</div>
-            <div>3.45%</div>
-            <div>--</div>
-            <DepositButton>deposit</DepositButton>
-            <DepositButton>Withdraw</DepositButton>
-          </div>
+          {
+            depositList?.map((item: any, index: number) => (
+              <div key={index} className="table-item" onClick={() => history.push(`/pools/depositPools/${item?.id}`)}>
+                <div>
+                  <img
+                    src={item?.assetsImage}
+                    alt=""
+                    style={{ width: '2.5rem', marginRight: '0.8rem' }}
+                  />
+                  {item?.assetsName}
+                </div>
+                <div>{item?.marketSize}</div>
+                <div>{item?.totalBorrowed}</div>
+                <div>{item?.depositApy}</div>
+                <div>{item?.variableBorrowApy}</div>
+                <div>{item?.stableBorrowApy}</div>
+                <DepositButton>deposit</DepositButton>
+                <DepositButton>Borrow</DepositButton>
+              </div>
+            ))
+          }
         </TableMain>
       </div>
     </PoolContainer>
@@ -323,10 +320,26 @@ const USDPool:React.FC<{current: number}> = ({ current }) => {
 
 const MarkePage:React.FC<any> = ({ current }) => {
 
+  const [depositList, setDepositList] = useState<any>()
+
+  const init = useCallback(async () => {
+    await depositPoolsList(
+      {
+        orderKey: 'deposit_apy',
+        orderDesc: ''
+      }
+    ).then((res: any) => {
+      setDepositList(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
 
   return (
     <MarkeContainer>
-      <div className={clsx('marke', current === 0 && 'active')}>
+      <div className={clsx('market', current === 0 && 'active')}>
         <MarkeTotal>
           <Tatistics>
             <AreaTitle>Deposit size</AreaTitle>
@@ -345,7 +358,7 @@ const MarkePage:React.FC<any> = ({ current }) => {
             </MarketSizeStatistics>
           </Tatistics>
         </MarkeTotal>
-        <USDPool current={current} />
+        <USDPool current={current} depositList={depositList} />
         <MortgagePools />
       </div>
     </MarkeContainer>

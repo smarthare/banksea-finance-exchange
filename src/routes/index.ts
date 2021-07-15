@@ -21,8 +21,9 @@ import FarmPage from '../pages/Farms'
 import TestPage from '../pages/Test'
 import VotePage from '../pages/Vote'
 import PoolsPage from '../pages/Pools/index'
-import NFTMortgageDetailPage from '../pages/Pools/NFTMortgageDetail'
-import StoragePoolDetail from '../pages/Pools/StoragePoolDetail'
+import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTMortgageDetail'
+import StoragePoolDetailPage from '../pages/Pools/Detail/StoragePoolDetail'
+import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
 
 export type Route = {
   path: string
@@ -130,9 +131,16 @@ const routes: Route[] = [
     hidden: true
   },
   {
-    path: '/storagePoolDetail',
-    title: 'storagePoolDetail',
-    component: StoragePoolDetail,
+    path: '/pools/depositPools/:id',
+    title: 'pools/DepositPools',
+    match: /^\/pools\//,
+    component: StoragePoolDetailPage,
+    hidden: true
+  },
+  {
+    path: '/mortgagePoolDetail',
+    title: 'mortgagePoolDetail',
+    component: MortgagePoolDetailPage,
     hidden: true
   }
 ]

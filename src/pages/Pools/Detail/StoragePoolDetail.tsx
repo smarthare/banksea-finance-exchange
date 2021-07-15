@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { LeftOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router-dom'
 import { Progress } from 'antd'
-import VariableAPY from '../../components/EchartsStatistics/VariableAPY'
-import DepositAPY from '../../components/EchartsStatistics/DepositAPY'
-import UtilisationRate from '../../components/EchartsStatistics/UtilisationRate'
+import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
+import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
+import UtilisationRate from '../../../components/EchartsStatistics/UtilisationRate'
+import { depositPoolsDetail } from '../../../utils/banksyNftList'
 
 const StoragePoolMain = styled.div`
   width: 130rem;
   min-height: 100vh;
   margin-left: calc((100% - 130rem) / 2);
-  padding-top: 6rem;
+  padding-top: 4rem;
 
   p {
     margin: 0;
@@ -19,7 +20,8 @@ const StoragePoolMain = styled.div`
 `
 
 const ConfigurationMain = styled.div`
-  height: 70rem;
+  width: 80rem;
+  height: 63rem;
   background: #101D44;
   border-radius: 1.5rem;
 `
@@ -61,7 +63,7 @@ const BackIconButton = styled.div`
 const ConfigurationData = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 7rem;
+  margin-top: 2rem;
 `
 
 const ProgressMain = styled.div`
@@ -113,7 +115,7 @@ const TotalBorrowed = styled.div`
   }
 `
 
-const ETHIconImg = styled.img`
+const IconImg = styled.img`
   width: 5.2rem;
   position: absolute;
   left: calc((100% - 5.2rem) / 2);
@@ -301,19 +303,18 @@ const IndexValueItem = styled.div`
 `
 
 const YourInformationMain = styled.div`
-  margin-top: 2rem;
+  width: 48.6rem;
   background: #101D44;
   border-radius: 1.5rem;
+  margin-left: 1.4rem;
 `
 
 const YourInformationContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
   padding: 3rem 3rem;
 `
 
 const InformationValues = styled.div`
-  width: 50rem;
+  padding: 4rem 0;
 `
 
 const DepositsValuesItem = styled.div`
@@ -343,14 +344,14 @@ const DepositsValuesItem = styled.div`
 `
 
 const ColumnLine = styled.div`
-  width: 0.1rem;
-  height: 20rem;
+  width: 100%;
+  height: 0.1rem;
   background: #fff;
   margin-top: 3rem;
 `
 
 const BorrowsValues = styled.div`
-  width: 50rem;
+  padding: 4rem 0;
 `
 
 const IndexValueStatisticsMain = styled.div`
@@ -379,15 +380,6 @@ const StatisticsTitle = styled.div`
   align-items: center;
 `
 
-const ETHIcon: React.FC = () => {
-  return (
-    <ETHIconImg
-      src={require('../../assets/images/eth.svg').default}
-      alt="ETH"
-    />
-  )
-}
-
 const BackIcon:React.FC = () => {
   const history = useHistory()
   return (
@@ -401,30 +393,30 @@ const IndexValue:React.FC = () => {
   return (
     <IndexValueMain>
       <IndexValueItem>
-        <div className="indexValue-item-name">Maximum LYV</div>
+        <div className="indexValue-item-name">Maximum LTV</div>
         <div className="indexValue-item-value">75.00%</div>
       </IndexValueItem>
       <IndexValueItem>
-        <div className="indexValue-item-name">Maximum LYV</div>
+        <div className="indexValue-item-name">Liquidation threshold</div>
         <div className="indexValue-item-value">75.00%</div>
       </IndexValueItem>
       <IndexValueItem>
-        <div className="indexValue-item-name">Maximum LYV</div>
+        <div className="indexValue-item-name">Liquidation penalty</div>
         <div className="indexValue-item-value">75.00%</div>
       </IndexValueItem>
       <IndexValueItem>
-        <div className="indexValue-item-name">Maximum LYV</div>
+        <div className="indexValue-item-name">Used as collateral</div>
         <div className="indexValue-item-yes">Yes</div>
       </IndexValueItem>
       <IndexValueItem>
-        <div className="indexValue-item-name">Maximum LYV</div>
+        <div className="indexValue-item-name">Stable borrowing</div>
         <div className="indexValue-item-no">No</div>
       </IndexValueItem>
     </IndexValueMain>
   )
 }
 
-const DepositStableVariable:React.FC = () => {
+const DepositStableVariable:React.FC<{ poolDetailData: any }> = ({ poolDetailData }) => {
   return (
     <DepositStableVariableMain>
       <Deposit>
@@ -432,7 +424,7 @@ const DepositStableVariable:React.FC = () => {
         <DepositStableText>
           <DepositStableTextItem>
             <span>Deposit APY</span>
-            <span>2.8%</span>
+            <span>{poolDetailData?.depositApy}</span>
           </DepositStableTextItem>
           <DepositStableTextItem>
             <span>Past 30D Avg</span>
@@ -441,31 +433,31 @@ const DepositStableVariable:React.FC = () => {
         </DepositStableText>
       </Deposit>
       <Stable>
-        <div className="stable-top">Deposit</div>
+        <div className="stable-top">Stable borrowing</div>
         <DepositStableText>
           <DepositStableTextItem>
-            <span>BorrowAPY</span>
+            <span>Borrow APY</span>
             <span>2.8%</span>
           </DepositStableTextItem>
           <DepositStableTextItem>
-            <span>Total</span>
+            <span>% over total</span>
             <span>--</span>
           </DepositStableTextItem>
         </DepositStableText>
       </Stable>
       <Variable>
-        <div className="variable-top">Deposit</div>
+        <div className="variable-top">Variable borrowing</div>
         <DepositStableText>
           <DepositStableTextItem>
-            <span>BorrowAPY</span>
+            <span>Borrow APY</span>
             <span>2.8%</span>
           </DepositStableTextItem>
           <DepositStableTextItem>
-            <span>Total</span>
+            <span>Past 30D Avg.</span>
             <span>--</span>
           </DepositStableTextItem>
           <DepositStableTextItem>
-            <span>Total</span>
+            <span>% over total</span>
             <span>--</span>
           </DepositStableTextItem>
         </DepositStableText>
@@ -477,7 +469,7 @@ const DepositStableVariable:React.FC = () => {
 const YourInformation:React.FC = () => {
   return (
     <YourInformationMain>
-      <AreaTitle>Availble to deposit</AreaTitle>
+      <AreaTitle>Your information</AreaTitle>
       <Line />
       <YourInformationContainer>
         <InformationValues>
@@ -549,52 +541,73 @@ const IndexValueStatistics:React.FC = () => {
 }
 
 const StoragePoolDetailPage:React.FC = () => {
+  const history = useHistory()
+
+  const id = history.location.pathname.slice(20)
+
+  const [poolDetailData, setPoolDetailData] = useState<any>()
+
+  const init = useCallback(async () => {
+    await depositPoolsDetail({ id: id }).then(res => {
+      setPoolDetailData(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
+
   return (
     <StoragePoolMain>
-      <ConfigurationMain>
-        <div className="configuration-top">
-          <AreaTitle>
-            <BackIcon />
-            <span className="configuration-top-title">Availble to deposit</span>
-          </AreaTitle>
-        </div>
-        <Line />
-        <ConfigurationData>
-          <TotalBorrowed>
-            <div className="totalBorrowed-title">
-              <div />
-              <span>Total Borrowed</span>
-            </div>
-            <p className="totalBorrowed-number">984,332,456,00</p>
-            <p className="totalBorrowed-dollar">$874,993</p>
-          </TotalBorrowed>
-          <ProgressMain>
-            <ETHIcon />
-            <Progress type="circle" strokeColor={'#6C48FF'} trailColor={'#FFBB00'} width={170} percent={30} format={() => ''} />
-          </ProgressMain>
-          <AvailableLiquidity>
-            <div className="availableLiquidity-title">
-              <span>Total Borrowed</span>
-              <div />
-            </div>
-            <p className="availableLiquidity-number">984,332,456,00</p>
-            <p className="availableLiquidity-dollar">$874,993</p>
-          </AvailableLiquidity>
-        </ConfigurationData>
-        <ReserveUtilisation>
-          <div className="reserveUtilisation-item">
-            <div className="reserveUtilisation-item-name">Reserve size</div>
-            <div className="reserveUtilisation-item-numer">$994.445.656.24</div>
+      <div style={{ display: 'flex' }}>
+        <ConfigurationMain>
+          <div className="configuration-top">
+            <AreaTitle>
+              <BackIcon />
+              <span className="configuration-top-title">Availble to deposit</span>
+            </AreaTitle>
           </div>
-          <div className="reserveUtilisation-item">
-            <div className="reserveUtilisation-item-name">Utilisation rate</div>
-            <div className="reserveUtilisation-item-numer">77.88%</div>
-          </div>
-        </ReserveUtilisation>
-        <DepositStableVariable />
-        <IndexValue />
-      </ConfigurationMain>
-      <YourInformation />
+          <Line />
+          <ConfigurationData>
+            <TotalBorrowed>
+              <div className="totalBorrowed-title">
+                <div />
+                <span>Total Borrowed</span>
+              </div>
+              <p className="totalBorrowed-number">{poolDetailData?.totalBorrowed}</p>
+              <p className="totalBorrowed-dollar">$874,993</p>
+            </TotalBorrowed>
+            <ProgressMain>
+              <IconImg
+                src={poolDetailData?.assetsImage}
+                alt="ETH"
+              />
+              <Progress type="circle" strokeColor={'#6C48FF'} trailColor={'#FFBB00'} width={170} percent={30} format={() => ''} />
+            </ProgressMain>
+            <AvailableLiquidity>
+              <div className="availableLiquidity-title">
+                <span>Available Liquidity</span>
+                <div />
+              </div>
+              <p className="availableLiquidity-number">{poolDetailData?.availableLiquidity}</p>
+              <p className="availableLiquidity-dollar">$874,993</p>
+            </AvailableLiquidity>
+          </ConfigurationData>
+          <ReserveUtilisation>
+            <div className="reserveUtilisation-item">
+              <div className="reserveUtilisation-item-name">Reserve size</div>
+              <div className="reserveUtilisation-item-numer">$994.445.656.24</div>
+            </div>
+            <div className="reserveUtilisation-item">
+              <div className="reserveUtilisation-item-name">Utilisation rate</div>
+              <div className="reserveUtilisation-item-numer">{poolDetailData?.utilizationRate}</div>
+            </div>
+          </ReserveUtilisation>
+          <DepositStableVariable poolDetailData={poolDetailData} />
+          <IndexValue />
+        </ConfigurationMain>
+        <YourInformation />
+      </div>
       <IndexValueStatistics />
     </StoragePoolMain>
   )

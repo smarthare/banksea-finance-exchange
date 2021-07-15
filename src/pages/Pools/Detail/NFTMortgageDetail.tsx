@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useLocationQuery } from '../../utils'
-import { NftDetailFavorite } from '../../utils/banksyNftList'
+import { useLocationQuery } from '../../../utils'
+import { NftDetailFavorite } from '../../../utils/banksyNftList'
 import { CopyOutlined, LeftOutlined } from '@ant-design/icons'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import { Button } from 'antd'
-import HistoricalRates from '../../components/EchartsStatistics/HistoricalRates'
+import HistoricalRates from '../../../components/EchartsStatistics/HistoricalRates'
 import { useHistory } from 'react-router-dom'
-import { useMortgageComfirmModal } from '../../hooks/modals/NFTMortgageComfirmModal'
-import neuralNetworksImg from '../../assets/images/Pools/neuralNetworksImg.png'
-import myDashboard1 from '../../assets/images/mockImg/myDashboard1.png'
+import { useMortgageComfirmModal } from '../../../hooks/modals/NFTMortgageComfirmModal'
+import neuralNetworksImg from '../../../assets/images/Pools/neuralNetworksImg.png'
+import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
@@ -342,7 +342,7 @@ const BackIcon:React.FC = () => {
 const ETHIcon: React.FC = () => {
   return (
     <img
-      src={require('../../assets/images/eth.svg').default}
+      src={require('../../../assets/images/eth.svg').default}
       alt="ETH"
       style={{ width: '1.2rem', marginRight: '0.8rem' }}
     />

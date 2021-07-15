@@ -37,7 +37,7 @@ const MortgagesTitle = styled.div`
 `
 
 const MortgageMainLeft = styled.div`
-  width: 90rem;
+  width: 100%;
   height: 120rem;
   background: #101D44;
   border-radius: 1.5rem;
@@ -106,23 +106,21 @@ const SearchInput = styled(Input)`
 
 const NFTMortgagesContainer = styled.div`
   width: 100%;
-  height: 48rem;
+  height: 43rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-top: 4rem;
-  margin-bottom: 3rem;
 `
 
 const NFTMortgagesMain = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 0 3rem;
 
   .mortgages-item {
     width: 18.2rem;
     height: 37rem;
     border-radius: 1rem;
     background: #3658A7;
+    margin-left: 2.8rem;
 
     .mortgages-item-image {
       height: 17rem;
@@ -391,46 +389,45 @@ const NFTMortgages:React.FC = () => {
   )
 }
 
-const MortgageMainRight:React.FC = () => {
-  return (
-    <MortgageMainRightMain>
-      <AreaTitle>My Mortgage</AreaTitle>
-      <Line />
-      <CryptoOperating>
-        <CryptoButton>Crypto Punks Seriels</CryptoButton>
-        <CryptoInput />
-      </CryptoOperating>
-      <CryptoOperatingValue>
-        <div>Total</div>
-        <div>$3</div>
-      </CryptoOperatingValue>
-      <CryptoOperating>
-        <CryptoButton>Crypto Kitties Seriels</CryptoButton>
-        <CryptoInput />
-      </CryptoOperating>
-      <CryptoOperatingValue>
-        <div>Total</div>
-        <div>$3</div>
-      </CryptoOperatingValue>
-    </MortgageMainRightMain>
-  )
-}
+// const MortgageMainRight:React.FC = () => {
+//   return (
+//     <MortgageMainRightMain>
+//       <AreaTitle>My Mortgage</AreaTitle>
+//       <Line />
+//       <CryptoOperating>
+//         <CryptoButton>Crypto Punks Seriels</CryptoButton>
+//         <CryptoInput />
+//       </CryptoOperating>
+//       <CryptoOperatingValue>
+//         <div>Total</div>
+//         <div>$3</div>
+//       </CryptoOperatingValue>
+//       <CryptoOperating>
+//         <CryptoButton>Crypto Kitties Seriels</CryptoButton>
+//         <CryptoInput />
+//       </CryptoOperating>
+//       <CryptoOperatingValue>
+//         <div>Total</div>
+//         <div>$3</div>
+//       </CryptoOperatingValue>
+//     </MortgageMainRightMain>
+//   )
+// }
 
 const MortgagePage:React.FC<{current: number}> = ({ current }) => {
   return (
     <MortgageMain className={clsx(current === 4 && 'active')}>
-      <MortgagesTitle>NFT Mortgages</MortgagesTitle>
       <MortgageMainLeft>
-        <AreaTitle>Availble to mortgage</AreaTitle>
+        <AreaTitle>Liquidation list</AreaTitle>
         <Line />
         <SerielsTop>
           <span>Crypto Punks Seriels</span>
-          <div className="search">
-            <SearchInput />
-            <div className="searchButton">
-              <SearchOutlined style={{ color: '#fff' }} />
-            </div>
-          </div>
+          {/*<div className="search">*/}
+          {/*  <SearchInput />*/}
+          {/*  <div className="searchButton">*/}
+          {/*    <SearchOutlined style={{ color: '#fff' }} />*/}
+          {/*  </div>*/}
+          {/*</div>*/}
         </SerielsTop>
         <NFTMortgages />
         <Line />
@@ -439,7 +436,7 @@ const MortgagePage:React.FC<{current: number}> = ({ current }) => {
         </SerielsTop>
         <NFTMortgagesKitties />
       </MortgageMainLeft>
-      <MortgageMainRight />
+      {/*<MortgageMainRight />*/}
     </MortgageMain>
   )
 }
