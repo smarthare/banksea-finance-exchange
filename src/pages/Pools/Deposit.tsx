@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
+import { useHistory } from 'react-router-dom'
 
 const DepositContainer = styled.div`
   width: 113.6rem;
@@ -210,6 +211,8 @@ const ETHIcon: React.FC = () => {
 
 
 const AllCoinContainer:React.FC = () => {
+  const history = useHistory()
+
   return (
     <AllCoinTable>
       <AllCoinTableTop>
@@ -218,7 +221,7 @@ const AllCoinContainer:React.FC = () => {
         <div>APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
-        <div className="allCoin-table-item">
+        <div className="allCoin-table-item" onClick={() => history.push('/deposit/depositDetail')}>
           <div className="assets">
             <ETHIcon />
             <span>Ethereum（ETH)</span>

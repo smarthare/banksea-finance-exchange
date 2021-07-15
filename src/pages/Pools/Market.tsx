@@ -7,7 +7,7 @@ import mortgagePools1 from '../../assets/images/mockImg/mortgagePools1.png'
 import mortgagePools2 from '../../assets/images/mockImg/mortgagePools2.png'
 import mortgagePools3 from '../../assets/images/mockImg/mortgagePools3.png'
 
-import { depositPoolsList } from '../../utils/banksyNftList'
+import { depositPoolsList, depositSize, mortgagePoolsList } from '../../utils/banksyNftList'
 
 const MarkeContainer = styled.div`
   padding-top: 2rem;
@@ -212,7 +212,7 @@ const USDIcon: React.FC = () => {
   )
 }
 
-const MortgagePools:React.FC = () => {
+const MortgagePools:React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
 
   const history = useHistory()
 
@@ -230,43 +230,30 @@ const MortgagePools:React.FC = () => {
           }
         </TableTop>
         <TableMain>
-          <div className="mortgage-table-item" onClick={() => history.push('/mortgagePoolDetail')}>
-            <div>
-              <img src={mortgagePools1} />
-            </div>
-            <div>CryptoPunks</div>
-            <div>$2,387,98,78</div>
-            <div>39</div>
-            <div>25.8%</div>
-            <div>78.8%</div>
-          </div>
-          <div className="mortgage-table-item">
-            <div>
-              <img src={mortgagePools2} />
-            </div>
-            <div>CryptoKitties</div>
-            <div>$1,285,58,68</div>
-            <div>125</div>
-            <div>18.5%</div>
-            <div>60.5%</div>
-          </div>
-          <div className="mortgage-table-item">
-            <div>
-              <img src={mortgagePools3} />
-            </div>
-            <div>Bored Ape Yacht Club</div>
-            <div>$3,567,248,28</div>
-            <div>24</div>
-            <div>31.6%</div>
-            <div>67.5%</div>
-          </div>
+          {
+            mortgageList?.map((item: any, index: number) => (
+              <div key={index}
+                className="mortgage-table-item"
+                onClick={() => history.push('/mortgagePoolDetail')}
+              >
+                <div>
+                  <img src={item?.nftImage} />
+                </div>
+                <div>{item?.nftName}</div>
+                <div>{item?.mortgageValue}</div>
+                <div>{item?.mortgageNumber}</div>
+                <div>{item?.mortgageRate}</div>
+                <div>{item?.borrowRate}</div>
+              </div>
+            ))
+          }
         </TableMain>
       </div>
     </PoolContainer>
   )
 }
 
-const USDPool:React.FC<{current: number, depositList: any}> = ({ current, depositList }) => {
+const USDPool:React.FC<{depositList: any}> = ({ depositList }) => {
 
   const history = useHistory()
 
@@ -322,14 +309,26 @@ const MarkePage:React.FC<any> = ({ current }) => {
 
   const [depositList, setDepositList] = useState<any>()
 
+  const [depositSizeNum, setDepositSizeNum] = useState<number>()
+
+  const [mortgageList, setMortgageList] = useState<any>()
+
   const init = useCallback(async () => {
     await depositPoolsList(
       {
         orderKey: 'deposit_apy',
         orderDesc: ''
       }
-    ).then((res: any) => {
+    ).then(res => {
       setDepositList(res.data.data)
+    })
+
+    await depositSize().then(res => {
+      setDepositSizeNum(res.data.data.toLocaleString())
+    })
+
+    await mortgagePoolsList({}).then((res: any) => {
+      setMortgageList(res.data.data)
     })
   },[])
 
@@ -345,7 +344,7 @@ const MarkePage:React.FC<any> = ({ current }) => {
             <AreaTitle>Deposit size</AreaTitle>
             <Line />
             <MarketSizeStatistics>
-              <div className="market-size">$3,987,654,456,00</div>
+              <div className="market-size">${depositSizeNum}</div>
               <MarketSize />
             </MarketSizeStatistics>
           </Tatistics>
@@ -358,8 +357,8 @@ const MarkePage:React.FC<any> = ({ current }) => {
             </MarketSizeStatistics>
           </Tatistics>
         </MarkeTotal>
-        <USDPool current={current} depositList={depositList} />
-        <MortgagePools />
+        <USDPool depositList={depositList} />
+        <MortgagePools mortgageList={mortgageList}  />
       </div>
     </MarkeContainer>
   )

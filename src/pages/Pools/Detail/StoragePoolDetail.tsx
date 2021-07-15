@@ -277,7 +277,7 @@ const IndexValueItem = styled.div`
   text-align: center;
 
   &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4), &:nth-of-type(5) {
-    margin-left: 9rem;
+    margin-left: 3rem;
   }
 
   .indexValue-item-name {
@@ -290,13 +290,7 @@ const IndexValueItem = styled.div`
     font-size: 1.7rem;
   }
 
-  .indexValue-item-yes {
-    color: #85CD2E;
-    font-weight: bolder;
-    font-size: 1.7rem;
-  }
-  .indexValue-item-no {
-    color: #F571BD;
+  .indexValue-item-state {
     font-weight: bolder;
     font-size: 1.7rem;
   }
@@ -389,28 +383,37 @@ const BackIcon:React.FC = () => {
   )
 }
 
-const IndexValue:React.FC = () => {
+const IndexValue:React.FC<{ poolDetailData: any }> = ({ poolDetailData }) => {
+  console.log(poolDetailData?.mortgage)
   return (
     <IndexValueMain>
       <IndexValueItem>
         <div className="indexValue-item-name">Maximum LTV</div>
-        <div className="indexValue-item-value">75.00%</div>
+        <div className="indexValue-item-value">{poolDetailData?.maximumLtv}</div>
       </IndexValueItem>
       <IndexValueItem>
         <div className="indexValue-item-name">Liquidation threshold</div>
-        <div className="indexValue-item-value">75.00%</div>
+        <div className="indexValue-item-value">{poolDetailData?.liquidationThreshold}</div>
       </IndexValueItem>
       <IndexValueItem>
         <div className="indexValue-item-name">Liquidation penalty</div>
-        <div className="indexValue-item-value">75.00%</div>
+        <div className="indexValue-item-value">{poolDetailData?.liquidationPenalty}</div>
       </IndexValueItem>
       <IndexValueItem>
         <div className="indexValue-item-name">Used as collateral</div>
-        <div className="indexValue-item-yes">Yes</div>
+        <div className="indexValue-item-state"
+          style={{ color: poolDetailData?.mortgage ? 'green' : '#F172ED' }}
+        >
+          {String(poolDetailData?.mortgage)}
+        </div>
       </IndexValueItem>
       <IndexValueItem>
         <div className="indexValue-item-name">Stable borrowing</div>
-        <div className="indexValue-item-no">No</div>
+        <div className="indexValue-item-state"
+          style={{ color: poolDetailData?.stableBorrow ? 'green' : '#F172ED' }}
+        >
+          {String(poolDetailData?.stableBorrow)}
+        </div>
       </IndexValueItem>
     </IndexValueMain>
   )
@@ -574,7 +577,7 @@ const StoragePoolDetailPage:React.FC = () => {
                 <div />
                 <span>Total Borrowed</span>
               </div>
-              <p className="totalBorrowed-number">{poolDetailData?.totalBorrowed}</p>
+              <p className="totalBorrowed-number">{Number(poolDetailData?.totalBorrowed).toLocaleString()}</p>
               <p className="totalBorrowed-dollar">$874,993</p>
             </TotalBorrowed>
             <ProgressMain>
@@ -589,7 +592,7 @@ const StoragePoolDetailPage:React.FC = () => {
                 <span>Available Liquidity</span>
                 <div />
               </div>
-              <p className="availableLiquidity-number">{poolDetailData?.availableLiquidity}</p>
+              <p className="availableLiquidity-number">{Number(poolDetailData?.availableLiquidity).toLocaleString()}</p>
               <p className="availableLiquidity-dollar">$874,993</p>
             </AvailableLiquidity>
           </ConfigurationData>
@@ -604,7 +607,7 @@ const StoragePoolDetailPage:React.FC = () => {
             </div>
           </ReserveUtilisation>
           <DepositStableVariable poolDetailData={poolDetailData} />
-          <IndexValue />
+          <IndexValue poolDetailData={poolDetailData} />
         </ConfigurationMain>
         <YourInformation />
       </div>

@@ -24,6 +24,7 @@ import PoolsPage from '../pages/Pools/index'
 import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTMortgageDetail'
 import StoragePoolDetailPage from '../pages/Pools/Detail/StoragePoolDetail'
 import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
+import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
 
 export type Route = {
   path: string
@@ -32,6 +33,7 @@ export type Route = {
   component: any
   hidden?: boolean
   match?: RegExp
+  pools?: boolean
 }
 
 const routes: Route[] = [
@@ -132,7 +134,7 @@ const routes: Route[] = [
   },
   {
     path: '/pools/depositPools/:id',
-    title: 'pools/DepositPools',
+    title: 'DepositPools',
     match: /^\/pools\//,
     component: StoragePoolDetailPage,
     hidden: true
@@ -141,6 +143,13 @@ const routes: Route[] = [
     path: '/mortgagePoolDetail',
     title: 'mortgagePoolDetail',
     component: MortgagePoolDetailPage,
+    hidden: true
+  },
+  {
+    path: '/deposit/depositDetail',
+    title: 'DepositDetail',
+    match: /^\/pools\//,
+    component: DepositItemDetailPage,
     hidden: true
   }
 ]
