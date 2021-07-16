@@ -546,7 +546,7 @@ const IndexValueStatistics:React.FC = () => {
 const DepositPoolDetailPage:React.FC = () => {
   const history = useHistory()
 
-  const id = history.location.pathname.slice(20)
+  const id = history.location.pathname.slice(27)
 
   const [poolDetailData, setPoolDetailData] = useState<any>()
 
