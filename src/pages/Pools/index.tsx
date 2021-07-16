@@ -18,8 +18,8 @@ import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { poolsConnect } from '../../apis/pool'
 import NFTMortgageDetailPage from './Detail/NFTMortgageDetail'
-// import BorrowItemDetailPage from './Detail/BorrowItemDetail'
 import AvailablePurchasePage from './Detail/AvailablePurchase'
+import BorrowItemDetailPage from './Detail/BorrowItemDetail'
 
 export type PoolPageKeys =
   | 'market'
@@ -29,9 +29,9 @@ export type PoolPageKeys =
   | 'liquidation'
   | 'stake'
   | 'deposit/detail/:id'
-  | 'mortgage/detail'
+  | 'mortgage/detail/:id'
   | 'market/deposit/pool/:id'
-  | 'liquidation/detail'
+  | 'liquidation/detail/:id'
   | 'borrow/detail/:id'
   | 'available/detail/:uri'
 
@@ -44,10 +44,10 @@ const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
   'liquidation': <LiquidationListPage />,
   'stake': <StakePage />,
   'deposit/detail/:id': <DepositItemDetailPage />,
-  'mortgage/detail': <MortgagePoolDetailPage />,
+  'mortgage/detail/:id': <MortgagePoolDetailPage />,
   'market/deposit/pool/:id': <DepositPoolDetailPage />,
-  'liquidation/detail': <NFTMortgageDetailPage />,
-  // 'borrow/detail/:id': <BorrowItemDetailPage />,
+  'liquidation/detail/:id': <NFTMortgageDetailPage />,
+  'borrow/detail/:id': <BorrowItemDetailPage />,
   'available/detail/:uri': <AvailablePurchasePage />
 }
 

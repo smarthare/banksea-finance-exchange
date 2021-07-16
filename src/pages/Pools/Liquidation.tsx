@@ -242,7 +242,6 @@ const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
           data?.map((item: any, index: number) => (
             <div key={index}
               className="mortgages-item"
-              onClick={() => history.push('liquidation/detail')}
             >
               <div className="mortgages-item-image">
                 <img src={item?.image} alt="" />
@@ -257,7 +256,7 @@ const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
                   <p className="message-name">Mortgage Rate:</p>
                   <p className="message-number">{item?.mortgageRate * 100}%</p>
                 </MortgagesItemText>
-                <WithdrawButton>Mortgage</WithdrawButton>
+                <WithdrawButton onClick={() => history.push(`/pools/liquidation/detail/${item.id}`)}>Prepay</WithdrawButton>
               </div>
             </div>
           ))
