@@ -68,14 +68,9 @@ const routes: Route[] = [
     component: NFTCreatedSuccess,
     hidden: true
   },
-  // {
-  //   path: '/pools',
-  //   title: 'Pools',
-  //   icon: PoolsIcon,
-  //   component: PoolsPage
-  // },
   {
     path: '/pools/*',
+    match: /^\/pools/,
     title: 'Pools',
     icon: PoolsIcon,
     component: PoolsPage
