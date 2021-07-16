@@ -4,14 +4,7 @@ import styled from 'styled-components'
 import DepositSize from '../../components/EchartsStatistics/DepositSize'
 import { useHistory } from 'react-router-dom'
 
-import {
-  depositPoolsList,
-  depositSize,
-  mortgagePoolsList,
-  marketSizeStatistics,
-  mortgageSize,
-  depositPoolsDetail
-} from '../../utils/banksyNftList'
+import { depositPoolsList, depositSize, marketSizeStatistics, mortgagePoolsList, mortgageSize } from '../../apis/pool'
 
 const MarketContainer = styled.div`
   padding-top: 2rem;
@@ -362,7 +355,7 @@ const MarketPage: React.FC = () => {
 
   return (
     <MarketContainer>
-      <div className={clsx('market',  'active')}>
+      <div className={clsx('market', 'active')}>
         <MarkeTotal>
           <Tatistics>
             <AreaTitle>Deposit size</AreaTitle>

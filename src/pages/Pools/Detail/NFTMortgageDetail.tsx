@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useLocationQuery } from '../../../utils'
-import { NftDetailFavorite } from '../../../utils/banksyNftList'
 import { CopyOutlined, LeftOutlined } from '@ant-design/icons'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
@@ -11,6 +10,7 @@ import { useHistory } from 'react-router-dom'
 import { useMortgageComfirmModal } from '../../../hooks/modals/NFTMortgageComfirmModal'
 import neuralNetworksImg from '../../../assets/images/Pools/neuralNetworksImg.png'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
+import { getNftFavoriteCount } from '../../../apis/nft'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
@@ -391,7 +391,7 @@ const NFTBaseInfo: React.FC = () => {
   const [likeNum, setLikeNum] = useState<any>()
 
   const fetchLikeCount = useCallback(async () => {
-    NftDetailFavorite(uri).then(res => {
+    getNftFavoriteCount(uri).then(res => {
       setLikeNum(res.data.data)
     })
   }, [uri])

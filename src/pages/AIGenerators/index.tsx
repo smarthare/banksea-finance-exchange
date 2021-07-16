@@ -3,14 +3,13 @@ import styled from 'styled-components'
 import { Button, Checkbox, Image as AntdImage, Image } from 'antd'
 import download from '@/assets/images/AIGeneratorsImg/download.png'
 import { usePersonalNFTsQuery } from '../../hooks/queries/usePersonalNFTsQuery'
-import { aiGeneratorFastStyle } from '../../apis/ai'
+import { aiGeneratorFastStyle, aiStyleList } from '../../apis/ai'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.scss'
 import SwiperCore, { EffectCoverflow, Navigation, Pagination } from 'swiper'
 import 'swiper/components/navigation/navigation.scss'
 import 'swiper/components/effect-coverflow/effect-coverflow.min.css'
 import 'swiper/components/pagination/pagination.min.css'
-import { aiStyleList } from '../../utils/banksyNftList'
 
 SwiperCore.use([Navigation, EffectCoverflow, Pagination])
 

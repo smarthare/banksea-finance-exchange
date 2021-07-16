@@ -1,11 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react'
-import styled from "styled-components";
-import myDashboard1 from "../../../assets/images/mockImg/myDashboard1.png";
-import {useLocationQuery} from "../../../utils";
-import {NftDetailFavorite} from "../../../utils/banksyNftList";
-import {CopyOutlined} from "@ant-design/icons";
-import Show from "*.png";
-import Favorite from "*.png";
+import React, { useCallback, useEffect, useState } from 'react'
+import styled from 'styled-components'
+import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
+import { useLocationQuery } from '../../../utils'
+import { CopyOutlined } from '@ant-design/icons'
+import { getNftFavoriteCount } from '../../../apis/nft'
 
 const LiquidationDetailMain = styled.div`
   min-height: 100vh;
@@ -167,7 +165,7 @@ const NFTBaseInfo: React.FC = () => {
   const [likeNum, setLikeNum] = useState<any>()
 
   const fetchLikeCount = useCallback(async () => {
-    NftDetailFavorite(uri).then(res => {
+    getNftFavoriteCount(uri).then(res => {
       setLikeNum(res.data.data)
     })
   }, [uri])
@@ -198,11 +196,11 @@ const NFTBaseInfo: React.FC = () => {
         </div>
       </div>
       <div className="info-row-favorite">
-        <img
-          src={Show}
-          alt=""
-          className="icon-favorite"
-        />
+        {/*<img*/}
+        {/*  src={Show}*/}
+        {/*  alt=""*/}
+        {/*  className="icon-favorite"*/}
+        {/*/>*/}
         <div className="info-row-item-value" >0</div>
       </div>
     </NFTBaseInfoContainer>)

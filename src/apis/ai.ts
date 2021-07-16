@@ -1,6 +1,5 @@
-import banksyRequest from '../utils/banksyRequest'
+import banksyRequest, { BanksyApiResponse } from '../utils/banksyRequest'
 
-// @ts-ignore
 export function aiGeneratorFastStyle(style: string, content: string) {
   const data = new FormData()
   data.set('style', style)
@@ -13,4 +12,12 @@ export function aiGeneratorFastStyle(style: string, content: string) {
       },
       timeout: 60000
     })
+}
+
+export function aiStyleList() {
+  return banksyRequest.get<BanksyApiResponse<any>>('/aiGenerators/style/list')
+}
+
+export function aiSwiperList() {
+  return banksyRequest.get<BanksyApiResponse<any>>('/aiGenerators/slideshow')
 }

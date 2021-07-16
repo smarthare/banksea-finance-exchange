@@ -6,10 +6,7 @@ import { Progress } from 'antd'
 import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import UtilisationRate from '../../../components/EchartsStatistics/UtilisationRate'
-import { depositPoolsDetail } from '../../../utils/banksyNftList'
-import { weiToBigNumber } from '../../../web3/utils'
-import { banksyWeb3 } from '../../../BanksyWeb3'
-import moment from 'moment'
+import { depositPoolsDetail } from '../../../apis/pool'
 
 const StoragePoolMain = styled.div`
   width: 130rem;

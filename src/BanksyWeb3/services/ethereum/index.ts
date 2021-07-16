@@ -1,11 +1,11 @@
 import { getPinataUriByIpfsHash, pinJsonToIPFS } from '../../../utils/pinata'
-import { createNFT } from '../../../utils/banksyNftList'
 import { banksyWeb3 } from '../../index'
 import { NFTCreateForm } from '../../../pages/Home/NFTCreate'
 import { generateNftMetadata } from '../../../utils'
 import { BanksyWeb3Services } from '../index'
 import SimpleEventEmitter from '../SimpleEventEmitter'
 import { CreateNftEvents } from '../events'
+import { createNFT, NftCreateForm } from '../../../apis/nft'
 
 export class BanksyWeb3EthereumServicesImpl implements BanksyWeb3Services {
 
@@ -32,12 +32,15 @@ export class BanksyWeb3EthereumServicesImpl implements BanksyWeb3Services {
 
       const tokenUri = getPinataUriByIpfsHash(IpfsHash)
 
-      const createForm = {
+      const createForm: NftCreateForm = {
         uri: IpfsHash,
         addressCreate: account!,
         tokenId: '',
         group: '',
-        nameArtist: nftCreateForm.artistName
+        nameArtist: nftCreateForm.artistName,
+        fee: '',
+        feeRecipient: '',
+        typeChain: 'Ethereum'
       }
 
       banksyWeb3.eth.Banksy.awardItem(account!, tokenUri)

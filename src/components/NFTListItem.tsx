@@ -7,8 +7,8 @@ import styled from 'styled-components'
 import LazyLoad from 'react-lazyload'
 import { useWalletSelectionModal } from '../contexts/WalletSelectionModal'
 import { useWeb3EnvContext } from '../contexts/Web3EnvProvider'
-import { NftFavorite } from '../utils/banksyNftList'
 import PriceIcon from '@/assets/images/homePageImg/price-icon.svg'
+import { setNftFavorite } from '../apis/nft'
 
 const NFTItemCardContainer = styled.div`
   color: #7c6deb;
@@ -160,7 +160,7 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
       if (isHeart) {
         setClickFavorite(clickFavorite)
       } else {
-        NftFavorite(data?.valueUri)
+        setNftFavorite(data?.valueUri)
         setClickFavorite(clickFavorite + 1)
         setHeart(true)
       }
