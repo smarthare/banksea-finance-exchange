@@ -152,13 +152,14 @@ const AllCoinTableMain = styled.div`
     .walletBalance {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.6rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.4rem;
       }
@@ -167,13 +168,14 @@ const AllCoinTableMain = styled.div`
     .apy {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.6rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.4rem;
       }
@@ -210,7 +212,7 @@ const ETHIcon: React.FC = () => {
 }
 
 
-const AllCoinContainer:React.FC = () => {
+const AllCoinContainer: React.FC = () => {
   const history = useHistory()
 
   return (
@@ -221,87 +223,34 @@ const AllCoinContainer:React.FC = () => {
         <div>APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
-        <div className="allCoin-table-item" onClick={() => history.push('/deposit/depositDetail')}>
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
+        {
+          new Array(5).fill(
+            <div className="allCoin-table-item" onClick={() => history.push('/pools/deposit/detail')}>
+              <div className="assets">
+                <ETHIcon />
+                <span>Ethereum（ETH)</span>
+              </div>
+              <div className="walletBalance">
+                <p>12.000</p>
+                <p>$11.3445</p>
+              </div>
+              <div className="apy">
+                <p>12.000</p>
+                <p>$11.3445</p>
+              </div>
+            </div>
+          )
+        }
       </AllCoinTableMain>
     </AllCoinTable>
   )
 }
 
-const DepositPage:React.FC<{ current: number }> = ({ current }) => {
-
+const DepositPage: React.FC = () => {
   return (
-    <DepositContainer className={clsx(current === 2 && 'active')}>
+    <DepositContainer className={clsx('active')}>
       <DepositAreaLeft>
-        <AreaTitle>Availble to deposit</AreaTitle>
+        <AreaTitle>Available to deposit</AreaTitle>
         <Line />
         <AllCoinContainer />
       </DepositAreaLeft>

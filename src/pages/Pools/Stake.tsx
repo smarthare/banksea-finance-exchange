@@ -161,10 +161,9 @@ const StakeMainRightContainer = styled.div`
   }
 `
 
-const StakePage:React.FC<{ current: number }> = ({ current }) => {
-
+const StakePage: React.FC = () => {
   return (
-    <StakeMain className={clsx(current == 5 && 'active')}>
+    <StakeMain className={clsx('active')}>
       <StakeMainLeft>
         <AreaTitle>Safety pool</AreaTitle>
         <Line />

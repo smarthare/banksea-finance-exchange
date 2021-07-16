@@ -13,7 +13,7 @@ import {
   depositPoolsDetail
 } from '../../utils/banksyNftList'
 
-const MarkeContainer = styled.div`
+const MarketContainer = styled.div`
   padding-top: 2rem;
 
   .market {
@@ -195,7 +195,6 @@ const DepositButton = styled.div`
   margin-left: 2rem;
 `
 
-
 const DAIIcon: React.FC = () => {
   return (
     <img
@@ -216,7 +215,7 @@ const USDIcon: React.FC = () => {
   )
 }
 
-const MortgagePools:React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
+const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
 
   const history = useHistory()
 
@@ -257,7 +256,7 @@ const MortgagePools:React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
   )
 }
 
-const USDPool:React.FC<{depositList: any}> = ({ depositList }) => {
+const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
 
   const history = useHistory()
 
@@ -309,7 +308,7 @@ const USDPool:React.FC<{depositList: any}> = ({ depositList }) => {
   )
 }
 
-const MarkePage:React.FC<any> = ({ current }) => {
+const MarketPage: React.FC = () => {
 
   const [depositList, setDepositList] = useState<any>()
 
@@ -352,15 +351,15 @@ const MarkePage:React.FC<any> = ({ current }) => {
     return () => {
       clearTimeout(t)
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
   return (
-    <MarkeContainer>
-      <div className={clsx('market', current === 0 && 'active')}>
+    <MarketContainer>
+      <div className={clsx('market',  'active')}>
         <MarkeTotal>
           <Tatistics>
             <AreaTitle>Deposit size</AreaTitle>
@@ -380,10 +379,10 @@ const MarkePage:React.FC<any> = ({ current }) => {
           </Tatistics>
         </MarkeTotal>
         <USDPool depositList={depositList} />
-        <MortgagePools mortgageList={mortgageList}  />
+        <MortgagePools mortgageList={mortgageList} />
       </div>
-    </MarkeContainer>
+    </MarketContainer>
   )
 }
 
-export default MarkePage
+export default MarketPage

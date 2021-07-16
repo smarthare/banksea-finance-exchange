@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import { SearchOutlined } from '@ant-design/icons'
 import { Button, Input } from 'antd'
 import { useHistory } from 'react-router-dom'
 import mortgage1 from '../../assets/images/mockImg/mortgages1.png'
@@ -20,9 +19,9 @@ const MortgageMain = styled.div`
   margin-left: calc((100% - 126rem) / 2);
   padding-top: 4rem;
 
-   &.active {
-     display: block;
-   }
+  &.active {
+    display: block;
+  }
 
   p {
     margin: 0;
@@ -58,7 +57,7 @@ const Line = styled.div`
   background: linear-gradient(to right, #00FFFF, #5D00B3);
 `
 
-const SerielsTop = styled.div`
+const SerialsTop = styled.div`
   display: flex;
   align-items: center;
   padding: 4rem 3rem 0 3rem;
@@ -178,6 +177,7 @@ const MortgageMainRightMain = styled.div`
   margin-top: 1rem;
   float: right;
 `
+
 const CryptoOperating = styled.div`
   padding: 2rem 2rem 1rem 2rem;
   display: flex;
@@ -228,8 +228,7 @@ const CryptoOperatingValue = styled.div`
   }
 `
 
-const NFTMortgagesKitties:React.FC = () => {
-
+const NFTMortgagesKitties: React.FC = () => {
   const history = useHistory()
 
   return (
@@ -308,14 +307,14 @@ const NFTMortgagesKitties:React.FC = () => {
   )
 }
 
-const NFTMortgages:React.FC = () => {
+const NFTMortgages: React.FC = () => {
 
   const history = useHistory()
 
   return (
     <NFTMortgagesContainer>
       <NFTMortgagesMain>
-        <div className="mortgages-item" onClick={ () => history.push('/nftMortgageDetailPage') }>
+        <div className="mortgages-item" onClick={() => history.push('/nftMortgageDetailPage')}>
           <div className="mortgages-item-image">
             <img src={mortgage1} alt="" />
           </div>
@@ -388,20 +387,20 @@ const NFTMortgages:React.FC = () => {
   )
 }
 
-const LiquidationListPage:React.FC<{current: number}> = ({ current }) => {
+const LiquidationListPage: React.FC = () => {
   return (
-    <MortgageMain className={clsx(current === 4 && 'active')}>
+    <MortgageMain className={clsx('active')}>
       <MortgageMainLeft>
         <AreaTitle>Liquidation list</AreaTitle>
         <Line />
-        <SerielsTop>
-          <span>Crypto Punks Seriels</span>
-        </SerielsTop>
+        <SerialsTop>
+          <span>Crypto Punks Serials</span>
+        </SerialsTop>
         <NFTMortgages />
         <Line />
-        <SerielsTop>
-          <span>Crypto Kitties Seriels</span>
-        </SerielsTop>
+        <SerialsTop>
+          <span>Crypto Kitties Serials</span>
+        </SerialsTop>
         <NFTMortgagesKitties />
       </MortgageMainLeft>
     </MortgageMain>

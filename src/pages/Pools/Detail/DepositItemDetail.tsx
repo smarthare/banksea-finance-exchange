@@ -97,7 +97,6 @@ const DetailDataMainStatistics = styled.div`
   padding: 1rem;
 `
 
-
 const DepositItemDetailPage:React.FC = () => {
   return (
     <ItemDetailMain>

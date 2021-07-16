@@ -76,6 +76,12 @@ const routes: Route[] = [
     component: PoolsPage
   },
   {
+    path: '/pools/*',
+    title: 'Pools',
+    icon: PoolsIcon,
+    component: PoolsPage
+  },
+  {
     path: '/collectible/:id',
     title: 'Collectible',
     icon: CollectiblesIcon,

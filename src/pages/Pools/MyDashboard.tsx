@@ -9,6 +9,7 @@ import myDashboard3 from '../../assets/images/mockImg/myDashboard3.png'
 import myDashboard4 from '../../assets/images/mockImg/myDashboard4.png'
 import myDashboard5 from '../../assets/images/mockImg/myDashboard5.png'
 import myDashboard6 from '../../assets/images/mockImg/myDashboard6.png'
+import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 
 const MyDashboardContainer = styled.div`
   width: 135.6rem;
@@ -101,6 +102,7 @@ const BorrowInformationLeft = styled.div`
 
       .left-text-line-item-health {
         margin-top: 1.5rem;
+
         p {
           color: #88D12E;
         }
@@ -165,6 +167,7 @@ const MyAccessTableYop = styled.div`
     color: #B3B3B3;
     font-size: 1.4rem;
   }
+
   div:nth-of-type(1) {
     width: 24%;
     padding-left: 1rem;
@@ -174,6 +177,7 @@ const MyAccessTableYop = styled.div`
     width: 17%;
     text-align: center;
   }
+
   div:nth-of-type(4) {
     width: 22%;
   }
@@ -212,6 +216,7 @@ const MyAccessTableMain = styled.div`
       width: 7%;
       cursor: pointer;
     }
+
     div:nth-of-type(6) {
       width: 8%;
       margin-left: 1rem;
@@ -227,13 +232,14 @@ const MyAccessTableMain = styled.div`
     .universal-item-text {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.4rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.2rem;
       }
@@ -413,7 +419,7 @@ const ETHIcon: React.FC = () => {
   )
 }
 
-const DepositInformationArea:React.FC = () => {
+const DepositInformationArea: React.FC = () => {
   return (
     <Deposits>
       <div className="depositArea">
@@ -428,7 +434,12 @@ const DepositInformationArea:React.FC = () => {
                   <p>$110.477 449288 USD</p>
                 </div>
               </div>
-              <ProgressArea type="circle" width={130} strokeColor={'#88D12E'} percent={30} format={() => 'Borrow Composition'} />
+              <ProgressArea type="circle"
+                width={130}
+                strokeColor={'#88D12E'}
+                percent={30}
+                format={() => 'Borrow Composition'}
+              />
             </div>
           </BorrowInformationLeft>
         </BorrowInformation>
@@ -507,7 +518,7 @@ const DepositInformationArea:React.FC = () => {
   )
 }
 
-const BorrowInformationArea:React.FC = () => {
+const BorrowInformationArea: React.FC = () => {
   return (
     <Borrow>
       <div className="borrowArea">
@@ -543,7 +554,12 @@ const BorrowInformationArea:React.FC = () => {
                   details
                 </div>
               </div>
-              <ProgressArea type="circle" width={130} strokeColor={'#88D12E'} percent={30} format={() => 'Borrow Composition'} />
+              <ProgressArea type="circle"
+                width={130}
+                strokeColor={'#88D12E'}
+                percent={30}
+                format={() => 'Borrow Composition'}
+              />
             </div>
           </BorrowInformationLeft>
         </BorrowInformation>
@@ -622,8 +638,7 @@ const BorrowInformationArea:React.FC = () => {
   )
 }
 
-const NFTAvailbleMortgages:React.FC = () => {
-
+const NFTAvailableMortgages: React.FC = () => {
   const history = useHistory()
 
   return (
@@ -631,7 +646,7 @@ const NFTAvailbleMortgages:React.FC = () => {
       <AreaTitle>Available to Mortgages</AreaTitle>
       <Line />
       <NFTMortgagesMain>
-        <div className="mortgages-item" onClick={ () => history.push('/nftMortgageDetailPage') }>
+        <div className="mortgages-item" onClick={() => history.push('/pools/mortgage/detail')}>
           <div className="mortgages-item-image">
             <img src={myDashboard1} alt="" />
           </div>
@@ -687,7 +702,7 @@ const NFTAvailbleMortgages:React.FC = () => {
   )
 }
 
-const NFTYourMortgage:React.FC = () => {
+const NFTYourMortgage: React.FC = () => {
   return (
     <NFTMortgagesContainer>
       <AreaTitle>Your Mortgages</AreaTitle>
@@ -749,7 +764,7 @@ const NFTYourMortgage:React.FC = () => {
   )
 }
 
-const NFTLiquidation:React.FC = () => {
+const NFTLiquidation: React.FC = () => {
   return (
     <NFTMortgagesLiquidation>
       <AreaTitle>Liquidation prepayment</AreaTitle>
@@ -828,24 +843,25 @@ const NFTLiquidation:React.FC = () => {
   )
 }
 
-const MyDashboardPage:React.FC<{ current: number, providerInitialized: any }> = ({ current, providerInitialized }) => {
+const MyDashboardPage: React.FC = () => {
+  const { providerInitialized } = useWeb3EnvContext()
 
   return (
-    <MyDashboardContainer className={clsx(current === 1 && 'active')}>
+    <MyDashboardContainer className={clsx('active')}>
       {
-        !providerInitialized ?
-          <div /> :
+        providerInitialized &&(
           <div>
             <MyDashboardData>
               <DepositInformationArea />
               <BorrowInformationArea />
             </MyDashboardData>
             <NFTBorrowMortgage>
-              <NFTAvailbleMortgages />
+              <NFTAvailableMortgages />
               <NFTYourMortgage />
             </NFTBorrowMortgage>
             <NFTLiquidation />
           </div>
+        )
       }
     </MyDashboardContainer>
   )

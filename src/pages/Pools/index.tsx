@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import MarkePage from './Market'
+import MarketPage from './Market'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import MyDashboardPage from './MyDashboard'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
@@ -10,6 +10,44 @@ import StakePage from './Stake'
 import BorrowPage from './Borrow'
 import coding from '../../assets/images/mockImg/coding.png'
 import LiquidationListPage from './LiquidationList'
+import { Route, Switch, useHistory } from 'react-router-dom'
+import DepositItemDetailPage from './Detail/DepositItemDetail'
+import MortgagePoolDetail from './Detail/MortgagePoolDetail'
+import MortgagePoolDetailPage from './Detail/MortgagePoolDetail'
+
+export type PoolPageKeys =
+  | 'market'
+  | 'dashboard'
+  | 'deposit'
+  | 'borrow'
+  | 'liquidation'
+  | 'stake'
+  | 'deposit/detail'
+  | 'mortgage/detail'
+
+// eslint-disable-next-line no-unused-vars
+const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
+  'market': <MarketPage />,
+  'dashboard': <MyDashboardPage />,
+  'deposit': <DepositPage />,
+  'borrow': <BorrowPage />,
+  'liquidation': <LiquidationListPage />,
+  'stake': <StakePage />,
+  'deposit/detail': <DepositItemDetailPage />,
+  'mortgage/detail': <MortgagePoolDetailPage />
+}
+
+// eslint-disable-next-line no-unused-vars
+const MENU_BY_PAGE_KEYS: { [key in PoolPageKeys]?: string } = {
+  'market': 'MARKET',
+  'dashboard': 'MY DASHBOARD',
+  'deposit': 'DEPOSIT',
+  'borrow': 'BORROW',
+  'liquidation': 'LIQUIDATION',
+  'stake': 'STAKE'
+}
+
+const DEFAULT_ACTIVE_PAGE_KEY = 'market'
 
 const PoolsContainer = styled.div`
   min-height: 100vh;
@@ -53,28 +91,30 @@ const PoolsContainerMenu = styled.div`
   }
 `
 
-const PoolsPage:React.FC = () => {
+const PoolsPage: React.FC = () => {
+  const history = useHistory()
+
+  const moduleName = history.location.pathname.replace('/pools/', '').replace(/\/.+/, '')
 
   const { providerInitialized } = useWeb3EnvContext()
 
   const { open: openWalletSelectionModal } = useWalletSelectionModal()
 
-  const [current, setCurrent] = useState<number>(0)
-
-
-  const menuTabs = ['MARKET', 'MY DASHBOARD', 'DEPOSIT', 'BORROW', 'LIQUIDATION', 'STAKE']
-
   const init = useCallback(() => {
-    if (current === 1) {
-      if (!providerInitialized) {
-        openWalletSelectionModal()
-      }
+    if (!providerInitialized) {
+      openWalletSelectionModal()
     }
-  },[current])
+  }, [providerInitialized])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
+
+  useEffect(() => {
+    if (history.location.pathname === '/pools') {
+      history.push(`/pools/${DEFAULT_ACTIVE_PAGE_KEY}`)
+    }
+  }, [history])
 
   return (
     <PoolsContainer>
@@ -82,24 +122,30 @@ const PoolsPage:React.FC = () => {
       <PoolsContainerMenu>
         <div className="container-menu-main">
           {
-            menuTabs.map((item: string, index) => (
+            Object.entries(MENU_BY_PAGE_KEYS).map(([key, value]) => (
               <div
-                className={clsx('container-menu-item', current === index && 'tabs__link')}
-                onClick={() => setCurrent(index)}
-                key={index}
+                className={clsx('container-menu-item', moduleName === key && 'tabs__link')}
+                onClick={() => {
+                  history.push(`/pools/${key}`)
+                }}
+                key={key}
               >
-                {item}
+                {value}
               </div>
             ))
           }
         </div>
       </PoolsContainerMenu>
-      <MarkePage current={current} />
-      <MyDashboardPage current={current} providerInitialized={providerInitialized} />
-      <DepositPage current={current} />
-      <StakePage current={current} />
-      <BorrowPage current={current} setCurrent={setCurrent} />
-      <LiquidationListPage current={current} />
+
+      <Switch>
+        {
+          Object.entries(PAGE_BY_PAGE_KEYS).map(([key, page]) => (
+            <Route path={`/pools/${key}`} exact key={key}>
+              {page}
+            </Route>
+          ))
+        }
+      </Switch>
     </PoolsContainer>
   )
 }

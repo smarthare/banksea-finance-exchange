@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
 import { Button } from 'antd'
+import { useHistory } from 'react-router-dom'
 
 const BorrowMain = styled.div`
   width: 113.6rem;
@@ -325,12 +326,13 @@ const AllCoinContainer:React.FC = () => {
   )
 }
 
-const BorrowPage:React.FC<{ current: number, setCurrent: any }> = ({ current, setCurrent }) => {
+const BorrowPage:React.FC = () => {
+  const history = useHistory()
 
   return (
-    <BorrowMain className={clsx(current === 3 && 'active')}>
+    <BorrowMain className={clsx('active')}>
       <DepositAreaLeft>
-        <AreaTitle>Availble to Borrow</AreaTitle>
+        <AreaTitle>Available to Borrow</AreaTitle>
         <Line />
         <AllCoinContainer />
       </DepositAreaLeft>
@@ -340,7 +342,7 @@ const BorrowPage:React.FC<{ current: number, setCurrent: any }> = ({ current, se
           <Line />
           <div className="MyTotal">
             <div className="MyTotal-name">
-              <span>NFT-Mortgage Nymber</span>
+              <span>NFT-Mortgage Number</span>
             </div>
             <div className="MyTotalNum">3</div>
           </div>
@@ -350,7 +352,7 @@ const BorrowPage:React.FC<{ current: number, setCurrent: any }> = ({ current, se
             </div>
             <div className="MyTotalNum">7.6 ETH</div>
           </div>
-          <MortgageButton onClick={() => setCurrent(4)}>Mortgage</MortgageButton>
+          <MortgageButton onClick={() => history.push('/pools/mortgage')}>Mortgage</MortgageButton>
         </MyNFTMortgage>
       </DepositAreaRight>
     </BorrowMain>
