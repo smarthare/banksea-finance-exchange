@@ -237,7 +237,7 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
             mortgageList?.map((item: any, index: number) => (
               <div key={index}
                 className="mortgage-table-item"
-                onClick={() => history.push('/mortgagePoolDetail')}
+                onClick={() => history.push('')}
               >
                 <div>
                   <img src={item?.nftImage} />

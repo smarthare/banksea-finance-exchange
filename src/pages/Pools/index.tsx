@@ -30,9 +30,9 @@ export type PoolPageKeys =
   | 'liquidation'
   | 'stake'
   | 'deposit/detail/:id'
-  | 'mortgage/detail'
+  | 'mortgage/detail/:id'
   | 'market/deposit/pool/:id'
-  | 'liquidation/detail'
+  | 'liquidation/detail/:id'
   | 'borrow/detail/:id'
   | 'available/detail/:uri'
 
@@ -45,9 +45,9 @@ const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
   'liquidation': <LiquidationListPage />,
   'stake': <StakePage />,
   'deposit/detail/:id': <DepositItemDetailPage />,
-  'mortgage/detail': <MortgagePoolDetailPage />,
+  'mortgage/detail/:id': <MortgagePoolDetailPage />,
   'market/deposit/pool/:id': <DepositPoolDetailPage />,
-  'liquidation/detail': <NFTMortgageDetailPage />,
+  'liquidation/detail/:id': <NFTMortgageDetailPage />,
   'borrow/detail/:id': <BorrowItemDetailPage />,
   'available/detail/:uri': <AvailablePurchasePage />
 }
