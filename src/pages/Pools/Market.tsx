@@ -14,7 +14,7 @@ import {
 } from '../../utils/banksyNftList'
 
 const MarketContainer = styled.div`
-  padding-top: 2rem;
+  padding-top: 4rem;
 
   .market {
     display: none;
@@ -285,9 +285,8 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
               <div
                 key={index}
                 className="table-item"
-                onClick={() => history.push(`/pools/deposit/pool/${item?.id}`)}
               >
-                <div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>
                   <img
                     src={item?.assetsImage}
                     alt=""
@@ -295,13 +294,13 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
                   />
                   {item?.assetsName}
                 </div>
-                <div>{item?.marketSize}</div>
-                <div>{item?.totalBorrowed}</div>
-                <div>{item?.depositApy}</div>
-                <div>{item?.variableBorrowApy}</div>
-                <div>{item?.stableBorrowApy}</div>
-                <DepositButton>deposit</DepositButton>
-                <DepositButton>Borrow</DepositButton>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.marketSize}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.totalBorrowed}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.depositApy}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.variableBorrowApy}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.stableBorrowApy}</div>
+                <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>deposit</DepositButton>
+                <DepositButton onClick={() => history.push(`/pools/borrow/detail/${item?.id}`)}>Borrow</DepositButton>
               </div>
             ))
           }
@@ -341,14 +340,14 @@ const MarketPage: React.FC = () => {
       mortgageSize().then(res => {
         setMortgageSizeNum(res.data.data.toLocaleString())
       })
-    }, 1000)
+    }, 2000)
 
-    await mortgagePoolsList({}).then((res: any) => {
-      setMortgageList(res.data.data)
+    marketSizeStatistics().then(res => {
+      setDepositStatistics(res.data.data.depositSize)
     })
 
-    await marketSizeStatistics().then(res => {
-      setDepositStatistics(res.data.data.depositSize)
+    mortgagePoolsList({}).then((res: any) => {
+      setMortgageList(res.data.data)
     })
 
     return () => {

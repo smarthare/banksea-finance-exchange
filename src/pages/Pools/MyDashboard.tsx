@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
 import { Button, Progress, Switch } from 'antd'
@@ -6,16 +6,16 @@ import { useHistory } from 'react-router-dom'
 import myDashboard1 from '../../assets/images/mockImg/myDashboard1.png'
 import myDashboard2 from '../../assets/images/mockImg/myDashboard2.png'
 import myDashboard3 from '../../assets/images/mockImg/myDashboard3.png'
-import myDashboard4 from '../../assets/images/mockImg/myDashboard4.png'
-import myDashboard5 from '../../assets/images/mockImg/myDashboard5.png'
-import myDashboard6 from '../../assets/images/mockImg/myDashboard6.png'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
+import { dashboardUser, dashboardMortgageAvailable, dashboardMortgageMortgaged, dashboardMortgagePreorder } from '../../utils/banksyNftList'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../../store/wallet'
 
 const MyDashboardContainer = styled.div`
   width: 135.6rem;
   margin-left: calc((100% - 135.6rem) / 2);
   display: none;
-  padding-top: 4rem;
+  padding-top: 8rem;
 
   &.active {
     display: block;
@@ -419,7 +419,8 @@ const ETHIcon: React.FC = () => {
   )
 }
 
-const DepositInformationArea: React.FC = () => {
+const DepositInformationArea: React.FC<{ userInfo: any }> = ({ userInfo }) => {
+  console.log(userInfo)
   return (
     <Deposits>
       <div className="depositArea">
@@ -431,7 +432,7 @@ const DepositInformationArea: React.FC = () => {
               <div className="left-text-column">
                 <div className="left-text-line-item">
                   <p>Approximate balance</p>
-                  <p>$110.477 449288 USD</p>
+                  <p>$ { userInfo?.approximateBalance } USD</p>
                 </div>
               </div>
               <ProgressArea type="circle"
@@ -518,7 +519,7 @@ const DepositInformationArea: React.FC = () => {
   )
 }
 
-const BorrowInformationArea: React.FC = () => {
+const BorrowInformationArea: React.FC<{ userInfo: any }> = ({ userInfo }) => {
   return (
     <Borrow>
       <div className="borrowArea">
@@ -530,7 +531,7 @@ const BorrowInformationArea: React.FC = () => {
               <div className="left-text-column">
                 <div className="left-text-line-item">
                   <p>Your borrowed</p>
-                  <p>$10.333 ETH</p>
+                  <p>$ {userInfo?.borrowed} ETH</p>
                 </div>
                 <div className="left-text-line-item">
                   <p>Your collateral</p>
@@ -538,17 +539,17 @@ const BorrowInformationArea: React.FC = () => {
                 </div>
                 <div className="left-text-line-item">
                   <p>Current LTV</p>
-                  <p>15%</p>
+                  <p>{userInfo?.currentLtv ? userInfo?.currentLtv : '---'}</p>
                 </div>
               </div>
               <div className="left-text-column">
                 <div className="left-text-line-item-health">
                   <p>Health factor</p>
-                  <p>6.43</p>
+                  <p>{userInfo?.healthFactor ? userInfo?.healthFactor : '---'}</p>
                 </div>
                 <div className="left-text-line-item">
                   <p>Borrowing Power Used</p>
-                  <p>45.65%</p>
+                  <p>{userInfo?.borrowUsed ? userInfo?.borrowUsed : '---'}</p>
                 </div>
                 <div className="details">
                   details
@@ -638,7 +639,7 @@ const BorrowInformationArea: React.FC = () => {
   )
 }
 
-const NFTAvailableMortgages: React.FC = () => {
+const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAvailable }) => {
   const history = useHistory()
 
   return (
@@ -646,198 +647,94 @@ const NFTAvailableMortgages: React.FC = () => {
       <AreaTitle>Available to Mortgages</AreaTitle>
       <Line />
       <NFTMortgagesMain>
-        <div className="mortgages-item" onClick={() => history.push('/pools/mortgage/detail')}>
-          <div className="mortgages-item-image">
-            <img src={myDashboard1} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 7804</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 6.5M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">45.7%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard2} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 2140</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 1.1M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">40.7%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard3} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 4156</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 0.9M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">37.8%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
+        {
+          mortgageAvailable?.map((item: any, index: number) => (
+            <div key={index}
+              className="mortgages-item"
+              onClick={() => history.push(`available/detail/${item?.valueUri}`)}
+            >
+              <div className="mortgages-item-image">
+                <img src={item?.image} alt="" />
+              </div>
+              <div className="mortgages-item-text">
+                <p className="mortgages-item-text-name">{item?.name}</p>
+                <MortgagesItemText>
+                  <p className="message-name">Values:</p>
+                  <p className="message-number">$ {item?.price}</p>
+                </MortgagesItemText>
+                <MortgagesItemText>
+                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-number">{item?.mortgageRate}</p>
+                </MortgagesItemText>
+                <WithdrawButton>Mortgage</WithdrawButton>
+              </div>
+            </div>
+          ))
+        }
       </NFTMortgagesMain>
     </NFTMortgagesContainer>
   )
 }
 
-const NFTYourMortgage: React.FC = () => {
+const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgaged }) => {
   return (
     <NFTMortgagesContainer>
       <AreaTitle>Your Mortgages</AreaTitle>
       <Line />
       <NFTMortgagesMain>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard1} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 7804</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 6.5M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">45.7%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard2} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 2140</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 1.1M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">40.7%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard3} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 4156</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 0.9M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">37.8%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
+        {
+          mortgageMortgaged?.map((item: any, index: number) => (
+            <div key={index} className="mortgages-item">
+              <div className="mortgages-item-image">
+                <img src={item?.image} alt="" />
+              </div>
+              <div className="mortgages-item-text">
+                <p className="mortgages-item-text-name">{item?.name}</p>
+                <MortgagesItemText>
+                  <p className="message-name">Values:</p>
+                  <p className="message-number">$ {item?.price}</p>
+                </MortgagesItemText>
+                <MortgagesItemText>
+                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-number">{item?.mortgageRate}</p>
+                </MortgagesItemText>
+                <WithdrawButton>redemption</WithdrawButton>
+              </div>
+            </div>
+          ))
+        }
       </NFTMortgagesMain>
     </NFTMortgagesContainer>
   )
 }
 
-const NFTLiquidation: React.FC = () => {
+const NFTLiquidation: React.FC<{ mortgagePreorder: any }> = ({ mortgagePreorder }) => {
   return (
     <NFTMortgagesLiquidation>
       <AreaTitle>Liquidation prepayment</AreaTitle>
       <Line />
       <NFTLiquidationMortgagesMain>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard1} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 7804</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 6.5M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">45.7%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard2} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 2140</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 1.1M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">40.7%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard3} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 4156</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 0.9M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">37.8%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard3} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 4156</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 0.9M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">37.8%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
+        {
+          mortgagePreorder?.map((item: any, index: number) => (
+            <div key={index} className="mortgages-item">
+              <div className="mortgages-item-image">
+                <img src={item?.image} alt="" />
+              </div>
+              <div className="mortgages-item-text">
+                <p className="mortgages-item-text-name">{item?.name}</p>
+                <MortgagesItemText>
+                  <p className="message-name">Values:</p>
+                  <p className="message-number">$ {item?.price}</p>
+                </MortgagesItemText>
+                <MortgagesItemText>
+                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-number">{item?.mortgageRate}</p>
+                </MortgagesItemText>
+                <WithdrawButton>Cancel pre-purchase</WithdrawButton>
+              </div>
+            </div>
+          ))
+        }
       </NFTLiquidationMortgagesMain>
     </NFTMortgagesLiquidation>
   )
@@ -845,6 +742,38 @@ const NFTLiquidation: React.FC = () => {
 
 const MyDashboardPage: React.FC = () => {
   const { providerInitialized } = useWeb3EnvContext()
+  const account = useSelector(getAccount)
+
+  const [userInfo, setUserInfo] = useState()
+
+  const [mortgageAvailable, setMortgageAvailable] = useState()
+
+  const [mortgageMortgaged, setMortgageMortgaged] = useState()
+
+  const [mortgagePreorder, setMortgagePreorder] = useState()
+
+  const init = useCallback(async () => {
+    await dashboardUser({ walletAddress: account }).then(res => {
+      console.log('user'+res)
+      setUserInfo(res.data.data.userInfo)
+    })
+
+    await dashboardMortgageAvailable({ walletAddress: account }).then(res => {
+      setMortgageAvailable(res.data.data)
+    })
+
+    await dashboardMortgageMortgaged({ walletAddress: account }).then(res => {
+      setMortgageMortgaged(res.data.data)
+    })
+
+    await dashboardMortgagePreorder({ walletAddress: account }).then(res => {
+      setMortgagePreorder(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
 
   return (
     <MyDashboardContainer className={clsx('active')}>
@@ -852,14 +781,14 @@ const MyDashboardPage: React.FC = () => {
         providerInitialized &&(
           <div>
             <MyDashboardData>
-              <DepositInformationArea />
-              <BorrowInformationArea />
+              <DepositInformationArea userInfo={userInfo} />
+              <BorrowInformationArea userInfo={userInfo} />
             </MyDashboardData>
             <NFTBorrowMortgage>
-              <NFTAvailableMortgages />
-              <NFTYourMortgage />
+              <NFTAvailableMortgages mortgageAvailable={mortgageAvailable} />
+              <NFTYourMortgage mortgageMortgaged={mortgageMortgaged} />
             </NFTBorrowMortgage>
-            <NFTLiquidation />
+            <NFTLiquidation mortgagePreorder={mortgagePreorder} />
           </div>
         )
       }

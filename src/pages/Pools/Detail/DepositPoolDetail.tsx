@@ -7,15 +7,12 @@ import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import UtilisationRate from '../../../components/EchartsStatistics/UtilisationRate'
 import { depositPoolsDetail } from '../../../utils/banksyNftList'
-import { weiToBigNumber } from '../../../web3/utils'
-import { banksyWeb3 } from '../../../BanksyWeb3'
-import moment from 'moment'
 
 const StoragePoolMain = styled.div`
   width: 130rem;
   min-height: 100vh;
   margin-left: calc((100% - 130rem) / 2);
-  padding-top: 4rem;
+  padding-top: 8rem;
 
   p {
     margin: 0;
