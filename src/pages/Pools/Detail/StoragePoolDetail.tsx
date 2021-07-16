@@ -7,6 +7,9 @@ import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import UtilisationRate from '../../../components/EchartsStatistics/UtilisationRate'
 import { depositPoolsDetail } from '../../../utils/banksyNftList'
+import { weiToBigNumber } from '../../../web3/utils'
+import { banksyWeb3 } from '../../../BanksyWeb3'
+import moment from 'moment'
 
 const StoragePoolMain = styled.div`
   width: 130rem;
@@ -384,7 +387,6 @@ const BackIcon:React.FC = () => {
 }
 
 const IndexValue:React.FC<{ poolDetailData: any }> = ({ poolDetailData }) => {
-  console.log(poolDetailData?.mortgage)
   return (
     <IndexValueMain>
       <IndexValueItem>
@@ -470,6 +472,7 @@ const DepositStableVariable:React.FC<{ poolDetailData: any }> = ({ poolDetailDat
 }
 
 const YourInformation:React.FC = () => {
+
   return (
     <YourInformationMain>
       <AreaTitle>Your information</AreaTitle>
@@ -481,7 +484,7 @@ const YourInformation:React.FC = () => {
           </DepositsValuesItem>
           <DepositsValuesItem>
             <span className="depositValues-item-name">Your wallet balance</span>
-            <span className="depositValues-item-value">0.00DAI</span>
+            <span className="depositValues-item-value">11</span>
           </DepositsValuesItem>
           <DepositsValuesItem>
             <span className="depositValues-item-name">You already deposited</span>
@@ -550,10 +553,16 @@ const StoragePoolDetailPage:React.FC = () => {
 
   const [poolDetailData, setPoolDetailData] = useState<any>()
 
+
   const init = useCallback(async () => {
-    await depositPoolsDetail({ id: id }).then(res => {
-      setPoolDetailData(res.data.data)
-    })
+    const t = setInterval(async () => {
+      await depositPoolsDetail({ id: id }).then(res => {
+        setPoolDetailData(res.data.data)
+      })
+    }, 1000)
+    return () => {
+      clearTimeout(t)
+    }
   },[])
 
   useEffect(() => {

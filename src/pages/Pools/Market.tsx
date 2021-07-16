@@ -1,13 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import styled from 'styled-components'
-import MarketSize from '../../components/EchartsStatistics/MarketSize'
+import DepositSize from '../../components/EchartsStatistics/DepositSize'
 import { useHistory } from 'react-router-dom'
-import mortgagePools1 from '../../assets/images/mockImg/mortgagePools1.png'
-import mortgagePools2 from '../../assets/images/mockImg/mortgagePools2.png'
-import mortgagePools3 from '../../assets/images/mockImg/mortgagePools3.png'
 
-import { depositPoolsList, depositSize, mortgagePoolsList } from '../../utils/banksyNftList'
+import {
+  depositPoolsList,
+  depositSize,
+  mortgagePoolsList,
+  marketSizeStatistics,
+  mortgageSize,
+  depositPoolsDetail
+} from '../../utils/banksyNftList'
 
 const MarkeContainer = styled.div`
   padding-top: 2rem;
@@ -311,7 +315,11 @@ const MarkePage:React.FC<any> = ({ current }) => {
 
   const [depositSizeNum, setDepositSizeNum] = useState<number>()
 
+  const [mortgageSizeNum, setMortgageSizeNum] = useState<number>()
+
   const [mortgageList, setMortgageList] = useState<any>()
+
+  const [depositStatistics, setDepositStatistics] = useState<any>()
 
   const init = useCallback(async () => {
     await depositPoolsList(
@@ -323,13 +331,27 @@ const MarkePage:React.FC<any> = ({ current }) => {
       setDepositList(res.data.data)
     })
 
-    await depositSize().then(res => {
-      setDepositSizeNum(res.data.data.toLocaleString())
-    })
+    const t = setInterval(() => {
+      depositSize().then((res: any) => {
+        setDepositSizeNum(res.data.data.toLocaleString())
+      })
+
+      mortgageSize().then(res => {
+        setMortgageSizeNum(res.data.data.toLocaleString())
+      })
+    }, 1000)
 
     await mortgagePoolsList({}).then((res: any) => {
       setMortgageList(res.data.data)
     })
+
+    await marketSizeStatistics().then(res => {
+      setDepositStatistics(res.data.data.depositSize)
+    })
+
+    return () => {
+      clearTimeout(t)
+    }
   },[])
 
   useEffect(() => {
@@ -345,15 +367,15 @@ const MarkePage:React.FC<any> = ({ current }) => {
             <Line />
             <MarketSizeStatistics>
               <div className="market-size">${depositSizeNum}</div>
-              <MarketSize />
+              <DepositSize depositStatistics={depositStatistics} />
             </MarketSizeStatistics>
           </Tatistics>
           <Tatistics>
             <AreaTitle>Mortgage NFT value</AreaTitle>
             <Line />
             <MarketSizeStatistics>
-              <div className="market-size">$674,666,00</div>
-              <MarketSize />
+              <div className="market-size">${mortgageSizeNum}</div>
+              <DepositSize depositStatistics={depositStatistics} />
             </MarketSizeStatistics>
           </Tatistics>
         </MarkeTotal>

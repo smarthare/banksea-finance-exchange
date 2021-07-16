@@ -102,10 +102,14 @@ export function depositPoolsDetail(data: any) {
 }
 
 export function depositSize() {
-  return banksyTestRequest.get<BanksyApiResponse<any>>('/pools/mortgage/value/total')
+  return banksyTestRequest.get<BanksyApiResponse<any>>('/pools/deposit/size/total')
 }
 
 export function mortgageSize() {
   return banksyTestRequest.get<BanksyApiResponse<any>>('/pools/mortgage/value/total')
+}
+
+export function marketSizeStatistics() {
+  return banksyTestRequest.get<BanksyApiResponse<any>>('/pools/deposit/size')
 }
 

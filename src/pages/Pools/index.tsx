@@ -8,8 +8,8 @@ import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import DepositPage from './Deposit'
 import StakePage from './Stake'
 import BorrowPage from './Borrow'
-import MortgagePage from './Mortgage'
 import coding from '../../assets/images/mockImg/coding.png'
+import LiquidationListPage from './LiquidationList'
 
 const PoolsContainer = styled.div`
   min-height: 100vh;
@@ -62,7 +62,7 @@ const PoolsPage:React.FC = () => {
   const [current, setCurrent] = useState<number>(0)
 
 
-  const menuTabs = ['MARKET', 'MY DASHBOARD', 'DEPOSIT', 'BORROW', 'Liquidation list', 'STAKE']
+  const menuTabs = ['MARKET', 'MY DASHBOARD', 'DEPOSIT', 'BORROW', 'LIQUIDATION', 'STAKE']
 
   const init = useCallback(() => {
     if (current === 1) {
@@ -99,7 +99,7 @@ const PoolsPage:React.FC = () => {
       <DepositPage current={current} />
       <StakePage current={current} />
       <BorrowPage current={current} setCurrent={setCurrent} />
-      <MortgagePage current={current} />
+      <LiquidationListPage current={current} />
     </PoolsContainer>
   )
 }

@@ -38,7 +38,6 @@ const MortgagesTitle = styled.div`
 
 const MortgageMainLeft = styled.div`
   width: 100%;
-  height: 120rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-top: 1rem;
@@ -389,32 +388,7 @@ const NFTMortgages:React.FC = () => {
   )
 }
 
-// const MortgageMainRight:React.FC = () => {
-//   return (
-//     <MortgageMainRightMain>
-//       <AreaTitle>My Mortgage</AreaTitle>
-//       <Line />
-//       <CryptoOperating>
-//         <CryptoButton>Crypto Punks Seriels</CryptoButton>
-//         <CryptoInput />
-//       </CryptoOperating>
-//       <CryptoOperatingValue>
-//         <div>Total</div>
-//         <div>$3</div>
-//       </CryptoOperatingValue>
-//       <CryptoOperating>
-//         <CryptoButton>Crypto Kitties Seriels</CryptoButton>
-//         <CryptoInput />
-//       </CryptoOperating>
-//       <CryptoOperatingValue>
-//         <div>Total</div>
-//         <div>$3</div>
-//       </CryptoOperatingValue>
-//     </MortgageMainRightMain>
-//   )
-// }
-
-const MortgagePage:React.FC<{current: number}> = ({ current }) => {
+const LiquidationListPage:React.FC<{current: number}> = ({ current }) => {
   return (
     <MortgageMain className={clsx(current === 4 && 'active')}>
       <MortgageMainLeft>
@@ -422,12 +396,6 @@ const MortgagePage:React.FC<{current: number}> = ({ current }) => {
         <Line />
         <SerielsTop>
           <span>Crypto Punks Seriels</span>
-          {/*<div className="search">*/}
-          {/*  <SearchInput />*/}
-          {/*  <div className="searchButton">*/}
-          {/*    <SearchOutlined style={{ color: '#fff' }} />*/}
-          {/*  </div>*/}
-          {/*</div>*/}
         </SerielsTop>
         <NFTMortgages />
         <Line />
@@ -436,9 +404,8 @@ const MortgagePage:React.FC<{current: number}> = ({ current }) => {
         </SerielsTop>
         <NFTMortgagesKitties />
       </MortgageMainLeft>
-      {/*<MortgageMainRight />*/}
     </MortgageMain>
   )
 }
 
-export default MortgagePage
+export default LiquidationListPage
