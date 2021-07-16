@@ -257,7 +257,6 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
 }
 
 const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
-
   const history = useHistory()
 
   const usdTableTop = ['Assets', 'Market size', 'Total borrowed', 'Deposit APY', 'Deposit APY', 'Borrow APY']
@@ -283,7 +282,11 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
         <TableMain>
           {
             depositList?.map((item: any, index: number) => (
-              <div key={index} className="table-item" onClick={() => history.push(`/pools/depositPools/${item?.id}`)}>
+              <div
+                key={index}
+                className="table-item"
+                onClick={() => history.push(`/pools/deposit/pool/${item?.id}`)}
+              >
                 <div>
                   <img
                     src={item?.assetsImage}

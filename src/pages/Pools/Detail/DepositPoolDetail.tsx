@@ -546,7 +546,7 @@ const IndexValueStatistics:React.FC = () => {
   )
 }
 
-const StoragePoolDetailPage:React.FC = () => {
+const DepositPoolDetailPage:React.FC = () => {
   const history = useHistory()
 
   const id = history.location.pathname.slice(20)
@@ -625,4 +625,4 @@ const StoragePoolDetailPage:React.FC = () => {
   )
 }
 
-export default StoragePoolDetailPage
+export default DepositPoolDetailPage

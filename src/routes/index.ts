@@ -22,7 +22,6 @@ import TestPage from '../pages/Test'
 import VotePage from '../pages/Vote'
 import PoolsPage from '../pages/Pools/index'
 import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTMortgageDetail'
-import StoragePoolDetailPage from '../pages/Pools/Detail/StoragePoolDetail'
 import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
 import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
 
@@ -136,13 +135,6 @@ const routes: Route[] = [
     path: '/nftMortgageDetailPage',
     title: 'nftMortgageDetailPage',
     component: NFTMortgageDetailPage,
-    hidden: true
-  },
-  {
-    path: '/pools/depositPools/:id',
-    title: 'DepositPools',
-    match: /^\/pools\//,
-    component: StoragePoolDetailPage,
     hidden: true
   },
   {

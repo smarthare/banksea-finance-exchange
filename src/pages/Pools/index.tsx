@@ -12,8 +12,8 @@ import coding from '../../assets/images/mockImg/coding.png'
 import LiquidationListPage from './LiquidationList'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import DepositItemDetailPage from './Detail/DepositItemDetail'
-import MortgagePoolDetail from './Detail/MortgagePoolDetail'
 import MortgagePoolDetailPage from './Detail/MortgagePoolDetail'
+import DepositPoolDetailPage from './Detail/DepositPoolDetail'
 
 export type PoolPageKeys =
   | 'market'
@@ -24,6 +24,7 @@ export type PoolPageKeys =
   | 'stake'
   | 'deposit/detail'
   | 'mortgage/detail'
+  | 'deposit/pool/:id'
 
 // eslint-disable-next-line no-unused-vars
 const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
@@ -34,7 +35,8 @@ const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
   'liquidation': <LiquidationListPage />,
   'stake': <StakePage />,
   'deposit/detail': <DepositItemDetailPage />,
-  'mortgage/detail': <MortgagePoolDetailPage />
+  'mortgage/detail': <MortgagePoolDetailPage />,
+  'deposit/pool/:id': <DepositPoolDetailPage />
 }
 
 // eslint-disable-next-line no-unused-vars
