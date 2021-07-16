@@ -55,7 +55,7 @@ const HistoricalRates: React.FC = () => {
   }
 
 
-  return <ReactECharts option={option} style={{ width: 800, height: 200 }} />
+  return <ReactECharts option={option} style={{ width: 800, height: 200, marginTop: '6rem' }} />
 }
 
 export default HistoricalRates

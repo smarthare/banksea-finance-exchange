@@ -9,11 +9,17 @@ import DepositPage from './Deposit'
 import StakePage from './Stake'
 import BorrowPage from './Borrow'
 import coding from '../../assets/images/mockImg/coding.png'
-import LiquidationListPage from './LiquidationList'
+import LiquidationListPage from './Liquidation'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import DepositItemDetailPage from './Detail/DepositItemDetail'
 import MortgagePoolDetailPage from './Detail/MortgagePoolDetail'
 import DepositPoolDetailPage from './Detail/DepositPoolDetail'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../../store/wallet'
+import { poolsConnect } from '../../apis/pool'
+import NFTMortgageDetailPage from './Detail/NFTMortgageDetail'
+// import BorrowItemDetailPage from './Detail/BorrowItemDetail'
+import AvailablePurchasePage from './Detail/AvailablePurchase'
 
 export type PoolPageKeys =
   | 'market'
@@ -22,9 +28,12 @@ export type PoolPageKeys =
   | 'borrow'
   | 'liquidation'
   | 'stake'
-  | 'deposit/detail'
+  | 'deposit/detail/:id'
   | 'mortgage/detail'
-  | 'deposit/pool/:id'
+  | 'market/deposit/pool/:id'
+  | 'liquidation/detail'
+  | 'borrow/detail/:id'
+  | 'available/detail/:uri'
 
 // eslint-disable-next-line no-unused-vars
 const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
@@ -34,9 +43,12 @@ const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
   'borrow': <BorrowPage />,
   'liquidation': <LiquidationListPage />,
   'stake': <StakePage />,
-  'deposit/detail': <DepositItemDetailPage />,
+  'deposit/detail/:id': <DepositItemDetailPage />,
   'mortgage/detail': <MortgagePoolDetailPage />,
-  'deposit/pool/:id': <DepositPoolDetailPage />
+  'market/deposit/pool/:id': <DepositPoolDetailPage />,
+  'liquidation/detail': <NFTMortgageDetailPage />,
+  // 'borrow/detail/:id': <BorrowItemDetailPage />,
+  'available/detail/:uri': <AvailablePurchasePage />
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -58,7 +70,7 @@ const PoolsContainer = styled.div`
   .coding {
     width: 15rem;
     position: absolute;
-    top: 3rem;
+    top: 6rem;
     right: 0;
     z-index: 1;
   }
@@ -66,7 +78,7 @@ const PoolsContainer = styled.div`
 
 const PoolsContainerMenu = styled.div`
   width: calc(100% - 20.2rem);
-  height: 4rem;
+  height: 6rem;
   background: #0D1B34;
   border-bottom: 1px solid #4D4E52;
   display: flex;
@@ -102,9 +114,13 @@ const PoolsPage: React.FC = () => {
 
   const { open: openWalletSelectionModal } = useWalletSelectionModal()
 
+  const account = useSelector(getAccount)
+
   const init = useCallback(() => {
     if (!providerInitialized) {
       openWalletSelectionModal()
+    } else {
+      poolsConnect({ walletAddress: account })
     }
   }, [providerInitialized])
 
@@ -113,7 +129,7 @@ const PoolsPage: React.FC = () => {
   }, [init])
 
   useEffect(() => {
-    if (history.location.pathname === '/pools') {
+    if (history.location.pathname === '/pools/*') {
       history.push(`/pools/${DEFAULT_ACTIVE_PAGE_KEY}`)
     }
   }, [history])

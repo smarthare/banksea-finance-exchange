@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
+import { depositPoolsDetail } from '../../../apis/pool'
+import { useHistory } from 'react-router-dom'
 
 const ItemDetailMain = styled.div`
   min-height: 100vh;
@@ -98,6 +100,23 @@ const DetailDataMainStatistics = styled.div`
 `
 
 const DepositItemDetailPage:React.FC = () => {
+
+  const history = useHistory()
+
+  const id = history.location.pathname.slice(22)
+
+  const [data, setData] = useState<any>()
+
+  const init = useCallback(async () => {
+    depositPoolsDetail({ id: id }).then(res => {
+      setData(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
+
   return (
     <ItemDetailMain>
       <DetailTop>
@@ -106,10 +125,10 @@ const DepositItemDetailPage:React.FC = () => {
       </DetailTop>
       <ItemDetailData>
         <div className="detailData-top">
-          <div className="detailData-top-name">Deposit DAI</div>
+          <div className="detailData-top-name">Deposit {data?.assetsName}</div>
           <div className="detailData-top-overview">
-            <img />
-            <div>DAI Reserve Overview</div>
+            <img src={data?.assetsImage} />
+            <div>{data?.assetsName} Reserve Overview</div>
           </div>
         </div>
         <Line />
@@ -117,15 +136,15 @@ const DepositItemDetailPage:React.FC = () => {
           <DetailDataMainItem>
             <div className="item-line">
               <div>Utilization rate</div>
-              <div>64.71</div>
+              <div>{data?.utilizationRate}</div>
             </div>
             <div className="item-line">
               <div>Available liquidity</div>
-              <div>64.71</div>
+              <div>{data?.availableLiquidity}</div>
             </div>
             <div className="item-line">
               <div>Deposit APY</div>
-              <div>64.71</div>
+              <div>{data?.depositApy}</div>
             </div>
             <div className="item-line">
               <div>Can be used as collateral</div>
@@ -139,15 +158,15 @@ const DepositItemDetailPage:React.FC = () => {
             </div>
             <div className="item-line">
               <div>Maximum LTV</div>
-              <div>64.71</div>
+              <div>{data?.maximumLtv}</div>
             </div>
             <div className="item-line">
               <div>Liquidation threshold</div>
-              <div>64.71</div>
+              <div>{data?.liquidationThreshold}</div>
             </div>
             <div className="item-line">
               <div>Liquidation penalty</div>
-              <div>64.71</div>
+              <div>{data?.liquidationPenalty}</div>
             </div>
           </DetailDataMainItem>
           <DetailDataMainStatistics>

@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useLocationQuery } from '../../../utils'
 import { CopyOutlined } from '@ant-design/icons'
-import { Statistic } from 'antd'
+import { Button, message } from 'antd'
 import HistoricalRates from '../../../components/EchartsStatistics/HistoricalRates'
-import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
-import { getNftFavoriteCount } from '../../../apis/nft'
+import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../../../store/wallet'
+import { banksyNftDetail } from '../../../apis/nft'
+import { mortgageConfirm } from '../../../apis/pool'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
@@ -222,31 +224,56 @@ const NeuralNetworks = styled.div`
   }
 `
 
-const NFTBaseInfo: React.FC = () => {
-  const uri = useLocationQuery('uri')
+const ScheduleMain = styled.div`
+  margin-top: 3rem;
+`
 
-  const [likeNum, setLikeNum] = useState<any>()
+const ScheduleFirst = styled.div`
+  text-align: center;
+  width: 80rem;
+  margin-left: calc((100% - 80rem) / 2);
+  .title {
+    color: #F172ED;
+    font-size: 2rem;
+    font-weight: bolder;
+  }
 
-  const fetchLikeCount = useCallback(async () => {
-    getNftFavoriteCount(uri).then(res => {
-      setLikeNum(res.data.data)
-    })
-  }, [uri])
+  .main-text {
+    font-size: 1.7rem;
+    color: #fff;
+  }
+`
 
-  useEffect(() => {
-    fetchLikeCount()
-  }, [fetchLikeCount])
+const ConfirmButton = styled(Button)`
+  width: 16.9rem;
+  height: 4.8rem;
+  background: #554BFF;
+  border-radius: 1rem;
+  border: none;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 1.7rem;
+  transition: all 0.7s;
+  margin-top: 5rem;
+
+  &:hover {
+    background: #7A7AFF;
+    color: #fff;
+  }
+`
+
+const NFTBaseInfo:React.FC<{ data: any }> = ({ data }) => {
 
   return (
     <NFTBaseInfoContainer>
       <div className="nft-name">
-        Scottlin
+        {data?.name}
       </div>
       <div className="info-row">
         <div className="info-row-item">
           <div className="info-row-item-label">Artist</div>
           <div className="info-row-item-value">
-            0x211....3123
+            {data?.addressCreate.substring(0,4)+'...'+data?.addressCreate.slice(-4)}
           </div>
           <CopyOutlined className="icon-copy" />
         </div>
@@ -254,37 +281,85 @@ const NFTBaseInfo: React.FC = () => {
       <NeuralNetworks>
         <div className="NeuralNetworksMain">
           <div className="networksValue-name">Evaluation Value</div>
-          <div className="networksValue-value">$ 78,983</div>
+          <div className="networksValue-value">{data?.evaluate} ETH</div>
           <div className="networksValue-name">Mortgage Rate</div>
-          <div className="networksValue-value">43.7%</div>
+          <div className="networksValue-value">{data?.mortgageRate * 100}%</div>
         </div>
       </NeuralNetworks>
     </NFTBaseInfoContainer>
   )
 }
-const { Countdown } = Statistic
-const NFTMortgageDetailPage:React.FC = () => {
 
-  const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
+const Schedule:React.FC<{ data: any }> = ({ data }) => {
+
+  const history = useHistory()
+
+  const account = useSelector(getAccount)
+
+  const confirm = () => {
+    mortgageConfirm({
+      uri: data?.valueUri,
+      mortgageRate: data?.mortgageRate,
+      evaluate: data?.evaluate,
+      walletAddress: account
+    }).then(() => {
+      message.success('Success!')
+      history.push('/dashboard')
+    })
+  }
+
+  return (
+    <ScheduleMain>
+      <ScheduleFirst>
+        <div className="title">Mortgage overview</div>
+        <div className="main-text">
+          If you agree with the valuation of the NFT,you can make a
+          mortgage,,and the NFT will be locked in the smart contract during
+          the mortgage.During the mortgage period,AI Oracle will regularly
+          update the valuation of NFT,please pay attention to it regularly.
+        </div>
+        <ConfirmButton onClick={confirm}>Confirm</ConfirmButton>
+      </ScheduleFirst>
+    </ScheduleMain>
+  )
+}
+
+const AvailablePurchasePage:React.FC = () => {
+
+  const history = useHistory()
+
+  const [data, setData] = useState<any>()
+
+  const init = useCallback(async () => {
+    banksyNftDetail({
+      uri: history.location.pathname.slice(24),
+    }).then(res => {
+      setData(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
 
   return (
     <NFTMortgageDetailContainer>
       <Row>
         <LeftArea>
           <ImageContainer>
-            <img src={myDashboard1} alt="" />
+            <img src={data?.image} alt="" />
           </ImageContainer>
         </LeftArea>
         <RightArea>
-          <NFTBaseInfo />
+          <NFTBaseInfo data={data} />
         </RightArea>
         <div className="statistics">
-          <Countdown value={deadline} />
           <HistoricalRates />
         </div>
       </Row>
+      <Schedule data={data} />
     </NFTMortgageDetailContainer>
   )
 }
 
-export default NFTMortgageDetailPage
+export default AvailablePurchasePage

@@ -12,7 +12,7 @@ const StoragePoolMain = styled.div`
   width: 130rem;
   min-height: 100vh;
   margin-left: calc((100% - 130rem) / 2);
-  padding-top: 4rem;
+  padding-top: 8rem;
 
   p {
     margin: 0;
@@ -546,7 +546,7 @@ const IndexValueStatistics:React.FC = () => {
 const DepositPoolDetailPage:React.FC = () => {
   const history = useHistory()
 
-  const id = history.location.pathname.slice(20)
+  const id = history.location.pathname.slice(27)
 
   const [poolDetailData, setPoolDetailData] = useState<any>()
 

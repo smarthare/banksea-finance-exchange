@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
+import { depositPoolsList } from '../../apis/pool'
 
 const BorrowMain = styled.div`
   width: 113.6rem;
   margin-left: calc((100% - 113.6rem) / 2);
   display: none;
-  padding-top: 4rem;
+  padding-top: 8rem;
 
   &.active {
     display: block;
@@ -17,7 +18,6 @@ const BorrowMain = styled.div`
 
 const DepositAreaLeft = styled.div`
   width: 78.1rem;
-  height: 54rem;
   background: #101D44;
   border-radius: 1.5rem;
   float: left;
@@ -101,6 +101,7 @@ const CoinTabsArea = styled.div`
 const AllCoinTable = styled.div`
   width: 72.4rem;
   margin: 2.9rem auto;
+  padding-bottom: 2rem;
 `
 
 const AllCoinTableTop = styled.div`
@@ -231,96 +232,40 @@ const DepositButton = styled.div`
   cursor: pointer;
 `
 
-const ETHIcon: React.FC = () => {
-  return (
-    <img
-      src={require('../../assets/images/eth.svg').default}
-      alt="ETH"
-      style={{ width: '2.2rem', marginRight: '0.8rem' }}
-    />
-  )
-}
+const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
+  const history = useHistory()
 
-
-const AllCoinContainer:React.FC = () => {
   return (
     <AllCoinTable>
       <AllCoinTableTop>
         <div>Assets</div>
-        <div>Your wallet balance</div>
-        <div>APY</div>
+        <div>Variable APY</div>
+        <div>Stable APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-        </div>
+        {
+          data?.map((item: any, index: number) => (
+            <div className="allCoin-table-item"
+              onClick={() => history.push(`/pools/borrow/detail/${item.id}`)}
+              key={index}
+            >
+              <div className="assets">
+                <img
+                  src={item?.assetsImage}
+                  alt="ETH"
+                  style={{ width: '2.2rem', marginRight: '0.8rem' }}
+                />
+                <span>{item?.assetsName}</span>
+              </div>
+              <div className="walletBalance">
+                <p>{item?.variableBorrowApy}</p>
+              </div>
+              <div className="apy">
+                <p>{item?.stableBorrowApy}</p>
+              </div>
+            </div>
+          ))
+        }
       </AllCoinTableMain>
     </AllCoinTable>
   )
@@ -329,12 +274,27 @@ const AllCoinContainer:React.FC = () => {
 const BorrowPage:React.FC = () => {
   const history = useHistory()
 
+  const [data, setData] = useState<any>()
+
+  const init = useCallback(async () => {
+    depositPoolsList({
+      orderKey: 'deposit_apy',
+      orderDesc: ''
+    }).then(res => {
+      setData(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
+
   return (
     <BorrowMain className={clsx('active')}>
       <DepositAreaLeft>
         <AreaTitle>Available to Borrow</AreaTitle>
         <Line />
-        <AllCoinContainer />
+        <AllCoinContainer data={data} />
       </DepositAreaLeft>
       <DepositAreaRight>
         <MyNFTMortgage>
