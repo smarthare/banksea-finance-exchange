@@ -421,7 +421,7 @@ const ETHIcon: React.FC = () => {
   )
 }
 
-const DepositInformationArea: React.FC<{ userInfo: any }> = ({ userInfo }) => {
+const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({ userInfo, depositList }) => {
   console.log(userInfo)
   return (
     <Deposits>
@@ -455,77 +455,44 @@ const DepositInformationArea: React.FC<{ userInfo: any }> = ({ userInfo }) => {
           <div>Collateral</div>
         </MyAccessTableYop>
         <MyAccessTableMain>
-          <div className="allCoin-table-item">
-            <div className="assets">
-              <ETHIcon />
-              Ethereum（ETH)
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="collateral">
-              <span className="checked">Variable</span>
-              <Switch />
-            </div>
-            <DepositButton>deposit</DepositButton>
-            <DepositButton>Withdraw</DepositButton>
-          </div>
-          <div className="allCoin-table-item">
-            <div className="assets">
-              <ETHIcon />
-              Ethereum（ETH)
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="collateral">
-              <span className="checked">Variable</span>
-              <Switch />
-            </div>
-            <DepositButton>deposit</DepositButton>
-            <DepositButton>Withdraw</DepositButton>
-          </div>
-          <div className="allCoin-table-item">
-            <div className="assets">
-              <ETHIcon />
-              Ethereum（ETH)
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="collateral">
-              <span className="checked">Variable</span>
-              <Switch />
-            </div>
-            <DepositButton>deposit</DepositButton>
-            <DepositButton>Withdraw</DepositButton>
-          </div>
+          {
+            depositList?.map((item: any, index: number) => (
+              <div key={index} className="allCoin-table-item">
+                <div className="assets">
+                  <img
+                    src={item?.assetsImage}
+                    alt="ETH"
+                    style={{ width: '1.2rem', marginRight: '0.8rem' }}
+                  />
+                  {item?.poolName}
+                </div>
+                <div className="universal-item-text">
+                  <p>{item?.deposited}</p>
+                  <p>{item?.depositedUSD}</p>
+                </div>
+                <div className="universal-item-text">
+                  <p>{item?.depositApy}</p>
+                </div>
+                <div className="collateral">
+                  <span className="checked">Variable</span>
+                  <Switch />
+                </div>
+                <DepositButton>deposit</DepositButton>
+                <DepositButton>Withdraw</DepositButton>
+              </div>
+            ))
+          }
         </MyAccessTableMain>
       </MyAccessTable>
     </Deposits>
   )
 }
 
-const BorrowInformationArea: React.FC<{ userInfo: any }> = ({ userInfo }) => {
+const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ userInfo, borrowList }) => {
   return (
     <Borrow>
       <div className="borrowArea">
-        <AreaTitle>Deposit information</AreaTitle>
+        <AreaTitle>Borrow information</AreaTitle>
         <Line />
         <BorrowInformation>
           <BorrowInformationLeft>
@@ -575,66 +542,33 @@ const BorrowInformationArea: React.FC<{ userInfo: any }> = ({ userInfo }) => {
           <div>APY Type</div>
         </MyAccessTableYop>
         <MyAccessTableMain>
-          <div className="allCoin-table-item">
-            <div className="assets">
-              <ETHIcon />
-              Ethereum（ETH)
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="collateral">
-              <span className="checked">Variable</span>
-              <Switch />
-            </div>
-            <DepositButton>Borrow</DepositButton>
-            <DepositButton>Repay</DepositButton>
-          </div>
-          <div className="allCoin-table-item">
-            <div className="assets">
-              <ETHIcon />
-              Ethereum（ETH)
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="collateral">
-              <span className="checked">Variable</span>
-              <Switch />
-            </div>
-            <DepositButton>Borrow</DepositButton>
-            <DepositButton>Repay</DepositButton>
-          </div>
-          <div className="allCoin-table-item">
-            <div className="assets">
-              <ETHIcon />
-              Ethereum（ETH)
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="universal-item-text">
-              <p>12.000</p>
-              <p>$11.3445</p>
-            </div>
-            <div className="collateral">
-              <span className="checked">Variable</span>
-              <Switch />
-            </div>
-            <DepositButton>Borrow</DepositButton>
-            <DepositButton>Repay</DepositButton>
-          </div>
+          {
+            borrowList?.map((item: any, index: number) => (
+              <div key={index} className="allCoin-table-item">
+                <div className="assets">
+                  <img
+                    src={item?.assetsImage}
+                    alt="ETH"
+                    style={{ width: '2.4rem', height: '2.4rem', marginRight: '0.8rem' }}
+                  />
+                  {item?.poolName}
+                </div>
+                <div className="universal-item-text">
+                  <p>{item?.borrowed}</p>
+                  <p>{item?.borrowedUSD}</p>
+                </div>
+                <div className="universal-item-text">
+                  <p>{item?.variableBorrowApy * 100}%</p>
+                </div>
+                <div className="collateral">
+                  <span className="checked">Variable</span>
+                  <Switch />
+                </div>
+                <DepositButton>Borrow</DepositButton>
+                <DepositButton>Repay</DepositButton>
+              </div>
+            ))
+          }
         </MyAccessTableMain>
       </MyAccessTable>
     </Borrow>
@@ -681,7 +615,7 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
 const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgaged }) => {
   return (
     <NFTMortgagesContainer>
-      <AreaTitle>Your Mortgages</AreaTitle>
+      <AreaTitle>My Mortgages</AreaTitle>
       <Line />
       <NFTMortgagesMain>
         {
@@ -754,10 +688,17 @@ const MyDashboardPage: React.FC = () => {
 
   const [mortgagePreorder, setMortgagePreorder] = useState()
 
+  const [depositList, setDepositList] = useState<any>()
+
+  const [borrowList, setBorrowList] = useState<any>()
+
+
   const init = useCallback(async () => {
     await dashboardUser({ walletAddress: account }).then(res => {
       console.log('user'+res)
       setUserInfo(res.data.data.userInfo)
+      setDepositList(res.data.data.userDepositList)
+      setBorrowList(res.data.data.userBorrowList)
     })
 
     await dashboardMortgageAvailable({ walletAddress: account }).then(res => {
@@ -783,8 +724,8 @@ const MyDashboardPage: React.FC = () => {
         providerInitialized &&(
           <div>
             <MyDashboardData>
-              <DepositInformationArea userInfo={userInfo} />
-              <BorrowInformationArea userInfo={userInfo} />
+              <DepositInformationArea userInfo={userInfo} depositList={depositList} />
+              <BorrowInformationArea userInfo={userInfo} borrowList={borrowList} />
             </MyDashboardData>
             <NFTBorrowMortgage>
               <NFTAvailableMortgages mortgageAvailable={mortgageAvailable} />

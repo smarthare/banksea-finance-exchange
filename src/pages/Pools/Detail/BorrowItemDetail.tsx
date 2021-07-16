@@ -230,7 +230,6 @@ const Schedule:React.FC<{ data: any }> = ({ data }) => {
       }
       borrowConfirm(formData).then(() => {
         message.success('You successfully borrowed！')
-        history.push('pools/borrow')
       })
     })
 

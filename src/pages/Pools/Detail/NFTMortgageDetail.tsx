@@ -5,7 +5,9 @@ import { CopyOutlined } from '@ant-design/icons'
 import { Statistic } from 'antd'
 import HistoricalRates from '../../../components/EchartsStatistics/HistoricalRates'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
-import { getNftFavoriteCount } from '../../../apis/nft'
+import { banksyNftDetail, getNftFavoriteCount } from '../../../apis/nft'
+import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
+import { useHistory } from 'react-router-dom'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
@@ -17,7 +19,7 @@ const Row = styled.div`
   justify-content: center;
 
   .statistics {
-    margin-left: 2rem;
+    width: 50rem;
     position: relative;
 
     .ant-statistic-content-value {
@@ -267,6 +269,22 @@ const NFTMortgageDetailPage:React.FC = () => {
 
   const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
 
+  const history = useHistory()
+
+  const [data, setData] = useState<any>()
+
+  const init = useCallback(async () => {
+    banksyNftDetail({
+      uri: history.location.pathname.slice(24),
+    }).then(res => {
+      setData(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
+
   return (
     <NFTMortgageDetailContainer>
       <Row>
@@ -280,7 +298,6 @@ const NFTMortgageDetailPage:React.FC = () => {
         </RightArea>
         <div className="statistics">
           <Countdown value={deadline} />
-          <HistoricalRates />
         </div>
       </Row>
     </NFTMortgageDetailContainer>

@@ -312,7 +312,7 @@ const BorrowPage:React.FC = () => {
             </div>
             <div className="MyTotalNum">7.6 ETH</div>
           </div>
-          <MortgageButton onClick={() => history.push('/pools/mortgage')}>Mortgage</MortgageButton>
+          <MortgageButton onClick={() => history.push('/pools/dashboard')}>Mortgage</MortgageButton>
         </MyNFTMortgage>
       </DepositAreaRight>
     </BorrowMain>

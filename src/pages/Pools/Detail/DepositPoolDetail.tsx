@@ -434,21 +434,8 @@ const DepositStableVariable:React.FC<{ poolDetailData: any }> = ({ poolDetailDat
           </DepositStableTextItem>
         </DepositStableText>
       </Deposit>
-      <Stable>
-        <div className="stable-top">Stable borrowing</div>
-        <DepositStableText>
-          <DepositStableTextItem>
-            <span>Borrow APY</span>
-            <span>2.8%</span>
-          </DepositStableTextItem>
-          <DepositStableTextItem>
-            <span>% over total</span>
-            <span>--</span>
-          </DepositStableTextItem>
-        </DepositStableText>
-      </Stable>
       <Variable>
-        <div className="variable-top">Variable borrowing</div>
+        <div className="variable-top">Borrowing</div>
         <DepositStableText>
           <DepositStableTextItem>
             <span>Borrow APY</span>
