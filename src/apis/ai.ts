@@ -6,7 +6,7 @@ export function aiGeneratorFastStyle(style: string, content: string) {
   data.set('content', content)
 
   return banksyRequest.post(
-    '/nft/web/v1/aiGenerators/fastStyle/url', data, {
+    '/aiGenerators/fastStyle/url', data, {
       headers: {
         contentType: 'multipart/form-data'
       },
