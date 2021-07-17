@@ -464,10 +464,13 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
       }
 
       voteCreate(confirmCreatForm).then(res => {
-        message.success('Form submit successfully!')
+        if (res.data.data === '0') {
+          message.success('This transaction record submit successfully. ')
+        }
+        else  if (res.data.data === '1') {
+          message.success('This transaction record has been updated.')
+        }
         init()
-      }).catch((err:any) => {
-        message.error('Please do not submit this transaction record twice. If you have any questions, please contact us.')
       })
     })
   }
