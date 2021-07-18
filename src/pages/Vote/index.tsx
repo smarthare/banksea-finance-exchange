@@ -467,7 +467,7 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
         if (res.data.data === '0') {
           message.success('This transaction record submit successfully. ')
         }
-        else  if (res.data.data === '1') {
+        else {
           message.success('This transaction record has been updated.')
         }
         init()
