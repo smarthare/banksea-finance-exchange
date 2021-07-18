@@ -277,6 +277,7 @@ const GotoArrow: React.FC<{path?: string}> = ({ path }) => {
         position: 'absolute',
         width: '2.5rem',
         left: '51.5rem',
+        bottom: '2rem',
         cursor: path ? 'pointer' : 'not-allowed'
       }}
     />
@@ -300,18 +301,18 @@ const HomePage: React.FC = () => {
         <InfoContainer>
 
           <div className="row1">
-            <div className="lend-and-borrow" onClick={() => history.push('/pools')}>
+            <div className="lend-and-borrow" onClick={() => history.push('/pools/*')}>
               <AIFlag />
-              <div className="main-title">NFT Lending</div>
+              <div className="main-title">NFT Mortgage</div>
               <div className="sub-title">Market size</div>
               <div className="value">$125,300,00</div>
-              <div className="sub-title">Earn up to</div>
-              <div className="value">303.75%</div>
+              <div className="sub-title">Transaction Volumn</div>
+              <div className="value">$34,324,00</div>
               <GotoArrow />
             </div>
 
             <div className="auction-and-splitting">
-              <div className="info-panel" onClick={() => history.push('/pools')}>
+              <div className="info-panel" onClick={() => history.push('/pools/*')}>
                 <div className="main-title2">Safety pool
                   <PanelIcon iconName={Auction} />
                 </div>
@@ -323,13 +324,17 @@ const HomePage: React.FC = () => {
                 <GotoArrow />
               </div>
 
-              <div className="info-panel" onClick={() => history.push('/pools')}>
+              <div className="info-panel" onClick={() => history.push('/pools/*')}>
                 <div className="main-title2">Deposit
                   <PanelIcon iconName={Splitting} />
                 </div>
                 <div className="nft-values">
                   <div className="sub-title2">Pool size :</div>
                   <div className="value">$92,983,485.09</div>
+                </div>
+                <div className="nft-values">
+                  <div className="sub-title2">Earn up to :</div>
+                  <div className="value">303.75%</div>
                 </div>
                 <div className="nft-values">
                   <div className="sub-title2" />
@@ -353,7 +358,7 @@ const HomePage: React.FC = () => {
               <GotoArrow path="/nft/create" />
             </div>
 
-            <div className="info-panel" onClick={() => history.push('/pools')}>
+            <div className="info-panel" onClick={() => history.push('/pools/*')}>
               <div className="main-title2">Borrow
                 <PanelIcon iconName={Liquidity} />
               </div>

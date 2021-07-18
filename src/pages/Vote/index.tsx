@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Form, Input, message, Statistic } from 'antd'
+import { Button, Form, Input, message } from 'antd'
 import clsx from 'clsx'
 import { SearchOutlined } from '@ant-design/icons'
-import { voteCreate, filecoinList, solanaList, retweetCreat, retweetList } from '../../utils/banksyNftList'
+import { fileCoinList, retweetCreat, retweetList, solanaList, voteCreate } from '../../apis/unsorted'
 import VoteBanner from '@/assets/images/VoteImg/VoteBanner.png'
+
 const VoteContainer = styled.div`
   min-height: 100vh;
   background: #090F22;
@@ -428,7 +429,7 @@ const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter })
                     <td>{item?.discordId}</td>
                     <td>{item?.filecoinWalletAddress}</td>
                     <td>{item?.filecoinVotes}</td>
-                    
+
                   </tr>
                 ))
               }
@@ -463,10 +464,13 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
       }
 
       voteCreate(confirmCreatForm).then(res => {
-        message.success('Form submit successfully!')
+        if (res.data.data === '0') {
+          message.success('This transaction record submit successfully. ')
+        }
+        else {
+          message.success('This transaction record has been updated.')
+        }
         init()
-      }).catch((err:any) => {
-        message.error('Please do not submit this transaction record twice. If you have any questions, please contact us.')
       })
     })
   }
@@ -546,7 +550,7 @@ const VotePage: React.FC = () => {
 
   const init = useCallback(async (searchKey: any) => {
     if (current === 0) {
-      await filecoinList({
+      await fileCoinList({
         searchKey: searchKey
       }).then((res: any) => {
         setFilecoin(res.data.data)

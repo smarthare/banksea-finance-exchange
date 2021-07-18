@@ -7,7 +7,7 @@ import { Button } from 'antd'
 
 const StakeMain = styled.div`
   width: 123rem;
-  padding-top: 4rem;
+  padding-top: 8rem;
   margin-left: calc((100% - 123rem) / 2);
   display: none;
 
@@ -161,10 +161,9 @@ const StakeMainRightContainer = styled.div`
   }
 `
 
-const StakePage:React.FC<{ current: number }> = ({ current }) => {
-
+const StakePage: React.FC = () => {
   return (
-    <StakeMain className={clsx(current == 5 && 'active')}>
+    <StakeMain className={clsx('active')}>
       <StakeMainLeft>
         <AreaTitle>Safety pool</AreaTitle>
         <Line />

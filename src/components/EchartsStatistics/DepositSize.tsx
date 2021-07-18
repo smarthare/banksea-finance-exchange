@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 
-const VariableAPY: React.FC = () => {
+const DepositSize: React.FC<{ depositStatistics: any }> = ({ depositStatistics }) => {
   const data =  [
     [
       'Jun 17',
@@ -226,9 +226,9 @@ const VariableAPY: React.FC = () => {
         data: valueList
       }]
     })
-  }, [])
+  }, [depositStatistics])
 
-  return ops ? <ReactECharts option={ops} style={{ width: '100%', height: 200, }} /> : <div />
+  return ops ? <ReactECharts option={ops} style={{ width: '100%', height: 230, }} /> : <div />
 }
 
-export default VariableAPY
+export default DepositSize

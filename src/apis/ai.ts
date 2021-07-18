@@ -1,16 +1,23 @@
-import banksyRequest from '../utils/banksyRequest'
+import banksyRequest, { BanksyApiResponse } from '../utils/banksyRequest'
 
-// @ts-ignore
 export function aiGeneratorFastStyle(style: string, content: string) {
   const data = new FormData()
   data.set('style', style)
   data.set('content', content)
 
   return banksyRequest.post(
-    '/nft/web/v1/aiGenerators/fastStyle/url', data, {
+    '/aiGenerators/fastStyle/url', data, {
       headers: {
         contentType: 'multipart/form-data'
       },
       timeout: 60000
     })
+}
+
+export function aiStyleList() {
+  return banksyRequest.get<BanksyApiResponse<any>>('/aiGenerators/style/list')
+}
+
+export function aiSwiperList() {
+  return banksyRequest.get<BanksyApiResponse<any>>('/aiGenerators/slideshow')
 }

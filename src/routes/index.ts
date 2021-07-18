@@ -21,8 +21,9 @@ import FarmPage from '../pages/Farms'
 import TestPage from '../pages/Test'
 import VotePage from '../pages/Vote'
 import PoolsPage from '../pages/Pools/index'
-import NFTMortgageDetailPage from '../pages/Pools/NFTMortgageDetail'
-import StoragePoolDetail from '../pages/Pools/StoragePoolDetail'
+import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTMortgageDetail'
+import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
+import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
 
 export type Route = {
   path: string
@@ -31,6 +32,7 @@ export type Route = {
   component: any
   hidden?: boolean
   match?: RegExp
+  pools?: boolean
 }
 
 const routes: Route[] = [
@@ -67,7 +69,8 @@ const routes: Route[] = [
     hidden: true
   },
   {
-    path: '/pools',
+    path: '/pools/*',
+    match: /^\/pools/,
     title: 'Pools',
     icon: PoolsIcon,
     component: PoolsPage
@@ -130,9 +133,16 @@ const routes: Route[] = [
     hidden: true
   },
   {
-    path: '/storagePoolDetail',
-    title: 'storagePoolDetail',
-    component: StoragePoolDetail,
+    path: '/mortgagePoolDetail',
+    title: 'mortgagePoolDetail',
+    component: MortgagePoolDetailPage,
+    hidden: true
+  },
+  {
+    path: '/deposit/depositDetail',
+    title: 'DepositDetail',
+    match: /^\/pools\//,
+    component: DepositItemDetailPage,
     hidden: true
   }
 ]
