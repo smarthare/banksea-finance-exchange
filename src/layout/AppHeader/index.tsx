@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.svg'
+import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.png'
 import { Button, Popover } from 'antd'
 import Wallet from '../../components/Wallet'
 import { useHistory } from 'react-router-dom'
@@ -17,7 +17,6 @@ import avatar7 from '../../assets/images/headAvatar/avatar7.png'
 import avatar8 from '../../assets/images/headAvatar/avatar8.png'
 import avatar9 from '../../assets/images/headAvatar/avatar9.png'
 import avatar10 from '../../assets/images/headAvatar/avatar10.png'
-import UserAvatar from '../../assets/images/headAvatar/user-avatar.svg'
 
 
 const AppHeaderContainer = styled.div`
