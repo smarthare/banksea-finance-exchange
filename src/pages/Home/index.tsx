@@ -18,6 +18,11 @@ const HomePageContainer = styled.div`
   font-family: 'PingFang SC';
   width: 100%;
   background-color: #0B111E;
+
+  @media screen and (min-width : 300px) and (max-width: 600px) {
+    width: fit-content;
+    background-color: #0B111E;
+  }
 `
 
 const BodyContainer = styled.div`
