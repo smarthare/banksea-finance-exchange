@@ -21,7 +21,7 @@ export function mortgageSize() {
   return banksyRequest.get<BanksyApiResponse<any>>('/pools/mortgage/value/total')
 }
 
-export function marketSizeStatistics() {
+export function depositSizeStatistics() {
   return banksyRequest.get<BanksyApiResponse<any>>('/pools/deposit/size')
 }
 

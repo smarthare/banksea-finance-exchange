@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 import { liquidationList } from '../../apis/pool'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
+import PageLoading from '../../components/PageLoding'
 
 const MortgageMain = styled.div`
   display: none;
@@ -272,10 +273,13 @@ const LiquidationListPage: React.FC = () => {
 
   const [data, setData] = useState<any>()
 
+  const [isLoading, setLoading] = useState<boolean>(true)
+
   const init = useCallback(async () => {
-    liquidationList({ walletAddress: account }).then(res => {
+    await liquidationList({ walletAddress: account }).then(res => {
       setData(res.data.data)
     })
+    setLoading(false)
   },[])
 
   useEffect(() => {
@@ -284,14 +288,18 @@ const LiquidationListPage: React.FC = () => {
 
   return (
     <MortgageMain className={clsx('active')}>
-      <MortgageMainLeft>
-        <AreaTitle>Liquidation list</AreaTitle>
-        <Line />
-        <SerialsTop>
-          <span>Crypto Punks Serials</span>
-        </SerialsTop>
-        <NFTMortgages data={data} />
-      </MortgageMainLeft>
+      {
+        !isLoading ?
+          <MortgageMainLeft>
+            <AreaTitle>Liquidation list</AreaTitle>
+            <Line />
+            <SerialsTop>
+              <span>Crypto Punks Serials</span>
+            </SerialsTop>
+            <NFTMortgages data={data} />
+          </MortgageMainLeft> :
+          <PageLoading />
+      }
     </MortgageMain>
   )
 }

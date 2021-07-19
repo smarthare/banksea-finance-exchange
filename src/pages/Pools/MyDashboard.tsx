@@ -12,6 +12,7 @@ import {
 } from '../../apis/pool'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
+import PageLoading from '../../components/PageLoding'
 
 const MyDashboardContainer = styled.div`
   width: 135.6rem;
@@ -692,6 +693,8 @@ const MyDashboardPage: React.FC = () => {
 
   const [borrowList, setBorrowList] = useState<any>()
 
+  const [isLoading, setLoading] = useState<boolean>(true)
+
 
   const init = useCallback(async () => {
     await dashboardUser({ walletAddress: account }).then(res => {
@@ -712,6 +715,8 @@ const MyDashboardPage: React.FC = () => {
     await dashboardMortgagePreorder({ walletAddress: account }).then(res => {
       setMortgagePreorder(res.data.data)
     })
+
+    setLoading(false)
   },[])
 
   useEffect(() => {
@@ -723,15 +728,21 @@ const MyDashboardPage: React.FC = () => {
       {
         providerInitialized &&(
           <div>
-            <MyDashboardData>
-              <DepositInformationArea userInfo={userInfo} depositList={depositList} />
-              <BorrowInformationArea userInfo={userInfo} borrowList={borrowList} />
-            </MyDashboardData>
-            <NFTBorrowMortgage>
-              <NFTAvailableMortgages mortgageAvailable={mortgageAvailable} />
-              <NFTYourMortgage mortgageMortgaged={mortgageMortgaged} />
-            </NFTBorrowMortgage>
-            <NFTLiquidation mortgagePreorder={mortgagePreorder} />
+            {
+              !isLoading ?
+                <div>
+                  <MyDashboardData>
+                    <DepositInformationArea userInfo={userInfo} depositList={depositList} />
+                    <BorrowInformationArea userInfo={userInfo} borrowList={borrowList} />
+                  </MyDashboardData>
+                  <NFTBorrowMortgage>
+                    <NFTAvailableMortgages mortgageAvailable={mortgageAvailable} />
+                    <NFTYourMortgage mortgageMortgaged={mortgageMortgaged} />
+                  </NFTBorrowMortgage>
+                  <NFTLiquidation mortgagePreorder={mortgagePreorder} />
+                </div> :
+                <PageLoading />
+            }
           </div>
         )
       }

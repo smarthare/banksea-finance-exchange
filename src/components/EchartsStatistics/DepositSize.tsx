@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 
-const DepositSize: React.FC<{ depositStatistics: any }> = ({ depositStatistics }) => {
+const DepositSize:React.FC<{ depositStatistics: any }> = ({ depositStatistics }) => {
   const data =  [
     [
       'Jun 17',
@@ -185,11 +185,11 @@ const DepositSize: React.FC<{ depositStatistics: any }> = ({ depositStatistics }
     ]
   ]
 
-  const dateList = data?.map(function (item: any[]) {
+  const dateList = depositStatistics?.map(function (item: any[]) {
     return item[0]
   })
 
-  const valueList = data?.map(function (item: any[]) {
+  const valueList = depositStatistics?.map(function (item: any[]) {
     return item[1]
   })
 
@@ -203,7 +203,7 @@ const DepositSize: React.FC<{ depositStatistics: any }> = ({ depositStatistics }
         type: 'continuous',
         seriesIndex: 0,
         min: 0,
-        max: 400
+        max: 600
       }],
       tooltip: {
         trigger: 'axis'

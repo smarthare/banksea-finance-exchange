@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import clsx from 'clsx'
 import { useHistory } from 'react-router-dom'
 import { depositPoolsList } from '../../apis/pool'
+import PageLoading from '../../components/PageLoding'
 
 const DepositContainer = styled.div`
   width: 113.6rem;
@@ -244,13 +245,16 @@ const DepositPage: React.FC = () => {
 
   const [depositList, setDepositList] = useState<any>()
 
+  const [isLoading, setLoading] = useState<boolean>(true)
+
   const init = useCallback(async () => {
-    depositPoolsList({
+    await depositPoolsList({
       orderKey: 'deposit_apy',
       orderDesc: ''
     }).then(res => {
       setDepositList(res.data.data)
     })
+    setLoading(false)
   },[])
 
   useEffect(() => {
@@ -259,27 +263,33 @@ const DepositPage: React.FC = () => {
 
   return (
     <DepositContainer className={clsx('active')}>
-      <DepositAreaLeft>
-        <AreaTitle>Available to deposit</AreaTitle>
-        <Line />
-        <AllCoinContainer depositList={depositList} />
-      </DepositAreaLeft>
-      <DepositAreaRight>
-        <AreaTitle>My deposits</AreaTitle>
-        <Line />
-        <div className="MyTotal">
-          <div className="MyTotal-name">
-            <span>Ethereum</span>
-          </div>
-          <div className="MyTotalNum">12.000</div>
-        </div>
-        <div className="MyTotal">
-          <div className="MyTotal-name">
-            <span>Ethereum</span>
-          </div>
-          <div className="MyTotalNum">12.000</div>
-        </div>
-      </DepositAreaRight>
+      {
+        !isLoading ?
+          <div>
+            <DepositAreaLeft>
+              <AreaTitle>Available to deposit</AreaTitle>
+              <Line />
+              <AllCoinContainer depositList={depositList} />
+            </DepositAreaLeft>
+            <DepositAreaRight>
+              <AreaTitle>My deposits</AreaTitle>
+              <Line />
+              <div className="MyTotal">
+                <div className="MyTotal-name">
+                  <span>Ethereum</span>
+                </div>
+                <div className="MyTotalNum">12.000</div>
+              </div>
+              <div className="MyTotal">
+                <div className="MyTotal-name">
+                  <span>Ethereum</span>
+                </div>
+                <div className="MyTotalNum">12.000</div>
+              </div>
+            </DepositAreaRight>
+          </div> :
+          <PageLoading />
+      }
     </DepositContainer>
   )
 }
