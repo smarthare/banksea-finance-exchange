@@ -135,6 +135,7 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
           height: '3.7rem',
           backgroundImage: `url(${require('../assets/images/collectibles-item-corner-flag-bg.png').default})`,
           backgroundSize: 'cover'
+
         }}
       >
         {status}

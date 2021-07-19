@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import styled from 'styled-components'
 
 import Auction from '@/assets/images/homePageImg/auction-bg.svg'
@@ -13,15 +13,17 @@ import { Carousel } from 'antd'
 import { useHistory } from 'react-router-dom'
 import NFTListItem from '../../components/NFTListItem'
 import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
+import { useMediaQuery } from 'react-responsive'
 
 const HomePageContainer = styled.div`
   font-family: 'PingFang SC';
   width: 100%;
   background-color: #0B111E;
 
-  @media screen and (min-width : 300px) and (max-width: 600px) {
-    width: fit-content;
-    background-color: #0B111E;
+  @media screen and (min-width: 300px) and (max-width: 600px) {
+    width: fit-content !important;
+    height: 200vh;
+    background-color: 0B111E;
   }
 `
 
@@ -29,6 +31,12 @@ const BodyContainer = styled.div`
   margin: 0 auto;
   width: 120.2rem;
   padding: 6rem 2rem;
+
+  @media screen and (min-width: 300px) and (max-width: 600px) {
+    margin: 0 auto;
+    width: 50vw !important;
+    padding: 6vh 1vw
+  }
 `
 
 const HeadLine = styled.div`
@@ -56,8 +64,8 @@ const InfoContainer = styled.div`
       width: 56.4rem;
       border-radius: 2rem;
       margin-bottom: 3rem;
-      padding: 2.5rem 4.5rem;
       background: url(${require('../../assets/images/homePageImg/lend-borrow-bg.svg').default}) no-repeat;
+      padding: 2.5rem 4.5rem;
       background-size: 100%;
       transition: all 1s;
 
@@ -207,6 +215,185 @@ const InfoContainer = styled.div`
       }
     }
   }
+
+  @media screen and (min-width: 300px) and (max-width: 600px) {
+    position: relative;
+    width: 50vw !important;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 0;
+
+    .row1 {
+      position: relative;
+      justify-content: center;
+      flex-direction: column;
+      width: fit-content;
+      right: 25vw;
+
+    }
+
+    .lend-and-borrow {
+      position: relative;
+      width: 65vw !important;
+      border-radius: 2rem;
+      margin-bottom: 3rem;
+      background: url(${require('../../assets/images/homePageImg/pen1.png').default}) no-repeat;
+      padding: 2.5rem 4.5rem;
+      background-size: 100% 50%;
+      transition: all 1s;
+
+
+      .main-title {
+        color: black;
+        font-size: 5.5vw !important;
+        font-weight: 550;
+        margin-bottom: 2vh !important;
+      }
+
+      .sub-title {
+        color: black;
+        font-size: 2.6vw !important;
+        font-weight: 550;
+      }
+
+      .value {
+        color: white;
+        font-size: 4vw !important;
+        font-weight: 550;
+      }
+
+    }
+
+    .auction-and-splitting {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      flex-wrap: wrap;
+
+      .info-panel:hover {
+        background: #18284C;
+        transition: all 1s;
+
+      }
+
+      .info-panel:active {
+        background: #111C3A;
+        border: solid 0.1rem #4E46EC;
+      }
+
+
+      .info-panel {
+        padding: 1.5rem 2rem !important;
+        position: relative;
+        height: 15vh !important;
+        width: 65vw !important;
+        background: #111C3A;
+        border-radius: 2rem;
+        margin-bottom: 3rem;
+
+
+        .main-title2 {
+          color: #97BCF9;
+          font-size: 5.5vw !important;
+          font-weight: 550;
+          margin-bottom: 1.2rem;
+        }
+
+        .sub-title2 {
+          color: #97BCF9;
+          font-size: 1.6vw !important;
+          font-weight: 400;
+          width: fit-content;
+          margin-bottom: 0.6vh !important;
+        }
+
+        .nft-values {
+          display: flex;
+          align-items: center;
+
+          .sub-title2 {
+            padding-top: 1rem;
+            color: #97BCF9;
+            font-size: 1vw !important;
+            font-weight: 400;
+          }
+
+          .value {
+            margin-left: 1.2rem;
+            color: #01F9FF;
+            font-size: 3.5vw !important;
+            font-weight: 550;
+          }
+        }
+
+      }
+    }
+
+    .row2 {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      width: fit-content;
+      right: 25vw;
+
+      .info-panel:hover {
+        background: #18284C;
+      }
+
+      .info-panel:active {
+        background: #111C3A;
+        border: solid 0.1rem #4E46EC;
+      }
+
+      .info-panel {
+        padding: 2.5rem;
+        position: relative;
+        width: 65vw !important;
+        height: 15vh !important;
+        background: #111C3A;
+        border-radius: 2rem;
+        margin-bottom: 3rem;
+        transition: all 1s;
+
+
+        .main-title2 {
+          color: #97BCF9;
+          font-size: 5.5vw !important;
+          font-weight: 550;
+          margin-bottom: 1.2rem;
+        }
+
+        .sub-title2 {
+          color: #97BCF9;
+          font-size: 1.6vw !important;
+          font-weight: 400;
+          width: fit-content;
+          margin-bottom: 0.6vh !important;
+        }
+
+        .nft-values {
+          display: flex;
+          align-items: center;
+
+          .sub-title2 {
+            padding-top: 1rem;
+            color: #97BCF9;
+            font-size: 1vw !important;
+            font-weight: 400;
+          }
+
+          .value {
+            margin-left: 1.2rem;
+            color: #01F9FF;
+            font-size: 3.5vw !important;
+            font-weight: 550;
+          }
+        }
+      }
+    }
+  }
 `
 
 const NFTContainer = styled.div`
@@ -218,13 +405,28 @@ const NFTContainer = styled.div`
     font-weight: 500;
     margin-bottom: 1.6rem
   }
+
+  @media screen and (min-width: 300px) and (max-width: 600px) {
+    position: relative;
+    right: 25vw;
+
+
+  }
 `
 
 const NFTListContainer = styled.div`
+
   width: 120.2rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+
+  @media screen and (min-width: 300px) and (max-width: 600px) {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
 `
 
@@ -239,6 +441,35 @@ const NFTList: React.FC<any> = ({ list }) => {
 }
 
 const PanelIcon: React.FC<any> = ({ iconName }) => {
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
+
+  const style: CSSProperties = {
+    position: 'absolute',
+    height: '12.5rem',
+    right: '5rem',
+    bottom: '10rem'
+  }
+
+  const mobileStyle: CSSProperties = {
+    position:'absolute',
+    width:'8vw',
+    bottom: '8vh',
+    right :'10vw'
+  }
+
+  return (
+    <div>
+      <img
+        src={iconName}
+        style={ isMobile ? mobileStyle : style }
+        alt=""
+      />
+    </div>
+  )
+}
+
+const PanelIconMobile: React.FC<any> = ({ iconName }) => {
+
   return (
     <div>
       <img
@@ -274,21 +505,31 @@ const AIFlag: React.FC<any> = () => {
   )
 }
 
-const GotoArrow: React.FC<{path?: string}> = ({ path }) => {
+const GotoArrow: React.FC<{ path?: string }> = ({ path }) => {
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
   const history = useHistory()
+
+  const style: CSSProperties = {
+    position: 'absolute',
+    width: '2.5rem',
+    left: '51.5rem',
+    bottom: '2rem',
+    cursor: path ? 'pointer' : 'not-allowed'
+  }
+
+  const mobileStyle: CSSProperties = {
+    position:'absolute',
+    width:'4vw',
+    bottom: '12vh',
+    right :'5vw'
+  }
 
   return (
     <img
       alt=""
       src={RightArrow}
       onClick={() => path && history.push(path)}
-      style={{
-        position: 'absolute',
-        width: '2.5rem',
-        left: '51.5rem',
-        bottom: '2rem',
-        cursor: path ? 'pointer' : 'not-allowed'
-      }}
+      style={ isMobile ? mobileStyle : style}
     />
   )
 }
@@ -327,7 +568,7 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="sub-title2">KSY pool : $89,294,879.98</div>
                 <div className="nft-values">
-                  <div className="sub-title2">BPT(KSY/ETH) :</div>
+                  <div className="sub-title2">BPT(KSY/ETH):</div>
                   <div className="value">$982,987,374.93</div>
                 </div>
                 <GotoArrow />
