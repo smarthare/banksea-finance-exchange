@@ -11,16 +11,10 @@ import addInit from '@/assets/images/swap/addInit.png'
 import SettingModal from '../../components/SettingModal'
 
 const FarmPageContainer = styled.div`
-  width: 100%;
-  background-color: #0B111E;
   font-family: 'PingFang SC';
   min-height: 100vh;
+  width: 500px;
   margin-left: calc((100% - 500px) / 2);
-
-  @media screen and (min-width : 300px) and (max-width: 600px) {
-    width: fit-content;
-    background-color: #0B111E;
-  }
 `
 const SwitchArea = styled.div`
   display: flex;
