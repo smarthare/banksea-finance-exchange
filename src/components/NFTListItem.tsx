@@ -12,12 +12,12 @@ import { setNftFavorite } from '../apis/nft'
 
 const NFTItemCardContainer = styled.div`
   color: #7c6deb;
-  width: 24rem;
+  width: 90%;
   height: 37rem;
   background-color: #111C3A;
   border-radius: 10px;
-  margin-bottom: 2.5rem;
   margin-right: 2.5rem;
+  margin-bottom: 3rem;
   font-weight: bold;
   display: flex;
   flex-direction: column;
@@ -96,6 +96,13 @@ const NFTItemCardContainer = styled.div`
     background-color: #7c6deb;
     color: white;
     font-weight: 500;
+  }
+
+  @media screen and (max-width: 1000) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 `
 
