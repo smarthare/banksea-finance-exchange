@@ -16,7 +16,7 @@ import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
 
 const HomePageContainer = styled.div`
   font-family: 'PingFang SC';
-  width: 500%;
+  width: 100%;
   background-color: #0B111E;
 `
 
