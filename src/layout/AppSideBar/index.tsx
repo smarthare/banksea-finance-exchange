@@ -5,10 +5,6 @@ import { Link, useLocation } from 'react-router-dom'
 import routes, { Route } from '../../routes'
 import twitterIcon from '../../assets/images/slidebarLink/twitter.svg'
 import telegramIcon from '../../assets/images/slidebarLink/telegram.svg'
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-} from '@ant-design/icons'
 
 const { Header, Content, Footer, Sider } = Layout
 const { SubMenu } = Menu

@@ -37,12 +37,28 @@ const App: React.FC = () => {
     setCollapsed(!collapsed)
     console.log(collapsed)
   }
+
+  const Header = styled(Layout.Header)`
+    padding: 0;
+    height: 62px;
+    position: fixed;
+    zIndex: 999;
+    width: 100%;
+
+    @media screen and (min-width: 300px) and (max-width: 600px) {
+      padding: 0;
+      height: 62px;
+      position: fixed;
+      zIndex: 999;
+      width: 100vw;
+    }
+  `
   return (
     <Layout>
-      <Layout.Header style={{ padding: 0, height: '62px', position: 'fixed', zIndex: 999, width: '100%' }}>
+      <Header >
         <AppHeader />
 
-      </Layout.Header>
+      </Header>
       <Layout >
         <Layout.Sider style={{ position: 'fixed', zIndex: 1, top: '62px' }} collapsed={collapsed}>
           <MenuFoldOutlined onClick={toggleCollapsed}

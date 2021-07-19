@@ -34,7 +34,7 @@ const BodyContainer = styled.div`
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
     margin: 0 auto;
-    width: 50vw !important;
+    width: 46vw !important;
     padding: 6vh 1vw
   }
 `
