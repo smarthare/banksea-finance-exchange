@@ -9,6 +9,11 @@ import VoteBanner from '@/assets/images/VoteImg/VoteBanner.png'
 const VoteContainer = styled.div`
   min-height: 100vh;
   background: #090F22;
+
+  @media screen and (min-width : 300px) and (max-width: 600px) {
+    width: fit-content;
+    background-color: #0B111E;
+  }
 `
 
 const VoteContainerTop = styled.div`

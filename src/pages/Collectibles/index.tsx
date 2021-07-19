@@ -18,6 +18,11 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   color: #97BCF6;
+
+  @media screen and (min-width : 300px) and (max-width: 600px) {
+    width: fit-content;
+    background-color: #0B111E;
+  }
 `
 
 const Title = styled.div`

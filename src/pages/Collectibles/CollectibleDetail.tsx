@@ -215,6 +215,11 @@ const PropertiesArea = styled.div`
       line-height: 1.7rem;
     }
   }
+
+  @media screen and (min-width : 300px) and (max-width: 600px) {
+    width: fit-content;
+    background-color: #0B111E;
+  }
 `
 
 const CornerFlag = styled.div`
@@ -563,8 +568,9 @@ const BuyOperating = styled.div`
 const Properties: React.FC = () => {
   return (
     <div>
-      <SubTitle>Properties</SubTitle>
+
       <PropertiesArea>
+        <SubTitle>Properties</SubTitle>
         <div className="properties-group">
           <div className="properties-item">
             <div className="key">CHARACTER</div>

@@ -21,6 +21,11 @@ const AIGeneratorsContainer = styled.div`
   width: 99.4rem;
   font-family: 'PingFang SC';
   padding: 5rem 11.2rem;
+
+  @media screen and (min-width : 300px) and (max-width: 600px) {
+    width: fit-content;
+    background-color: #0B111E;
+  }
 `
 
 /*const MainCarousel = styled.div`
@@ -66,7 +71,7 @@ const GeneratorTop = styled.div`
   justify-content: center;
   align-items: center;
   height: 25rem;
-  width: 500rem;
+  width: fit-content;
   background-color: #0B111E;
   border-bottom: solid 0.2rem #4D4D4D;
 
