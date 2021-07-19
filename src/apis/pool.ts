@@ -61,3 +61,7 @@ export function liquidationList(data: any) {
 export function mortgageOpinion(data: any) {
   return banksyRequest.post<BanksyApiResponse<any>>('/pools/mortgage/opinion', data)
 }
+
+export function depositPoolUser(data: any) {
+  return banksyRequest.post<BanksyApiResponse<any>>('/pools/deposit/pool/user', data)
+}
