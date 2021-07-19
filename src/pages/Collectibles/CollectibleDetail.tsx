@@ -5,7 +5,6 @@ import { Button, message, Table } from 'antd'
 import Show from '@/assets/images/show.png'
 import Favorite from '@/assets/images/favorite.png'
 import Heart from '@/assets/images/like.png'
-import { banksyNftDetail, chooseOrder, completeOrder, NftDetailFavorite } from '../../utils/banksyNftList'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import copy from 'copy-to-clipboard'
@@ -29,6 +28,8 @@ import { usePurchaseTransactionSentModal } from '../../hooks/modals/usePurchaseT
 import { useSellingModal } from '../../hooks/modals/useSellingModal'
 import ETHIcon from '../../components/ETHIcon'
 import { usePurchaseWaitingConfirmationModal } from '../../hooks/modals/usePurchaseWaitingConfirmationModal'
+import { banksyNftDetail, getNftFavoriteCount } from '../../apis/nft'
+import { chooseOrder, completeOrder } from '../../apis/transaction'
 
 const Row = styled.div`
   display: flex;
@@ -665,7 +666,7 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
   }
 
   const fetchLikeCount = useCallback(async () => {
-    NftDetailFavorite(uri).then(res => {
+    getNftFavoriteCount(uri).then(res => {
       setLikeNum(res.data.data)
     })
   }, [uri])

@@ -7,10 +7,14 @@ import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { banksyWeb3 } from '../../BanksyWeb3'
 import { toWei } from '../../web3/utils'
-import { ExchangeOrder, ExchangeOrderAsset, SellingOrder } from '../../BanksyWeb3/contracts/ethereum/services/exchange/types'
+import {
+  ExchangeOrder,
+  ExchangeOrderAsset,
+  SellingOrder
+} from '../../BanksyWeb3/contracts/ethereum/services/exchange/types'
 import { hashExchangeOrder, hashExchangeOrderAsset } from '../../BanksyWeb3/contracts/ethereum/services/exchange/utils'
 import { ethers } from 'ethers'
-import { sellOrder } from '../../utils/banksyNftList'
+import { sellOrder } from '../../apis/transaction'
 
 
 type MessageHintProps = {

@@ -1,20 +1,23 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
 import { Button, Progress, Switch } from 'antd'
 import { useHistory } from 'react-router-dom'
-import myDashboard1 from '../../assets/images/mockImg/myDashboard1.png'
-import myDashboard2 from '../../assets/images/mockImg/myDashboard2.png'
-import myDashboard3 from '../../assets/images/mockImg/myDashboard3.png'
-import myDashboard4 from '../../assets/images/mockImg/myDashboard4.png'
-import myDashboard5 from '../../assets/images/mockImg/myDashboard5.png'
-import myDashboard6 from '../../assets/images/mockImg/myDashboard6.png'
+import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
+import {
+  dashboardMortgageAvailable,
+  dashboardMortgageMortgaged,
+  dashboardMortgagePreorder,
+  dashboardUser
+} from '../../apis/pool'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../../store/wallet'
 
 const MyDashboardContainer = styled.div`
-  width: 133.6rem;
-  margin-left: calc((100% - 133.6rem) / 2);
+  width: 135.6rem;
+  margin-left: calc((100% - 135.6rem) / 2);
   display: none;
-  padding-top: 8.8rem;
+  padding-top: 8rem;
 
   &.active {
     display: block;
@@ -27,13 +30,34 @@ const MyDashboardContainer = styled.div`
 
 const MyDashboardData = styled.div`
   display: flex;
+  justify-content: space-between;
 `
 
-const MyDeposits = styled.div`
-  width: 61.1rem;
-  height: 48rem;
-  background: #101D44;
-  border-radius: 1.5rem;
+const Deposits = styled.div`
+  width: 67.1rem;
+
+  .depositArea {
+    height: 28rem;
+    background: #101D44;
+    border-radius: 1.5rem;
+    position: relative;
+  }
+`
+
+const Borrow = styled.div`
+  width: 67.1rem;
+
+  .borrowArea {
+    height: 28rem;
+    background: #101D44;
+    border-radius: 1.5rem;
+    position: relative;
+  }
+`
+
+const ProgressArea = styled(Progress)`
+  position: absolute;
+  right: 3rem;
 `
 
 const AreaTitle = styled.div`
@@ -50,9 +74,9 @@ const Line = styled.div`
 `
 
 const BorrowInformation = styled.div`
+  height: 21.9rem;
   display: flex;
   align-items: center;
-  margin-bottom: 4rem;
 `
 
 const BorrowInformationLeft = styled.div`
@@ -80,6 +104,7 @@ const BorrowInformationLeft = styled.div`
 
       .left-text-line-item-health {
         margin-top: 1.5rem;
+
         p {
           color: #88D12E;
         }
@@ -131,7 +156,7 @@ const MyAccess = styled.div`
 const MyAccessTable = styled.div`
 
   &:nth-of-type(2) {
-    margin-top: 3rem;
+    margin-top: 1rem;
   }
 
 `
@@ -144,14 +169,19 @@ const MyAccessTableYop = styled.div`
     color: #B3B3B3;
     font-size: 1.4rem;
   }
+
   div:nth-of-type(1) {
     width: 24%;
-    padding-left: 3rem;
+    padding-left: 1rem;
   }
 
   div:nth-of-type(2), div:nth-of-type(3) {
     width: 17%;
     text-align: center;
+  }
+
+  div:nth-of-type(4) {
+    width: 22%;
   }
 `
 
@@ -181,33 +211,37 @@ const MyAccessTableMain = styled.div`
     }
 
     div:nth-of-type(4) {
-      width: 15%;
+      width: 22%;
     }
 
     div:nth-of-type(5) {
-      width: 8%;
+      width: 7%;
+      cursor: pointer;
     }
+
     div:nth-of-type(6) {
-      width: 9%;
-      margin-left: 3rem;
+      width: 8%;
+      margin-left: 1rem;
+      cursor: pointer;
     }
 
     .assets {
       font-size: 1.4rem;
-      padding-left: 3rem;
+      padding-left: 1rem;
       display: flex;
     }
 
     .universal-item-text {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.4rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.2rem;
       }
@@ -244,24 +278,27 @@ const DepositButton = styled.div`
 `
 
 const NFTMortgagesContainer = styled.div`
-  width: 100%;
+  width: 67.1rem;
   height: 48rem;
   background: #101D44;
   border-radius: 1.5rem;
-  margin-top: 4rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1.4rem;
 `
 
 const NFTMortgagesMain = styled.div`
+  width: 67.1rem;
   display: flex;
-  justify-content: space-between;
   padding: 3rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
 
   .mortgages-item {
-    width: 18.2rem;
+    width: 16.2rem;
     height: 37rem;
     border-radius: 1rem;
     background: #3658A7;
+    margin-left: 3.3rem;
 
     .mortgages-item-image {
       height: 17rem;
@@ -286,6 +323,7 @@ const NFTMortgagesMain = styled.div`
     }
   }
 `
+
 
 const MortgagesItemText = styled.div`
   margin-top: 0.5rem;
@@ -320,6 +358,59 @@ const WithdrawButton = styled(Button)`
   }
 `
 
+const NFTBorrowMortgage = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4rem;
+`
+
+const NFTMortgagesLiquidation = styled.div`
+  width: 100%;
+  height: 48rem;
+  background: #101D44;
+  border-radius: 1.5rem;
+  margin-bottom: 1.4rem;
+`
+
+const NFTLiquidationMortgagesMain = styled.div`
+  width: 135.6rem;
+  display: flex;
+  padding: 3rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  .mortgages-item {
+    width: 16.2rem;
+    height: 37rem;
+    border-radius: 1rem;
+    background: #3658A7;
+    margin-left: 3.3rem;
+
+    .mortgages-item-image {
+      height: 17rem;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+
+      img {
+        object-fit: cover;
+        width: 18.2rem;
+        height: 100%;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
+    }
+
+    .mortgages-item-text {
+      padding: 1rem 1rem;
+
+      .mortgages-item-text-name {
+        color: #fff;
+      }
+    }
+  }
+`
+
 const ETHIcon: React.FC = () => {
   return (
     <img
@@ -330,342 +421,319 @@ const ETHIcon: React.FC = () => {
   )
 }
 
-const NFTMortgages:React.FC = () => {
+const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({ userInfo, depositList }) => {
+  console.log(userInfo)
+  return (
+    <Deposits>
+      <div className="depositArea">
+        <AreaTitle>Deposit information</AreaTitle>
+        <Line />
+        <BorrowInformation>
+          <BorrowInformationLeft>
+            <div className="left-text-main">
+              <div className="left-text-column">
+                <div className="left-text-line-item">
+                  <p>Approximate balance</p>
+                  <p>$ { userInfo?.approximateBalance } USD</p>
+                </div>
+              </div>
+              <ProgressArea type="circle"
+                width={130}
+                strokeColor={'#88D12E'}
+                percent={30}
+                format={() => 'Borrow Composition'}
+              />
+            </div>
+          </BorrowInformationLeft>
+        </BorrowInformation>
+      </div>
+      <MyAccessTable>
+        <MyAccessTableYop>
+          <div>Your deposits</div>
+          <div>Current balance</div>
+          <div>APY</div>
+          <div>Collateral</div>
+        </MyAccessTableYop>
+        <MyAccessTableMain>
+          {
+            depositList?.map((item: any, index: number) => (
+              <div key={index} className="allCoin-table-item">
+                <div className="assets">
+                  <img
+                    src={item?.assetsImage}
+                    alt="ETH"
+                    style={{ width: '1.2rem', marginRight: '0.8rem' }}
+                  />
+                  {item?.poolName}
+                </div>
+                <div className="universal-item-text">
+                  <p>{item?.deposited}</p>
+                  <p>{item?.depositedUSD}</p>
+                </div>
+                <div className="universal-item-text">
+                  <p>{item?.depositApy}</p>
+                </div>
+                <div className="collateral">
+                  <span className="checked">Variable</span>
+                  <Switch />
+                </div>
+                <DepositButton>deposit</DepositButton>
+                <DepositButton>Withdraw</DepositButton>
+              </div>
+            ))
+          }
+        </MyAccessTableMain>
+      </MyAccessTable>
+    </Deposits>
+  )
+}
 
+const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ userInfo, borrowList }) => {
+  return (
+    <Borrow>
+      <div className="borrowArea">
+        <AreaTitle>Borrow information</AreaTitle>
+        <Line />
+        <BorrowInformation>
+          <BorrowInformationLeft>
+            <div className="left-text-main">
+              <div className="left-text-column">
+                <div className="left-text-line-item">
+                  <p>Your borrowed</p>
+                  <p>$ {userInfo?.borrowed} ETH</p>
+                </div>
+                <div className="left-text-line-item">
+                  <p>Your collateral</p>
+                  <p>$110.500 ETH</p>
+                </div>
+                <div className="left-text-line-item">
+                  <p>Current LTV</p>
+                  <p>{userInfo?.currentLtv ? userInfo?.currentLtv : '---'}</p>
+                </div>
+              </div>
+              <div className="left-text-column">
+                <div className="left-text-line-item-health">
+                  <p>Health factor</p>
+                  <p>{userInfo?.healthFactor ? userInfo?.healthFactor : '---'}</p>
+                </div>
+                <div className="left-text-line-item">
+                  <p>Borrowing Power Used</p>
+                  <p>{userInfo?.borrowUsed ? userInfo?.borrowUsed : '---'}</p>
+                </div>
+                <div className="details">
+                  details
+                </div>
+              </div>
+              <ProgressArea type="circle"
+                width={130}
+                strokeColor={'#88D12E'}
+                percent={30}
+                format={() => 'Borrow Composition'}
+              />
+            </div>
+          </BorrowInformationLeft>
+        </BorrowInformation>
+      </div>
+      <MyAccessTable>
+        <MyAccessTableYop>
+          <div>Your borrows</div>
+          <div>Borrowed</div>
+          <div>APY</div>
+          <div>APY Type</div>
+        </MyAccessTableYop>
+        <MyAccessTableMain>
+          {
+            borrowList?.map((item: any, index: number) => (
+              <div key={index} className="allCoin-table-item">
+                <div className="assets">
+                  <img
+                    src={item?.assetsImage}
+                    alt="ETH"
+                    style={{ width: '2.4rem', height: '2.4rem', marginRight: '0.8rem' }}
+                  />
+                  {item?.poolName}
+                </div>
+                <div className="universal-item-text">
+                  <p>{item?.borrowed}</p>
+                  <p>{item?.borrowedUSD}</p>
+                </div>
+                <div className="universal-item-text">
+                  <p>{item?.variableBorrowApy * 100}%</p>
+                </div>
+                <div className="collateral">
+                  <span className="checked">Variable</span>
+                  <Switch />
+                </div>
+                <DepositButton>Borrow</DepositButton>
+                <DepositButton>Repay</DepositButton>
+              </div>
+            ))
+          }
+        </MyAccessTableMain>
+      </MyAccessTable>
+    </Borrow>
+  )
+}
+
+const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAvailable }) => {
   const history = useHistory()
 
   return (
     <NFTMortgagesContainer>
-      <AreaTitle>NFT Mortgages</AreaTitle>
+      <AreaTitle>Available to Mortgages</AreaTitle>
       <Line />
       <NFTMortgagesMain>
-        <div className="mortgages-item" onClick={ () => history.push('/nftMortgageDetailPage') }>
-          <div className="mortgages-item-image">
-            <img src={myDashboard1} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 7804</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 6.5M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">45.7%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard2} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 2140</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 1.1M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">40.7%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard3} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">CryptoPunk 4156</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 0.9M</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Pinggu time:</p>
-              <p className="message-number">37.8%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard4} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">Gaga Daintylink</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 1.2k</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">27.8%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard5} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">Vol - 2xCheeky </p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 0.9k</p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">125.8%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
-        <div className="mortgages-item">
-          <div className="mortgages-item-image">
-            <img src={myDashboard6} alt="" />
-          </div>
-          <div className="mortgages-item-text">
-            <p className="mortgages-item-text-name">Vol - 2xCheeky</p>
-            <MortgagesItemText>
-              <p className="message-name">Values:</p>
-              <p className="message-number">$ 0.9k </p>
-            </MortgagesItemText>
-            <MortgagesItemText>
-              <p className="message-name">Mortgage Rate:</p>
-              <p className="message-number">25.8%</p>
-            </MortgagesItemText>
-            <WithdrawButton>Withdraw</WithdrawButton>
-          </div>
-        </div>
+        {
+          mortgageAvailable?.map((item: any, index: number) => (
+            <div key={index}
+              className="mortgages-item"
+              onClick={() => history.push(`available/detail/${item?.valueUri}`)}
+            >
+              <div className="mortgages-item-image">
+                <img src={item?.image} alt="" />
+              </div>
+              <div className="mortgages-item-text">
+                <p className="mortgages-item-text-name">{item?.name}</p>
+                <MortgagesItemText>
+                  <p className="message-name">Values:</p>
+                  <p className="message-number">$ {item?.price}</p>
+                </MortgagesItemText>
+                <MortgagesItemText>
+                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-number">{item?.mortgageRate}</p>
+                </MortgagesItemText>
+                <WithdrawButton>Mortgage</WithdrawButton>
+              </div>
+            </div>
+          ))
+        }
       </NFTMortgagesMain>
     </NFTMortgagesContainer>
   )
 }
 
-const MyDashboardPage:React.FC<{ current: number, providerInitialized: any }> = ({ current, providerInitialized }) => {
-
-  console.log(providerInitialized)
+const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgaged }) => {
   return (
-    <MyDashboardContainer className={clsx(current === 1 && 'active')}>
+    <NFTMortgagesContainer>
+      <AreaTitle>My Mortgages</AreaTitle>
+      <Line />
+      <NFTMortgagesMain>
+        {
+          mortgageMortgaged?.map((item: any, index: number) => (
+            <div key={index} className="mortgages-item">
+              <div className="mortgages-item-image">
+                <img src={item?.image} alt="" />
+              </div>
+              <div className="mortgages-item-text">
+                <p className="mortgages-item-text-name">{item?.name}</p>
+                <MortgagesItemText>
+                  <p className="message-name">Values:</p>
+                  <p className="message-number">$ {item?.price}</p>
+                </MortgagesItemText>
+                <MortgagesItemText>
+                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-number">{item?.mortgageRate}</p>
+                </MortgagesItemText>
+                <WithdrawButton>redemption</WithdrawButton>
+              </div>
+            </div>
+          ))
+        }
+      </NFTMortgagesMain>
+    </NFTMortgagesContainer>
+  )
+}
+
+const NFTLiquidation: React.FC<{ mortgagePreorder: any }> = ({ mortgagePreorder }) => {
+  return (
+    <NFTMortgagesLiquidation>
+      <AreaTitle>Liquidation prepayment</AreaTitle>
+      <Line />
+      <NFTLiquidationMortgagesMain>
+        {
+          mortgagePreorder?.map((item: any, index: number) => (
+            <div key={index} className="mortgages-item">
+              <div className="mortgages-item-image">
+                <img src={item?.image} alt="" />
+              </div>
+              <div className="mortgages-item-text">
+                <p className="mortgages-item-text-name">{item?.name}</p>
+                <MortgagesItemText>
+                  <p className="message-name">Values:</p>
+                  <p className="message-number">$ {item?.price}</p>
+                </MortgagesItemText>
+                <MortgagesItemText>
+                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-number">{item?.mortgageRate}</p>
+                </MortgagesItemText>
+                <WithdrawButton>Cancel pre-purchase</WithdrawButton>
+              </div>
+            </div>
+          ))
+        }
+      </NFTLiquidationMortgagesMain>
+    </NFTMortgagesLiquidation>
+  )
+}
+
+const MyDashboardPage: React.FC = () => {
+  const { providerInitialized } = useWeb3EnvContext()
+  const account = useSelector(getAccount)
+
+  const [userInfo, setUserInfo] = useState()
+
+  const [mortgageAvailable, setMortgageAvailable] = useState()
+
+  const [mortgageMortgaged, setMortgageMortgaged] = useState()
+
+  const [mortgagePreorder, setMortgagePreorder] = useState()
+
+  const [depositList, setDepositList] = useState<any>()
+
+  const [borrowList, setBorrowList] = useState<any>()
+
+
+  const init = useCallback(async () => {
+    await dashboardUser({ walletAddress: account }).then(res => {
+      console.log('user'+res)
+      setUserInfo(res.data.data.userInfo)
+      setDepositList(res.data.data.userDepositList)
+      setBorrowList(res.data.data.userBorrowList)
+    })
+
+    await dashboardMortgageAvailable({ walletAddress: account }).then(res => {
+      setMortgageAvailable(res.data.data)
+    })
+
+    await dashboardMortgageMortgaged({ walletAddress: account }).then(res => {
+      setMortgageMortgaged(res.data.data)
+    })
+
+    await dashboardMortgagePreorder({ walletAddress: account }).then(res => {
+      setMortgagePreorder(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
+
+  return (
+    <MyDashboardContainer className={clsx('active')}>
       {
-        !providerInitialized ?
-          <div /> :
+        providerInitialized &&(
           <div>
             <MyDashboardData>
-              <MyDeposits>
-                <AreaTitle>My deposits</AreaTitle>
-                <Line />
-                <BorrowInformation>
-                  <BorrowInformationLeft>
-                    <LeftTitle>Borrow Information</LeftTitle>
-                    <div className="left-text-main">
-                      <div className="left-text-column">
-                        <div className="left-text-line-item">
-                          <p>Your borrowed</p>
-                          <p>$10.333 ETH</p>
-                        </div>
-                        <div className="left-text-line-item">
-                          <p>Your collateral</p>
-                          <p>$110.500 ETH</p>
-                        </div>
-                        <div className="left-text-line-item">
-                          <p>Current LTV</p>
-                          <p>15%</p>
-                        </div>
-                      </div>
-                      <div className="left-text-column">
-                        <div className="left-text-line-item-health">
-                          <p>Health factor</p>
-                          <p>6.43</p>
-                        </div>
-                        <div className="left-text-line-item">
-                          <p>Borrowing Power Used</p>
-                          <p>45.65%</p>
-                        </div>
-                        <div className="details">
-                          details
-                        </div>
-                      </div>
-                      <Progress type="circle" width={130} strokeColor={'#88D12E'} percent={30} format={() => 'Borrow Composition'} />
-                    </div>
-                  </BorrowInformationLeft>
-                </BorrowInformation>
-                <Line />
-                <DepositInformation>
-                  <LeftTitle>Deposit Information</LeftTitle>
-                  <p>Approximate balance</p>
-                  <p>$10.333 ETH</p>
-                </DepositInformation>
-              </MyDeposits>
-              <MyAccess>
-                <MyAccessTable>
-                  <MyAccessTableYop>
-                    <div>Your deposits</div>
-                    <div>Current balance</div>
-                    <div>APY</div>
-                    <div>Collateral</div>
-                  </MyAccessTableYop>
-                  <MyAccessTableMain>
-                    <div className="allCoin-table-item">
-                      <div className="assets">
-                        <ETHIcon />
-                        Ethereum（ETH)
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="collateral">
-                        <span className="checked">Variable</span>
-                        <Switch />
-                      </div>
-                      <DepositButton>deposit</DepositButton>
-                      <DepositButton>Withdraw</DepositButton>
-                    </div>
-                    <div className="allCoin-table-item">
-                      <div className="assets">
-                        <ETHIcon />
-                        Ethereum（ETH)
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="collateral">
-                        <span className="checked">Variable</span>
-                        <Switch />
-                      </div>
-                      <DepositButton>deposit</DepositButton>
-                      <DepositButton>Withdraw</DepositButton>
-                    </div>
-                    <div className="allCoin-table-item">
-                      <div className="assets">
-                        <ETHIcon />
-                        Ethereum（ETH)
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="collateral">
-                        <span className="checked">Variable</span>
-                        <Switch />
-                      </div>
-                      <DepositButton>deposit</DepositButton>
-                      <DepositButton>Withdraw</DepositButton>
-                    </div>
-                  </MyAccessTableMain>
-                </MyAccessTable>
-                <MyAccessTable>
-                  <MyAccessTableYop>
-                    <div>Your deposits</div>
-                    <div>Current balance</div>
-                    <div>APY</div>
-                    <div>Collateral</div>
-                  </MyAccessTableYop>
-                  <MyAccessTableMain>
-                    <div className="allCoin-table-item">
-                      <div className="assets">
-                        <ETHIcon />
-                        Ethereum（ETH)
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="collateral">
-                        <span className="checked">Variable</span>
-                        <Switch />
-                      </div>
-                      <DepositButton>deposit</DepositButton>
-                      <DepositButton>Withdraw</DepositButton>
-                    </div>
-                    <div className="allCoin-table-item">
-                      <div className="assets">
-                        <ETHIcon />
-                        Ethereum（ETH)
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="collateral">
-                        <span className="checked">Variable</span>
-                        <Switch />
-                      </div>
-                      <DepositButton>deposit</DepositButton>
-                      <DepositButton>Withdraw</DepositButton>
-                    </div>
-                    <div className="allCoin-table-item">
-                      <div className="assets">
-                        <ETHIcon />
-                        Ethereum（ETH)
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="collateral">
-                        <span className="checked">Variable</span>
-                        <Switch />
-                      </div>
-                      <DepositButton>deposit</DepositButton>
-                      <DepositButton>Withdraw</DepositButton>
-                    </div>
-                    <div className="allCoin-table-item">
-                      <div className="assets">
-                        <ETHIcon />
-                        Ethereum（ETH)
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="universal-item-text">
-                        <p>12.000</p>
-                        <p>$11.3445</p>
-                      </div>
-                      <div className="collateral">
-                        <span className="checked">Variable</span>
-                        <Switch />
-                      </div>
-                      <DepositButton>deposit</DepositButton>
-                      <DepositButton>Withdraw</DepositButton>
-                    </div>
-                  </MyAccessTableMain>
-                </MyAccessTable>
-              </MyAccess>
+              <DepositInformationArea userInfo={userInfo} depositList={depositList} />
+              <BorrowInformationArea userInfo={userInfo} borrowList={borrowList} />
             </MyDashboardData>
-            <NFTMortgages />
+            <NFTBorrowMortgage>
+              <NFTAvailableMortgages mortgageAvailable={mortgageAvailable} />
+              <NFTYourMortgage mortgageMortgaged={mortgageMortgaged} />
+            </NFTBorrowMortgage>
+            <NFTLiquidation mortgagePreorder={mortgagePreorder} />
           </div>
+        )
       }
     </MyDashboardContainer>
   )

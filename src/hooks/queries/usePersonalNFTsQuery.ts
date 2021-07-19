@@ -1,7 +1,7 @@
-import { personalNftList } from '../../utils/banksyNftList'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { useQuery, UseQueryResult } from 'react-query'
+import { BanksyPersonalNftListQueryParams, personalNftList } from '../../apis/nft'
 
 type PersonalNFTsQueryParams = {
   current?: number
@@ -12,10 +12,11 @@ type PersonalNFTsQueryParams = {
 export function usePersonalNFTsQuery({ current, size, searchKey }: PersonalNFTsQueryParams): UseQueryResult<Array<any>> {
   const account = useSelector(getAccount)
 
-  const form = {
-    addressOwner: account,
+  const form: BanksyPersonalNftListQueryParams = {
+    addressOwner: account!,
     current: current ?? 1,
     size: size ?? 20,
+    typeChain: 'Ethereum',
     searchKey
   }
 

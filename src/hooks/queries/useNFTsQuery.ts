@@ -1,5 +1,6 @@
-import { BanksyApiPagingData, banksyNftList } from '../../utils/banksyNftList'
+import { banksyNftList, BanksyNftListQueryParams } from '../../apis/nft'
 import { useQuery, UseQueryResult } from 'react-query'
+import { BanksyApiPagingData } from '../../utils/banksyRequest'
 
 type PersonalNFTsQueryParams = {
   current?: number
@@ -9,10 +10,11 @@ type PersonalNFTsQueryParams = {
 }
 
 export function useNFTsQuery({ current, size, searchKey }: PersonalNFTsQueryParams): UseQueryResult<BanksyApiPagingData<any>> {
-  const form = {
+  const form: BanksyNftListQueryParams = {
     current: current ?? 1,
     size: size ?? 20,
-    searchKey
+    searchKey,
+    typeChain: 'Ethereum'
   }
 
   return useQuery(

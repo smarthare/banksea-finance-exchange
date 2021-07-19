@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
+import { useHistory } from 'react-router-dom'
+import { depositPoolsList } from '../../apis/pool'
 
 const DepositContainer = styled.div`
   width: 113.6rem;
   margin-left: calc((100% - 113.6rem) / 2);
   display: none;
-  padding-top: 8.8rem;
+  padding-top: 8rem;
 
   &.active {
     display: block;
@@ -15,7 +17,6 @@ const DepositContainer = styled.div`
 
 const DepositAreaLeft = styled.div`
   width: 78.1rem;
-  height: 61rem;
   background: #101D44;
   border-radius: 1.5rem;
   float: left;
@@ -95,6 +96,7 @@ const CoinTabsArea = styled.div`
 const AllCoinTable = styled.div`
   width: 72.4rem;
   margin: 2.9rem auto;
+  padding-bottom: 2rem;
 `
 
 const AllCoinTableTop = styled.div`
@@ -107,11 +109,12 @@ const AllCoinTableTop = styled.div`
   }
 
   div:nth-of-type(1) {
-    width: 28%;
+    width: 30%;
+    padding-left: 3rem;
   }
 
   div:nth-of-type(2), div:nth-of-type(3) {
-    width: 25%;
+    width: 30%;
     text-align: center;
   }
 `
@@ -133,11 +136,11 @@ const AllCoinTableMain = styled.div`
     }
 
     div:nth-of-type(1) {
-      width: 28%;
+      width: 30%;
     }
 
     div:nth-of-type(2), div:nth-of-type(3) {
-      width: 25%;
+      width: 30%;
       text-align: center;
     }
 
@@ -150,13 +153,14 @@ const AllCoinTableMain = styled.div`
     .walletBalance {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.6rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.4rem;
       }
@@ -165,13 +169,14 @@ const AllCoinTableMain = styled.div`
     .apy {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.6rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.4rem;
       }
@@ -197,18 +202,9 @@ const DepositButton = styled.div`
   cursor: pointer;
 `
 
-const ETHIcon: React.FC = () => {
-  return (
-    <img
-      src={require('../../assets/images/eth.svg').default}
-      alt="ETH"
-      style={{ width: '2.2rem', marginRight: '0.8rem' }}
-    />
-  )
-}
+const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
+  const history = useHistory()
 
-
-const AllCoinContainer:React.FC = () => {
   return (
     <AllCoinTable>
       <AllCoinTableTop>
@@ -217,123 +213,62 @@ const AllCoinContainer:React.FC = () => {
         <div>APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
-        </div>
-        <div className="allCoin-table-item">
-          <div className="assets">
-            <ETHIcon />
-            <span>Ethereum（ETH)</span>
-          </div>
-          <div className="walletBalance">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <div className="apy">
-            <p>12.000</p>
-            <p>$11.3445</p>
-          </div>
-          <DepositButton>deposit</DepositButton>
-          <DepositButton>Withdraw</DepositButton>
-        </div>
+        {
+          depositList?.map((item: any, index: number) => (
+            <div key={index} className="allCoin-table-item" onClick={() => history.push(`/pools/deposit/detail/${item.id}`)}>
+              <div className="assets">
+                <img
+                  src={item?.assetsImage}
+                  alt=""
+                  style={{ width: '2.2rem', marginRight: '0.8rem' }}
+                />
+                <span>{item?.assetsName}</span>
+              </div>
+              <div className="walletBalance">
+                <p>12.000</p>
+                <p>$11.3445</p>
+              </div>
+              <div className="apy">
+                <p>12.000</p>
+                <p>$11.3445</p>
+              </div>
+            </div>
+          ))
+        }
       </AllCoinTableMain>
     </AllCoinTable>
   )
 }
 
-const DepositPage:React.FC<{ current: number }> = ({ current }) => {
+const DepositPage: React.FC = () => {
 
-  const [coinCurrent, setCoinCurrent] = useState<number>(0)
+  const [depositList, setDepositList] = useState<any>()
 
-  const coinTabs = ['All', 'Stable Coins']
+  const init = useCallback(async () => {
+    depositPoolsList({
+      orderKey: 'deposit_apy',
+      orderDesc: ''
+    }).then(res => {
+      setDepositList(res.data.data)
+    })
+  },[])
+
+  useEffect(() => {
+    init()
+  },[init])
 
   return (
-    <DepositContainer className={clsx(current === 2 && 'active')}>
+    <DepositContainer className={clsx('active')}>
       <DepositAreaLeft>
-        <AreaTitle>Availble to deposit</AreaTitle>
+        <AreaTitle>Available to deposit</AreaTitle>
         <Line />
-        <CoinTabsArea>
-          {
-            coinTabs.map((item: any, index) => (
-              <div
-                className={clsx('coin-tab-item', coinCurrent === index && 'tabs__link')}
-                onClick={() => setCoinCurrent(index)}
-                key={index}
-              >
-                {item}
-              </div>
-            ))
-          }
-        </CoinTabsArea>
-        <AllCoinContainer />
+        <AllCoinContainer depositList={depositList} />
       </DepositAreaLeft>
       <DepositAreaRight>
         <AreaTitle>My deposits</AreaTitle>
         <Line />
         <div className="MyTotal">
           <div className="MyTotal-name">
-            <ETHIcon />
             <span>Ethereum</span>
           </div>
           <div className="MyTotalNum">12.000</div>
