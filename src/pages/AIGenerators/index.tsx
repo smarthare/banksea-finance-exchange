@@ -68,7 +68,7 @@ const GeneratorTop = styled.div`
   height: 25rem;
   width: 500rem;
   background-color: #0B111E;
-  border: solid 0.3rem #4D4D4D;
+  border-bottom: solid 0.2rem #4D4D4D;
 
   .introduce {
     text-align: center;
@@ -101,20 +101,28 @@ const GeneratorBody = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    margin-top: 3rem;
 
     .hr-line {
       margin:0 auto;
       height: 0.4rem;
       width: 100%;
       background: radial-gradient(#B2B2B2 14%, #0B111E 80%);
+      transition: all 1s;
+
     }
 
     .nft-border:hover {
       .hr-line{
         margin:0 auto;
-        height: 0.7rem;
+        height: 0.4rem;
         width: 100%;
         background: radial-gradient(#5349F9 14%, #0B111E 80%);
+        transition: all 1s;
+      }
+
+      .gene-detail {
+        width: 100%;
       }
     }
 
@@ -291,6 +299,7 @@ const NewNftperating = styled.div`
 }*/
 
 const SCSelectedNFTColumn = styled.div`
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -304,6 +313,7 @@ const SCSelectedNFTColumn = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 1rem;
+    margin-left: 10rem;
 
     img {
       width: 20rem;
@@ -407,7 +417,7 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
           width: '23',
           height: ' 23',
           top: '1rem',
-          left: '16rem',
+          left: '13rem',
           zIndex: 1,
           opacity: 0.7
         }}
@@ -421,15 +431,16 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
     <div
       style={{
         position: 'relative',
-        top: '1rem'
+        top: '1rem',
+        marginLeft:'2.5rem'
       }}
       onClick={() => onSelect(src)}
     >
       <MyAntdImage
-        width={200}
-        height={210}
+        width={160}
+        height={190}
         src={src}
-        style={{ objectFit: 'cover', cursor: 'pointer', borderRadius: '1rem', margin:'0' }}
+        style={{ objectFit: 'cover', cursor: 'pointer', borderRadius: '1rem' }}
         preview={false}
       />
       <SelectBtn />
@@ -445,7 +456,7 @@ const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string)
   return (
     <div className="gene-detail">
       <Swiper slidesPerView={4}
-        spaceBetween={50}
+        spaceBetween={25}
         navigation
         onSlideChange={() => console.log('slide change')}
         onSwiper={swiper => console.log(swiper)}
@@ -462,13 +473,13 @@ const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string)
 
 const RightArrow: React.FC = () => {
   return (
-    <div style={{ height: '18.2rem', display: 'flex', alignItems: 'center' }}>
+    <div style={{ height: '25.2rem', display: 'flex', alignItems: 'center' }}>
 
       <img
         src={require('../../assets/images/AIGeneratorsImg/deep-learning-line.png').default}
         alt=""
         style={{
-          width: '48.5rem'
+          width: '70.5rem'
         }}
       />
 

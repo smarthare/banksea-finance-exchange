@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import { Button, message, Table } from 'antd'
-import Show from '@/assets/images/show.png'
-import Favorite from '@/assets/images/favorite.png'
-import Heart from '@/assets/images/like.png'
+import Show from '@/assets/images/collectibleDetailImg/show.png'
+import Favorite from '@/assets/images/collectibleDetailImg/favorite.png'
+import Heart from '@/assets/images/collectibleDetailImg/like.png'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import copy from 'copy-to-clipboard'
@@ -734,10 +734,10 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
           }
           <div>
             <img
-              src={Favorite}
+              src={Heart}
               alt=""
               style={{
-                width: '2.4rem,',
+                width: '2.5rem,',
                 height: '1.4rem',
                 display: 'flex',
                 alignSelf: 'center',

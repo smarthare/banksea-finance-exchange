@@ -11,8 +11,8 @@ import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
 
 const PageContainer = styled.div`
   padding-top: 5.6rem;
-  width: 100%;
-  min-height: 100vh;
+  width: 500%;
+  background-color: #0B111E;
   height: fit-content;
   display: flex;
   flex-direction: column;

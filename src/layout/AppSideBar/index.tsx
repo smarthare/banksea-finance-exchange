@@ -19,11 +19,13 @@ const Container = styled.div`
 
 
 const CustomizedMenu = styled(Menu)`
-  font-weight: 500;
+
 
   .ant-menu-item {
     display: flex;
     align-items: center;
+
+
     svg {
       width: 1.7rem;
       line {
@@ -31,6 +33,7 @@ const CustomizedMenu = styled(Menu)`
       }
     }
   }
+
 
   .ant-menu-item-selected {
     background-color: rgb(25,45,79) !important;
@@ -58,6 +61,7 @@ const CustomizedLink = styled.div`
   justify-content: space-around;
   align-items: center;
   padding-right: 5rem ;
+
 
   &,
   a {
