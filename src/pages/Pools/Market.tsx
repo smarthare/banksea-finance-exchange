@@ -3,8 +3,10 @@ import clsx from 'clsx'
 import styled from 'styled-components'
 import DepositSize from '../../components/EchartsStatistics/DepositSize'
 import { useHistory } from 'react-router-dom'
+import lottie from 'lottie-web'
 
-import { depositPoolsList, depositSize, marketSizeStatistics, mortgagePoolsList, mortgageSize } from '../../apis/pool'
+import { depositPoolsList, depositSize, depositSizeStatistics, mortgagePoolsList, mortgageSize } from '../../apis/pool'
+import PageLoading from '../../components/PageLoding'
 
 const MarketContainer = styled.div`
   padding-top: 4rem;
@@ -315,6 +317,8 @@ const MarketPage: React.FC = () => {
 
   const [depositStatistics, setDepositStatistics] = useState<any>()
 
+  const [isLoading, setLoading] = useState<boolean>(true)
+
   const init = useCallback(async () => {
     await depositPoolsList(
       {
@@ -335,7 +339,7 @@ const MarketPage: React.FC = () => {
       })
     }, 2000)
 
-    marketSizeStatistics().then(res => {
+    depositSizeStatistics().then(res => {
       setDepositStatistics(res.data.data.depositSize)
     })
 
@@ -343,8 +347,10 @@ const MarketPage: React.FC = () => {
       setMortgageList(res.data.data)
     })
 
+    setLoading(false)
+
     return () => {
-      clearTimeout(t)
+      clearInterval(t)
     }
   }, [])
 
@@ -354,28 +360,32 @@ const MarketPage: React.FC = () => {
 
   return (
     <MarketContainer>
-      <div className={clsx('market', 'active')}>
-        <MarkeTotal>
-          <Tatistics>
-            <AreaTitle>Deposit size</AreaTitle>
-            <Line />
-            <MarketSizeStatistics>
-              <div className="market-size">${depositSizeNum}</div>
-              <DepositSize depositStatistics={depositStatistics} />
-            </MarketSizeStatistics>
-          </Tatistics>
-          <Tatistics>
-            <AreaTitle>Mortgage NFT value</AreaTitle>
-            <Line />
-            <MarketSizeStatistics>
-              <div className="market-size">${mortgageSizeNum}</div>
-              <DepositSize depositStatistics={depositStatistics} />
-            </MarketSizeStatistics>
-          </Tatistics>
-        </MarkeTotal>
-        <USDPool depositList={depositList} />
-        <MortgagePools mortgageList={mortgageList} />
-      </div>
+      {
+        !isLoading ?
+          <div className={clsx('market', 'active')}>
+            <MarkeTotal>
+              <Tatistics>
+                <AreaTitle>Deposit size</AreaTitle>
+                <Line />
+                <MarketSizeStatistics>
+                  <div className="market-size">${depositSizeNum}</div>
+                  <DepositSize depositStatistics={depositStatistics} />
+                </MarketSizeStatistics>
+              </Tatistics>
+              <Tatistics>
+                <AreaTitle>Mortgage NFT value</AreaTitle>
+                <Line />
+                <MarketSizeStatistics>
+                  <div className="market-size">${mortgageSizeNum}</div>
+                  <DepositSize depositStatistics={depositStatistics} />
+                </MarketSizeStatistics>
+              </Tatistics>
+            </MarkeTotal>
+            <USDPool depositList={depositList} />
+            <MortgagePools mortgageList={mortgageList} />
+          </div> :
+          <PageLoading />
+      }
     </MarketContainer>
   )
 }

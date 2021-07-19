@@ -6,7 +6,9 @@ import { Progress } from 'antd'
 import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import UtilisationRate from '../../../components/EchartsStatistics/UtilisationRate'
-import { depositPoolsDetail } from '../../../apis/pool'
+import { depositPoolsDetail, depositPoolUser } from '../../../apis/pool'
+import { useSelector } from 'react-redux'
+import { getAccount } from '../../../store/wallet'
 
 const StoragePoolMain = styled.div`
   width: 130rem;
@@ -455,7 +457,7 @@ const DepositStableVariable:React.FC<{ poolDetailData: any }> = ({ poolDetailDat
   )
 }
 
-const YourInformation:React.FC = () => {
+const YourInformation:React.FC<{ poolUserData: any }> = ({ poolUserData }) => {
 
   return (
     <YourInformationMain>
@@ -468,11 +470,11 @@ const YourInformation:React.FC = () => {
           </DepositsValuesItem>
           <DepositsValuesItem>
             <span className="depositValues-item-name">Your wallet balance</span>
-            <span className="depositValues-item-value">11</span>
+            <span className="depositValues-item-value">{poolUserData?.walletBalance}</span>
           </DepositsValuesItem>
           <DepositsValuesItem>
             <span className="depositValues-item-name">You already deposited</span>
-            <span className="depositValues-item-value">0.00DAI</span>
+            <span className="depositValues-item-value">{poolUserData?.deposited}{poolUserData?.unit}</span>
           </DepositsValuesItem>
         </InformationValues>
         <ColumnLine />
@@ -482,19 +484,19 @@ const YourInformation:React.FC = () => {
           </DepositsValuesItem>
           <DepositsValuesItem>
             <span className="depositValues-item-name">Borrowed</span>
-            <span className="depositValues-item-value">0.00DAI</span>
+            <span className="depositValues-item-value">{poolUserData?.borrowed}{poolUserData?.unit}</span>
           </DepositsValuesItem>
           <DepositsValuesItem>
             <span className="depositValues-item-name">Health factor</span>
-            <span className="depositValues-item-health">4.83</span>
+            <span className="depositValues-item-health">{poolUserData?.healthFactor ? poolUserData?.healthFactor : '- - -'}</span>
           </DepositsValuesItem>
           <DepositsValuesItem>
             <span className="depositValues-item-name">loan to value</span>
-            <span className="depositValues-item-health">45%</span>
+            <span className="depositValues-item-health">{poolUserData?.loanValue ? poolUserData?.loanValue : '- - -'}</span>
           </DepositsValuesItem>
           <DepositsValuesItem>
             <span className="depositValues-item-name">Available to you</span>
-            <span className="depositValues-item-health">3.39DAI</span>
+            <span className="depositValues-item-health">{poolUserData?.available}{poolUserData?.unit}</span>
           </DepositsValuesItem>
         </BorrowsValues>
       </YourInformationContainer>
@@ -535,8 +537,11 @@ const DepositPoolDetailPage:React.FC = () => {
 
   const id = history.location.pathname.slice(27)
 
+  const account = useSelector(getAccount)
+
   const [poolDetailData, setPoolDetailData] = useState<any>()
 
+  const [poolUserData, setPoolUserData] = useState<any>()
 
   const init = useCallback(async () => {
     const t = setInterval(async () => {
@@ -544,6 +549,14 @@ const DepositPoolDetailPage:React.FC = () => {
         setPoolDetailData(res.data.data)
       })
     }, 1000)
+
+    await depositPoolUser({
+      walletAddress: account,
+      poolId: id
+    }).then(res => {
+      setPoolUserData(res.data.data)
+    })
+
     return () => {
       clearTimeout(t)
     }
@@ -602,7 +615,7 @@ const DepositPoolDetailPage:React.FC = () => {
           <DepositStableVariable poolDetailData={poolDetailData} />
           <IndexValue poolDetailData={poolDetailData} />
         </ConfigurationMain>
-        <YourInformation />
+        <YourInformation poolUserData={poolUserData} />
       </div>
       <IndexValueStatistics />
     </StoragePoolMain>

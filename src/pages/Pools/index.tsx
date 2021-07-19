@@ -64,7 +64,7 @@ const MENU_BY_PAGE_KEYS: { [key in PoolPageKeys]?: string } = {
 const DEFAULT_ACTIVE_PAGE_KEY = 'market'
 
 const PoolsContainer = styled.div`
-  min-height: 100vh;
+  min-height: calc(100vh - 6.2rem);
   position: relative;
 
   .coding {
@@ -95,12 +95,15 @@ const PoolsContainerMenu = styled.div`
     font-weight: bolder;
 
     .container-menu-item {
+      height: 6rem;
+      line-height: 6rem;
       color: #9EA0A3;
       cursor: pointer;
     }
 
     .tabs__link {
       color: #554BFF;
+      border-bottom: 3px solid red;
     }
   }
 `

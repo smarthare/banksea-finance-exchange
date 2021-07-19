@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react'
 import lottie from 'lottie-web'
 
-type ListPageLoadingProps = {
-  loading: boolean
-}
-
-const ListPageLoading: React.FC<ListPageLoadingProps> = ({ loading }) => {
+const PageLoading: React.FC = () => {
   useEffect(() => {
     const { name } = lottie.loadAnimation({
       container: document.getElementById('lottie-animation')!,
@@ -21,8 +17,16 @@ const ListPageLoading: React.FC<ListPageLoadingProps> = ({ loading }) => {
   }, [])
 
   return (
-    <div id="lottie-animation" style={{ width: '150px', height: '150px', display: loading ? '' : 'none' }} />
+    <div
+      id="lottie-animation"
+      style={{
+        width: '20rem',
+        height: '20rem',
+        margin: 'auto',
+        marginTop: 'calc((100vh - 26rem) / 2)'
+      }}
+    />
   )
 }
 
-export default ListPageLoading
+export default PageLoading

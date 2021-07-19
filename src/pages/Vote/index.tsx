@@ -533,7 +533,7 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
         </RegistrationContainer>
         <ConfirmButton onClick={confirmCreat}>Confirm</ConfirmButton>
       </div>
-      <FilecoinVotes current={current} filecoin={filecoin} onPressEnter={onPressEnter} />
+      {/*<FilecoinVotes current={current} filecoin={filecoin} onPressEnter={onPressEnter} />*/}
     </Registration>
   )
 }

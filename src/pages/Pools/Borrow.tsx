@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { depositPoolsList } from '../../apis/pool'
+import PageLoading from '../../components/PageLoding'
 
 const BorrowMain = styled.div`
   width: 113.6rem;
@@ -276,13 +277,16 @@ const BorrowPage:React.FC = () => {
 
   const [data, setData] = useState<any>()
 
+  const [isLoading, setLoading] = useState<boolean>(true)
+
   const init = useCallback(async () => {
-    depositPoolsList({
+    await depositPoolsList({
       orderKey: 'deposit_apy',
       orderDesc: ''
     }).then(res => {
       setData(res.data.data)
     })
+    setLoading(false)
   },[])
 
   useEffect(() => {
@@ -291,30 +295,36 @@ const BorrowPage:React.FC = () => {
 
   return (
     <BorrowMain className={clsx('active')}>
-      <DepositAreaLeft>
-        <AreaTitle>Available to Borrow</AreaTitle>
-        <Line />
-        <AllCoinContainer data={data} />
-      </DepositAreaLeft>
-      <DepositAreaRight>
-        <MyNFTMortgage>
-          <AreaTitle>My NFT-Mortgage</AreaTitle>
-          <Line />
-          <div className="MyTotal">
-            <div className="MyTotal-name">
-              <span>NFT-Mortgage Number</span>
-            </div>
-            <div className="MyTotalNum">3</div>
-          </div>
-          <div className="MyTotal">
-            <div className="MyTotal-name">
-              <span>Total Valuation</span>
-            </div>
-            <div className="MyTotalNum">7.6 ETH</div>
-          </div>
-          <MortgageButton onClick={() => history.push('/pools/dashboard')}>Mortgage</MortgageButton>
-        </MyNFTMortgage>
-      </DepositAreaRight>
+      {
+        !isLoading ?
+          <div>
+            <DepositAreaLeft>
+              <AreaTitle>Available to Borrow</AreaTitle>
+              <Line />
+              <AllCoinContainer data={data} />
+            </DepositAreaLeft>
+            <DepositAreaRight>
+              <MyNFTMortgage>
+                <AreaTitle>My NFT-Mortgage</AreaTitle>
+                <Line />
+                <div className="MyTotal">
+                  <div className="MyTotal-name">
+                    <span>NFT-Mortgage Number</span>
+                  </div>
+                  <div className="MyTotalNum">3</div>
+                </div>
+                <div className="MyTotal">
+                  <div className="MyTotal-name">
+                    <span>Total Valuation</span>
+                  </div>
+                  <div className="MyTotalNum">7.6 ETH</div>
+                </div>
+                <MortgageButton onClick={() => history.push('/pools/dashboard')}>Mortgage</MortgageButton>
+              </MyNFTMortgage>
+            </DepositAreaRight>
+          </div> :
+          <PageLoading />
+      }
     </BorrowMain>
   )
 }

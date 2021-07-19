@@ -12,8 +12,8 @@ import { setNftFavorite } from '../apis/nft'
 
 const NFTItemCardContainer = styled.div`
   color: #7c6deb;
-  width: 26.2rem;
-  height: 40rem;
+  width: 24rem;
+  height: 37rem;
   background-color: #111C3A;
   border-radius: 10px;
   margin-bottom: 2.5rem;
@@ -135,6 +135,7 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
           height: '3.7rem',
           backgroundImage: `url(${require('../assets/images/collectibles-item-corner-flag-bg.png').default})`,
           backgroundSize: 'cover'
+
         }}
       >
         {status}
