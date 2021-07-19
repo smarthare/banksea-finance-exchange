@@ -27,7 +27,7 @@ const AppHeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 3.2rem;
-  border-bottom: 2px solid rgba(133, 133, 133, 0.1)
+  border-bottom: solid 0.2rem #4D4D4D;
 `
 
 const ConnectButton = styled(Button)`

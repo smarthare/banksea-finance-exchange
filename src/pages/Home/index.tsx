@@ -15,7 +15,14 @@ import NFTListItem from '../../components/NFTListItem'
 import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
 
 const HomePageContainer = styled.div`
-  font-family: 'PingFang SC'
+  font-family: 'PingFang SC';
+  width: 100%;
+  background-color: #0B111E;
+
+  @media screen and (min-width : 300px) and (max-width: 600px) {
+    width: fit-content;
+    background-color: #0B111E;
+  }
 `
 
 const BodyContainer = styled.div`
@@ -83,6 +90,8 @@ const InfoContainer = styled.div`
 
       .info-panel:hover {
         background: #18284C;
+        transition: all 1s;
+
       }
 
       .info-panel:active {
@@ -290,13 +299,13 @@ const HomePage: React.FC = () => {
 
   return (
     <HomePageContainer>
-      <HeadLine>
-        <MyCarousel autoplay>
+      {/*<HeadLine>
+         <MyCarousel autoplay>
           <div>
             <img src={voteBanner} alt="logo" style={{ height: '30rem', margin: '0 auto' }} />
           </div>
         </MyCarousel>
-      </HeadLine>
+      </HeadLine>*/}
       <BodyContainer>
         <InfoContainer>
 
