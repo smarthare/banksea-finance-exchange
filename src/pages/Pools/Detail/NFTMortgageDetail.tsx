@@ -7,7 +7,7 @@ import HistoricalRates from '../../../components/EchartsStatistics/HistoricalRat
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
 import { banksyNftDetail, getNftFavoriteCount } from '../../../apis/nft'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
@@ -271,11 +271,13 @@ const NFTMortgageDetailPage:React.FC = () => {
 
   const history = useHistory()
 
+  const { uri } = useParams<any>()
+
   const [data, setData] = useState<any>()
 
   const init = useCallback(async () => {
     banksyNftDetail({
-      uri: history.location.pathname.slice(24),
+      uri: uri,
     }).then(res => {
       setData(res.data.data)
     })

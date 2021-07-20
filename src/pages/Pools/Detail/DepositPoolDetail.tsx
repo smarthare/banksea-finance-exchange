@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { LeftOutlined } from '@ant-design/icons'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { Progress } from 'antd'
 import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
@@ -535,7 +535,7 @@ const IndexValueStatistics:React.FC = () => {
 const DepositPoolDetailPage:React.FC = () => {
   const history = useHistory()
 
-  const id = history.location.pathname.slice(27)
+  const { id } = useParams<any>()
 
   const account = useSelector(getAccount)
 
