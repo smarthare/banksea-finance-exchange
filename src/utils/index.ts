@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { NFTCreateForm } from '../pages/Home/NFTCreate'
 import { NFTMetadata } from '../types/NFTMetadata'
-import { getPinataUriByIpfsHash } from './pinata'
+import { getUriByIpfsHash } from './pinata'
 
 export const useLocationQuery = (key: string): string | undefined => {
   return new URLSearchParams(useLocation().search).get(key) ?? undefined
@@ -21,7 +21,7 @@ export function generateNftMetadata(form: NFTCreateForm): NFTMetadata {
   return {
     name: artworkName,
     description: briefIntroduction,
-    image: getPinataUriByIpfsHash(assetIpfsHash)
+    image: getUriByIpfsHash(assetIpfsHash)
     // attributes
   }
 }

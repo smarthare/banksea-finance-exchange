@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { borrowConfirm, depositPoolsDetail, mortgageOpinion } from '../../../apis/pool'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
@@ -262,7 +262,7 @@ const BorrowItemDetailPage:React.FC = () => {
 
   const account = useSelector(getAccount)
 
-  const id = history.location.pathname.slice(21)
+  const { id } = useParams<any>()
 
   const [data, setData] = useState<any>()
 

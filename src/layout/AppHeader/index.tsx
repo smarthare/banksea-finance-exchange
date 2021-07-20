@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.png'
+import BanksyLogoIcon from '@/assets/images/homePageImg/logo-icon.png'
+
 import { Button, Popover } from 'antd'
 import Wallet from '../../components/Wallet'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
-import { QuestionCircleFilled } from '@ant-design/icons'
+import { MenuFoldOutlined, QuestionCircleFilled } from '@ant-design/icons'
 import avatar1 from '../../assets/images/headAvatar/avatar1.png'
 import avatar2 from '../../assets/images/headAvatar/avatar2.png'
 import avatar3 from '../../assets/images/headAvatar/avatar3.png'
@@ -17,6 +19,7 @@ import avatar7 from '../../assets/images/headAvatar/avatar7.png'
 import avatar8 from '../../assets/images/headAvatar/avatar8.png'
 import avatar9 from '../../assets/images/headAvatar/avatar9.png'
 import avatar10 from '../../assets/images/headAvatar/avatar10.png'
+import { useMediaQuery } from 'react-responsive'
 
 
 const AppHeaderContainer = styled.div`
@@ -28,6 +31,7 @@ const AppHeaderContainer = styled.div`
   align-items: center;
   padding: 0 3.2rem;
   border-bottom: solid 0.2rem #4D4D4D;
+  z-index: 9999;
 `
 
 const ConnectButton = styled(Button)`
@@ -43,11 +47,32 @@ const ConnectButton = styled(Button)`
     font-size: 1.6rem;
     font-weight: bold;
     text-align: center;
+    display: flex;
+    align-items: center;
   }
 
   &:hover,
   &:active {
     background: #3a31bd;
+  }
+
+  @media screen and (max-width: 1000px) {
+    &,
+    &:hover,
+    &:active {
+      width: fit-content;
+      height: 2.5rem;
+      background: #554BFF;
+      border-radius: 2rem;
+      border-color: #3a31bd;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      text-align: center;
+    }
+
   }
 `
 
@@ -56,11 +81,11 @@ const Row = styled.div`
   align-items: center;
 `
 
-const Avatar = styled.img`
+const Avatar = styled.img `
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 100%;
-  margin-left: 3.3rem;
+  margin-left: 1.2rem;
   cursor: pointer;
 `
 
@@ -68,11 +93,11 @@ const AvatarNone = styled.div`
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 100%;
-  margin-left: 3.3rem;
+  margin-left: 1.2rem;
   background: url(${require('../../assets/images/headAvatar/user-avatar.svg').default}) no-repeat;
 `
 
-const AppHeader = () => {
+const AppHeader: React.FC<{ onCollapseChanged: () => void }> = ({ onCollapseChanged }) => {
   const history = useHistory()
   const account = useSelector(getAccount)
   const headerAvatar = [
@@ -87,6 +112,7 @@ const AppHeader = () => {
     avatar9,
     avatar10
   ]
+
   const random = parseInt(String(10 * Math.random()))
 
   const headerImg = headerAvatar[random]
@@ -97,9 +123,25 @@ const AppHeader = () => {
     )
   }
 
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+
   return (
     <AppHeaderContainer>
-      <img src={BanksyLogo} alt="banksy" style={{ width: '15.6rem' }} />
+      <Row>
+        <MenuFoldOutlined
+          onClick={onCollapseChanged}
+          style={{
+            position:'relative',
+            fontSize:'1.5rem',
+            color:'#B2B2B2',
+            display:'flex',
+            justifyContent:'center',
+            marginRight: '1.5rem'
+          }}
+        />
+        <img src={isMobile ? BanksyLogoIcon : BanksyLogo} alt="banksy" style={ isMobile ? { width: '3.5rem' } : { width: '15.6rem' } } />
+      </Row>
+
       <Row>
         <Popover
           placement="bottom"
@@ -114,13 +156,13 @@ const AppHeader = () => {
           }
           trigger="click"
         >
-          <QuestionCircleFilled style={{ color: '#7c6deb', fontSize: '2rem', marginRight: '2.5rem' }} />
+          <QuestionCircleFilled style={ isMobile ? { color: '#3A31BD', fontSize: '1.6rem', marginRight: '1rem' } : { color: '#7c6deb', fontSize: '2rem', marginRight: '2.5rem' }} />
         </Popover>
         <ConnectButton>
           <Wallet />
         </ConnectButton>
-        {account?
-          <Avatar onClick={toPersonalPage} src={`${headerImg}`} />:
+        {account ?
+          <Avatar onClick={toPersonalPage} src={`${headerImg}`} /> :
           <AvatarNone />}
       </Row>
     </AppHeaderContainer>

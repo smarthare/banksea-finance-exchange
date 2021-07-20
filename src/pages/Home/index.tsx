@@ -19,22 +19,23 @@ const HomePageContainer = styled.div`
   font-family: 'PingFang SC';
   width: 100%;
   background-color: #0B111E;
+  overflow-x: hidden;
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
-    width: fit-content !important;
+    width: 100vw !important;
     height: 200vh;
-    background-color: 0B111E;
+    background-color: #0B111E;
   }
 `
 
 const BodyContainer = styled.div`
   margin: 0 auto;
-  width: 120.2rem;
+  width: 90%;
   padding: 6rem 2rem;
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
     margin: 0 auto;
-    width: 46vw !important;
+    width: 100%;
     padding: 6vh 1vw
   }
 `
@@ -48,18 +49,18 @@ const MyCarousel = styled(Carousel)`
 `
 
 const InfoContainer = styled.div`
-
+  width: 100%;
 
   .row1 {
     flex-basis: 100%;
     display: flex;
     justify-content: space-between;
 
-    .lend-and-borrow:hover {
+    .nft-mortgage-container:hover {
       box-shadow: rgb(11, 234, 235) -5px 5px 15px;
     }
 
-    .lend-and-borrow {
+    .nft-mortgage-container {
       position: relative;
       width: 56.4rem;
       border-radius: 2rem;
@@ -218,24 +219,26 @@ const InfoContainer = styled.div`
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
     position: relative;
-    width: 50vw !important;
+    width: 100% !important;
     display: flex;
     justify-content: center;
     flex-direction: column;
     margin: 0 0;
 
-    .row1 {
+    .row1, .row2 {
       position: relative;
+      margin: 0 auto;
       justify-content: center;
       flex-direction: column;
       width: fit-content;
-      right: 25vw;
-
     }
 
-    .lend-and-borrow {
+    .nft-mortgage-container, .auction-and-splitting > .info-panel {
+      width: 80vw!important;
+    }
+
+    .nft-mortgage-container {
       position: relative;
-      width: 65vw !important;
       border-radius: 2rem;
       margin-bottom: 3rem;
       background: url(${require('../../assets/images/homePageImg/pen1.png').default}) no-repeat;
@@ -287,7 +290,6 @@ const InfoContainer = styled.div`
         padding: 1.5rem 2rem !important;
         position: relative;
         height: 15vh !important;
-        width: 65vw !important;
         background: #111C3A;
         border-radius: 2rem;
         margin-bottom: 3rem;
@@ -332,11 +334,11 @@ const InfoContainer = styled.div`
 
     .row2 {
       position: relative;
+      margin: 0 auto;
       display: flex;
       justify-content: center;
       flex-direction: column;
       width: fit-content;
-      right: 25vw;
 
       .info-panel:hover {
         background: #18284C;
@@ -350,7 +352,7 @@ const InfoContainer = styled.div`
       .info-panel {
         padding: 2.5rem;
         position: relative;
-        width: 65vw !important;
+        width: 80vw!important;
         height: 15vh !important;
         background: #111C3A;
         border-radius: 2rem;
@@ -398,6 +400,7 @@ const InfoContainer = styled.div`
 
 const NFTContainer = styled.div`
   margin-top: 4rem;
+  width: 100%;
 
   .title {
     color: #97BCF5;
@@ -408,15 +411,27 @@ const NFTContainer = styled.div`
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
     position: relative;
-    right: 25vw;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: fit-content;
 
+
+
+    .title {
+      color: #97BCF5;
+      font-size: 2.6rem;
+      font-weight: 500;
+      margin-bottom: 1.6rem;
+      width: fit-content;
+    }
 
   }
 `
 
 const NFTListContainer = styled.div`
 
-  width: 120.2rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -451,17 +466,17 @@ const PanelIcon: React.FC<any> = ({ iconName }) => {
   }
 
   const mobileStyle: CSSProperties = {
-    position:'absolute',
-    width:'8vw',
+    position: 'absolute',
+    width: '8vw',
     bottom: '8vh',
-    right :'10vw'
+    right: '10vw'
   }
 
   return (
     <div>
       <img
         src={iconName}
-        style={ isMobile ? mobileStyle : style }
+        style={isMobile ? mobileStyle : style}
         alt=""
       />
     </div>
@@ -518,10 +533,10 @@ const GotoArrow: React.FC<{ path?: string }> = ({ path }) => {
   }
 
   const mobileStyle: CSSProperties = {
-    position:'absolute',
-    width:'4vw',
+    position: 'absolute',
+    width: '4vw',
     bottom: '12vh',
-    right :'5vw'
+    right: '5vw'
   }
 
   return (
@@ -529,7 +544,7 @@ const GotoArrow: React.FC<{ path?: string }> = ({ path }) => {
       alt=""
       src={RightArrow}
       onClick={() => path && history.push(path)}
-      style={ isMobile ? mobileStyle : style}
+      style={isMobile ? mobileStyle : style}
     />
   )
 }
@@ -551,7 +566,7 @@ const HomePage: React.FC = () => {
         <InfoContainer>
 
           <div className="row1">
-            <div className="lend-and-borrow" onClick={() => history.push('/pools/*')}>
+            <div className="nft-mortgage-container" onClick={() => history.push('/pools/*')}>
               <AIFlag />
               <div className="main-title">NFT Mortgage</div>
               <div className="sub-title">Market size</div>

@@ -160,19 +160,6 @@ const NFTBaseInfoContainer = styled.div`
 
 
 const NFTBaseInfo: React.FC = () => {
-  const uri = useLocationQuery('uri')
-
-  const [likeNum, setLikeNum] = useState<any>()
-
-  const fetchLikeCount = useCallback(async () => {
-    getNftFavoriteCount(uri).then(res => {
-      setLikeNum(res.data.data)
-    })
-  }, [uri])
-
-  useEffect(() => {
-    fetchLikeCount()
-  }, [fetchLikeCount])
 
   return (
     <NFTBaseInfoContainer>
@@ -196,11 +183,6 @@ const NFTBaseInfo: React.FC = () => {
         </div>
       </div>
       <div className="info-row-favorite">
-        {/*<img*/}
-        {/*  src={Show}*/}
-        {/*  alt=""*/}
-        {/*  className="icon-favorite"*/}
-        {/*/>*/}
         <div className="info-row-item-value" >0</div>
       </div>
     </NFTBaseInfoContainer>)

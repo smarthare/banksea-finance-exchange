@@ -7,84 +7,82 @@ import routes from './routes'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 import { MenuFoldOutlined } from '@ant-design/icons'
+import { useMediaQuery } from 'react-responsive'
 
-const CollapsedBtn = styled(Button)`
+const Header = styled(Layout.Header)`
+  padding: 0;
+  height: 62px;
   position: relative;
-  display: flex;
-  justify-content: center;
+  zIndex: 999;
+  width: 100vw;
 
-  .ant-btn {
-    background: none !important;
-  }
-
-`
-
-
-const App: React.FC = () => {
-
-  const [collapsed, setCollapsed] = useState(true)
-
-  const state = {
-    collapsed: false
-  }
-
-  const onCollapse = (collapsed: boolean) => {
-    console.log(collapsed)
-    setCollapsed(collapsed)
-  }
-
-  function toggleCollapsed () {
-    setCollapsed(!collapsed)
-    console.log(collapsed)
-  }
-
-  const Header = styled(Layout.Header)`
+  @media screen and (min-width: 300px) and (max-width: 600px) {
     padding: 0;
     height: 62px;
-    position: fixed;
+    position: relative;
     zIndex: 999;
-    width: 100%;
+    width: 100vw;
+  }
+`
 
-    @media screen and (min-width: 300px) and (max-width: 600px) {
-      padding: 0;
-      height: 62px;
-      position: fixed;
-      zIndex: 999;
-      width: 100vw;
-    }
-  `
+const Presentation = styled.div`
+  position: fixed;
+  top: 6.5rem;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #305099;
+  transition: opacity 0.4s ease 0s;
+  opacity: 0.6;
+  z-index: 10;
+  pointer-events: initial;
+`
+
+const App: React.FC = () => {
+  const [collapsed, setCollapsed] = useState(true)
+
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed)
+  }
+
   return (
-    <Layout>
-      <Header >
-        <AppHeader />
-
+    <Layout className="app">
+      <Header>
+        <AppHeader onCollapseChanged={toggleCollapsed} />
       </Header>
-      <Layout >
-        <Layout.Sider style={{ position: 'fixed', zIndex: 1, top: '62px' }} collapsed={collapsed}>
-          <MenuFoldOutlined onClick={toggleCollapsed}
-            style={{
-              position:'relative',
-              fontSize:'2.5rem',
-              color:'#B2B2B2',
-              display:'flex',
-              justifyContent:'center',
-              marginTop:'1.2vh'
-            }}
-          />
-          <AppSideBar />
-        </Layout.Sider>
+      <Layout>
+        {
+          !collapsed && (
+            <Layout.Sider
+              style={{
+                position: 'fixed', zIndex: 1, top: '62px',
+              }}
+              collapsed={collapsed}
+            >
+              <AppSideBar />
+              {
+                isMobile && <Presentation onClick={toggleCollapsed} />
+              }
+            </Layout.Sider>
+          )
+        }
         <Layout.Content
           style={{
             backgroundColor: '#0B111E',
             position: 'relative',
-            top: '62px',
-            height:'550vh',
+            overflowY: 'scroll',
+            left: isMobile ? '0' : (collapsed ? '0' : '200px'),
+            width: collapsed ? '100vw' : 'calc(100vw - 200px)'
           }}
         >
-          <div style={{ marginLeft: '20.2rem' }}>
-            {routes.map(route => (
-              <Route path={route.path} exact component={route.component} key={route.path} />
-            ))}
+          <div style={{ width: collapsed ? '98.9vw' : 'calc(100vw - 200px)' }}>
+            {
+              routes.map(route => (
+                <Route path={route.path} exact component={route.component} key={route.path} />
+              ))
+            }
           </div>
         </Layout.Content>
       </Layout>

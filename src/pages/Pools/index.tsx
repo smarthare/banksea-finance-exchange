@@ -103,7 +103,6 @@ const PoolsContainerMenu = styled.div`
 
     .tabs__link {
       color: #554BFF;
-      border-bottom: 3px solid red;
     }
   }
 `

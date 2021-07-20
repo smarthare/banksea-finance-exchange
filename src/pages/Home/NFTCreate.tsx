@@ -32,6 +32,15 @@ const ArtistPageContainer = styled.div`
     line-height: 4.2rem;
     padding-bottom: 4.7rem;
   }
+
+  @media screen and ( max-width: 1000px ){
+    padding-top: 2rem;
+    .title {
+      font-weight: 550;
+      font-size: 3rem;
+      margin-bottom: 0;
+    }
+  }
 `
 
 const ArtistForm = styled(Form)`
@@ -58,7 +67,6 @@ const ArtistForm = styled(Form)`
       color: #4779B5 !important;
     }
 
-    width: 66.8rem !important;
     height: 10rem !important;
     background: #305099 !important;
     border-radius: 1rem !important;
@@ -69,6 +77,18 @@ const ArtistForm = styled(Form)`
     color: white !important;
     line-height: 2rem !important;
   }
+
+  @media screen and ( max-width: 1000px ) {
+    width: 90vw;
+    padding: 0 3rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+  }
+
+
 `
 
 const CustomFormItem = styled(Form.Item)`
@@ -88,7 +108,6 @@ const CustomFormItem = styled(Form.Item)`
       color: #4779B5;
     }
 
-    width: 66.8rem !important;
     height: 3.6rem ;
     background: #305099 !important;
     border-radius: 1rem !important;
@@ -99,6 +118,8 @@ const CustomFormItem = styled(Form.Item)`
     color: white !important;
     line-height: 2rem !important;
   }
+
+
 `
 
 const Selector = styled(Select)`
@@ -211,19 +232,26 @@ const Announcement = styled.div`
   flex-direction: column;
 
   .text {
-    width: 54.6rem;
     height: 5rem;
     font-size: 1.6rem;
     font-weight: 500;
     color: #4779B5;
     line-height: 2.5rem;
-    padding-top: 6.4rem;
   }
+
+  @media screen and ( max-width: 1000px ) {
+    .text {
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+  }
+
+
 
 `
 
 const CreateButton = styled(Button)`
-  width: 25.2rem;
   height: 6rem;
   margin: 5.2rem 0 1.2rem 0;
   background: #554BFF;
@@ -234,6 +262,10 @@ const CreateButton = styled(Button)`
   font-weight: 500;
   color: #ffffff;
   line-height: 2.2rem;
+
+  @media screen and ( max-width: 1000px ) {
+    height: 4rem;
+    }
 `
 
 type AssetUploadProps = {

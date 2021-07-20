@@ -1,4 +1,4 @@
-import { getPinataUriByIpfsHash, pinJsonToIPFS } from '../../../utils/pinata'
+import { getUriByIpfsHash, pinJsonToIPFS } from '../../../utils/pinata'
 import { banksyWeb3 } from '../../index'
 import { NFTCreateForm } from '../../../pages/Home/NFTCreate'
 import { generateNftMetadata } from '../../../utils'
@@ -30,7 +30,7 @@ export class BanksyWeb3EthereumServicesImpl implements BanksyWeb3Services {
 
       const { IpfsHash } = pinResult
 
-      const tokenUri = getPinataUriByIpfsHash(IpfsHash)
+      const tokenUri = getUriByIpfsHash(IpfsHash)
 
       const createForm: NftCreateForm = {
         uri: IpfsHash,
