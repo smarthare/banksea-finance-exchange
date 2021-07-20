@@ -4,7 +4,14 @@ The first AI-driven NFT pool-based lending platform to lead a revolution of the 
 
 ## How we use IPFS & Filecoin in our application
 
-![image](https://user-images.githubusercontent.com/18243292/126262947-157c4ba2-2a84-49fe-8d68-cd14d0e30f04.png)
+![image](https://user-images.githubusercontent.com/50449082/126302896-fb68b822-e231-4183-9547-374e4f928595.png)
+
+Banksy Finance is a decentralized AI-driven NFT Pool-based lending hub, dedicated to addressing the issues of the NFT market,
+providing a complete solution for NFT mortgage lending that is different from the P2P lending model. 
+It supports mortgage NFT for loans directly on the platform, without requiring both lenders and borrowers to an agreement. 
+It is the first NFT pool-based lending platform in the market.
+**All of Banksy's NFT storage is on IPFS, and the important data of the AI module is also considered to be placed on IPFS for a deep integration with Filecoin.**
+
 
 In current version, we have a lot of features about Filecoin / IPFS:
 - Originality Check:
