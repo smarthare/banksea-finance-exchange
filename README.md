@@ -1,7 +1,5 @@
 
-# Banksy Finance Dapp. 
-
-# Features
+# Banksy Finance Dapp.
 
 ## How we use IPFS & Filecoin in our application
 
@@ -31,12 +29,12 @@ const tokenUri = getUriByIpfsHash(IpfsHash)
 As we look ahead, we have planned more and more business associated Filecoin IPFS.
 Hopefully, we can create more powerful, secure and reliable projects with the help of Filecoin & IPFS.
 
-# Multi-chains support
+## Multi-chains support
 
-A decentralized NFT financial hub that will provide a NFT cross-platform ecosystem. 
-- Ethereum 
-- Solana 
-- Polkadot 
-- Binance 
-- EOS 
+A decentralized NFT financial hub that will provide a NFT cross-platform ecosystem.
+- Ethereum
+- Solana
+- Polkadot
+- Binance
+- EOS
 - Tron
