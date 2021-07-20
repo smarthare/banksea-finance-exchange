@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { NFTCreateForm } from '../pages/Home/NFTCreate'
 import { NFTMetadata } from '../types/NFTMetadata'
-import { getUriByIpfsHash } from './pinata'
+import { getUriByIpfsHash } from './ipfs'
 
 export const useLocationQuery = (key: string): string | undefined => {
   return new URLSearchParams(useLocation().search).get(key) ?? undefined

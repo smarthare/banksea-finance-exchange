@@ -1,4 +1,4 @@
-import { getUriByIpfsHash, pinJsonToIPFS } from '../../../utils/pinata'
+import { getUriByIpfsHash, pinJsonToIPFS } from '../../../utils/ipfs'
 import { banksyWeb3 } from '../../index'
 import { NFTCreateForm } from '../../../pages/Home/NFTCreate'
 import { generateNftMetadata } from '../../../utils'
