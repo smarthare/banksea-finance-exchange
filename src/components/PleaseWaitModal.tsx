@@ -4,6 +4,10 @@ import styled from 'styled-components'
 import { Modal } from 'antd'
 
 const CreateLoadingModal = styled(Modal)`
+  width: 100%;
+  background-color: #0B111E;
+  overflow-x: hidden;
+
   .ant-modal-content {
     border-radius: 1rem;
     width: 62.3rem;

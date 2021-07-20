@@ -30,6 +30,7 @@ import ETHIcon from '../../components/ETHIcon'
 import { usePurchaseWaitingConfirmationModal } from '../../hooks/modals/usePurchaseWaitingConfirmationModal'
 import { banksyNftDetail, getNftFavoriteCount } from '../../apis/nft'
 import { chooseOrder, completeOrder } from '../../apis/transaction'
+import { useMediaQuery } from 'react-responsive'
 
 const Row = styled.div`
   display: flex;
@@ -38,6 +39,7 @@ const Row = styled.div`
 
 const BundleDetailContainer = styled.div`
   color: black;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,6 +51,15 @@ const BundleDetailContainer = styled.div`
     width: 100%;
     height: 7rem;
     position: relative;
+  }
+
+  @media screen and (min-width : 300px) and (max-width: 600px) {
+    width: 100vw !important;
+    height: fit-content;
+    background-color: #0B111E;
+    padding: 0;
+    overflow-x: hidden;
+
   }
 `
 
@@ -158,28 +169,26 @@ const Operating = styled.div`
 `
 
 const PropertiesArea = styled.div`
-  height: 21.4rem;
-  width: 31.6rem;
+  height: 21rem;
+  width: 30rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
-
   overflow-y: scroll;
 
-  ::-webkit-scrollbar {
+  /*::-webkit-scrollbar {
     width: 6px;
     height: 6px;
     background-color: #98BDF9;
     border-radius: 0.5rem;
     margin-left: 0.5rem;
-  }
+  }*/
 
   .properties-group {
     width: 14.3rem;
     height: 9.1rem;
     background: #305099;
     border-radius: 0.5rem;
-    margin-left: -0.5rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -246,11 +255,29 @@ const ImageContainer = styled.div`
   justify-content: center;
   position: relative;
   border: 1px solid #98BDF9;
+  object-fit: cover;
+
 
   img {
-    max-height: 98%;
-    max-width: 98%;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
     border-radius: 2rem;
+  }
+
+  @media screen and (max-width: 600px) {
+    margin-top: 5vw;
+    border:none;
+    height: 100%;
+    width: 100vw;
+
+    img {
+      height: 50vh;
+      width: 80vw;
+      object-fit: cover;
+      border: 1px solid #98BDF9;
+
+    }
   }
 `
 
@@ -430,6 +457,24 @@ const NFTBaseInfoContainer = styled.div`
     color: #98BDF9;
   }
 
+  @media screen and (max-width: 600px) {
+    display: flex;
+    justify-content: center;
+
+    .nft-name {
+      width: fit-content;
+      font-size: 4.5rem;
+      font-weight: 550;
+      color: #98BDF9;
+    }
+
+    .line {
+      width: 80vw;
+      border-bottom: solid 0.2rem #98BDF9;
+
+    }
+  }
+
   .description {
     margin-top: 1.2rem;
     height: 12.5rem;
@@ -453,7 +498,7 @@ const NFTBaseInfoContainer = styled.div`
 
       &-label {
         font-size: 1.6rem;
-        font-weight: 500;
+        font-weight: 550;
         color: #98BDF9;
         line-height: 2.2rem;
         padding-right: 1.4rem;
@@ -536,19 +581,6 @@ const NFTBaseInfoContainer = styled.div`
   }
 `
 
-/*const ConnectButton = styled(Button)`
-  width: 100%;
-  height: 40px;
-  background: #7C6DEB;
-  border-radius: 10px;
-  position: absolute;
-  bottom: 0;
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: #FFFFFF;
-  line-height: 2rem;
-`*/
-
 const BuyOperating = styled.div`
   width: 100%;
   margin-top: 1.2rem;
@@ -565,12 +597,15 @@ const BuyOperating = styled.div`
   }
 `
 
+const MobileContainer = styled.div`
+
+`
+
 const Properties: React.FC = () => {
   return (
     <div>
-
+      <SubTitle>Properties</SubTitle>
       <PropertiesArea>
-        <SubTitle>Properties</SubTitle>
         <div className="properties-group">
           <div className="properties-item">
             <div className="key">CHARACTER</div>
@@ -681,80 +716,99 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
     fetchLikeCount()
   }, [fetchLikeCount])
 
+  const isMobile = useMediaQuery({ query:'(max-width:600px)' })
   return (
     <NFTBaseInfoContainer>
-      <div className="nft-name">
-        {nftDetail?.name}
-      </div>
-      <div className="info-row">
-        <div className="info-row-item">
-          <div className="info-row-item-label">Artist</div>
-          <div className="info-row-item-value">
-            {
-              nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate)
-            }
+      {
+        isMobile ?
+          <div>
+            <div className="nft-name">
+              {nftDetail?.name}
+            </div>
+            <div className="line" />
+            {/*<div style={{ display:'flex',justifyContent:'flex-start', flexDirection:'column' }}>
+              <div className="info-row-item-label">Artist : { nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate) }</div>
+              <div className="info-row-item-label">Owner : { thumbnailAddress(nftDetail?.addressOwner) }
+              </div>
+            </div>*/}
           </div>
-          <CopyOutlined
-            className="icon-copy"
-            onClick={() => handleCopy(nftDetail?.addressCreate)}
-          />
-        </div>
-        <div className="info-row-item">
-          <div className="info-row-item-label">Owner</div>
-          <div className="info-row-item-value">
-            {
-              thumbnailAddress(nftDetail?.addressOwner)
-            }
-          </div>
-          <CopyOutlined
-            className="icon-copy"
-            onClick={() => handleCopy(nftDetail?.addressCreate)}
-          />
-        </div>
-      </div>
-      <div className="info-row-favorite">
-        <img
-          src={Show}
-          alt=""
-          className="icon-favorite"
-        />
-        <div className="info-row-item-value">{likeNum?.view ? likeNum?.view : 0}</div>
-      </div>
+          :
+          <div>
+            <div className="nft-name">
+              {nftDetail?.name}
+            </div>
+            <div className="info-row">
+              <div className="info-row-item">
+                <div className="info-row-item-label">Artist</div>
+                <div className="info-row-item-value">
+                  {
+                    nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate)
+                  }
+                </div>
+                <CopyOutlined
+                  className="icon-copy"
+                  onClick={() => handleCopy(nftDetail?.addressCreate)}
+                />
+              </div>
+              <div className="info-row-item">
+                <div className="info-row-item-label">Owner</div>
+                <div className="info-row-item-value">
+                  {
+                    thumbnailAddress(nftDetail?.addressOwner)
+                  }
+                </div>
+                <CopyOutlined
+                  className="icon-copy"
+                  onClick={() => handleCopy(nftDetail?.addressCreate)}
+                />
+              </div>
+            </div>
+            <div className="info-row-favorite">
+              <img
+                src={Show}
+                alt=""
+                className="icon-favorite"
+              />
+              <div className="info-row-item-value">{likeNum?.view ? likeNum?.view : 0}</div>
+            </div>
 
-      {/*<div className="description">
+            {/*<div className="description">
         {nftDetail?.description}
       </div>*/}
-      <PriceContainer>
-        <div className="price-favorite-row">
-          {
-            nftDetail?.onSale ? (
-              <div className="price">
-                <span className="price-label">Current Price</span>
-                <ETHIcon />
-                <span className="price-value">
-                  {nftDetail?.price}
-                </span>
-                {/*<div className="price-in-usd">($297.21)</div>*/}
+            <PriceContainer>
+              <div className="price-favorite-row">
+                {
+                  nftDetail?.onSale ? (
+                    <div className="price">
+                      <span className="price-label">Current Price</span>
+                      <ETHIcon />
+                      <span className="price-value">
+                        {nftDetail?.price}
+                      </span>
+                      {/*<div className="price-in-usd">($297.21)</div>*/}
+                    </div>
+                  ) : <div />
+                }
+                <div>
+                  <img
+                    src={Heart}
+                    alt=""
+                    style={{
+                      width: '2.5rem,',
+                      height: '1.4rem',
+                      display: 'flex',
+                      alignSelf: 'center',
+                      marginRight: '0.4rem'
+                    }}
+                  />
+                  <div className="info-name">{likeNum?.favorite}</div>
+                </div>
               </div>
-            ) : <div />
-          }
-          <div>
-            <img
-              src={Heart}
-              alt=""
-              style={{
-                width: '2.5rem,',
-                height: '1.4rem',
-                display: 'flex',
-                alignSelf: 'center',
-                marginRight: '0.4rem'
-              }}
-            />
-            <div className="info-name">{likeNum?.favorite}</div>
+            </PriceContainer>
           </div>
-        </div>
-      </PriceContainer>
-    </NFTBaseInfoContainer>)
+      }
+    </NFTBaseInfoContainer>
+  )
 }
 
 const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
@@ -1085,48 +1139,65 @@ const CollectibleDetailPage: React.FC = () => {
       `https://banksy.mypinata.cloud${nftDetail?.image?.slice(-52)}`
   }, [nftDetail])
 
+  const isMobile = useMediaQuery({ query: '(max-width: 600px' })
+
   return (
     <BundleDetailContainer>
-      <div className="operating">
-        {
-          isOwnerOfNFT() &&
-          <Operating>
-            {/*<Button className="edit">Edit</Button>*/}
-            <Button className="sell" onClick={openSellingModal}>Sell</Button>
-          </Operating>
-        }
-      </div>
-      <Row>
-        <LeftArea>
-          <ImageContainer>
-            {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
-            <img src={coverImageUrl()} alt={nftDetail?.name} />
-          </ImageContainer>
-        </LeftArea>
-        <RightArea>
-          <NFTBaseInfo nftDetail={nftDetail} />
+      {
+        isMobile ?
 
-          {
-            nftDetail?.onSale && nftDetail?.price && account !== nftDetail?.addressOwner &&
-            <BuyOperating>
-              <Button className="buyNow" onClick={onClickBuyButton}>Buy Now</Button>
-            </BuyOperating>
-          }
+          <MobileContainer >
+            <NFTBaseInfo nftDetail={nftDetail} />
+            <ImageContainer>
+              {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
+              <img src={coverImageUrl()} alt={nftDetail?.name} />
+            </ImageContainer>
+          </MobileContainer>
 
-          <NFTMetadata nftDetail={nftDetail} />
-        </RightArea>
-      </Row>
-      <Row>
-        <LeftArea style={{ marginTop: '5rem' }}>
-          <Properties />
-        </LeftArea>
-        <RightArea style={{ marginTop: '5rem', height: '34rem' }}>
-          <TradingHistories nftDetail={nftDetail} />
-        </RightArea>
-      </Row>
-      <Row>
-        <MoreArtworks />
-      </Row>
+          :
+          <div>
+            <div className="operating">
+              {
+                isOwnerOfNFT() &&
+                <Operating>
+                  {/*<Button className="edit">Edit</Button>*/}
+                  <Button className="sell" onClick={openSellingModal}>Sell</Button>
+                </Operating>
+              }
+            </div>
+            <Row>
+              <LeftArea>
+                <ImageContainer>
+                  {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
+                  <img src={coverImageUrl()} alt={nftDetail?.name} />
+                </ImageContainer>
+              </LeftArea>
+              <RightArea>
+                <NFTBaseInfo nftDetail={nftDetail} />
+
+                {
+                  nftDetail?.onSale && nftDetail?.price && account !== nftDetail?.addressOwner &&
+                  <BuyOperating>
+                    <Button className="buyNow" onClick={onClickBuyButton}>Buy Now</Button>
+                  </BuyOperating>
+                }
+
+                <NFTMetadata nftDetail={nftDetail} />
+              </RightArea>
+            </Row>
+            <Row>
+              <LeftArea style={{ marginTop: '5rem' }}>
+                <Properties />
+              </LeftArea>
+              <RightArea style={{ marginTop: '5rem', height: '34rem' }}>
+                <TradingHistories nftDetail={nftDetail} />
+              </RightArea>
+            </Row>
+            <Row>
+              <MoreArtworks />
+            </Row>
+          </div>
+      }
 
       {purchaseCheckoutModal}
       {purchaseBlockedModal}

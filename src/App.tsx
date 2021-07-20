@@ -3,11 +3,12 @@ import './app.scss'
 import { Button, Layout } from 'antd'
 import AppHeader from './layout/AppHeader'
 import AppSideBar from './layout/AppSideBar'
+// @ts-ignore
 import routes from './routes'
-import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 import { MenuFoldOutlined } from '@ant-design/icons'
 import { useMediaQuery } from 'react-responsive'
+import { Route } from 'react-router-dom'
 
 const Header = styled(Layout.Header)`
   padding: 0;
@@ -57,7 +58,7 @@ const App: React.FC = () => {
           !collapsed && (
             <Layout.Sider
               style={{
-                position: 'fixed', zIndex: 1, top: '62px',
+                position: 'fixed', zIndex: 99, top: '62px',
               }}
               collapsed={collapsed}
             >
@@ -79,7 +80,7 @@ const App: React.FC = () => {
         >
           <div style={{ width: collapsed ? '98.9vw' : 'calc(100vw - 200px)' }}>
             {
-              routes.map(route => (
+              routes.map((route: any) => (
                 <Route path={route.path} exact component={route.component} key={route.path} />
               ))
             }

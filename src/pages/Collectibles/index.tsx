@@ -186,12 +186,17 @@ const NFTListContainer = styled.div`
   border-radius: 1rem;
 
   @media screen and (min-width: 300px) and (max-width: 1000px) {
-    width: 70vw;
+    width: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
     flex-wrap: wrap;
     border-radius: 1rem;
+
+    .nft-container {
+      display: flex;
+      justify-content: center;
+    }
   }
 `
 
@@ -354,9 +359,11 @@ const OrderSelector: React.FC = () => {
 const NFTList: React.FC<any> = ({ list }) => {
   return (
     <NFTListContainer>
+
       {list?.map((nft: any, index: number) => (
         <NFTListItem data={nft} key={index} type="nftList" />
       ))}
+
     </NFTListContainer>
   )
 }

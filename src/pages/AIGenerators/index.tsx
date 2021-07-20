@@ -76,7 +76,6 @@ const GeneratorTop = styled.div`
   height: 25rem;
   width: fit-content;
   background-color: #0B111E;
-  border-bottom: solid 0.2rem #4D4D4D;
 
   .introduce {
     text-align: center;
@@ -96,11 +95,11 @@ const GeneratorTop = styled.div`
   @media screen and (max-width: 600px) {
     height: 20vh;
     .title {
-      font-size: 8vw !important;
+      font-size: 10vw !important;
       text-align: center;
     }
     .introduce {
-      padding: 0 5vw;
+      padding: 0 8vw;
       font-size: 1.6vw !important;
       text-align: left;
     }
@@ -128,7 +127,7 @@ const GeneratorBody = styled.div`
 
     .hr-line {
       margin: 0 auto;
-      height: 0.4rem;
+      height: 0.2rem;
       width: 100%;
       background: radial-gradient(#B2B2B2 14%, #0B111E 80%);
       transition: all 1s;
@@ -137,9 +136,6 @@ const GeneratorBody = styled.div`
 
     .nft-border:hover {
       .hr-line {
-        margin: 0 auto;
-        height: 0.4rem;
-        width: 100%;
         background: radial-gradient(#5349F9 14%, #0B111E 80%);
         transition: all 1s;
       }
@@ -150,9 +146,9 @@ const GeneratorBody = styled.div`
     }
 
     .title {
+      margin: 1.6rem 0 0 1.5rem;
       text-align: center;
       font-size: 2.4rem;
-      padding: 1.2rem 0;
       font-weight: 550;
       color: #97BCF9;
       line-height: 2.5rem;
@@ -641,7 +637,7 @@ const AIGenerators: React.FC = () => {
               onSelect={v => setStyle(v)}
               list={styleList?.map((style: { url: any }) => style?.url)}
             />
-            { isMobile ? <div /> : <div className="hr-line" /> }
+            { isMobile ? <div /> : <div className="hr-line" style={{ marginTop:'3rem' }} />  }
           </div>
         </div>
         <div className="head" style={{ marginTop: '5rem' }}>
@@ -657,7 +653,7 @@ const AIGenerators: React.FC = () => {
               list={(personalNFTs as any)?.map((nft: { image: any }) => nft.image)}
             />
 
-            { isMobile ? <div /> : <div className="hr-line" /> }
+            { isMobile ? <div /> : <div className="hr-line" style={{ marginTop:'3rem' }} /> }
           </div>
         </div>
         {/*<AssetUpload />*/}
