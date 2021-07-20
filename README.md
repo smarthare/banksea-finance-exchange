@@ -1,17 +1,13 @@
-# Banksy Finance Dapp.
 
-A decentralized NFT financial hub that will provide a NFT cross-platform ecosystem.
-
-- Ethereum
-- Solana
-- Polkadot
-- Binance
-- EOS
-- Tron
+# Banksy Finance Dapp. 
 
 # Features
 
-## How to use IPFS & Filecoin in our application
+## How we use IPFS & Filecoin in our application
+
+![image](https://user-images.githubusercontent.com/18243292/126262947-157c4ba2-2a84-49fe-8d68-cd14d0e30f04.png)
+
+![image](https://user-images.githubusercontent.com/18243292/126262910-7204cd33-9693-4263-9a4c-4bd35631955b.png)
 
 In current version, in order to create NFT in Banksy Finance dAPP, users need to post the artwork source file of NFT(
 maybe images, videos, etc.) onto IPFS by first. Then as the result, the IPFS hash will be returned to dAPP, so that we
@@ -34,3 +30,13 @@ const tokenUri = getUriByIpfsHash(IpfsHash)
 
 As we look ahead, we have planned more and more business associated Filecoin IPFS.
 Hopefully, we can create more powerful, secure and reliable projects with the help of Filecoin & IPFS.
+
+# Multi-chains support
+
+A decentralized NFT financial hub that will provide a NFT cross-platform ecosystem. 
+- Ethereum 
+- Solana 
+- Polkadot 
+- Binance 
+- EOS 
+- Tron
