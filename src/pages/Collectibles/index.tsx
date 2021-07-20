@@ -8,9 +8,10 @@ import NFTListItem from '../../components/NFTListItem'
 import clsx from 'clsx'
 import ListPageLoading from '../../components/ListPageLoading'
 import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
+import { useMediaQuery } from 'react-responsive'
 
 const PageContainer = styled.div`
-  padding-top: 5.6rem;
+  padding: 0 16rem;
   width: 100%;
   min-height: 100vh;
   height: fit-content;
@@ -18,22 +19,29 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   color: #97BCF6;
+  overflow-x: hidden;
 
   @media screen and (min-width : 300px) and (max-width: 600px) {
-    width: fit-content;
+    width: 100vw !important;
+    height: 200vh;
     background-color: #0B111E;
+    padding: 0;
   }
 `
 
 const Title = styled.div`
   font-size: 4.6rem;
-  font-weight: 500;
+  font-weight: 550;
   background-image: -webkit-linear-gradient(left, #aef9ff, #571eef);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 3px #aef9ff, 0 0 5px #571eef, 0 0 10px #aef9ff, 0 0 15px #571eef;
   margin-bottom: 2rem;
   line-height: 4.2rem;
+  margin-top: 5vh;
+
+  @media screen and (max-width: 1000px) {
+    font-size: 8vw;
+  }
 `
 
 const FilterContainer = styled.div`
@@ -107,7 +115,6 @@ const MintArtworksButton = styled(Button)`
 `*/
 
 const SearchInput = styled(Input)`
-  width: 22rem;
   height: 4rem;
   border-color: #305099;
   background-color: #305099;
@@ -119,11 +126,15 @@ const SearchInput = styled(Input)`
     font-weight: bold;
   }
 
+  @media screen and (max-width: 1000px) {
+    width: 68vw;
+    margin-bottom: 2vh;
+  }
+
 `
 
 const MySelect = styled(Select)`
-  margin-left: 2rem;
-  margin-left: 2rem;
+  margin-left: 2.5rem;
 
 
   &,
@@ -154,14 +165,34 @@ const MySelect = styled(Select)`
   span {
     color: white;
   }
+
+  @media screen and (max-width: 1000px) {
+    margin-left: 0;
+    .ant-select-selector {
+      width: fit-content;
+      height: 4rem !important;
+      color: white;
+      font-size: 1rem;
+    }
+
+  }
 `
 
 const NFTListContainer = styled.div`
   width: 120.2rem;
-  padding-left: 4rem;
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
   border-radius: 1rem;
+
+  @media screen and (min-width: 300px) and (max-width: 1000px) {
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 1rem;
+  }
 `
 
 const CustomPagination = styled(Pagination)`
@@ -352,21 +383,46 @@ const CollectiblesPage: React.FC = () => {
     setSearchKey(e.target.attributes[2].value)
   }
 
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+
   return (
     <PageContainer>
       <Title>NFT Marketplace</Title>
-      <Filter />
-      <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
-        <div style={{ display: 'flex' }} />
-        <div style={{ display: 'flex' }}>
-          <SearchInput
-            onPressEnter={onPressEnter}
-            prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
-          />
-          <TypeSelector typeSelectValue={typeSelectValue} setTypeSelectValue={setTypeSelectValue} />
-          <OrderSelector />
-        </div>
-      </div>
+      {
+        isMobile ? <div /> : <Filter />
+
+      }
+      {
+        isMobile ?
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5.5rem', flexDirection:'column' }}>
+
+            <div style={{ display:'flex', justifyContent:'center' }}>
+              <SearchInput
+                onPressEnter={onPressEnter}
+                prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
+              />
+            </div>
+            <div style={{ display:'flex', justifyContent:'space-between' }}>
+              <TypeSelector typeSelectValue={typeSelectValue} setTypeSelectValue={setTypeSelectValue} />
+              <OrderSelector />
+            </div>
+            <div style={{ border:'solid 0.1rem #305099', marginTop:'3vh' }} />
+          </div>
+          :
+          <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
+            <div style={{ display: 'flex' }} />
+            <div style={{ display: 'flex' }}>
+              <SearchInput
+                onPressEnter={onPressEnter}
+                prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
+                style={{ marginRight:'2.5rem' }}
+              />
+              <TypeSelector typeSelectValue={typeSelectValue} setTypeSelectValue={setTypeSelectValue}  />
+              <OrderSelector />
+            </div>
+          </div>
+      }
+
       <ListPageLoading loading={isLoading} />
       <NFTList list={pagingData?.records} fetch={fetch} />
       {

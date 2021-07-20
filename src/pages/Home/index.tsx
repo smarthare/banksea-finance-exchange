@@ -25,6 +25,7 @@ const HomePageContainer = styled.div`
     width: 100vw !important;
     height: 200vh;
     background-color: #0B111E;
+    padding: 0;
   }
 `
 

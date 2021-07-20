@@ -12,11 +12,10 @@ import { setNftFavorite } from '../apis/nft'
 
 const NFTItemCardContainer = styled.div`
   color: #7c6deb;
-  width: 90%;
+  width: 26rem;
   height: 37rem;
   background-color: #111C3A;
   border-radius: 10px;
-  margin-right: 2.5rem;
   margin-bottom: 3rem;
   font-weight: bold;
   display: flex;
@@ -32,8 +31,7 @@ const NFTItemCardContainer = styled.div`
 
   img {
     object-fit: cover;
-    width: 26.2rem;
-    height: 28.5rem;
+    width: 25.9rem;
     margin-bottom: 1.5rem;
   }
 
@@ -187,7 +185,7 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
           <div className="img-container">
             <LazyLoad>
               <img
-                style={{ display: loading || error ? 'none' : '', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}
+                style={{ display: loading || error ? 'none' : '', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem', height:'100%' }}
                 key={data.id}
                 src={imageUrl()}
                 alt=""
