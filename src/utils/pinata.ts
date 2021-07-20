@@ -2,7 +2,6 @@ import request from './request'
 
 export const PinataApiKey = process.env.REACT_APP_PINATA_API_KEY!
 export const PinataApiSecret = process.env.REACT_APP_PINATA_API_SECRET!
-// const jwt = process.env.REACT_APP_PINATA_JWT
 
 export type PinataResult = {
   IpfsHash: string
@@ -48,11 +47,11 @@ async function pinJsonToIPFS(data: any): Promise<PinataResult> {
   return result.data
 }
 
-function getPinataUriByIpfsHash(ipfsHash: string) {
+function getUriByIpfsHash(ipfsHash: string) {
   const gateway = 'https://banksy.mypinata.cloud'
 
   return `${gateway}/ipfs/${ipfsHash}`
 
 }
 
-export { pinFileToIPFS, pinJsonToIPFS, getPinataUriByIpfsHash }
+export { pinFileToIPFS, pinJsonToIPFS, getUriByIpfsHash }
