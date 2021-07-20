@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { CopyOutlined } from '@ant-design/icons'
 import { Button, message } from 'antd'
 import HistoricalRates from '../../../components/EchartsStatistics/HistoricalRates'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
 import { banksyNftDetail } from '../../../apis/nft'
@@ -392,9 +392,11 @@ const AvailablePurchasePage:React.FC = () => {
 
   const [isConfirm, setConfirm] = useState<boolean>(false)
 
+  const { uri } = useParams<any>()
+
   const init = useCallback(async () => {
     banksyNftDetail({
-      uri: history.location.pathname.slice(24),
+      uri: uri,
     }).then(res => {
       setData(res.data.data)
     })
