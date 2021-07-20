@@ -466,11 +466,13 @@ const NFTBaseInfoContainer = styled.div`
       font-size: 4.5rem;
       font-weight: 550;
       color: #98BDF9;
+      padding: 5vh 0;
     }
 
     .line {
+      margin-bottom: 5vh;
       width: 80vw;
-      border-bottom: solid 0.2rem #98BDF9;
+      border-bottom: solid 0.2rem #787A91;
 
     }
   }
@@ -599,6 +601,32 @@ const BuyOperating = styled.div`
 
 const MobileContainer = styled.div`
 
+
+
+`
+
+const MobileNFTBaseInfoContainer = styled.div`
+
+
+  .nft-info{
+    display: flex;
+    justify-content: flex-start;
+    padding: 2vh 10.5vw;
+    flex-wrap: wrap;
+    color: #B2B1B9;
+    font-size: 5vw;
+
+
+    .nft-artist-label {
+      font-weight: 550;
+    }
+    .nft-artist-value {
+      width: 50vw;
+      margin-left: 3vw;
+      font-weight: normal;
+    }
+  }
+
 `
 
 const Properties: React.FC = () => {
@@ -694,6 +722,23 @@ const TradingHistories: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
         pagination={false}
       />
     </div>
+  )
+}
+
+const MobileNFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
+  return (
+    <MobileNFTBaseInfoContainer>
+      <div className="nft-info">
+        <div className="nft-artist-label"> Artist : </div>
+        <div className="nft-artist-value">
+          { nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate) }
+        </div>
+        <div className="nft-artist-label"> Owner : </div>
+        <div className="nft-artist-value">
+          <div className="nft-owner">{ thumbnailAddress(nftDetail?.addressOwner) }</div>
+        </div>
+      </div>
+    </MobileNFTBaseInfoContainer>
   )
 }
 
@@ -1152,6 +1197,7 @@ const CollectibleDetailPage: React.FC = () => {
               {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
               <img src={coverImageUrl()} alt={nftDetail?.name} />
             </ImageContainer>
+            <MobileNFTBaseInfo nftDetail={nftDetail} />
           </MobileContainer>
 
           :
