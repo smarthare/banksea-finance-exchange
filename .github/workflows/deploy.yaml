@@ -1,12 +1,20 @@
-name: Deploy site files
+name: Deploy to OSS
 
 on:
   push:
     branches:
-      - v1
+      - main
     paths-ignore:
       - README.md
       - LICENSE
+      - .github
+#  pull_request:
+#    branches:
+#      - main
+#    paths-ignore:
+#      - README.md
+#      - LICENSE
+
 
 jobs:
   deploy:
@@ -15,17 +23,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get latest CMake and ninja
-        uses: lukka/get-cmake@latest # ⟸ THIS IS THE ONE LINER YOU NEED
+#      - name: Get latest CMake and ninja
+#        uses: lukka/get-cmake@latest
 
-      - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v1.9
-        with:
-          cmake-version: '3.16.x'
+#      - name: Setup cmake
+#        uses: jwlawson/actions-setup-cmake@v1.9
+#        with:
+#          cmake-version: '3.16.x'
 
       - uses: borales/actions-yarn@v2.3.0
         with:
-          cmd: install # will run `yarn install` command
+          cmd: install --network-timeout=1000000 # will run `yarn install` command
 
       - uses: borales/actions-yarn@v2.3.0
         env:
@@ -33,22 +41,13 @@ jobs:
         with:
           cmd: build # will run `yarn build` command
 
-      - name: Deploy to Server
-        uses: AEnterprise/rsync-deploy@v1.0
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-          ARGS: -avz --delete
-          SERVER_PORT: "22"
-          FOLDER: ./build # Folder to push. The path is relative to the root directory of the code repository
-          SERVER_IP: ${{ secrets.SSH_HOST }}
-          USERNAME: ${{ secrets.SSH_USER }}
-          SERVER_DESTINATION: /home/devops/banksy/banksy-finance-exchange/middleware/ui/
-
-      - name: Restart server
-        uses: appleboy/ssh-action@master
+      - name: upload files to OSS
+        uses: fangbinwei/aliyun-oss-website-action@v1
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          script: | # Script to restart, according to their own situation to change the corresponding,
-            docker-compose -f /home/devops/banksy/banksy-finance-exchange/middleware/docker-compose.yml restart banksy_nginx
+          accessKeyId: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          accessKeySecret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+          bucket: "banksy-finance-exchange"
+          # use your own endpoint
+          endpoint: "oss-cn-hongkong.aliyuncs.com"
+          folder: "build"
+          skipSetting: true
