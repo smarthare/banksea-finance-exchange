@@ -5,14 +5,16 @@ import clsx from 'clsx'
 import { SearchOutlined } from '@ant-design/icons'
 import { fileCoinList, retweetCreat, retweetList, solanaList, voteCreate } from '../../apis/unsorted'
 import VoteBanner from '@/assets/images/VoteImg/VoteBanner.png'
+import { useMediaQuery } from 'react-responsive'
 
 const VoteContainer = styled.div`
   min-height: 100vh;
   background: #090F22;
 
-  @media screen and (min-width : 300px) and (max-width: 600px) {
+  @media screen and (min-width : 300px) and (max-width: 1000px) {
     width: fit-content;
     background-color: #0B111E;
+    overflow-x: hidden;
   }
 `
 
@@ -23,12 +25,25 @@ const VoteContainerTop = styled.div`
   background-size:100% 100%;
   position: relative;
   // margin-left: 20.2rem;
+
+  @media screen and (max-width: 1000px) {
+    width: 100vw;
+    height: 32vh;
+    background: #97BCF9;
+    padding: 5vw;
+
+    .vote-container-title {
+      font-size: 8vw;
+      font-weight: bolder;
+      color: #280D5F;
+
+    }
+  }
 `
 
 const ViewOperationSelect = styled.div`
   display: flex;
-  float: right;
-
+  justify-content: flex-end;
   div {
     width: 14.5rem;
     height: 7rem;
@@ -36,12 +51,12 @@ const ViewOperationSelect = styled.div`
     color: #fff;
     font-weight: bolder;
     border-radius: 1rem;
-    margin-left: 2rem;
     line-height: 10rem;
     text-align: center;
     margin-top: -3rem;
     cursor: pointer;
     transition: all 0.7s;
+    margin-right: 5rem;
   }
 
   div:hover {
@@ -52,6 +67,18 @@ const ViewOperationSelect = styled.div`
     background-color: #405099;
     color: #00FEFF;
     margin-top: -2rem;
+  }
+  @media screen and (max-width: 1000px) {
+    display: flex;
+    width: 100vw;
+    justify-content: space-around;
+    float: none;
+    margin: 0;
+
+    div {
+      width: 20vw;
+      margin-right: 0;
+    }
   }
 `
 
@@ -64,6 +91,11 @@ const Registration = styled.div`
   .registration.active {
     display: block;
   }
+
+  @media screen and (max-width: 1000px) {
+    width: 100vw;
+    overflow-x: hidden;
+  }
 `
 
 const RegistrationContainer = styled(Form)`
@@ -72,10 +104,19 @@ const RegistrationContainer = styled(Form)`
   // justify-content: space-between;
   margin-top: 9.6rem;
   margin-left: calc((100% - 116rem) / 2);
+
+  @media screen and (max-width: 1000px) {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+    overflow-x: hidden;
+    margin: 0;
+  }
 `
 
 const RegistrationItem = styled(Form.Item)`
-  width: 20rem;
+  width: 100%;
   margin-right: 4rem;
 
   p {
@@ -97,6 +138,18 @@ const RegistrationItem = styled(Form.Item)`
     border: 0.2rem solid #4470C1;
     border-radius: 0.8rem;
   }
+
+  @media screen and (max-width: 1000px) {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+
+    .ant-input {
+      width: 100vw;
+    }
+  }
+
 `
 
 const ConfirmButton = styled(Button)`
@@ -119,8 +172,9 @@ const ConfirmButton = styled(Button)`
 `
 
 const VotesContainerTable = styled.div`
-
+  width: 100%;
   margin-top: 5rem;
+  overflow-x: hidden;
   .votes {
     display: none;
 
@@ -143,6 +197,11 @@ const VotesContainerTable = styled.div`
 
   .votes.active {
     display: block;
+  }
+
+  @media screen and (max-width: 1000px) {
+    width: 100vw !important;
+    padding: 0;
   }
 `
 
@@ -171,7 +230,17 @@ const VoteStatistics = styled.section`
     width: 100%;
     border-spacing: 0px;
     border-collapse: collapse;
+    table-layout:fixed;
+
+    tbody tr td {
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      word-break:keep-all;
+      padding: 0 7px;
+    }
   }
+
 
   table caption{
     font-weight: bold;
@@ -551,6 +620,7 @@ const VotePage: React.FC = () => {
   const [retweetTable, setRetweetTable] = useState<any>()
 
   const tabs = [ 'Filecoin Votes','Retweet', 'Solana Votes']
+  const mobileTabs = ['Filecoin', 'Retweet', 'Solana']
 
 
   const init = useCallback(async (searchKey: any) => {
@@ -585,22 +655,42 @@ const VotePage: React.FC = () => {
     setSearchKey(e.target.attributes[2].value)
     init(e.target.attributes[2].value)
   }
+  const isMobile = useMediaQuery({ query:'(max-width:1000px)' })
 
 
   return (
     <VoteContainer>
-      <VoteContainerTop />
+      <VoteContainerTop>
+        {
+          isMobile &&
+          <div className="vote-container-title">
+            <div>Airdrop And Public</div>
+            <div>Whitelist Event</div>
+          </div>
+        }
+      </VoteContainerTop>
       <ViewOperationSelect>
         {
-          tabs.map((item: string, index: number) => (
-            <div
-              className={clsx(index === current && 'tabs__link')}
-              onClick={() => setCurrent(index)}
-              key={index}
-            >
-              {item}
-            </div>
-          ))
+          isMobile ?
+            mobileTabs.map((item: string, index: number) => (
+              <div
+                className={clsx(index === current && 'tabs__link')}
+                onClick={() => setCurrent(index)}
+                key={index}
+              >
+                {item}
+              </div>
+            ))
+            :
+            tabs.map((item: string, index: number) => (
+              <div
+                className={clsx(index === current && 'tabs__link')}
+                onClick={() => setCurrent(index)}
+                key={index}
+              >
+                {item}
+              </div>
+            ))
         }
       </ViewOperationSelect>
       <VoteRegistration current={current} filecoin={filecoin} onPressEnter={onPressEnter} init={init} />

@@ -17,13 +17,11 @@ import { useMediaQuery } from 'react-responsive'
 const HomePageContainer = styled.div`
   font-family: 'PingFang SC';
   width: 100%;
-  background-color: #0B111E;
   overflow-x: hidden;
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
     width: 100vw !important;
     height: 200vh;
-    background-color: #0B111E;
     padding: 0;
   }
 `
@@ -31,7 +29,7 @@ const HomePageContainer = styled.div`
 const BodyContainer = styled.div`
   margin: 0 auto;
   width: 90%;
-  padding: 6rem 2rem;
+  padding: 15vh 8vw;
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
     margin: 0 auto;
@@ -57,37 +55,37 @@ const InfoContainer = styled.div`
     justify-content: space-between;
 
     .nft-mortgage-container:hover {
-      box-shadow: rgb(11, 234, 235) -5px 5px 15px;
+      box-shadow: rgb(11, 234, 235) -0.3vw 0.3vw 0.3vw;
     }
 
     .nft-mortgage-container {
       position: relative;
-      width: 56.4rem;
-      border-radius: 2rem;
+      width: 30vw;
+      border-radius: 1.5vw;
       margin-bottom: 3rem;
       background: url(${require('../../assets/images/homePageImg/lend-borrow-bg.svg').default}) no-repeat;
-      padding: 2.5rem 4.5rem;
+      padding: 2.5vh 2.5vw;
       background-size: 100%;
       transition: all 1s;
 
 
       .main-title {
         color: black;
-        font-size: 4.5rem;
+        font-size: 2.5vw;
         font-weight: 550;
-        margin-bottom: 7.6rem;
+        margin-bottom: 5vh;
       }
 
       .sub-title {
-        margin-top: 2rem;
+        margin-top: 4vh;
         color: black;
-        font-size: 2.5rem;
+        font-size: 1.5vw;
         font-weight: 550;
       }
 
       .value {
         color: white;
-        font-size: 4.8rem;
+        font-size: 2.5vw;
         font-weight: 550;
       }
     }
@@ -110,27 +108,28 @@ const InfoContainer = styled.div`
 
 
       .info-panel {
-        padding: 2.5rem 4.5rem;
+        padding: 2vw;
         position: relative;
-        width: 56.4rem;
-        height: 23.8rem;
+        width: 30vw;
+        height: 24vh;
         background: #111C3A;
-        border-radius: 2rem;
+        border-radius: 1.5vw;
         margin-bottom: 3rem;
+        transition: all 1s;
 
 
         .main-title2 {
           color: #97BCF9;
-          font-size: 3.8rem;
+          font-size: 2vw;
           font-weight: 550;
-          margin-bottom: 1.2rem;
+          margin-bottom: 1vh;
         }
 
         .sub-title2 {
           color: #97BCF9;
-          font-size: 1.8rem;
+          font-size: 1vw;
           font-weight: 400;
-          margin-bottom: 1.2rem;
+          margin-bottom: 1vh;
         }
 
         .nft-values {
@@ -138,16 +137,16 @@ const InfoContainer = styled.div`
           align-items: center;
 
           .sub-title2 {
-            padding-top: 1rem;
+            padding-top: 1vh;
             color: #97BCF9;
-            font-size: 1.8rem;
+            font-size: 1vw;
             font-weight: 400;
           }
 
           .value {
-            margin-left: 1.2rem;
+            margin-left: 1.2vw;
             color: #01F9FF;
-            font-size: 2.8rem;
+            font-size: 1.5vw;
             font-weight: 550;
           }
         }
@@ -171,29 +170,28 @@ const InfoContainer = styled.div`
     }
 
     .info-panel {
-      padding: 2.5rem;
+      padding: 2vw;
       position: relative;
-      width: 56.4rem;
-      height: 23.8rem;
+      width: 30vw;
+      height: 24vh;
       background: #111C3A;
-      border-radius: 2rem;
+      border-radius: 1.5vw;
       margin-bottom: 3rem;
       transition: all 1s;
 
 
       .main-title2 {
         color: #97BCF9;
-        font-size: 3.8rem;
-        margin-bottom: 1.2rem;
+        font-size: 2vw;
         font-weight: 550;
-        margin-bottom: 1.2rem;
+        margin-bottom: 1vh;
       }
 
       .sub-title2 {
         color: #97BCF9;
-        font-size: 1.8rem;
+        font-size: 1vw;
         font-weight: 400;
-        margin-bottom: 1.2rem;
+        margin-bottom: 2vh;
       }
 
       .nft-values {
@@ -201,16 +199,16 @@ const InfoContainer = styled.div`
         align-items: center;
 
         .sub-title2 {
-          padding-top: 1rem;
+          padding-top: 1vh;
           color: #97BCF9;
-          font-size: 1.8rem;
+          font-size: 1vw;
           font-weight: 400;
         }
 
         .value {
-          margin-left: 1.2rem;
+          margin-left: 1.2vw;
           color: #01F9FF;
-          font-size: 2.8rem;
+          font-size: 1.5vw;
           font-weight: 550;
         }
       }
@@ -464,9 +462,9 @@ const PanelIcon: React.FC<any> = ({ iconName }) => {
 
   const style: CSSProperties = {
     position: 'absolute',
-    height: '12.5rem',
-    right: '5rem',
-    bottom: '10rem'
+    height: '12vh',
+    right: '2vw',
+    bottom: '8vh'
   }
 
   const mobileStyle: CSSProperties = {
@@ -514,9 +512,9 @@ const AIFlag: React.FC<any> = () => {
         style={{
           position: 'absolute',
           zIndex: 1,
-          width: '16rem',
-          left: '41.3rem',
-          bottom: '36rem'
+          width: '10vw',
+          left: '20vw',
+          top: '0vh'
         }}
         alt=""
       />
@@ -530,9 +528,9 @@ const GotoArrow: React.FC<{ path?: string }> = ({ path }) => {
 
   const style: CSSProperties = {
     position: 'absolute',
-    width: '2.5rem',
-    left: '51.5rem',
-    bottom: '2rem',
+    width: '1.5vw',
+    right: '1.6vw',
+    bottom: '1.6vw',
     cursor: path ? 'pointer' : 'not-allowed'
   }
 
@@ -540,7 +538,7 @@ const GotoArrow: React.FC<{ path?: string }> = ({ path }) => {
     position: 'absolute',
     width: '4vw',
     bottom: '12vh',
-    right: '5vw'
+    right: '5v'
   }
 
   return (
