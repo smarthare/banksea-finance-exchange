@@ -6,8 +6,7 @@ import { Address, BN, web3 as solanaWeb3 } from '@project-serum/anchor'
 import { banksyWeb3 } from '../../index'
 import { PublicKey } from '@solana/web3.js'
 import { generateNftMetadata } from '../../../utils'
-import { pinJsonToIPFS } from '../../../utils/pinata'
-import { createNFT, NftCreateForm } from '../../../apis/nft'
+import { pinJsonToIPFS } from '../../../utils/ipfs'
 
 /**
  * return the public key of created NFT
