@@ -7,6 +7,7 @@ import { banksyWeb3 } from '../../index'
 import { PublicKey } from '@solana/web3.js'
 import { generateNftMetadata } from '../../../utils'
 import { pinJsonToIPFS } from '../../../utils/pinata'
+import { createNFT, NftCreateForm } from '../../../apis/nft'
 
 /**
  * return the public key of created NFT
@@ -48,7 +49,7 @@ async function getNftAccountInfo(nftAccount: Address) {
 
 export class BanksyWeb3SolanaServicesImpl implements BanksyWeb3Services {
 
-  createNft(nftCreateForm: NFTCreateForm): SimpleEventEmitter<CreateNftEvents> {
+  createNft(nftCreateForm: NFTCreateForm, account: string): SimpleEventEmitter<CreateNftEvents> {
     const ee = new SimpleEventEmitter<CreateNftEvents>()
 
     ee.task = async () => {
@@ -69,26 +70,27 @@ export class BanksyWeb3SolanaServicesImpl implements BanksyWeb3Services {
 
       const { IpfsHash } = pinResult
 
+      const createForm: NftCreateForm = {
+        uri: IpfsHash,
+        addressCreate: account,
+        tokenId: '',
+        group: '',
+        nameArtist: nftCreateForm.artistName,
+        fee: '',
+        feeRecipient: '',
+        typeChain: 'Solana',
+        supply: 1
+      }
+
       createNftAccount(IpfsHash)
-        .then(async pubKey => {
+        .then(async () => {
+          ee.emit('submitted')
+          await createNFT(createForm)
           ee.emit('complete')
-          console.log('11111', await getNftAccountInfo(pubKey))
         })
         .catch(e => {
           ee.emit('wallet_error', e)
         })
-
-      // banksyWeb3.eth.Banksy.awardItem(account!, tokenUri)
-      //   .then(async () => {
-      //     ee.emit('submitted')
-      //     await createNFT(createForm)
-      //     ee.emit('complete')
-      //   })
-      //   .catch(e => {
-      //     ee.emit('wallet_error', e)
-      //   })
-      // banksyWeb3.sol.Banksy
-
     }
 
     return ee

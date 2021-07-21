@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Button, Input, Pagination, Select } from 'antd'
+import { Button, Pagination } from 'antd'
 import CopyIcon from '@/assets/images/PersonalPageImg/copy.png'
 import { ReactComponent as WalletIcon } from '../../assets/images/PersonalPageImg/wallet.svg'
 import {
@@ -15,6 +15,9 @@ import { getAccount } from '../../store/wallet'
 import NFTListItem from '../../components/NFTListItem'
 import ListPageLoading from '../../components/ListPageLoading'
 import { usePersonalNFTsQuery } from '../../hooks/queries/usePersonalNFTsQuery'
+import { ChainSelector, OrderSelector, StatusSelector } from '../../components/NFTListSelectors'
+import { BanksyNftTransactionStatus, ChainType } from '../../apis/nft'
+import { SearchInput } from '../../styles/SearchInput'
 
 const PersonalContainer = styled.div`
   width: 120.2rem;
@@ -94,47 +97,13 @@ const OptionButton = styled(Button)`
   }
 `
 
-const PersonalSelectors = styled.div`
+const SelectorsContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 3.5rem;
   margin-bottom: 3.5rem;
   position: absolute;
   right: 0;
-`
-
-const SearchInput = styled(Input)`
-  width: 22rem;
-  border-color: #7c6deb;
-  background-color: #e5e2fb;
-  border-radius: 10px;
-
-  .ant-input {
-    background-color: #e5e2fb;
-    color: #7c6deb;
-    font-weight: bold;
-  }
-`
-
-const MySelect = styled(Select)`
-  margin-left: 2rem;
-
-  &,
-  .ant-select-selector {
-    border-color: #7c6deb !important;
-    border-radius: 10px !important;
-    width: fit-content;
-    height: 5rem !important;
-    background-color: #e5e2fb !important;
-    color: #7c6deb;
-  }
-
-  .ant-select-selection-item {
-    font-weight: bold;
-    text-align: center !important;
-    line-height: 5rem !important;
-    margin: 0 0.5rem !important;
-  }
 `
 
 const NFTListContainer = styled.div`
@@ -190,37 +159,15 @@ const CustomPagination = styled(Pagination)`
   }
 `
 
-const TypeSelector: React.FC = () => {
-  return (
-    <MySelect defaultValue="1">
-      <Select.Option value="1">All</Select.Option>
-      <Select.Option value="2">Picture</Select.Option>
-      <Select.Option value="3">Lucy</Select.Option>
-    </MySelect>
-  )
-}
-
-const OrderSelector: React.FC = () => {
-  return (
-    <MySelect value="1">
-      <Select.Option className="customized-option" value="1">
-        Time
-      </Select.Option>
-      <Select.Option className="customized-option" value="2">
-        Price
-      </Select.Option>
-      <Select.Option className="customized-option" value="3">
-        Love
-      </Select.Option>
-    </MySelect>
-  )
-}
-
 const UserNFTList: React.FC<any> = ({ list }) => {
   return (
     <NFTListContainer>
       {list?.map((nft: any, index: number) => (
-        <NFTListItem data={nft} key={index} type="own" />
+        <NFTListItem
+          data={nft}
+          key={index}
+          type="own"
+        />
       ))}
     </NFTListContainer>
   )
@@ -230,16 +177,13 @@ const PersonalHomepage: React.FC = () => {
   const account = useSelector(getAccount)
   const [current, setCurrent] = useState<number>(1)
   const [searchKey, setSearchKey] = useState<any>()
+  const [, setStatus] = useState<BanksyNftTransactionStatus>()
+  const [typeChain, setTypeChain] = useState<ChainType>('')
 
-  const { data: NFTs, isLoading } = usePersonalNFTsQuery({ current, searchKey })
-
-  const onChangePage = (pageNumber: number) => {
-    setCurrent(pageNumber)
-  }
+  const { data: NFTs, isLoading } = usePersonalNFTsQuery({ current, searchKey, typeChain })
 
   const onPressEnter = (e: any) => {
     setSearchKey(e.target.attributes[2].value)
-    // fetch(e.target.attributes[2].value, current)
   }
 
   return (
@@ -249,7 +193,10 @@ const PersonalHomepage: React.FC = () => {
         <div className="user-name">Hug me</div>
         <div className="user-id">
           {account?.substring(0, 6)}...{account?.slice(-4)}
-          <img src={CopyIcon} alt="" style={{ width: '1.5rem', height: '1.5rem', marginLeft: '0.8rem' }} />
+          <img src={CopyIcon}
+            alt=""
+            style={{ width: '1.5rem', height: '1.5rem', marginLeft: '0.8rem' }}
+          />
         </div>
         <div className="user-sign-border">
           <div className="user-sign">Hug me strong and don&apos;t let me go. It&apos;s too cold outside and I wanna be
@@ -272,19 +219,21 @@ const PersonalHomepage: React.FC = () => {
         </OptionButton>
       </UserOptions>
       <div style={{ width: '100%', height: '15rem', position: 'relative' }}>
-        <PersonalSelectors>
+        <SelectorsContainer>
           <SearchInput onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
           />
-          <TypeSelector />
+          <ChainSelector onChange={setTypeChain} />
+          <StatusSelector onChange={setStatus} />
           <OrderSelector />
-        </PersonalSelectors>
+        </SelectorsContainer>
       </div>
       <ListPageLoading loading={isLoading} />
       <UserNFTList list={NFTs} />
-      <CustomPagination defaultCurrent={current}
+      <CustomPagination
+        defaultCurrent={current}
         total={NFTs?.length}
-        onChange={onChangePage}
+        onChange={setCurrent}
         pageSize={20}
         pageSizeOptions={['20']}
       />

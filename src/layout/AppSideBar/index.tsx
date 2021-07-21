@@ -27,7 +27,6 @@ const CustomizedMenu = styled(Menu)`
     display: flex;
     align-items: center;
 
-
     svg {
       width: 1.7rem;
 
@@ -105,8 +104,20 @@ const AppSideBar: React.FC = () => {
         }
       </CustomizedMenu>
       <CustomizedLink>
-        <a href={'https://twitter.com/banksy_finance'} rel="noreferrer" target="_blank"><img src={twitterIcon} /></a>
-        <a href={'https://t.me/Banskyfinance'} rel="noreferrer" target="_blank"><img src={telegramIcon} /></a>
+        <a
+          href={'https://twitter.com/banksy_finance'}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <img src={twitterIcon} />
+        </a>
+        <a
+          href={'https://t.me/Banskyfinance'}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <img src={telegramIcon} />
+        </a>
       </CustomizedLink>
     </Container>
   )

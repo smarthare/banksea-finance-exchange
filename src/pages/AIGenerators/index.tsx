@@ -568,7 +568,7 @@ const RightArrow: React.FC = () => {
 }
 
 const AIGenerators: React.FC = () => {
-  const { data: personalNFTs } = usePersonalNFTsQuery({})
+  const { data: personalNFTs } = usePersonalNFTsQuery({ typeChain: '' })
   const [styleList, setStyleList] = useState<any>()
   // const [swiperList, setSwiperList] = useState<any>()
   const [generating, setGenerating] = useState(false)

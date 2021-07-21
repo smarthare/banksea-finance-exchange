@@ -40,7 +40,7 @@ const Presentation = styled.div`
 `
 
 const App: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(true)
+  const [collapsed, setCollapsed] = useState(false)
 
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
@@ -54,21 +54,20 @@ const App: React.FC = () => {
         <AppHeader onCollapseChanged={toggleCollapsed} />
       </Header>
       <Layout>
-        {
-          !collapsed && (
-            <Layout.Sider
-              style={{
-                position: 'fixed', zIndex: 99, top: '62px',
-              }}
-              collapsed={collapsed}
-            >
-              <AppSideBar />
-              {
-                isMobile && <Presentation onClick={toggleCollapsed} />
-              }
-            </Layout.Sider>
-          )
-        }
+        <Layout.Sider
+          style={{
+            position: 'fixed',
+            zIndex: 99,
+            top: '62px',
+            display: collapsed ? 'none' : '',
+          }}
+          collapsed={collapsed}
+        >
+          <AppSideBar />
+          {
+            isMobile && <Presentation onClick={toggleCollapsed} />
+          }
+        </Layout.Sider>
         <Layout.Content
           style={{
             backgroundColor: '#0B111E',
@@ -81,7 +80,11 @@ const App: React.FC = () => {
           <div style={{ width: collapsed ? '98.9vw' : 'calc(100vw - 200px)' }}>
             {
               routes.map((route: any) => (
-                <Route path={route.path} exact component={route.component} key={route.path} />
+                <Route path={route.path}
+                  exact
+                  component={route.component}
+                  key={route.path}
+                />
               ))
             }
           </div>

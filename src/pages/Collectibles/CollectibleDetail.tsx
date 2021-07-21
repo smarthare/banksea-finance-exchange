@@ -875,7 +875,8 @@ const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
           </div>
         </div>
         <div className="row">
-          <div className="label" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：</div>
+          <div className="label" style={{ marginTop: '1.5rem' }}>Token &nbsp;ID：
+          </div>
           <div className="value" style={{ marginTop: '1.5rem' }}>
             {thumbnailAddress(nftDetail?.addressOwner)}
           </div>
@@ -889,7 +890,9 @@ const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
           </div>
         </div>
         <div className="row">
-          <div className="label" style={{ marginTop: '1.5rem' }}>Owner&apos;s Address：</div>
+          <div className="label" style={{ marginTop: '1.5rem' }}>
+            Owner&apos;s Address：
+          </div>
           <div className="value" style={{ marginTop: '1.5rem' }}>
             {thumbnailAddress(nftDetail?.addressOwner)}
           </div>
@@ -933,7 +936,10 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more2} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="'" />
+              <img src={more2}
+                style={{ borderRadius: '1rem', objectFit: 'cover' }}
+                alt="'"
+              />
             </div>
             <div className="artwork-describe">1 - The Elf</div>
           </div>
@@ -959,7 +965,10 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more3} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="" />
+              <img src={more3}
+                style={{ borderRadius: '1rem', objectFit: 'cover' }}
+                alt=""
+              />
             </div>
             <div className="artwork-describe">Mona Lisa Smile &apos;Gamma Edition &apos;</div>
           </div>
@@ -985,7 +994,10 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more4} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="" />
+              <img src={more4}
+                style={{ borderRadius: '1rem', objectFit: 'cover' }}
+                alt=""
+              />
             </div>
             <div className="artwork-describe">Like you mean it</div>
           </div>
@@ -1195,7 +1207,9 @@ const CollectibleDetailPage: React.FC = () => {
             <NFTBaseInfo nftDetail={nftDetail} />
             <ImageContainer>
               {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
-              <img src={coverImageUrl()} alt={nftDetail?.name} />
+              <img src={coverImageUrl()}
+                alt={nftDetail?.name}
+              />
             </ImageContainer>
             <MobileNFTBaseInfo nftDetail={nftDetail} />
           </MobileContainer>
@@ -1207,7 +1221,10 @@ const CollectibleDetailPage: React.FC = () => {
                 isOwnerOfNFT() &&
                 <Operating>
                   {/*<Button className="edit">Edit</Button>*/}
-                  <Button className="sell" onClick={openSellingModal}>Sell</Button>
+                  <Button className="sell"
+                    onClick={openSellingModal}
+                  >Sell
+                  </Button>
                 </Operating>
               }
             </div>
@@ -1224,7 +1241,9 @@ const CollectibleDetailPage: React.FC = () => {
                 {
                   nftDetail?.onSale && nftDetail?.price && account !== nftDetail?.addressOwner &&
                   <BuyOperating>
-                    <Button className="buyNow" onClick={onClickBuyButton}>Buy Now</Button>
+                    <Button className="buyNow" onClick={onClickBuyButton}>
+                      Buy Now
+                    </Button>
                   </BuyOperating>
                 }
 
