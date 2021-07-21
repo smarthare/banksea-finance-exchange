@@ -537,8 +537,8 @@ const GotoArrow: React.FC<{ path?: string }> = ({ path }) => {
   const mobileStyle: CSSProperties = {
     position: 'absolute',
     width: '4vw',
-    bottom: '12vh',
-    right: '5v'
+    right: '4vw',
+    bottom: '4vw',
   }
 
   return (
