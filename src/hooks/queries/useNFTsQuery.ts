@@ -2,25 +2,11 @@ import { banksyNftList, BanksyNftListQueryParams } from '../../apis/nft'
 import { useQuery, UseQueryResult } from 'react-query'
 import { BanksyApiPagingData } from '../../utils/banksyRequest'
 
-type PersonalNFTsQueryParams = {
-  current?: number
-  size?: number
-  searchKey?: string
-  transactionStatus?: string
-}
-
-export function useNFTsQuery({ current, size, searchKey }: PersonalNFTsQueryParams): UseQueryResult<BanksyApiPagingData<any>> {
-  const form: BanksyNftListQueryParams = {
-    current: current ?? 1,
-    size: size ?? 20,
-    searchKey,
-    typeChain: 'Ethereum'
-  }
-
+export function useNFTsQuery(params: BanksyNftListQueryParams): UseQueryResult<BanksyApiPagingData<any>> {
   return useQuery(
-    ['ALL_NFTS', form],
+    ['ALL_NFTS', params],
     async () => {
-      return await banksyNftList(form)
+      return await banksyNftList(params)
         .then(res => res.data.data)
         .then(pagingData => ({
           ...pagingData,

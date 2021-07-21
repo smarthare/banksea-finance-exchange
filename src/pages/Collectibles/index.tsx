@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Input, Pagination, Select } from 'antd'
+import { Pagination } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
 import '../../styles/override-antd-select-dropdown.scss'
@@ -8,9 +8,13 @@ import NFTListItem from '../../components/NFTListItem'
 import clsx from 'clsx'
 import ListPageLoading from '../../components/ListPageLoading'
 import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
+import { useMediaQuery } from 'react-responsive'
+import { BanksyNftTransactionStatus, ChainType } from '../../apis/nft'
+import { ChainSelector, OrderSelector, StatusSelector } from '../../components/NFTListSelectors'
+import { SearchInput } from '../../styles/SearchInput'
 
 const PageContainer = styled.div`
-  padding-top: 5.6rem;
+  padding: 0 16rem;
   width: 100%;
   min-height: 100vh;
   height: fit-content;
@@ -18,22 +22,29 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   color: #97BCF6;
+  overflow-x: hidden;
 
-  @media screen and (min-width : 300px) and (max-width: 600px) {
-    width: fit-content;
+  @media screen and (min-width: 300px) and (max-width: 600px) {
+    width: 100vw !important;
+    height: 200vh;
     background-color: #0B111E;
+    padding: 0;
   }
 `
 
 const Title = styled.div`
   font-size: 4.6rem;
-  font-weight: 500;
+  font-weight: 550;
   background-image: -webkit-linear-gradient(left, #aef9ff, #571eef);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 3px #aef9ff, 0 0 5px #571eef, 0 0 10px #aef9ff, 0 0 15px #571eef;
   margin-bottom: 2rem;
   line-height: 4.2rem;
+  margin-top: 5vh;
+
+  @media screen and (max-width: 1000px) {
+    font-size: 8vw;
+  }
 `
 
 const FilterContainer = styled.div`
@@ -106,62 +117,26 @@ const MintArtworksButton = styled(Button)`
   color: #7c6deb;
 `*/
 
-const SearchInput = styled(Input)`
-  width: 22rem;
-  height: 4rem;
-  border-color: #305099;
-  background-color: #305099;
-  border-radius: 10px;
-
-  .ant-input {
-    background-color: #305099;
-    color: white;
-    font-weight: bold;
-  }
-
-`
-
-const MySelect = styled(Select)`
-  margin-left: 2rem;
-  margin-left: 2rem;
-
-
-  &,
-  .ant-select {
-    height: 4rem !important;
-  }
-
-  .ant-select-selector {
-    border-color: #305099 !important;
-    border-radius: 10px !important;
-    width: fit-content;
-    height: 5rem !important;
-    background-color: #305099 !important;
-    color: white;
-    height: 4rem !important;
-    display: flex;
-    align-items: center
-  }
-
-  .ant-select-selection-item {
-    font-weight: bold;
-    color:white; !important;
-    text-align: center !important;
-    line-height: 5rem !important;
-    margin: 0 0.5rem !important;
-  }
-
-  span {
-    color: white;
-  }
-`
-
 const NFTListContainer = styled.div`
   width: 120.2rem;
-  padding-left: 4rem;
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
   border-radius: 1rem;
+
+  @media screen and (min-width: 300px) and (max-width: 1000px) {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 1rem;
+
+    .nft-container {
+      display: flex;
+      justify-content: center;
+    }
+  }
 `
 
 const CustomPagination = styled(Pagination)`
@@ -210,7 +185,6 @@ const CustomPagination = styled(Pagination)`
 `
 
 const Filter: React.FC = () => {
-
   const filterItems = [
     {
       key: 'Cross-Platform',
@@ -232,7 +206,7 @@ const Filter: React.FC = () => {
       key: 'Digital Artworks',
       banksyUnique: true,
       values: [
-        'AI-NFT',
+        'AI-NFT'
       ]
     }
   ]
@@ -251,11 +225,9 @@ const Filter: React.FC = () => {
     })
   }
 
-
   useEffect(() => {
-    console.log(new Array(selectedValueByKey.entries()).filter(entry => entry))
+    // console.log(new Array(selectedValueByKey.entries()).filter(entry => entry))
   }, [selectedValueByKey])
-
 
   return (
     <FilterContainer>
@@ -283,61 +255,35 @@ const Filter: React.FC = () => {
   )
 }
 
-const TypeSelector: React.FC<any> = ({ setTypeSelectValue }) => {
-  return (
-    <MySelect defaultValue="" onChange={(value: any) => setTypeSelectValue(value)}>
-      <Select.Option value="">All items</Select.Option>
-      <Select.Option value="1">On Sale</Select.Option>
-      <Select.Option value="2">On Auction</Select.Option>
-      <Select.Option value="3">On Splitting</Select.Option>
-      <Select.Option value="4">On Staking</Select.Option>
-    </MySelect>
-  )
-}
-
-const OrderSelector: React.FC = () => {
-  return (
-    <MySelect defaultValue="1">
-      <Select.Option className="customized-option" value="1">
-        Recently Listed
-      </Select.Option>
-      <Select.Option className="customized-option" value="2">
-        Recently Created
-      </Select.Option>
-      <Select.Option className="customized-option" value="3">
-        Recently Sold
-      </Select.Option>
-      <Select.Option className="customized-option" value="4">
-        Price: Low to High
-      </Select.Option>
-      <Select.Option className="customized-option" value="5">
-        Price: High to Low
-      </Select.Option>
-      <Select.Option className="customized-option" value="6">
-        Most Favorited
-      </Select.Option>
-    </MySelect>
-  )
-}
-
 const NFTList: React.FC<any> = ({ list }) => {
   return (
     <NFTListContainer>
       {list?.map((nft: any, index: number) => (
-        <NFTListItem data={nft} key={index} type="nftList" />
+        <NFTListItem
+          data={nft}
+          key={index}
+          type="nftList"
+        />
       ))}
     </NFTListContainer>
   )
 }
 
 const CollectiblesPage: React.FC = () => {
-  const [typeSelectValue, setTypeSelectValue] = useState<string>()
+  const [selectedStatus, setSelectedStatus] = useState<BanksyNftTransactionStatus | undefined>()
+  const [selectedChain, setSelectedChain] = useState<ChainType>('')
 
   const [current, setCurrent] = useState(1)
   const [size, setSize] = useState(20)
   const [searchKey, setSearchKey] = useState<any>()
 
-  const { data: pagingData, isLoading } = useNFTsQuery({ current, size, searchKey, transactionStatus: typeSelectValue })
+  const { data: pagingData, isLoading } = useNFTsQuery({
+    current,
+    size,
+    searchKey,
+    transactionStatus: selectedStatus,
+    typeChain: selectedChain
+  })
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -352,21 +298,43 @@ const CollectiblesPage: React.FC = () => {
     setSearchKey(e.target.attributes[2].value)
   }
 
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+
   return (
     <PageContainer>
       <Title>NFT Marketplace</Title>
-      <Filter />
-      <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'space-between', marginBottom: '5.5rem' }}>
-        <div style={{ display: 'flex' }} />
-        <div style={{ display: 'flex' }}>
-          <SearchInput
-            onPressEnter={onPressEnter}
-            prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
-          />
-          <TypeSelector typeSelectValue={typeSelectValue} setTypeSelectValue={setTypeSelectValue} />
-          <OrderSelector />
-        </div>
-      </div>
+      {!isMobile && <Filter />}
+      {
+        isMobile ? (
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5.5rem', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <SearchInput
+                onPressEnter={onPressEnter}
+                prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
+              />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <StatusSelector onChange={setSelectedStatus} />
+              <OrderSelector />
+            </div>
+            <div style={{ border: 'solid 0.1rem #305099', marginTop: '3vh' }} />
+          </div>
+        ) : (
+          <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'flex-end', marginBottom: '5.5rem' }}>
+            <div style={{ display: 'flex' }}>
+              <SearchInput
+                onPressEnter={onPressEnter}
+                prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
+                style={{ marginRight: '2.5rem' }}
+              />
+              <ChainSelector onChange={setSelectedChain} />
+              <StatusSelector onChange={setSelectedStatus} />
+              <OrderSelector />
+            </div>
+          </div>
+        )
+      }
+
       <ListPageLoading loading={isLoading} />
       <NFTList list={pagingData?.records} fetch={fetch} />
       {

@@ -3,11 +3,12 @@ import './app.scss'
 import { Button, Layout } from 'antd'
 import AppHeader from './layout/AppHeader'
 import AppSideBar from './layout/AppSideBar'
+// @ts-ignore
 import routes from './routes'
-import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 import { MenuFoldOutlined } from '@ant-design/icons'
 import { useMediaQuery } from 'react-responsive'
+import { Route } from 'react-router-dom'
 
 const Header = styled(Layout.Header)`
   padding: 0;
@@ -39,7 +40,7 @@ const Presentation = styled.div`
 `
 
 const App: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(true)
+  const [collapsed, setCollapsed] = useState(false)
 
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
@@ -53,21 +54,20 @@ const App: React.FC = () => {
         <AppHeader onCollapseChanged={toggleCollapsed} />
       </Header>
       <Layout>
-        {
-          !collapsed && (
-            <Layout.Sider
-              style={{
-                position: 'fixed', zIndex: 1, top: '62px',
-              }}
-              collapsed={collapsed}
-            >
-              <AppSideBar />
-              {
-                isMobile && <Presentation onClick={toggleCollapsed} />
-              }
-            </Layout.Sider>
-          )
-        }
+        <Layout.Sider
+          style={{
+            position: 'fixed',
+            zIndex: 99,
+            top: '62px',
+            display: collapsed ? 'none' : '',
+          }}
+          collapsed={collapsed}
+        >
+          <AppSideBar />
+          {
+            isMobile && <Presentation onClick={toggleCollapsed} />
+          }
+        </Layout.Sider>
         <Layout.Content
           style={{
             backgroundColor: '#0B111E',
@@ -79,8 +79,12 @@ const App: React.FC = () => {
         >
           <div style={{ width: collapsed ? '98.9vw' : 'calc(100vw - 200px)' }}>
             {
-              routes.map(route => (
-                <Route path={route.path} exact component={route.component} key={route.path} />
+              routes.map((route: any) => (
+                <Route path={route.path}
+                  exact
+                  component={route.component}
+                  key={route.path}
+                />
               ))
             }
           </div>

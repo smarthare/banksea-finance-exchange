@@ -4,19 +4,18 @@ import { Spin } from 'antd'
 import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 // @ts-ignore
-import LazyLoad from 'react-lazyload'
+// import LazyLoad from 'react-lazyload'
 import { useWalletSelectionModal } from '../contexts/WalletSelectionModal'
 import { useWeb3EnvContext } from '../contexts/Web3EnvProvider'
 import PriceIcon from '@/assets/images/homePageImg/price-icon.svg'
-import { setNftFavorite } from '../apis/nft'
+import { ChainType, setNftFavorite } from '../apis/nft'
 
 const NFTItemCardContainer = styled.div`
   color: #7c6deb;
-  width: 90%;
+  width: 26rem;
   height: 37rem;
   background-color: #111C3A;
   border-radius: 10px;
-  margin-right: 2.5rem;
   margin-bottom: 3rem;
   font-weight: bold;
   display: flex;
@@ -32,8 +31,7 @@ const NFTItemCardContainer = styled.div`
 
   img {
     object-fit: cover;
-    width: 26.2rem;
-    height: 28.5rem;
+    width: 25.9rem;
     margin-bottom: 1.5rem;
   }
 
@@ -44,7 +42,6 @@ const NFTItemCardContainer = styled.div`
   }
 
   .name {
-    margin-bottom: 1.5rem;
     width: 100%;
     overflow: hidden;
     color: white;
@@ -103,8 +100,26 @@ const NFTItemCardContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+
   }
 `
+
+const ChainFlag = styled.span`
+  display: flex;
+  align-items: center;
+  color: #7c6deb;
+  border: 1px #7c6deb solid;
+  height: 20px;
+  padding: 1px 2px;
+  margin-right: 4px;
+  border-radius: 4px;
+`
+
+// eslint-disable-next-line no-unused-vars
+const TypeChainThumbnailMapper: { [key in ChainType]?: string } = {
+  'Ethereum': 'Eth',
+  'Solana': 'Sol'
+}
 
 const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, type }) => {
   const [clickFavorite, setClickFavorite] = useState<number>(data?.favorite)
@@ -126,6 +141,16 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
 
     return url
   }, [data])
+
+  useEffect(() => {
+    if (!loading) {
+      return
+    }
+    const img = new Image(imageUrl())
+    if (img.complete) {
+      setLoading(false)
+    }
+  }, [loading])
 
   const CornerFlag: React.FC<{ status: 'On Sale' | 'On Auction' }> = ({ status }) => {
     return (
@@ -183,21 +208,29 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
           <div />
       }
       <NFTItemCardContainer>
-        <Link to={detailUrl} target={'_blank'}>
+        <Link to={detailUrl}
+          target={'_blank'}
+        >
           <div className="img-container">
-            <LazyLoad>
-              <img
-                style={{ display: loading || error ? 'none' : '', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}
-                key={data.id}
-                src={imageUrl()}
-                alt=""
-                onLoad={() => setLoading(false)}
-                onError={() => {
-                  setLoading(false)
-                  setError(true)
-                }}
-              />
-            </LazyLoad>
+            {/*<LazyLoad>*/}
+            <img
+              style={{
+                display: loading || error ? 'none' : '',
+                borderTopLeftRadius: '1rem',
+                borderTopRightRadius: '1rem',
+                height: '100%'
+              }}
+              alt={data.name}
+              onLoad={() => {
+                setLoading(false)
+              }}
+              onError={() => {
+                setLoading(false)
+                setError(true)
+              }}
+              src={imageUrl()}
+            />
+            {/*</LazyLoad>*/}
             {
               loading && <Spin className="spin" />
             }
@@ -206,10 +239,22 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
             }
           </div>
         </Link>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 2rem', marginTop: '1.2rem' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 2rem',
+          }}
+        >
+          {
+            data && <ChainFlag>{TypeChainThumbnailMapper[data.typeChain as ChainType]}</ChainFlag>
+          }
           <div className="name">{data?.name}</div>
           <div>
-            <div className="like" onClick={favoriteHandle}>
+            <div className="like"
+              onClick={favoriteHandle}
+            >
               {
                 isHeart
                   ? <HeartFilled className="heart" />

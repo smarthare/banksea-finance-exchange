@@ -10,6 +10,7 @@ import SwiperCore, { EffectCoverflow, Navigation, Pagination } from 'swiper'
 import 'swiper/components/navigation/navigation.scss'
 import 'swiper/components/effect-coverflow/effect-coverflow.min.css'
 import 'swiper/components/pagination/pagination.min.css'
+import { useMediaQuery } from 'react-responsive'
 
 SwiperCore.use([Navigation, EffectCoverflow, Pagination])
 
@@ -18,13 +19,15 @@ const AIGeneratorsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 99.4rem;
+  width: 100%;
   font-family: 'PingFang SC';
   padding: 5rem 11.2rem;
 
   @media screen and (min-width : 300px) and (max-width: 600px) {
-    width: fit-content;
+    width: 100vw !important;
+    height: 180vh;
     background-color: #0B111E;
+    padding: 0;
   }
 `
 
@@ -73,7 +76,6 @@ const GeneratorTop = styled.div`
   height: 25rem;
   width: fit-content;
   background-color: #0B111E;
-  border-bottom: solid 0.2rem #4D4D4D;
 
   .introduce {
     text-align: center;
@@ -85,22 +87,37 @@ const GeneratorTop = styled.div`
       background-image: -webkit-linear-gradient(left, #aef9ff, #571eef);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 3px #aef9ff, 0 0 5px #571eef, 0 0 10px #aef9ff, 0 0 15px #571eef;
+      /*text-shadow: 0 0 3px #aef9ff, 0 0 5px #571eef, 0 0 10px #aef9ff, 0 0 15px #571eef;*/
       margin-bottom: 2rem;
     }
   }
 
+  @media screen and (max-width: 600px) {
+    height: 20vh;
+    .title {
+      font-size: 10vw !important;
+      text-align: center;
+    }
+    .introduce {
+      padding: 0 8vw;
+      font-size: 1.6vw !important;
+      text-align: left;
+    }
+  }
+
+
 `
 
 const MyAntdImage = styled(AntdImage)`
+  display: flex;
+  justify-content: center;
+  margin-left: 1rem;
 
 `
 
 const GeneratorBody = styled.div`
   padding: 1.8rem 0;
-  width: 89.8rem;
-
-
+  width: 80%;
 
   .head {
     display: flex;
@@ -109,8 +126,8 @@ const GeneratorBody = styled.div`
     margin-top: 3rem;
 
     .hr-line {
-      margin:0 auto;
-      height: 0.4rem;
+      margin: 0 auto;
+      height: 0.2rem;
       width: 100%;
       background: radial-gradient(#B2B2B2 14%, #0B111E 80%);
       transition: all 1s;
@@ -118,10 +135,7 @@ const GeneratorBody = styled.div`
     }
 
     .nft-border:hover {
-      .hr-line{
-        margin:0 auto;
-        height: 0.4rem;
-        width: 100%;
+      .hr-line {
         background: radial-gradient(#5349F9 14%, #0B111E 80%);
         transition: all 1s;
       }
@@ -132,16 +146,29 @@ const GeneratorBody = styled.div`
     }
 
     .title {
+      margin: 1.6rem 0 0 1.5rem;
       text-align: center;
       font-size: 2.4rem;
-      padding: 1.2rem 0;
       font-weight: 550;
-      color: #5349F9;
+      color: #97BCF9;
       line-height: 2.5rem;
     }
 
-  }
+    @media screen and (max-width: 600px) {
+      .title {
+        text-align: left;
+        font-size: 2rem !important;
+        padding: 0 0 0 1.2rem;
+      }
 
+      .nft-border {
+        background-color: #141E61;
+        padding-bottom: 4rem;
+        border-radius: 2rem;
+      }
+    }
+
+  }
 
   .plus-icon {
     display: flex;
@@ -184,14 +211,14 @@ const CreatButton = styled(Button)`
   height: 50px;
   background: #334ed0;
   border: none;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6rem;
   font-weight: 500;
   color: white;
-  line-height: 22px;
-  position: absolute;
-  bottom: 3.7rem;
-  left: calc((100% - 211px) / 2);
+  position: relative;
 
   :hover {
     background: #2942b6;
@@ -200,6 +227,13 @@ const CreatButton = styled(Button)`
     font-size: 16px;
     font-weight: 500;
     color: #FFFFFF;
+  }
+
+  @media screen and (min-width: 300px) and (max-width: 600px) {
+    width: 30vw;
+    height: fit-content;
+    display: flex;
+    margin: 2vh calc((100% - 30vw) / 2);
   }
 `
 
@@ -226,6 +260,21 @@ const CreatButton = styled(Button)`
   }
 `*/
 
+const MobileGenerateResultContainer = styled.div `
+  background-color: #141E61;
+  padding: 3rem;
+  border-radius: 2rem;
+
+  .mobile-result-title {
+    color: #97BCF9;
+    font-size: 5vw;
+    font-weight: 550;
+    margin-bottom: 3vw;
+  }
+
+
+`
+
 const GenerateResultContainer = styled.div`
   display: flex;
   align-items: center;
@@ -250,63 +299,11 @@ const NewNftperating = styled.div`
   }
 `
 
-/*const NFTItem: React.FC<{ src: string }> = ({ src }) => {
-  const SelectBtn: React.FC = () => {
-    return (
-      <div
-        style={{
-          position: 'absolute',
-          width: '23',
-          height: ' 23',
-          top: '1rem',
-          left: '16rem',
-          zIndex: 1,
-          opacity: 0.7
-        }}
-
-      >
-        <Checkbox />
-      </div>
-    )
-  }
-
-  return (
-    <div style={{
-      position: 'relative',
-      marginRight: '1.5rem'
-    }}
-    >
-      <AntdImage
-        width={192}
-        height={130}
-        src={src}
-        style={{ objectFit: 'cover', cursor: 'pointer' }}
-        preview={false}
-      />
-      <SelectBtn />
-    </div>
-  )
-}*/
-
-/*const AssetUpload: React.FC = () => {
-  return (
-    <AssetUploadContainer>
-      <Upload>
-        <div className="upload-icon">
-          <img src={UploadIcn} style={{ width: '5.5rem' }} />
-          <div style={{ marginTop: '1.2rem' }}>
-            上传/购买 NFT
-          </div>
-        </div>
-      </Upload>
-    </AssetUploadContainer>
-  )
-}*/
-
 const SCSelectedNFTColumn = styled.div`
-
+  position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 21.2rem;
 
@@ -318,7 +315,6 @@ const SCSelectedNFTColumn = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 1rem;
-    margin-left: 10rem;
 
     img {
       width: 20rem;
@@ -326,12 +322,12 @@ const SCSelectedNFTColumn = styled.div`
       object-fit: cover;
       cursor: pointer;
       border-radius: 1rem;
-
     }
 
     .add {
       width: 5.5rem;
       height: 5.5rem;
+      opacity: 0.5;
     }
 
     margin-bottom: 0.3rem;
@@ -342,6 +338,40 @@ const SCSelectedNFTColumn = styled.div`
     font-size: 1.4rem;
     margin-bottom: 1.5rem;
   }
+
+  @media screen and (min-width: 300px) and (max-width: 600px) {
+    width: 70vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between !important;
+
+    .item {
+      width: 30vw;
+      height: 15vh;
+      background-color: #111C3A;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 1rem;
+
+      img {
+        width: 30vw;
+        height: 15vh;
+        object-fit: cover;
+        cursor: pointer;
+        border-radius: 1rem;
+
+      }
+      .add {
+        width: 10vw;
+        height: 10vw;
+        opacity: 0.5;
+      }
+    }
+  }
+
+
+
 `
 
 /*const SwiperTop: React.FC<{ list?: string[] }> = ({ list }) => {
@@ -373,8 +403,11 @@ const SCSelectedNFTColumn = styled.div`
 }*/
 
 const SelectedNft: React.FC<{ style: string, content: string }> = ({ style, content }) => {
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
   return (
     <SCSelectedNFTColumn>
+
+
       <div className="item">
         {
           style ? (
@@ -389,7 +422,7 @@ const SelectedNft: React.FC<{ style: string, content: string }> = ({ style, cont
           )
         }
       </div>
-      <span>Selected Style NFT</span>
+      {isMobile ? <div /> : <span>Selected Style NFT</span>}
       <div className="item">
         {
           content ? (
@@ -404,7 +437,7 @@ const SelectedNft: React.FC<{ style: string, content: string }> = ({ style, cont
           )
         }
       </div>
-      <span>Selected Content NFT</span>
+      {isMobile ? <div /> : <span>Selected Style NFT</span>}
     </SCSelectedNFTColumn>
   )
 }
@@ -414,16 +447,17 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
   checked,
   onSelect
 }) => {
+
+
+
   const SelectBtn: React.FC = () => {
     return (
       <div
         style={{
-          position: 'absolute',
-          width: '23',
-          height: ' 23',
+          position: 'relative',
           top: '1rem',
-          left: '13rem',
           zIndex: 1,
+          right: '3rem',
           opacity: 0.7
         }}
       >
@@ -437,7 +471,8 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
       style={{
         position: 'relative',
         top: '1rem',
-        marginLeft:'2.5rem'
+        display:'flex',
+        justifyContent: 'center'
       }}
       onClick={() => onSelect(src)}
     >
@@ -445,7 +480,7 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
         width={160}
         height={190}
         src={src}
-        style={{ objectFit: 'cover', cursor: 'pointer', borderRadius: '1rem' }}
+        style={{ objectFit: 'cover', cursor: 'pointer', borderRadius: '1rem', display:'flex', justifyContent:'center' }}
         preview={false}
       />
       <SelectBtn />
@@ -458,56 +493,82 @@ const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string)
   onSelect,
   list
 }) => {
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
+
   return (
     <div className="gene-detail">
-      <Swiper slidesPerView={4}
-        spaceBetween={25}
-        navigation
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={swiper => console.log(swiper)}
-      >
-        {list?.map((item, key) => (
-          <SwiperSlide key={key}>
-            <SelectableNFTItem src={item} checked={selectedValue === item} key={item} onSelect={onSelect} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {
+        isMobile ?
+          <Swiper slidesPerView={1}
+            navigation
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={swiper => console.log(swiper)}
+            style={{
+              display:'flex',
+              justifyContent:'center'
+            }}
+          >
+            {list?.map((item, key) => (
+              <SwiperSlide key={key}>
+                <SelectableNFTItem
+                  src={item}
+                  checked={selectedValue === item}
+                  key={item}
+                  onSelect={onSelect}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          :
+          <Swiper slidesPerView={4}
+            spaceBetween={25}
+            navigation
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={swiper => console.log(swiper)}
+          >
+            {list?.map((item, key) => (
+              <SwiperSlide key={key}>
+                <SelectableNFTItem src={item} checked={selectedValue === item} key={item} onSelect={onSelect} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+      }
     </div>
   )
 }
 
 const RightArrow: React.FC = () => {
   return (
-    <div style={{ height: '25.2rem', display: 'flex', alignItems: 'center' }}>
+    <div style={{ position:'relative', height: '25.2rem', display: 'flex', justifyContent:'center' }}>
 
       <img
         src={require('../../assets/images/AIGeneratorsImg/deep-learning-line.png').default}
         alt=""
         style={{
-          width: '70.5rem'
+          position:'relative',
+          width: 'fit-content',
+          height: '50rem',
+          bottom:'15rem',
+          left: '5rem'
         }}
       />
 
-      <div style={{
-        position:'absolute'
-      }}
-      >
-        <img src={require('../../assets/images/AIGeneratorsImg/deep-learning-model.png').default}
-          alt=""
-          style={{
-            width: '16rem',
-            marginLeft: '22rem'
-          }}
-
-        />
-      </div>
-
+      <img src={require('../../assets/images/AIGeneratorsImg/deep-learning-model.png').default}
+        alt=""
+        style={{
+          position:'relative',
+          width: '16rem',
+          height:'16rem',
+          right:'18rem',
+          top: '2rem'
+        }}
+      />
     </div>
   )
 }
 
 const AIGenerators: React.FC = () => {
-  const { data: personalNFTs } = usePersonalNFTsQuery({})
+  const { data: personalNFTs } = usePersonalNFTsQuery({ typeChain: '' })
   const [styleList, setStyleList] = useState<any>()
   // const [swiperList, setSwiperList] = useState<any>()
   const [generating, setGenerating] = useState(false)
@@ -536,15 +597,27 @@ const AIGenerators: React.FC = () => {
     setNewNFT(result.data.data)
   }
 
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
+
   return (
     <AIGeneratorsContainer>
       <GeneratorTop>
-        <div className="introduce" >
-          <p className="title">Level Up</p>
-          <p>Al Generation uses artificial intelligence algorithms</p>
-          <p>to extract the image style of Style Gene NFT and integrate it with the image of My</p>
-          <p>NFT to reconstruct a brand-new NFT, which is a very interesting gameplay.</p>
-        </div>
+        {
+          isMobile ?
+            <div className="introduce" >
+              <p className="title">Level Up</p>
+              <div>Al Generation uses artificial intelligence algorithms to</div>
+              <div>extract the image style of Style Gene NFT and integrate it with the image of My NFT to reconstruct a brand-new</div>
+              <div>NFT, which is a very interesting gameplay.</div>
+            </div>
+            :
+            <div className="introduce" >
+              <p className="title">Level Up</p>
+              <p>Al Generation uses artificial intelligence algorithms</p>
+              <p>to extract the image style of Style Gene NFT and integrate it with the image of My</p>
+              <p>NFT to reconstruct a brand-new NFT, which is a very interesting gameplay.</p>
+            </div>
+        }
 
 
         {/*<MainCarousel>
@@ -556,7 +629,7 @@ const AIGenerators: React.FC = () => {
       <GeneratorBody>
         <div className="head">
           <div className="nft-border">
-            <div className="hr-line" />
+            { isMobile ? <div /> : <div className="hr-line" /> }
             <p id="/ai-generators#style-gene" style={{ position: 'relative', bottom: '5rem' }} />
             <div className="title">Style Gene</div>
 
@@ -564,12 +637,12 @@ const AIGenerators: React.FC = () => {
               onSelect={v => setStyle(v)}
               list={styleList?.map((style: { url: any }) => style?.url)}
             />
-            <div className="hr-line" style={{ marginTop: '3.4rem' }} />
+            { isMobile ? <div /> : <div className="hr-line" style={{ marginTop:'3rem' }} />  }
           </div>
         </div>
         <div className="head" style={{ marginTop: '5rem' }}>
           <div className="nft-border">
-            <div className="hr-line" />
+            { isMobile ? <div /> : <div className="hr-line" /> }
             <p id="/ai-generators#my-nft" style={{ position: 'relative', bottom: '5rem' }} />
             <div className="title">My NFT</div>
             <div className="split-border" />
@@ -580,21 +653,29 @@ const AIGenerators: React.FC = () => {
               list={(personalNFTs as any)?.map((nft: { image: any }) => nft.image)}
             />
 
-            <div className="hr-line" style={{ marginTop: '3.4rem' }} />
+            { isMobile ? <div /> : <div className="hr-line" style={{ marginTop:'3rem' }} /> }
           </div>
         </div>
         {/*<AssetUpload />*/}
       </GeneratorBody>
-      <GeneratorFooter>
-        <GenerateResultContainer>
-          <SelectedNft style={style} content={content} />
-          <RightArrow />
+      {
+        isMobile ?
+          <MobileGenerateResultContainer>
+            <div className="mobile-result-title">Selected Style NFT</div>
+            <div>
+              <SelectedNft style={style} content={content} />
+            </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <CreatButton onClick={generate} disabled={generating}>
+              {
+                !generating ? 'AI Generate' : 'Generating...'
+              }
+            </CreatButton>
+
             <div style={{
               backgroundColor: '#111C3A',
-              width: '21.2rem',
-              height: '25rem',
+              width: '70vw',
+              height: '20vh',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -607,7 +688,7 @@ const AIGenerators: React.FC = () => {
                 newNFT ? (
                   <Image src={newNFT} alt="" />
                 ) : (
-                  <div style={{ height: '15rem' }} />
+                  <div style={{ height: '20vh' }} />
                 )
               }
               <NewNftperating>
@@ -622,15 +703,60 @@ const AIGenerators: React.FC = () => {
                 }
               </NewNftperating>
             </div>
-          </div>
-          <CreatButton onClick={generate} disabled={generating}>
-            {
-              !generating ? 'AI Generate' : 'Generating...'
-            }
-          </CreatButton>
-        </GenerateResultContainer>
+          </MobileGenerateResultContainer>
+          :
+          <GeneratorFooter>
+            <GenerateResultContainer>
+              <div>
+                <SelectedNft style={style} content={content} />
+              </div>
+              <div>
+                <RightArrow />
+              </div>
 
-      </GeneratorFooter>
+              <div style={{
+                backgroundColor: '#111C3A',
+                width: '100%',
+                height: '25rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '1rem',
+                position: 'relative',
+                borderRadius:'1rem'
+              }}
+              >
+                {
+                  newNFT ? (
+                    <Image src={newNFT} alt="" />
+                  ) : (
+                    <div style={{ height: '15rem' }} />
+                  )
+                }
+                <NewNftperating>
+                  {
+                    newNFT ? (
+                      <a href={newNFT} target="view_window">
+                        <img className="download" src={download}  alt="" />
+                      </a>
+                    ) : (
+                      <img className="download" src={download}  alt="" />
+                    )
+                  }
+                </NewNftperating>
+              </div>
+
+
+
+            </GenerateResultContainer>
+            <CreatButton onClick={generate} disabled={generating}>
+              {
+                !generating ? 'AI Generate' : 'Generating...'
+              }
+            </CreatButton>
+
+          </GeneratorFooter>
+      }
     </AIGeneratorsContainer>
   )
 }

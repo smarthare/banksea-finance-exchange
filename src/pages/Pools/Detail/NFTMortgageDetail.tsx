@@ -3,10 +3,8 @@ import styled from 'styled-components'
 import { useLocationQuery } from '../../../utils'
 import { CopyOutlined } from '@ant-design/icons'
 import { Statistic } from 'antd'
-import HistoricalRates from '../../../components/EchartsStatistics/HistoricalRates'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
 import { banksyNftDetail, getNftFavoriteCount } from '../../../apis/nft'
-import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import { useHistory, useParams } from 'react-router-dom'
 
 const NFTMortgageDetailContainer = styled.div`

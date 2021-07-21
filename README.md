@@ -1,6 +1,7 @@
 # Banksy Finance Dapp.
 
-The first AI-driven NFT pool-based lending platform to lead a revolution of the NFT market.
+# Banksy Finance Dapp.
+The first AI-driven NFT pool-based lending platform to lead a revolution of the NFT market
 
 ## How we use IPFS & Filecoin in our application
 

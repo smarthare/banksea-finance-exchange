@@ -8,13 +8,6 @@ on:
       - README.md
       - LICENSE
       - .github
-#  pull_request:
-#    branches:
-#      - main
-#    paths-ignore:
-#      - README.md
-#      - LICENSE
-
 
 jobs:
   deploy:
@@ -22,14 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-#      - name: Get latest CMake and ninja
-#        uses: lukka/get-cmake@latest
-
-#      - name: Setup cmake
-#        uses: jwlawson/actions-setup-cmake@v1.9
-#        with:
-#          cmake-version: '3.16.x'
 
       - uses: borales/actions-yarn@v2.3.0
         with:
