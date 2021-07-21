@@ -314,8 +314,9 @@ const CollectiblesPage: React.FC = () => {
               />
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <ChainSelector onChange={setSelectedChain} />
               <StatusSelector onChange={setSelectedStatus} />
-              <OrderSelector />
+              {/*<OrderSelector />*/}
             </div>
             <div style={{ border: 'solid 0.1rem #305099', marginTop: '3vh' }} />
           </div>

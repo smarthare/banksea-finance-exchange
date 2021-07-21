@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, message, Table } from 'antd'
 import Show from '@/assets/images/collectibleDetailImg/show.png'
-import Favorite from '@/assets/images/collectibleDetailImg/favorite.png'
 import Heart from '@/assets/images/collectibleDetailImg/like.png'
 import moment from 'moment'
 import 'moment/locale/pt-br'
@@ -1405,7 +1404,6 @@ const CollectibleDetailPage: React.FC = () => {
     <BundleDetailContainer>
       {
         isMobile ?
-
           <MobileContainer >
             <NFTBaseInfo nftDetail={nftDetail} />
             <ImageContainer>
