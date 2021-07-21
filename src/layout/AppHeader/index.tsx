@@ -79,6 +79,10 @@ const ConnectButton = styled(Button)`
 const Row = styled.div`
   display: flex;
   align-items: center;
+
+  img {
+    cursor: pointer;
+  }
 `
 
 const Avatar = styled.img `
@@ -139,7 +143,7 @@ const AppHeader: React.FC<{ onCollapseChanged: () => void }> = ({ onCollapseChan
             marginRight: '1.5rem'
           }}
         />
-        <img src={isMobile ? BanksyLogoIcon : BanksyLogo} alt="banksy" style={ isMobile ? { width: '3.5rem' } : { width: '15.6rem' } } />
+        <img src={isMobile ? BanksyLogoIcon : BanksyLogo} alt="banksy" style={ isMobile ? { width: '3.5rem' } : { width: '15.6rem' } } onClick={() => history.push('/')} />
       </Row>
 
       <Row>

@@ -5,7 +5,7 @@ const ETHIcon: React.FC = () => {
     <img
       src={require('../assets/images/eth.svg').default}
       alt="ETH"
-      style={{ width: '1.2rem', marginRight: '0.8rem' }}
+      style={{ width: '1.2rem', marginLeft:'3vw' }}
     />
   )
 }
