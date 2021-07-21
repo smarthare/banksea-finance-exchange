@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { Button, message, Table, Image } from 'antd'
+import { Button, message, Table } from 'antd'
 import Show from '@/assets/images/collectibleDetailImg/show.png'
 import Favorite from '@/assets/images/collectibleDetailImg/favorite.png'
 import Heart from '@/assets/images/collectibleDetailImg/like.png'
@@ -53,7 +53,7 @@ const BundleDetailContainer = styled.div`
     position: relative;
   }
 
-  @media screen and (min-width : 300px) and (max-width: 1000px) {
+  @media screen and (min-width : 300px) and (max-width: 600px) {
     width: 100vw !important;
     height: fit-content;
     background-color: #0B111E;
@@ -127,26 +127,12 @@ const TradingHistoryTable = styled(Table)`
   .ant-table-empty {
     background-color: transparent;
   }
-  .ant-table-thead > tr > th {
-    border-bottom-color: #0B111E;
-    border-bottom: 0 ;
-  }
 
   @media screen and (max-width: 1000px) {
     padding: 0 8vw;
     width: 100vw !important;
     overflow-x: scroll;
     position: relative;
-
-    .ant-table-tbody > tr > td {
-      border-bottom: 0;
-      border-top: 0;
-    }
-
-    .ant-table-row {
-      background-color: #18284C;
-      user-select: none;
-    }
   }
 `
 
@@ -175,23 +161,17 @@ const Operating = styled.div`
   }
 
   .sell {
-    position: relative;
     width: 10rem;
-    height: 4rem;
+    height: 40px;
     background: #354d86;
-    border-radius: 1rem;
+    border: none;
+    border-radius: 10px;
     font-size: 1.4rem;
     font-weight: 500;
     color: #FFFFFF;
-
-  }
-
-  @media screen and (max-width: 1000px) {
-    top: 3vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    font-size: 5vw;
+    line-height: 2rem;
+    position: absolute;
+    right: 0;
   }
 `
 
@@ -252,7 +232,7 @@ const PropertiesArea = styled.div`
     }
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 600px) {
     display: flex;
     justify-content: center;
     width: 100vw;
@@ -278,7 +258,6 @@ const PropertiesArea = styled.div`
 const CornerFlag = styled.div`
   position: absolute;
   color: white;
-  font-weight: 550;
   top: -1rem;
   left: -0.45rem;
   font-width: 500;
@@ -288,11 +267,6 @@ const CornerFlag = styled.div`
   height: 3.7rem;
   background-image: url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default});
   background-size: cover;
-  z-index: 12;
-
-  @media screen and (max-width: 1000px) {
-    left: 8.7vw;
-  }
 `
 
 const ImageContainer = styled.div`
@@ -315,7 +289,7 @@ const ImageContainer = styled.div`
     border-radius: 2rem;
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 600px) {
     margin-top: 5vw;
     border:none;
     height: 100%;
@@ -400,7 +374,7 @@ const ItemsContainer = styled.div`
 
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 600px) {
     display: flex ;
     justify-content: center ;
     flex-direction: column ;
@@ -425,7 +399,7 @@ const SubTitle = styled.div`
   line-height: 2.2rem;
   margin-bottom: 4rem;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 600px) {
     padding: 3vh 0;
     position: relative;
     display: flex;
@@ -531,7 +505,7 @@ const NFTBaseInfoContainer = styled.div`
     color: #98BDF9;
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 600px) {
     display: flex;
     justify-content: center;
 
@@ -546,19 +520,8 @@ const NFTBaseInfoContainer = styled.div`
     .line {
       margin-bottom: 5vh;
       width: 80vw;
-      border-bottom: solid 0.1rem #787A91;
-    }
+      border-bottom: solid 0.2rem #787A91;
 
-    .nft-price {
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: row;
-      color: #98BDF9;
-      font-size: 4vw;
-
-      &-label, &-value {
-        font-weight: 550;
-      }
     }
   }
 
@@ -682,12 +645,6 @@ const BuyOperating = styled.div`
     color: #FFFFFF;
     line-height: 2rem;
   }
-
-  @media screen and (max-width: 1000px) {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-  }
 `
 
 const MobileContainer = styled.div`
@@ -734,7 +691,7 @@ const MobileNFTBaseInfoContainer = styled.div`
 `
 
 const Properties: React.FC = () => {
-  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
   return (
     <div>
       <SubTitle>Properties</SubTitle>
@@ -959,7 +916,7 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
     fetchLikeCount()
   }, [fetchLikeCount])
 
-  const isMobile = useMediaQuery({ query:'(max-width:1000px)' })
+  const isMobile = useMediaQuery({ query:'(max-width:600px)' })
   return (
     <NFTBaseInfoContainer>
       {
@@ -968,21 +925,12 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
             <div className="nft-name">
               {nftDetail?.name}
             </div>
-
-            {
-              nftDetail?.onSale ? (
-                <div className="nft-price" >
-                  <div className="nft-price-label" >Current Price : </div>
-                  <ETHIcon />
-                  <div className="nft-price-value">
-                    {nftDetail?.price}
-                  </div>
-                </div>
-              ) : <div />
-            }
-
             <div className="line" />
-
+            {/*<div style={{ display:'flex',justifyContent:'flex-start', flexDirection:'column' }}>
+              <div className="info-row-item-label">Artist : { nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate) }</div>
+              <div className="info-row-item-label">Owner : { thumbnailAddress(nftDetail?.addressOwner) }
+              </div>
+            </div>*/}
           </div>
           :
           <div>
@@ -1065,7 +1013,7 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
 
 const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
   const type = useLocationQuery('type')
-  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
 
   return (
     <ItemsContainer>
@@ -1154,7 +1102,6 @@ const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
           </div>
       }
     </ItemsContainer>
-
   )
 }
 
@@ -1192,7 +1139,10 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more2} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="'" />
+              <img src={more2}
+                style={{ borderRadius: '1rem', objectFit: 'cover' }}
+                alt="'"
+              />
             </div>
             <div className="artwork-describe">1 - The Elf</div>
           </div>
@@ -1218,7 +1168,10 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more3} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="" />
+              <img src={more3}
+                style={{ borderRadius: '1rem', objectFit: 'cover' }}
+                alt=""
+              />
             </div>
             <div className="artwork-describe">Mona Lisa Smile &apos;Gamma Edition &apos;</div>
           </div>
@@ -1244,7 +1197,10 @@ const MoreArtworks: React.FC = () => {
         <div className="artwork-group">
           <div className="artwork-info">
             <div className="artwork-img">
-              <img src={more4} style={{ borderRadius: '1rem', objectFit: 'cover' }} alt="" />
+              <img src={more4}
+                style={{ borderRadius: '1rem', objectFit: 'cover' }}
+                alt=""
+              />
             </div>
             <div className="artwork-describe">Like you mean it</div>
           </div>
@@ -1443,7 +1399,7 @@ const CollectibleDetailPage: React.FC = () => {
       `https://banksy.mypinata.cloud${nftDetail?.image?.slice(-52)}`
   }, [nftDetail])
 
-  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
 
   return (
     <BundleDetailContainer>
@@ -1454,32 +1410,12 @@ const CollectibleDetailPage: React.FC = () => {
             <NFTBaseInfo nftDetail={nftDetail} />
             <ImageContainer>
               {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
-              <Image
-                width={'80vw'}
-                height={'50vh'}
-                src={coverImageUrl()}
+              <img src={coverImageUrl()}
                 alt={nftDetail?.name}
               />
-              {/*<img src={coverImageUrl()} alt={nftDetail?.name} />*/}
             </ImageContainer>
             <MobileNFTBaseInfo nftDetail={nftDetail} />
-            {
-              nftDetail?.onSale && nftDetail?.price && account !== nftDetail?.addressOwner &&
-              <BuyOperating>
-                <Button className="buyNow" onClick={onClickBuyButton}>Buy Now</Button>
-              </BuyOperating>
-            }
             <NFTMetadata nftDetail={nftDetail} />
-
-            <div className="operating">
-              {
-                isOwnerOfNFT() &&
-                <Operating>
-                  {/*<Button className="edit">Edit</Button>*/}
-                  <Button className="sell" onClick={openSellingModal}>Sell</Button>
-                </Operating>
-              }
-            </div>
             <div className="mobile-properties-area">
               <Properties />
             </div>
@@ -1494,7 +1430,10 @@ const CollectibleDetailPage: React.FC = () => {
                 isOwnerOfNFT() &&
                 <Operating>
                   {/*<Button className="edit">Edit</Button>*/}
-                  <Button className="sell" onClick={openSellingModal}>Sell</Button>
+                  <Button className="sell"
+                    onClick={openSellingModal}
+                  >Sell
+                  </Button>
                 </Operating>
               }
             </div>
@@ -1502,13 +1441,7 @@ const CollectibleDetailPage: React.FC = () => {
               <LeftArea>
                 <ImageContainer>
                   {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
-                  <Image
-                    width={'31.2rem'}
-                    height={'34.4rem'}
-                    src={coverImageUrl()}
-                    alt={nftDetail?.name}
-                  />
-                  {/*<img src={coverImageUrl()} alt={nftDetail?.name} />*/}
+                  <img src={coverImageUrl()} alt={nftDetail?.name} />
                 </ImageContainer>
               </LeftArea>
               <RightArea>
@@ -1517,7 +1450,9 @@ const CollectibleDetailPage: React.FC = () => {
                 {
                   nftDetail?.onSale && nftDetail?.price && account !== nftDetail?.addressOwner &&
                   <BuyOperating>
-                    <Button className="buyNow" onClick={onClickBuyButton}>Buy Now</Button>
+                    <Button className="buyNow" onClick={onClickBuyButton}>
+                      Buy Now
+                    </Button>
                   </BuyOperating>
                 }
 

@@ -1,29 +1,29 @@
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { useQuery, UseQueryResult } from 'react-query'
-import { BanksyPersonalNftListQueryParams, personalNftList } from '../../apis/nft'
+import { ChainType, personalNftList } from '../../apis/nft'
 
 type PersonalNFTsQueryParams = {
   current?: number
   size?: number,
   searchKey?: string
+  typeChain: ChainType
 }
 
-export function usePersonalNFTsQuery({ current, size, searchKey }: PersonalNFTsQueryParams): UseQueryResult<Array<any>> {
+export function usePersonalNFTsQuery(params: PersonalNFTsQueryParams): UseQueryResult<Array<any>> {
   const account = useSelector(getAccount)
 
-  const form: BanksyPersonalNftListQueryParams = {
-    addressOwner: account!,
-    current: current ?? 1,
-    size: size ?? 20,
-    typeChain: 'Ethereum',
-    searchKey
-  }
-
   return useQuery(
-    ['PERSONAL_NFT', form],
+    ['PERSONAL_NFT', params],
     async () => {
-      return await personalNftList(form)
+      if (!account) {
+        return []
+      }
+
+      return await personalNftList({
+        ...params,
+        addressOwner: account
+      })
         .then((res: any) =>
           res.data.data.records.map((item: any) => ({
             ...item,

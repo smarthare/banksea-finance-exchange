@@ -1,6 +1,8 @@
 import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '../utils/banksyRequest'
 
-type ChainType = 'Ethereum' | 'Solana'
+export type ChainType = 'Ethereum' | 'Solana' | ''
+
+export type BanksyNftTransactionStatus = 0 | 1
 
 export type BanksyNftListQueryParams = {
   current?: number,
@@ -9,13 +11,13 @@ export type BanksyNftListQueryParams = {
   sortType?: 'time_stamp',
   addressContract?: string
   group?: string
-  transactionStatus?: 0 | 1
+  transactionStatus?: BanksyNftTransactionStatus
   typeChain: ChainType
 }
 
 export type BanksyPersonalNftListQueryParams = {
   addressOwner: string,
-  typeChain: ChainType
+  typeChain?: ChainType
   size?: number
   current?: number
   searchKey?: string

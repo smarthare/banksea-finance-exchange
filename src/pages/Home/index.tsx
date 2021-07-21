@@ -7,7 +7,6 @@ import Mortgage from '@/assets/images/homePageImg/mortgage-bg.svg'
 import Liquidity from '@/assets/images/homePageImg/liquidity-bg.svg'
 import RightArrow from '@/assets/images/homePageImg/right-arrow.svg'
 import CornerFlag from '@/assets/images/homePageImg/corner-flag-ai.svg'
-import voteBanner from '@/assets/images/VoteImg/VoteBanner.png'
 
 import { Carousel } from 'antd'
 import { useHistory } from 'react-router-dom'
@@ -450,7 +449,11 @@ const NFTList: React.FC<any> = ({ list }) => {
   return (
     <NFTListContainer>
       {list?.map((nft: any, index: number) => (
-        <NFTListItem data={nft} key={index} type="nftList" />
+        <NFTListItem
+          data={nft}
+          key={index}
+          type="nftList"
+        />
       ))}
     </NFTListContainer>
   )
@@ -551,7 +554,7 @@ const GotoArrow: React.FC<{ path?: string }> = ({ path }) => {
 }
 
 const HomePage: React.FC = () => {
-  const { data } = useNFTsQuery({ size: 8 })
+  const { data } = useNFTsQuery({ typeChain: 'Ethereum', size: 8 })
   const history = useHistory()
 
   return (
