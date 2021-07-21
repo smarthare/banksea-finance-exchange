@@ -7,6 +7,7 @@ import { banksyWeb3 } from '../../index'
 import { PublicKey } from '@solana/web3.js'
 import { generateNftMetadata } from '../../../utils'
 import { pinJsonToIPFS } from '../../../utils/ipfs'
+import { NftCreateForm } from '../../../apis/nft'
 
 /**
  * return the public key of created NFT
@@ -84,7 +85,7 @@ export class BanksyWeb3SolanaServicesImpl implements BanksyWeb3Services {
       createNftAccount(IpfsHash)
         .then(async () => {
           ee.emit('submitted')
-          await createNFT(createForm)
+          // await createNFT(createForm)
           ee.emit('complete')
         })
         .catch(e => {

@@ -40,9 +40,9 @@ const Presentation = styled.div`
 `
 
 const App: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false)
-
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+
+  const [collapsed, setCollapsed] = useState(isMobile)
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed)
