@@ -54,15 +54,16 @@ const InfoContainer = styled.div`
     display: flex;
     justify-content: space-between;
 
-    .nft-mortgage-container:hover {
+    /*.nft-mortgage-container:hover {
       box-shadow: rgb(11, 234, 235) -0.3vw 0.3vw 0.3vw;
-    }
+    }*/
 
     .nft-mortgage-container {
       position: relative;
       width: 30vw;
+      height: 50vh;
       border-radius: 1.5vw;
-      margin-bottom: 3rem;
+      margin-bottom: 1vw;
       background: url(${require('../../assets/images/homePageImg/lend-borrow-bg.svg').default}) no-repeat;
       padding: 2.5vh 2.5vw;
       background-size: 100%;
@@ -98,14 +99,7 @@ const InfoContainer = styled.div`
       .info-panel:hover {
         background: #18284C;
         transition: all 1s;
-
       }
-
-      .info-panel:active {
-        background: #111C3A;
-        border: solid 0.1rem #4E46EC;
-      }
-
 
       .info-panel {
         padding: 2vw;
@@ -114,7 +108,7 @@ const InfoContainer = styled.div`
         height: 24vh;
         background: #111C3A;
         border-radius: 1.5vw;
-        margin-bottom: 3rem;
+        margin-bottom: 1vw;
         transition: all 1s;
 
 
@@ -176,13 +170,13 @@ const InfoContainer = styled.div`
       height: 24vh;
       background: #111C3A;
       border-radius: 1.5vw;
-      margin-bottom: 3rem;
+      margin-bottom: 1vw;
       transition: all 1s;
 
 
       .main-title2 {
         color: #97BCF9;
-        font-size: 2vw;
+        font-size: 2.5vw;
         font-weight: 550;
         margin-bottom: 1vh;
       }
@@ -236,31 +230,26 @@ const InfoContainer = styled.div`
     }
 
     .nft-mortgage-container {
-      position: relative;
-      border-radius: 2rem;
-      margin-bottom: 3rem;
-      background: url(${require('../../assets/images/homePageImg/pen1.png').default}) no-repeat;
-      padding: 2.5rem 4.5rem;
-      background-size: 100% 50%;
-      transition: all 1s;
-
+      padding: 6vw 7vw !important;
+      height: fit-content !important;
 
       .main-title {
         color: black;
-        font-size: 5.5vw !important;
+        font-size: 7vw !important;
         font-weight: 550;
-        margin-bottom: 2vh !important;
+        margin-bottom: 0!important;
       }
 
       .sub-title {
         color: black;
-        font-size: 2.6vw !important;
+        font-size: 5vw !important;
         font-weight: 550;
+        margin-top: 6vw !important;
       }
 
       .value {
         color: white;
-        font-size: 4vw !important;
+        font-size: 6vw !important;
         font-weight: 550;
       }
 
@@ -272,40 +261,30 @@ const InfoContainer = styled.div`
       width: fit-content;
       flex-wrap: wrap;
 
-      .info-panel:hover {
-        background: #18284C;
-        transition: all 1s;
-
-      }
-
-      .info-panel:active {
-        background: #111C3A;
-        border: solid 0.1rem #4E46EC;
-      }
-
 
       .info-panel {
-        padding: 1.5rem 2rem !important;
+        padding: 6vw 7vw !important;
         position: relative;
-        height: 15vh !important;
+        height: 35vw !important;
         background: #111C3A;
-        border-radius: 2rem;
-        margin-bottom: 3rem;
+        border-radius: 4vw !important;
+        margin-top: 5vw!important;
+
 
 
         .main-title2 {
           color: #97BCF9;
-          font-size: 5.5vw !important;
+          font-size: 6vw !important;
           font-weight: 550;
-          margin-bottom: 1.2rem;
+          margin-bottom: 1.2vw;
         }
 
         .sub-title2 {
           color: #97BCF9;
-          font-size: 1.6vw !important;
+          font-size: 3.5vw !important;
           font-weight: 400;
           width: fit-content;
-          margin-bottom: 0.6vh !important;
+          margin-bottom:0;
         }
 
         .nft-values {
@@ -313,14 +292,15 @@ const InfoContainer = styled.div`
           align-items: center;
 
           .sub-title2 {
-            padding-top: 1rem;
-            color: #97BCF9;
-            font-size: 1vw !important;
+            padding-top: 0 !important;
+            color: #97BCF9 !important;
+            font-size: 3.5vw !important;
             font-weight: 400;
           }
 
           .value {
-            margin-left: 1.2rem;
+            margin-left: 3vw !important;
+            margin-bottom: 2vw;
             color: #01F9FF;
             font-size: 3.5vw !important;
             font-weight: 550;
@@ -338,39 +318,31 @@ const InfoContainer = styled.div`
       flex-direction: column;
       width: fit-content;
 
-      .info-panel:hover {
-        background: #18284C;
-      }
-
-      .info-panel:active {
-        background: #111C3A;
-        border: solid 0.1rem #4E46EC;
-      }
 
       .info-panel {
-        padding: 2.5rem;
+        padding: 6vw 7vw !important;
         position: relative;
         width: 80vw!important;
-        height: 15vh !important;
+        height: 35vw !important;
         background: #111C3A;
-        border-radius: 2rem;
-        margin-bottom: 3rem;
+        border-radius: 4vw;
         transition: all 1s;
+        margin-top: 5vw !important;
 
 
         .main-title2 {
           color: #97BCF9;
           font-size: 5.5vw !important;
           font-weight: 550;
-          margin-bottom: 1.2rem;
+          margin-bottom: 1.2vw;
         }
 
         .sub-title2 {
           color: #97BCF9;
-          font-size: 1.6vw !important;
+          font-size: 3.5vw !important;
           font-weight: 400;
           width: fit-content;
-          margin-bottom: 0.6vh !important;
+          margin-bottom: 1vw !important;
         }
 
         .nft-values {
@@ -378,14 +350,14 @@ const InfoContainer = styled.div`
           align-items: center;
 
           .sub-title2 {
-            padding-top: 1rem;
+            padding-top: 0;
             color: #97BCF9;
-            font-size: 1vw !important;
+            font-size: 3.5vw !important;
             font-weight: 400;
           }
 
           .value {
-            margin-left: 1.2rem;
+            margin-left: 3vw;
             color: #01F9FF;
             font-size: 3.5vw !important;
             font-weight: 550;
@@ -397,14 +369,14 @@ const InfoContainer = styled.div`
 `
 
 const NFTContainer = styled.div`
-  margin-top: 4rem;
+  margin-top: 3vw;
   width: 100%;
 
   .title {
     color: #97BCF5;
-    font-size: 2.6rem;
-    font-weight: 500;
-    margin-bottom: 1.6rem
+    font-size: 2vw;
+    font-weight: 550;
+    margin-bottom: 1vw;
   }
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
@@ -461,6 +433,7 @@ const PanelIcon: React.FC<any> = ({ iconName }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
 
   const style: CSSProperties = {
+    width: '8vw',
     position: 'absolute',
     height: '12vh',
     right: '2vw',
@@ -485,37 +458,29 @@ const PanelIcon: React.FC<any> = ({ iconName }) => {
   )
 }
 
-const PanelIconMobile: React.FC<any> = ({ iconName }) => {
-
-  return (
-    <div>
-      <img
-        src={iconName}
-        style={{
-          position: 'absolute',
-          height: '12.5rem',
-          right: '5rem',
-          bottom: '10rem'
-        }}
-        alt=""
-      />
-    </div>
-  )
-}
 
 const AIFlag: React.FC<any> = () => {
+
+  const isMobile = useMediaQuery({ query:'(max-width: 1000px)' })
+  const style: CSSProperties = {
+    position: 'absolute',
+    zIndex: 1,
+    width: '10vw',
+    left: '20vw',
+    top: '0vh'
+  }
+  const mobileStyle: CSSProperties = {
+    position :'absolute',
+    width: '20vw',
+    right: '0vw',
+    top : '0'
+  }
   // @ts-ignore
   return (
     <div>
       <img
         src={CornerFlag}
-        style={{
-          position: 'absolute',
-          zIndex: 1,
-          width: '10vw',
-          left: '20vw',
-          top: '0vh'
-        }}
+        style={isMobile ? mobileStyle : style}
         alt=""
       />
     </div>
@@ -613,7 +578,7 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className="row2">
-            <div className="info-panel">
+            <div className="info-panel" style={{ padding: '1vw 2vw ' }}>
               <div className="main-title2">Create
                 <PanelIcon iconName={Mortgage} />
               </div>

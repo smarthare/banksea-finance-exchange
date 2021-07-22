@@ -100,7 +100,7 @@ const GeneratorTop = styled.div`
     }
     .introduce {
       padding: 0 8vw;
-      font-size: 1.6vw !important;
+      font-size: 3.3vw !important;
       text-align: left;
     }
   }
@@ -406,8 +406,6 @@ const SelectedNft: React.FC<{ style: string, content: string }> = ({ style, cont
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
   return (
     <SCSelectedNFTColumn>
-
-
       <div className="item">
         {
           style ? (

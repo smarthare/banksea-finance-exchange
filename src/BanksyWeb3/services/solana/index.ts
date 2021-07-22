@@ -7,7 +7,6 @@ import { banksyWeb3 } from '../../index'
 import { PublicKey } from '@solana/web3.js'
 import { generateNftMetadata } from '../../../utils'
 import { pinJsonToIPFS } from '../../../utils/ipfs'
-import { NftCreateForm } from '../../../apis/nft'
 
 /**
  * return the public key of created NFT
@@ -70,17 +69,17 @@ export class BanksyWeb3SolanaServicesImpl implements BanksyWeb3Services {
 
       const { IpfsHash } = pinResult
 
-      const createForm: NftCreateForm = {
-        uri: IpfsHash,
-        addressCreate: account,
-        tokenId: '',
-        group: '',
-        nameArtist: nftCreateForm.artistName,
-        fee: '',
-        feeRecipient: '',
-        typeChain: 'Solana',
-        supply: 1
-      }
+      // const createForm: NftCreateForm = {
+      //   uri: IpfsHash,
+      //   addressCreate: account,
+      //   tokenId: '',
+      //   group: '',
+      //   nameArtist: nftCreateForm.artistName,
+      //   fee: '',
+      //   feeRecipient: '',
+      //   typeChain: 'Solana',
+      //   supply: 1
+      // }
 
       createNftAccount(IpfsHash)
         .then(async () => {
