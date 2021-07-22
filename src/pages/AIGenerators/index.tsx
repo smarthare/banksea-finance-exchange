@@ -23,7 +23,7 @@ const AIGeneratorsContainer = styled.div`
   font-family: 'PingFang SC';
   padding: 5rem 11.2rem;
 
-  @media screen and (min-width : 300px) and (max-width: 600px) {
+  @media screen and (min-width : 300px) and (max-width: 1000px) {
     width: 100vw !important;
     height: 180vh;
     background-color: #0B111E;
@@ -92,7 +92,7 @@ const GeneratorTop = styled.div`
     }
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 1000px) {
     height: 20vh;
     .title {
       font-size: 10vw !important;
@@ -154,7 +154,7 @@ const GeneratorBody = styled.div`
       line-height: 2.5rem;
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 1000px) {
       .title {
         text-align: left;
         font-size: 2rem !important;
@@ -229,7 +229,7 @@ const CreatButton = styled(Button)`
     color: #FFFFFF;
   }
 
-  @media screen and (min-width: 300px) and (max-width: 600px) {
+  @media screen and (min-width: 300px) and (max-width: 1000px) {
     width: 30vw;
     height: fit-content;
     display: flex;
@@ -339,7 +339,7 @@ const SCSelectedNFTColumn = styled.div`
     margin-bottom: 1.5rem;
   }
 
-  @media screen and (min-width: 300px) and (max-width: 600px) {
+  @media screen and (min-width: 300px) and (max-width: 1000px) {
     width: 70vw;
     display: flex;
     flex-direction: row;
@@ -403,7 +403,7 @@ const SCSelectedNFTColumn = styled.div`
 }*/
 
 const SelectedNft: React.FC<{ style: string, content: string }> = ({ style, content }) => {
-  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
   return (
     <SCSelectedNFTColumn>
       <div className="item">
@@ -491,7 +491,7 @@ const SelectableNFTList: React.FC<{ selectedValue: string, onSelect: (_: string)
   onSelect,
   list
 }) => {
-  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
   return (
     <div className="gene-detail">
@@ -595,7 +595,7 @@ const AIGenerators: React.FC = () => {
     setNewNFT(result.data.data)
   }
 
-  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
   return (
     <AIGeneratorsContainer>

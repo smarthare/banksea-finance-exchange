@@ -103,30 +103,43 @@ const RegistrationContainer = styled(Form)`
   display: flex;
   // justify-content: space-between;
   margin-top: 9.6rem;
-  margin-left: calc((100% - 116rem) / 2);
+  margin-left: calc((100% - 80vw) / 2);
 
   @media screen and (max-width: 1000px) {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    padding: 5vw 10vw;
     width: 100vw;
-    overflow-x: hidden;
     margin: 0;
+
   }
 `
 
 const RegistrationItem = styled(Form.Item)`
   width: 100%;
   margin-right: 4rem;
+  display: flex;
+  flex-wrap: wrap;
 
-  p {
-    width: 100%;
-    height: 4rem;
-    text-align: center;
-    color: #9FC4FD;
-    font-weight: bolder;
-    margin-bottom: 2rem;
-    font-size: 1.4rem;
+
+  .ant-form-item-label {
+    display: flex;
+    justify-content: flex-start;
+    height: 3vw;
+    overflow: visible;
+    width: 14vw;
+
+    label {
+      white-space: normal;
+      text-align: left;
+      color: #9FC4FD;
+      font-size: 0.9vw;
+      font-weight: 550;
+      &:after {
+        content: none !important;
+      }
+    }
   }
 
   .ant-input {
@@ -140,13 +153,31 @@ const RegistrationItem = styled(Form.Item)`
   }
 
   @media screen and (max-width: 1000px) {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
+    width: 80vw;
     margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+
+    .ant-form-item-label > label {
+      width: 100vw;
+      font-size: 3.5vw !important;
+      font-weight: 500;
+      color: #98BDF9;
+    }
 
     .ant-input {
-      width: 100vw;
+      &::placeholder {
+        color: #4779B5;
+      }
+      margin-top: 6vw;
+      height: 4vh;
+      width: 100%;
+      background: #305099 !important;
+      border-radius: 1rem !important;
+      border: none;
+      font-size: 2vw !important;
+      font-weight: 500 !important;
+      color: white !important;
     }
   }
 
@@ -200,6 +231,8 @@ const VotesContainerTable = styled.div`
   }
 
   @media screen and (max-width: 1000px) {
+    display: flex;
+
     width: 100vw !important;
     padding: 0;
   }
@@ -304,6 +337,13 @@ const VoteStatistics = styled.section`
 }
 `
 
+const MobileRegistrationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 5vw 10vw;
+`
+
 type VotesType = {
   current: number
   onPressEnter: any
@@ -386,8 +426,8 @@ const TwitterVoteRegistration: React.FC<VotesType> = ({ current, onPressEnter, r
       <div className={clsx('registration', current === 1 && 'active')}>
         <RegistrationContainer form={twitterForm} initialValues={twitterFormValues} >
           <RegistrationItem>
-            <p>Twitter ID</p>
             <Form.Item
+              label="Twitter ID"
               name="twitterId"
               rules={[{ required: true, message: 'Please fill out Discord ID or Twitter ID or Telegram ID!' }]}
             >
@@ -395,8 +435,8 @@ const TwitterVoteRegistration: React.FC<VotesType> = ({ current, onPressEnter, r
             </Form.Item>
           </RegistrationItem>
           <RegistrationItem>
-            <p>Retweet Link</p>
             <Form.Item
+              label= "Retweet Link"
               name="retweetLink"
               rules={[{ required: true, message: 'Please fill out Transaction record!' }]}
             >
@@ -404,8 +444,8 @@ const TwitterVoteRegistration: React.FC<VotesType> = ({ current, onPressEnter, r
             </Form.Item>
           </RegistrationItem>
           <RegistrationItem>
-            <p>Wallet Address</p>
             <Form.Item
+              label="Wallet Address"
               name="walletAddress"
               rules={[{ required: true, message: 'Please fill out Wallet Address!' }]}
             >
@@ -415,6 +455,7 @@ const TwitterVoteRegistration: React.FC<VotesType> = ({ current, onPressEnter, r
           <RegistrationItem>
             <p>Referrer Discord ID Or Other ID</p>
             <Form.Item
+              label=""
               name="discordId"
               rules={[{ required: true, message: 'Please fill out Referrer Discord ID Or Other ID!' }]}
             >
@@ -517,6 +558,8 @@ const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter })
 
 const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter, init }) => {
 
+  const isMobile = useMediaQuery({ query:'(max-width:1000px)' })
+
   const [form] = Form.useForm()
 
   const formInitialValues = {
@@ -555,8 +598,8 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
       <div className={clsx('registration', current === 0 && 'active')}>
         <RegistrationContainer form={form} initialValues={formInitialValues}>
           <RegistrationItem>
-            <p>Discord ID or Twitter ID or Telegram ID, Or Others</p>
             <Form.Item
+              label="Discord ID or Twitter ID or Telegram ID, Or Others"
               name="userId"
               rules={[{ required: true, message: 'Please fill out Discord ID or Twitter ID or Telegram ID!' }]}
             >
@@ -564,8 +607,8 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
             </Form.Item>
           </RegistrationItem>
           <RegistrationItem>
-            <p>Transaction record</p>
             <Form.Item
+              label="Transaction record"
               name="record"
               rules={[{ required: true, message: 'Please fill out Transaction record!' }]}
             >
@@ -573,17 +616,17 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
             </Form.Item>
           </RegistrationItem>
           <RegistrationItem>
-            <p>Votes</p>
             <Form.Item
               name="votes"
+              label="Votes"
               rules={[{ required: true, message: 'Please fill out Votes!' }]}
             >
               <Input />
             </Form.Item>
           </RegistrationItem>
           <RegistrationItem>
-            <p>Wallet Address</p>
             <Form.Item
+              label="Wallet Address"
               name="walletAddress"
               rules={[{ required: true, message: 'Please fill out Wallet Address!' }]}
             >
@@ -591,8 +634,8 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
             </Form.Item>
           </RegistrationItem>
           <RegistrationItem>
-            <p>Referrer Discord ID Or Other ID</p>
             <Form.Item
+              label="Referrer Discord ID Or Other ID"
               name="discordId"
               rules={[{ required: true, message: 'Please fill out Referrer Discord ID Or Other ID!' }]}
             >
@@ -600,6 +643,7 @@ const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter
             </Form.Item>
           </RegistrationItem>
         </RegistrationContainer>
+
         <ConfirmButton onClick={confirmCreat}>Confirm</ConfirmButton>
       </div>
       {/*<FilecoinVotes current={current} filecoin={filecoin} onPressEnter={onPressEnter} />*/}
