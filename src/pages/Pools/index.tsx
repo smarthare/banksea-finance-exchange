@@ -77,7 +77,7 @@ const PoolsContainer = styled.div`
 `
 
 const PoolsContainerMenu = styled.div`
-  width: calc(100% - 20.2rem);
+  width: 100%;
   height: 6rem;
   background: #0D1B34;
   border-bottom: 1px solid #4D4E52;

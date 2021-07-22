@@ -455,7 +455,7 @@ const SelectableNFTItem: React.FC<{ src: string, checked?: boolean, onSelect: (_
           position: 'relative',
           top: '1rem',
           zIndex: 1,
-          right: '3rem',
+          right: '1rem',
           opacity: 0.7
         }}
       >
