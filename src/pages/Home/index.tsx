@@ -17,7 +17,6 @@ import { useMediaQuery } from 'react-responsive'
 const HomePageContainer = styled.div`
   font-family: 'PingFang SC';
   width: 100%;
-  overflow-x: hidden;
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
     width: 100vw !important;

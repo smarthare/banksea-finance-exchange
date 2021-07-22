@@ -53,19 +53,25 @@ const App: React.FC = () => {
       <Header>
         <AppHeader onCollapseChanged={toggleCollapsed} />
       </Header>
-      <Layout>
+      <Layout style={{ backgroundColor: '#101A2D' }}>
         <Layout.Sider
-          style={{
+          style={ isMobile ? {
             position: 'fixed',
             zIndex: 99,
             top: '62px',
-            display: collapsed ? 'none' : '',
-          }}
+            left: collapsed ? '-8rem' : 0,
+            // display: collapsed ? 'none' : '',
+          } :
+            {
+              position: 'fixed',
+              zIndex: 99,
+              top: '62px',
+            }}
           collapsed={collapsed}
         >
           <AppSideBar />
           {
-            isMobile && <Presentation onClick={toggleCollapsed} />
+            isMobile && !collapsed && <Presentation onClick={toggleCollapsed} />
           }
         </Layout.Sider>
         <Layout.Content
