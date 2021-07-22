@@ -61,8 +61,9 @@ const InfoContainer = styled.div`
     .nft-mortgage-container {
       position: relative;
       width: 30vw;
+      height: 50vh;
       border-radius: 1.5vw;
-      margin-bottom: 3rem;
+      margin-bottom: 1vw;
       background: url(${require('../../assets/images/homePageImg/lend-borrow-bg.svg').default}) no-repeat;
       padding: 2.5vh 2.5vw;
       background-size: 100%;
@@ -107,7 +108,7 @@ const InfoContainer = styled.div`
         height: 24vh;
         background: #111C3A;
         border-radius: 1.5vw;
-        margin-bottom: 3rem;
+        margin-bottom: 1vw;
         transition: all 1s;
 
 
@@ -169,7 +170,7 @@ const InfoContainer = styled.div`
       height: 24vh;
       background: #111C3A;
       border-radius: 1.5vw;
-      margin-bottom: 3rem;
+      margin-bottom: 1vw;
       transition: all 1s;
 
 
@@ -230,6 +231,7 @@ const InfoContainer = styled.div`
 
     .nft-mortgage-container {
       padding: 6vw 7vw !important;
+      height: fit-content !important;
 
       .main-title {
         color: black;
@@ -266,7 +268,7 @@ const InfoContainer = styled.div`
         height: 35vw !important;
         background: #111C3A;
         border-radius: 4vw !important;
-        margin-bottom: 4vw;
+        margin-top: 5vw!important;
 
 
 
@@ -325,6 +327,7 @@ const InfoContainer = styled.div`
         background: #111C3A;
         border-radius: 4vw;
         transition: all 1s;
+        margin-top: 5vw !important;
 
 
         .main-title2 {
@@ -366,14 +369,14 @@ const InfoContainer = styled.div`
 `
 
 const NFTContainer = styled.div`
-  margin-top: 4rem;
+  margin-top: 3vw;
   width: 100%;
 
   .title {
     color: #97BCF5;
-    font-size: 2.6rem;
-    font-weight: 500;
-    margin-bottom: 1.6rem
+    font-size: 2vw;
+    font-weight: 550;
+    margin-bottom: 1vw;
   }
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
@@ -455,23 +458,6 @@ const PanelIcon: React.FC<any> = ({ iconName }) => {
   )
 }
 
-const PanelIconMobile: React.FC<any> = ({ iconName }) => {
-
-  return (
-    <div>
-      <img
-        src={iconName}
-        style={{
-          position: 'absolute',
-          height: '12.5rem',
-          right: '5rem',
-          bottom: '10rem'
-        }}
-        alt=""
-      />
-    </div>
-  )
-}
 
 const AIFlag: React.FC<any> = () => {
 

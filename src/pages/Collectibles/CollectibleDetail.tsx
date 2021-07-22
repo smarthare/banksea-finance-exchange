@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { Button, message, Table } from 'antd'
+import { Button, Image, message, Table } from 'antd'
 import Show from '@/assets/images/collectibleDetailImg/show.png'
 import Heart from '@/assets/images/collectibleDetailImg/like.png'
 import moment from 'moment'
@@ -43,7 +43,7 @@ const BundleDetailContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 2rem 10rem;
+  padding: 2vw 6vw;
   position: relative;
 
   .operating {
@@ -63,11 +63,11 @@ const BundleDetailContainer = styled.div`
 `
 
 const LeftArea = styled.div`
-  width: 35.2rem;
+  width: fit-content;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-right: 1.3rem;
+  margin-right: 2vw;
 
 `
 
@@ -142,9 +142,7 @@ const RightArea = styled.div`
 `
 
 const Operating = styled.div`
-  display: flex;
   width: 100%;
-  position: relative;
 
   .edit {
     width: 15rem;
@@ -160,17 +158,26 @@ const Operating = styled.div`
   }
 
   .sell {
-    width: 10rem;
-    height: 40px;
+    width: 7vw;
+    height: 2.5vw;
     background: #354d86;
     border: none;
-    border-radius: 10px;
-    font-size: 1.4rem;
-    font-weight: 500;
+    border-radius: 0.5vw;
+    font-size: 1vw;
+    font-weight: 550;
     color: #FFFFFF;
-    line-height: 2rem;
-    position: absolute;
-    right: 0;
+  }
+
+  @media screen and (max-width: 1000px) {
+    display: flex;
+    justify-content: center;
+
+    .sell {
+      width: 40vw;
+      height: 10vw;
+      border-radius: 2vw;
+      font-size: 5vw;
+    }
   }
 `
 
@@ -257,15 +264,26 @@ const PropertiesArea = styled.div`
 const CornerFlag = styled.div`
   position: absolute;
   color: white;
-  top: -1rem;
-  left: -0.45rem;
-  font-width: 500;
+  bottom: 20vw;
+  right: 16vw;
+  font-weight: 550;
   text-align: center;
-  line-height: 3rem;
-  width: 8.5rem;
-  height: 3.7rem;
+  width: 4.5vw;
+  height: 2vw;
   background-image: url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default});
   background-size: cover;
+  z-index: 2;
+
+  @media screen and (max-width: 1000px) {
+    top: 3vw;
+    left: 8.7vw;
+    width: 25vw;
+    height: 10vw;
+  }
+`
+
+const NFTImage = styled(Image)`
+
 `
 
 const ImageContainer = styled.div`
@@ -277,8 +295,8 @@ const ImageContainer = styled.div`
   border-radius: 2rem;
   justify-content: center;
   position: relative;
-  border: 1px solid #98BDF9;
   object-fit: cover;
+
 
 
   img {
@@ -504,25 +522,6 @@ const NFTBaseInfoContainer = styled.div`
     color: #98BDF9;
   }
 
-  @media screen and (max-width: 600px) {
-    display: flex;
-    justify-content: center;
-
-    .nft-name {
-      width: fit-content;
-      font-size: 4.5rem;
-      font-weight: 550;
-      color: #98BDF9;
-      padding: 5vh 0;
-    }
-
-    .line {
-      margin-bottom: 5vh;
-      width: 80vw;
-      border-bottom: solid 0.2rem #787A91;
-
-    }
-  }
 
   .description {
     margin-top: 1.2rem;
@@ -566,8 +565,6 @@ const NFTBaseInfoContainer = styled.div`
         color: #98BDF9;
         cursor: pointer;
       }
-
-
     }
   }
 
@@ -628,6 +625,25 @@ const NFTBaseInfoContainer = styled.div`
     }
 
   }
+
+  @media screen and (max-width: 600px) {
+    display: flex;
+    justify-content: center;
+
+    .nft-name {
+      width: fit-content;
+      font-size: 4.5rem;
+      font-weight: 550;
+      color: #98BDF9;
+      padding: 5vh 0;
+    }
+
+    .line {
+      margin-bottom: 5vh;
+      width: 80vw;
+      border-bottom: solid 0.2rem #787A91;
+    }
+  }
 `
 
 const BuyOperating = styled.div`
@@ -635,14 +651,25 @@ const BuyOperating = styled.div`
   margin-top: 1.2rem;
 
   .buyNow {
-    width: 25.9rem;
-    height: 40px;
+    width: 13vw;
+    height: 2.5vw;
     background: #305099;
-    border-radius: 10px;
-    font-size: 1.4rem;
+    border-radius: 0.5vw;
+    font-size: 1vw;
     font-weight: 500;
     color: #FFFFFF;
-    line-height: 2rem;
+  }
+
+  @media screen and (max-width: 1000px) {
+    display: flex;
+    justify-content: center;
+
+    .buyNow {
+      width: 40vw;
+      height: 10vw;
+      border-radius: 2vw;
+      font-size: 5vw;
+    }
   }
 `
 
@@ -663,16 +690,16 @@ const MobileNFTBaseInfoContainer = styled.div`
     font-size: 5vw;
 
     .info-favorite >img {
-      width: 8vw;
-      height: 2.5vh;
+      width: 7vw;
+      height: 2vh;
       display: flex;
       align-self: center;
       margin-right: 2vw;
     }
 
     .icon-heart > img {
-      width: 6vw;
-      height: 2.5vh;
+      width: 5vw;
+      height: 2vh;
       display: flex;
       align-self: center;
       margin-right: 2vw;
@@ -863,6 +890,10 @@ const MobileNFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
           <div className="nft-artist-value">
             { nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate) }
           </div>
+          <CopyOutlined
+            className="icon-copy"
+            onClick={() => handleCopy(nftDetail?.addressCreate)}
+          />
         </div>
         <div className="info-favorite" style={{ display:'flex' }}>
           <img
@@ -882,6 +913,10 @@ const MobileNFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
           <div className="nft-artist-value">
             <div className="nft-owner">{ thumbnailAddress(nftDetail?.addressOwner) }</div>
           </div>
+          <CopyOutlined
+            className="icon-copy"
+            onClick={() => handleCopy(nftDetail?.addressCreate)}
+          />
         </div>
         <div style={{ display:'flex' }} className = "icon-heart">
           <img
@@ -1408,11 +1443,31 @@ const CollectibleDetailPage: React.FC = () => {
             <NFTBaseInfo nftDetail={nftDetail} />
             <ImageContainer>
               {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
-              <img src={coverImageUrl()}
-                alt={nftDetail?.name}
-              />
+              <Image src={coverImageUrl()} />
+              {/*<img src={coverImageUrl()}*/}
+              {/*  alt={nftDetail?.name}*/}
+              {/*/>*/}
             </ImageContainer>
+
             <MobileNFTBaseInfo nftDetail={nftDetail} />
+            {
+              nftDetail?.onSale && nftDetail?.price && account !== nftDetail?.addressOwner &&
+              <BuyOperating>
+                <Button className="buyNow" onClick={onClickBuyButton}>
+                  Buy Now
+                </Button>
+              </BuyOperating>
+            }
+            {
+              isOwnerOfNFT() &&
+              <Operating>
+                {/*<Button className="edit">Edit</Button>*/}
+                <Button className="sell"
+                  onClick={openSellingModal}
+                >Sell
+                </Button>
+              </Operating>
+            }
             <NFTMetadata nftDetail={nftDetail} />
             <div className="mobile-properties-area">
               <Properties />
@@ -1439,7 +1494,10 @@ const CollectibleDetailPage: React.FC = () => {
               <LeftArea>
                 <ImageContainer>
                   {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
-                  <img src={coverImageUrl()} alt={nftDetail?.name} />
+                  <NFTImage src={coverImageUrl()} height={'34.4rem'} width={'31.2rem'} />
+                  {/*<img src={coverImageUrl()}*/}
+                  {/*  alt={nftDetail?.name}*/}
+                  {/*/>*/}
                 </ImageContainer>
               </LeftArea>
               <RightArea>

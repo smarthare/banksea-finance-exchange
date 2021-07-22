@@ -142,7 +142,8 @@ const AppHeader: React.FC<{ onCollapseChanged: () => void }> = ({ onCollapseChan
         <img
           src={isMobile ? BanksyLogoIcon : BanksyLogo}
           alt="banksy"
-          style={ isMobile ? { width: '3.5rem' } : { width: '15.6rem' } }
+          style={ isMobile ? { width: '3.5rem' } : { width: '15.6rem',cursor:'pointer' } }
+          onClick={()=> history.push('')}
         />
       </Row>
 
