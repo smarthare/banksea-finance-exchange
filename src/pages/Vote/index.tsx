@@ -206,23 +206,17 @@ const VotesContainerTable = styled.div`
   width: 100%;
   margin-top: 5rem;
   overflow-x: hidden;
+  display: flex;
+  justify-content: center;
   .votes {
     display: none;
 
     .search-box {
-      width: 116rem;
       position: relative;
-      margin-top: 2.1rem;
-      margin-left: calc((100% - 116rem) / 2);
+      top: 2vw;
+      width: 50vw;
       display: flex;
       align-items: center;
-
-      .search-box-text {
-        position: absolute;
-        right: 0;
-        color: #9FC4FD;
-        font-size: 1.4rem;
-      }
     }
   }
 
@@ -256,7 +250,7 @@ const SearchInput = styled(Input)`
 `
 
 const VoteStatistics = styled.section`
-  margin: 3rem calc((100% - 116rem) / 2);
+  margin: 3vw 0;
   width: 116rem;
 
   table {
@@ -264,6 +258,7 @@ const VoteStatistics = styled.section`
     border-spacing: 0px;
     border-collapse: collapse;
     table-layout:fixed;
+    overflow-x: scroll;
 
     tbody tr td {
       white-space:nowrap;
@@ -273,8 +268,6 @@ const VoteStatistics = styled.section`
       padding: 0 7px;
     }
   }
-
-
   table caption{
     font-weight: bold;
     font-size: 1.4rem;
@@ -362,7 +355,6 @@ const TwitterVotesTable: React.FC<VotesType> = ({ current, onPressEnter, retweet
             onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#3658A7', width: '1.5rem' }} />}
           />
-          {/* <span className="search-box-text">Unit/USDC</span> */}
         </div>
         <VoteStatistics className="table-box">
           <table cellPadding="0" cellSpacing="0">
@@ -453,9 +445,8 @@ const TwitterVoteRegistration: React.FC<VotesType> = ({ current, onPressEnter, r
             </Form.Item>
           </RegistrationItem>
           <RegistrationItem>
-            <p>Referrer Discord ID Or Other ID</p>
             <Form.Item
-              label=""
+              label="Referrer Discord ID Or Other ID"
               name="discordId"
               rules={[{ required: true, message: 'Please fill out Referrer Discord ID Or Other ID!' }]}
             >

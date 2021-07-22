@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Radio, Modal, Input, Select, Button, Switch } from 'antd'
+import { Button, Input, Radio } from 'antd'
 import history from '@/assets/images/swap/history.png'
 import setting from '@/assets/images/swap/setting.png'
 import selectArrow from '@/assets/images/swap/selectArrow.png'
@@ -12,20 +12,33 @@ import SettingModal from '../../components/SettingModal'
 
 const FarmPageContainer = styled.div`
   font-family: 'PingFang SC';
-  min-height: 100vh;
-  width: 500px;
-  margin-left: calc((100% - 500px) / 2);
+  width:  100%;
+  overflow-x: hidden;
+  padding: 4vw 25vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  @media screen and (max-width: 1000px) {
+    padding: 0 5vw;
+    height: 100vw;
+    width: 100vw;
+  }
 `
 const SwitchArea = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 1000px) {
+    margin-top: 20vw;
+    width: 100vw;
+  }
 `
 
 const MyRadio = styled(Radio.Group)`
-  margin-top: 5.8rem;
-  background: #E0DDF6;
-  border-radius: 2.5rem;
+  background: #97BCF9;
+  border-radius: 5vw;
 
   .ant-radio-button-wrapper {
     height: 4rem;
@@ -36,20 +49,19 @@ const MyRadio = styled(Radio.Group)`
     justify-content: center;
     padding-top: 0.6rem;
     font-size: 1.6rem;
-    font-weight: 500;
-    color: #7C6DEB;
+    font-weight: 550;
+    color: white;
     line-height: 2.2rem;
   }
 
   .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-    background: #7c6deb !important;
-    border-color: #7c6deb;
+    background: #181F61 !important;
   }
 
   .ant-radio-button-wrapper-checked > span {
     font-size: 1.6rem;
-    font-weight: 500;
-    color: #FFFFFF;
+    font-weight: 550;
+    color: white;
     line-height: 2.2rem;
   }
 
@@ -63,19 +75,20 @@ const MyRadio = styled(Radio.Group)`
 
   .ant-radio-button-wrapper {
     border-radius: 2.5rem;
-    background: #E0DDF6;
+    background: #97BCF9;
   }
 
   .ant-radio-button-wrapper:not(:first-child)::before {
     width: 0px;
   }
 `
+
 const Swap = styled.div`
   width: 100%;
-  height: 50.8rem;
-  margin-top: 4.9rem;
+  height: 33vw;
+  margin-top: 3vw;
   border-radius: 1rem;
-  background: #fff;
+  background: #305099;
 
   .swap-main-container {
     padding: 2rem 2rem 2.4rem 2rem;
@@ -86,7 +99,7 @@ const UnlockButton = styled(Button)`
   width: 100%;
   height: 5rem;
   margin-top: 4rem;
-  background: #7C6DEB;
+  background: #181F61;
   border: none;
   color: #ffffff;
   border-radius: 1rem;
@@ -99,14 +112,15 @@ const FormsModalTop = styled.div`
 
   .forms-modal-top-left {
     float: left;
+    font-weight: 550;
 
     .forms-modal-top-title {
-      color: #180E61;
+      color: #97BCF9;
       font-size: 2.2rem;
     }
 
     .formsModalTop-text {
-      color: #A196EF;
+      color: #97BCF9;
       font-size: 1.4rem;
     }
   }
@@ -129,12 +143,12 @@ const FormsModalTop = styled.div`
 const Line = styled.div`
   width: 100%;
   height: 0.1rem;
-  background: #DCDCDC;
+  background: #181F61;
 `
 const InputItem = styled.div`
   width: 100%;
   height: 11.8rem;
-  background: #E0DDF6;
+  background: #97BCF9;
   border-radius: 1rem;
   padding: 1.5rem 1.7rem 2.1rem 2.3rem;
 
@@ -151,11 +165,16 @@ const InputItem = styled.div`
       width: 50%;
       margin-top: 3.2rem;
       border: none;
-      background-color: #E0DDF6;
-      color: #A196EF;
+      background-color: #97BCF9;
+      color: #181F61;
       font-size: 2.2rem;
       padding: 0;
     }
+
+    .ant-input {
+      &::placeholder {
+        color: #181F61;
+        transition: all 1s;
   }
 `
 
@@ -167,13 +186,17 @@ const CurrencySelect = styled.div`
   display: flex;
   font-size: 1.8rem;
   align-items: center;
-  background-color: #E0DDF6;
+  background-color: #97BCF9;
   color: #181F61;
   cursor: pointer;
   border-radius: 1rem;
+  transition: all 0.5s;
+
 
   &:hover {
-    background-color: #A196EF;
+    background-color: #5381d0;
+    transition: all 0.5s;
+
   }
 
   .babImg {
@@ -202,20 +225,21 @@ const DownArray = styled.div`
 const Liquidity = styled.div`
   width: 100%;
   border-radius: 1rem;
-  background: #fff;
+  background: #305099;
 `
 const LiquidityTab = styled.div`
   width: 100%;
   display: flex;
   border-radius: 1rem;
-  margin-top: 4.9rem;
-  background: #E0DDF6;
+  margin-top: 3vw;
+  background: #0B111E;
 
   div {
     width: 50%;
     height: 7rem;
-    background: #E0DDF6;
-    color: #7C6DEB;
+    font-weight: 550;
+    background: #97BCF9;
+    color: #181F61;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -231,14 +255,14 @@ const LiquidityTab = styled.div`
   }
 
   .tabs__link {
-    background: #fff;
-    color: #181F61;
+    background: #181F61;
+    color: white;
     border-top-left-radius: 1rem;
   }
 `
 
 const YourLiquidityMain = styled.div`
-    padding-bottom: 3.5rem;
+  padding-bottom: 3.5rem;
 
   .yourLiquidity {
     display: none;
@@ -249,8 +273,8 @@ const YourLiquidityMain = styled.div`
     height: 9.6rem;
     line-height: 9.6rem;
     text-align: center;
-    color: #7C6DEB;
-    background: #EEEEEE;
+    color: #97BCF9;
+    background: #305099;
   }
 
   .addLiquidity {
@@ -258,9 +282,9 @@ const YourLiquidityMain = styled.div`
     height: 5rem;
     margin-left: calc((100% - 25.4rem) / 2);
     margin-top: 4rem;
-    background: #fff;
-    border: 2px solid #7C6DEB;
-    color: #7C6DEB;
+    background: #181F61;
+    border: 2px solid #353fac;
+    color: #fff;
     border-radius: 5rem;
     display: flex;
     justify-content: center;
