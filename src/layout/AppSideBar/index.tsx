@@ -94,7 +94,7 @@ const AppSideBar: React.FC = () => {
             const fillColor = (route.path === pathname || route.match?.test(pathname)) ? 'white' : '#fff'
 
             return (
-              <Menu.Item key={route.path} icon={<route.icon fill={fillColor} />}>
+              <Menu.Item key={route.path} icon={<route.icon fill={fillColor} />} disabled={route.disable}>
                 <Link to={route.path} style={{ userSelect: 'none', color: 'rgb(178,178,178)' }}>
                   {route.title}
                 </Link>
