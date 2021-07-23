@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import { Button, Progress, Switch } from 'antd'
+import { Button, Progress } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import {
@@ -136,30 +136,10 @@ const BorrowInformationLeft = styled.div`
   }
 `
 
-const LeftTitle = styled.div`
-  color: #6644F9;
-`
-
-const DepositInformation = styled.div`
-  padding: 1.5rem 3.5rem;
-
-  p {
-    color: #fff;
-    margin-top: 1rem;
-  }
-`
-
-const MyAccess = styled.div`
-  width: 71.1rem;
-  margin-left: 1.4rem;
-`
-
 const MyAccessTable = styled.div`
-
   &:nth-of-type(2) {
     margin-top: 1rem;
   }
-
 `
 
 const MyAccessTableYop = styled.div`
@@ -402,16 +382,6 @@ const NFTLiquidationMortgagesMain = styled.div`
     }
   }
 `
-
-const ETHIcon: React.FC = () => {
-  return (
-    <img
-      src={require('../../assets/images/eth.svg').default}
-      alt="ETH"
-      style={{ width: '1.2rem', marginRight: '0.8rem' }}
-    />
-  )
-}
 
 const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({ userInfo, depositList }) => {
   console.log(userInfo)

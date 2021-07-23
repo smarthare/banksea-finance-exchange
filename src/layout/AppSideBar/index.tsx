@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, Menu } from 'antd'
+import { Menu } from 'antd'
 import styled from 'styled-components'
 import { Link, useLocation } from 'react-router-dom'
 import routes, { Route } from '../../routes'
@@ -109,14 +109,14 @@ const AppSideBar: React.FC = () => {
           rel="noreferrer"
           target="_blank"
         >
-          <img src={twitterIcon} />
+          <img src={twitterIcon} alt="" />
         </a>
         <a
           href={'https://t.me/Banskyfinance'}
           rel="noreferrer"
           target="_blank"
         >
-          <img src={telegramIcon} />
+          <img src={telegramIcon} alt="" />
         </a>
       </CustomizedLink>
     </Container>

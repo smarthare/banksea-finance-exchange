@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
 import stateKSY from '../../assets/images/Pools/stateKSY.png'
 import stateBPT from '../../assets/images/Pools/StateBPT.png'
-import { Button } from 'antd'
 
 const StakeMain = styled.div`
   width: 123rem;
@@ -173,11 +172,11 @@ const StakePage: React.FC = () => {
         </StakeMainText>
         <StakeMainPledge>
           <div className="StakeMainPledge-item">
-            <img src={stateKSY} />
+            <img src={stateKSY} alt="Stake KSY" />
             <div>Stake KSY</div>
           </div>
           <div className="StakeMainPledge-item">
-            <img src={stateBPT} />
+            <img src={stateBPT} alt="Stake KSY/ETH BPT" />
             <div>
               Stake<br />
               KSY/ETH BPT

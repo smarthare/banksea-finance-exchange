@@ -205,9 +205,6 @@ const Option:React.FC = () => {
 }
 
 const Schedule:React.FC<{ data: any }> = ({ data }) => {
-
-  const history = useHistory()
-
   const account = useSelector(getAccount)
 
   const formInitialValues = {
@@ -257,9 +254,6 @@ const Schedule:React.FC<{ data: any }> = ({ data }) => {
 
 
 const BorrowItemDetailPage:React.FC = () => {
-
-  const history = useHistory()
-
   const account = useSelector(getAccount)
 
   const { id } = useParams<any>()
@@ -294,7 +288,7 @@ const BorrowItemDetailPage:React.FC = () => {
         <div className="detailData-top">
           <div className="detailData-top-name">Borrow {data?.assetsName}</div>
           <div className="detailData-top-overview">
-            <img src={data?.assetsImage} />
+            <img src={data?.assetsImage} alt="" />
             <div>{data?.assetsName} Reserve Overview</div>
           </div>
         </div>

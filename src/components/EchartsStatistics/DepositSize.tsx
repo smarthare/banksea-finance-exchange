@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 
 const DepositSize:React.FC<{ depositStatistics: any }> = ({ depositStatistics }) => {
-  const data =  [
+  /*const data =  [
     [
       'Jun 17',
       399161649
@@ -183,7 +183,7 @@ const DepositSize:React.FC<{ depositStatistics: any }> = ({ depositStatistics })
       'Jul 31',
       250740171
     ]
-  ]
+  ]*/
 
   const dateList = depositStatistics?.map(function (item: any[]) {
     return item[0]

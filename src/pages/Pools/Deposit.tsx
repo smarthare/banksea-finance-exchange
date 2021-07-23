@@ -70,7 +70,7 @@ const Line = styled.div`
   background: linear-gradient(to right, #00FFFF, #5D00B3);
 `
 
-const CoinTabsArea = styled.div`
+/*const CoinTabsArea = styled.div`
   width: 20.6rem;
   height: 2.7rem;
   background: #080F26;
@@ -92,7 +92,7 @@ const CoinTabsArea = styled.div`
   .tabs__link {
     background: #6C48FF;
   }
-`
+`*/
 
 const AllCoinTable = styled.div`
   width: 72.4rem;
@@ -191,7 +191,7 @@ const AllCoinTableMain = styled.div`
   }
 `
 
-const DepositButton = styled.div`
+/*const DepositButton = styled.div`
   width: 7rem;
   height: 2rem;
   font-size: 1.2rem;
@@ -201,7 +201,7 @@ const DepositButton = styled.div`
   border-radius: 0.5rem;
   margin-right: 1rem;
   cursor: pointer;
-`
+`*/
 
 const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
   const history = useHistory()

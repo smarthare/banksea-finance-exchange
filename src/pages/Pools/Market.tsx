@@ -3,7 +3,6 @@ import clsx from 'clsx'
 import styled from 'styled-components'
 import DepositSize from '../../components/EchartsStatistics/DepositSize'
 import { useHistory } from 'react-router-dom'
-import lottie from 'lottie-web'
 
 import { depositPoolsList, depositSize, depositSizeStatistics, mortgagePoolsList, mortgageSize } from '../../apis/pool'
 import PageLoading from '../../components/PageLoding'
@@ -217,7 +216,7 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
                 onClick={() => history.push('/pools/market/mortgage/detail')}
               >
                 <div>
-                  <img src={item?.nftImage} />
+                  <img src={item?.nftImage} alt="" />
                 </div>
                 <div>{item?.nftName}</div>
                 <div>{item?.mortgageValue}</div>
@@ -236,7 +235,7 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
 const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
   const history = useHistory()
 
-  const usdTableTop = ['Assets', 'Market size', 'Total borrowed', 'Deposit APY', 'Deposit APY', 'Borrow APY']
+  // const usdTableTop = ['Assets', 'Market size', 'Total borrowed', 'Deposit APY', 'Deposit APY', 'Borrow APY']
 
   return (
     <PoolContainer>

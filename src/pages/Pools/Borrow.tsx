@@ -61,13 +61,13 @@ const DepositAreaRight = styled.div`
   }
 `
 
-const MyBorrows = styled.div`
+/*const MyBorrows = styled.div`
   height: 23rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-left: 1.4rem;
   margin-top: 2rem;
-`
+`*/
 
 const Line = styled.div`
   width: 100%;
@@ -75,29 +75,29 @@ const Line = styled.div`
   background: linear-gradient(to right, #00FFFF, #5D00B3);
 `
 
-const CoinTabsArea = styled.div`
-  width: 20.6rem;
-  height: 2.7rem;
-  background: #080F26;
-  border-radius: 0.5rem;
-  color: #fff;
-  display: flex;
-  margin-left: 2.9rem;
-  margin-top: 3.5rem;
-
-  .coin-tab-item {
-    width: 10.3rem;
-    height: 2.7rem;
-    line-height: 2.7rem;
-    text-align: center;
-    border-radius: 0.5rem;
-    cursor: pointer;
-  }
-
-  .tabs__link {
-    background: #6C48FF;
-  }
-`
+// const CoinTabsArea = styled.div`
+//   width: 20.6rem;
+//   height: 2.7rem;
+//   background: #080F26;
+//   border-radius: 0.5rem;
+//   color: #fff;
+//   display: flex;
+//   margin-left: 2.9rem;
+//   margin-top: 3.5rem;
+//
+//   .coin-tab-item {
+//     width: 10.3rem;
+//     height: 2.7rem;
+//     line-height: 2.7rem;
+//     text-align: center;
+//     border-radius: 0.5rem;
+//     cursor: pointer;
+//   }
+//
+//   .tabs__link {
+//     background: #6C48FF;
+//   }
+// `
 
 const AllCoinTable = styled.div`
   width: 72.4rem;
@@ -221,7 +221,7 @@ const MortgageButton = styled(Button)`
   }
 `
 
-const DepositButton = styled.div`
+/*const DepositButton = styled.div`
   width: 7rem;
   height: 2rem;
   font-size: 1.2rem;
@@ -231,7 +231,7 @@ const DepositButton = styled.div`
   border-radius: 0.5rem;
   margin-right: 1rem;
   cursor: pointer;
-`
+`*/
 
 const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
   const history = useHistory()

@@ -330,12 +330,12 @@ const VoteStatistics = styled.section`
 }
 `
 
-const MobileRegistrationContainer = styled.div`
+/*const MobileRegistrationContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
   padding: 5vw 10vw;
-`
+`*/
 
 type VotesType = {
   current: number
@@ -499,13 +499,7 @@ const SolanaVotes: React.FC<VotesType> = ({ current, solana, onPressEnter }) => 
   )
 }
 
-type Filecoin = {
-  current: number,
-  filecoin: Array<any>,
-  onPressEnter: any
-}
-
-const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter }) => {
+/*const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter }) => {
 
   return (
     <VotesContainerTable>
@@ -515,7 +509,7 @@ const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter })
             onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#3658A7', width: '1.5rem' }} />}
           />
-          {/* <span className="search-box-text">Unit/USDC</span> */}
+          {/!* <span className="search-box-text">Unit/USDC</span> *!/}
         </div>
         <VoteStatistics className="table-box">
           <table cellPadding="0" cellSpacing="0">
@@ -545,12 +539,9 @@ const FilecoinVotes: React.FC<VotesType> = ({ current, filecoin, onPressEnter })
       </div>
     </VotesContainerTable>
   )
-}
+}*/
 
-const VoteRegistration: React.FC<VotesType> = ({ current, filecoin, onPressEnter, init }) => {
-
-  const isMobile = useMediaQuery({ query:'(max-width:1000px)' })
-
+const VoteRegistration: React.FC<VotesType> = ({ current, init }) => {
   const [form] = Form.useForm()
 
   const formInitialValues = {
@@ -736,23 +727,3 @@ const VotePage: React.FC = () => {
 }
 
 export default VotePage
-
-{/*<JoinBanksyText>*/}
-{/*  Welcome to join Bansky community!<br />*/}
-{/*  Discord：https://discord.gg/NdRGt4BDFe<br />*/}
-{/*  Twitter: https://twitter.com/banksy_finance<br />*/}
-{/*  Telegram: https://t.me/Banskyfinance<br />*/}
-{/*  Facebook: https://www.facebook.com/Banksy-Finance-107964618196801*/}
-{/*</JoinBanksyText>*/}
-{/*<RoleDescription>*/}
-{/*  All your votes for Banksy can be added for a higher level Role and more airdrops!*/}
-{/*  Please make sure your information is correct before confirming. Thank you!!Special Roles in the Discord server.<br />*/}
-{/*  - Role OG, at least 1USDC of total votes, can get the OG Role.<br />*/}
-{/*  - Role Silver, at least 5 USDC of total votes, can get the Silver Role.<br />*/}
-{/*  - Role Gold, at least 15 USDC of total votes, can get the Gold Role.<br />*/}
-{/*  - Role Platinum, at least 20USDC of total votes, can get the Platinum Role.<br />*/}
-{/*  - Role Diamond, at least 50USDC of total votes, can get the Diamond Role.<br />*/}
-{/*  - Role Hero, at least 80 USDC of total votes, can get the Hero Role.<br />*/}
-{/*  - Role Hunter, for inviting members at least 50. Please invite members in by sharing the invite links from the server created by yourself.<br />*/}
-{/*  - Role Rare, for voting referrer at least 15 valid votes. Please make sure voters apply your Discord ID in the form.*/}
-{/*</RoleDescription>*/}

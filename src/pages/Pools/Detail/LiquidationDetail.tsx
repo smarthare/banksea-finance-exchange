@@ -1,9 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
-import { useLocationQuery } from '../../../utils'
 import { CopyOutlined } from '@ant-design/icons'
-import { getNftFavoriteCount } from '../../../apis/nft'
 
 const LiquidationDetailMain = styled.div`
   min-height: 100vh;
