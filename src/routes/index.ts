@@ -94,7 +94,8 @@ const routes: Route[] = [
     path: '/farms',
     title: 'Farms',
     icon: FarmsIcon,
-    component: FarmPage
+    component: FarmPage,
+    hidden: true
   },
   {
     path: '/oracle',

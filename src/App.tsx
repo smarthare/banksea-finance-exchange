@@ -12,14 +12,14 @@ import { Route } from 'react-router-dom'
 
 const Header = styled(Layout.Header)`
   padding: 0;
-  height: 62px;
+  height: 6.2rem;
   position: relative;
   zIndex: 999;
   width: 100vw;
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
     padding: 0;
-    height: 62px;
+    height: 6.2rem;
     position: relative;
     zIndex: 999;
     width: 100vw;
@@ -29,7 +29,7 @@ const Header = styled(Layout.Header)`
 const Presentation = styled.div`
   position: fixed;
   top: 6.5rem;
-  left: 0px;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: #305099;
@@ -58,14 +58,13 @@ const App: React.FC = () => {
           style={ isMobile ? {
             position: 'fixed',
             zIndex: 99,
-            top: '62px',
-            left: collapsed ? '-8rem' : 0,
-            // display: collapsed ? 'none' : '',
+            top: '6.2rem',
+            left: collapsed ? '-20rem' : 0,
           } :
             {
               position: 'fixed',
               zIndex: 99,
-              top: '62px',
+              top: '6.2rem',
             }}
           collapsed={collapsed}
         >

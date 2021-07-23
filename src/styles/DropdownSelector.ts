@@ -3,6 +3,7 @@ import { Select } from 'antd'
 
 const DropdownSelector = styled(Select)`
   margin-left: 2.5rem;
+  font-size: 1.4rem;
 
   &,
   .ant-select {
@@ -18,7 +19,7 @@ const DropdownSelector = styled(Select)`
     color: white;
     height: 4rem !important;
     display: flex;
-    align-items: center
+    align-items: center;
   }
 
   .ant-select-selection-item {
@@ -27,6 +28,7 @@ const DropdownSelector = styled(Select)`
     text-align: center !important;
     line-height: 5rem !important;
     margin: 0 0.5rem !important;
+    font-size: 1.4rem;
   }
 
   span {
