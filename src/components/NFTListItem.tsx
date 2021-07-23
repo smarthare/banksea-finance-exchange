@@ -15,7 +15,7 @@ const NFTItemCardContainer = styled.div`
   width: 26rem;
   height: 37rem;
   background-color: #111C3A;
-  border-radius: 10px;
+  border-radius: 1rem;
   margin-bottom: 3rem;
   font-weight: bold;
   display: flex;
@@ -27,12 +27,21 @@ const NFTItemCardContainer = styled.div`
     height: 28.5rem;
     display: flex;
     justify-content: center;
+    overflow: hidden;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
   }
 
   img {
     object-fit: cover;
     width: 25.9rem;
     margin-bottom: 1.5rem;
+    transition: all 1s;
+    z-index: 0;
+
+    :hover {
+      transform: scale(1.1);
+    }
   }
 
   .spin {
@@ -95,7 +104,7 @@ const NFTItemCardContainer = styled.div`
     font-weight: 500;
   }
 
-  @media screen and (max-width: 1000) {
+  @media screen and (max-width: 1000px) {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -109,10 +118,10 @@ const ChainFlag = styled.span`
   align-items: center;
   color: #7c6deb;
   border: 1px #7c6deb solid;
-  height: 20px;
-  padding: 1px 2px;
-  margin-right: 4px;
-  border-radius: 4px;
+  height: 2rem;
+  padding: 0.1rem 0.2rem;
+  margin-right: 0.4rem;
+  border-radius: 0.4rem;
 `
 
 // eslint-disable-next-line no-unused-vars
@@ -166,7 +175,8 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
           width: '8.5rem',
           height: '3.7rem',
           backgroundImage: `url(${require('../assets/images/collectibles-item-corner-flag-bg.png').default})`,
-          backgroundSize: 'cover'
+          backgroundSize: 'cover',
+          zIndex: 9,
 
         }}
       >

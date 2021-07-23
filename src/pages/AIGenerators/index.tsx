@@ -207,8 +207,8 @@ const GeneratorFooter = styled.div`
 `*/
 
 const CreatButton = styled(Button)`
-  width: 211px;
-  height: 50px;
+  width: 21.1rem;
+  height: 5rem;
   background: #334ed0;
   border: none;
   border-radius: 1rem;
@@ -223,8 +223,8 @@ const CreatButton = styled(Button)`
   :hover {
     background: #2942b6;
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
+    border-radius: 1rem;
+    font-size: 1.6rem;
     font-weight: 500;
     color: #FFFFFF;
   }
