@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { Button, message, Table } from 'antd'
+import { Button, message, Popover, Table } from 'antd'
 import Show from '@/assets/images/collectibleDetailImg/show.png'
 import Heart from '@/assets/images/collectibleDetailImg/like.png'
 import moment from 'moment'
@@ -14,12 +14,8 @@ import more3 from '@/assets/images/detailMoreImg/more3.jpg'
 import more4 from '@/assets/images/detailMoreImg/more4.png'
 import { thumbnailAddress, useLocationQuery } from '../../utils'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../store/wallet'
-import { toWei } from '../../web3/utils'
-import { ExchangeOrder, ExchangeOrderAsset } from '../../BanksyWeb3/contracts/ethereum/services/exchange/types'
-import { hashExchangeOrder, hashExchangeOrderAsset } from '../../BanksyWeb3/contracts/ethereum/services/exchange/utils'
+import { getAccount, getCurrentChain } from '../../store/wallet'
 import { banksyWeb3 } from '../../BanksyWeb3'
-import { ethers } from 'ethers'
 import { usePurchaseCheckoutModal } from '../../hooks/modals/usePurchaseCheckoutModal'
 import { usePurchaseBlockedModal } from '../../hooks/modals/usePurchaseBlockedModal'
 import { useAuthorizingModal } from '../../hooks/modals/useAuthorizingModal'
@@ -27,16 +23,22 @@ import { usePurchaseTransactionSentModal } from '../../hooks/modals/usePurchaseT
 import { useSellingModal } from '../../hooks/modals/useSellingModal'
 import ETHIcon from '../../components/ETHIcon'
 import { usePurchaseWaitingConfirmationModal } from '../../hooks/modals/usePurchaseWaitingConfirmationModal'
-import { banksyNftDetail, getNftFavoriteCount } from '../../apis/nft'
-import { chooseOrder, completeOrder } from '../../apis/transaction'
+import { getNftFavoriteCount } from '../../apis/nft'
 import { useMediaQuery } from 'react-responsive'
+import { NftDetail } from '../../types/NFTDetail'
+import { closeExchange } from '../../BanksyWeb3/services/solana/exchange'
+import { getExchangeInfo } from '../../apis/exchange/solana'
+import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
+import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
+import { useNftDetailQuery } from '../../hooks/queries/useNftDetailQuery'
+import { useHistory } from 'react-router-dom'
 
 const Row = styled.div`
   display: flex;
   justify-content: center;
 `
 
-const BundleDetailContainer = styled.div`
+const CollectiblesDetailContainer = styled.div`
   color: black;
   width: 100%;
   display: flex;
@@ -52,7 +54,7 @@ const BundleDetailContainer = styled.div`
     position: relative;
   }
 
-  @media screen and (min-width : 300px) and (max-width: 600px) {
+  @media screen and (min-width: 300px) and (max-width: 600px) {
     width: 100vw !important;
     height: fit-content;
     background-color: #0B111E;
@@ -145,23 +147,12 @@ const Operating = styled.div`
   display: flex;
   width: 100%;
   position: relative;
+  justify-content: flex-end;
 
-  .edit {
-    width: 15rem;
-    height: 40px;
-    border: 1px solid #7C6DEB;
-    border-radius: 10px;
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: #7C6DEB;
-    line-height: 2rem;
-    position: absolute;
-    right: 16rem;
-  }
 
-  .sell {
-    width: 10rem;
-    height: 40px;
+  .ant-btn {
+    width: fit-content;
+    margin-left: 1vw;
     background: #354d86;
     border: none;
     border-radius: 10px;
@@ -169,8 +160,6 @@ const Operating = styled.div`
     font-weight: 500;
     color: #FFFFFF;
     line-height: 2rem;
-    position: absolute;
-    right: 0;
   }
 `
 
@@ -290,7 +279,7 @@ const ImageContainer = styled.div`
 
   @media screen and (max-width: 600px) {
     margin-top: 5vw;
-    border:none;
+    border: none;
     height: 100%;
     width: 100vw;
 
@@ -386,9 +375,9 @@ const ItemsContainer = styled.div`
       .row {
         display: flex;
         justify-content: space-between;
-    }
+      }
 
-  }
+    }
 `
 
 const SubTitle = styled.div`
@@ -490,12 +479,11 @@ const OtherArtworksContainer = styled.div`
     width: 100vw !important;
 
     .artwork-group {
-      margin-left: calc((100vw - 22rem)/2);
+      margin-left: calc((100vw - 22rem) / 2);
       margin-bottom: 5vh;
     }
   }
 `
-
 
 const NFTBaseInfoContainer = styled.div`
   .nft-name {
@@ -630,39 +618,35 @@ const NFTBaseInfoContainer = styled.div`
   }
 `
 
-const BuyOperating = styled.div`
-  width: 100%;
+const BuyButton = styled(Button)`
   margin-top: 1.2rem;
+  width: 12vw;
+  height: 40px;
+  background: #305099;
+  color: #FFFFFF;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 2rem;
 
-  .buyNow {
-    width: 25.9rem;
-    height: 40px;
-    background: #305099;
-    border-radius: 10px;
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: #FFFFFF;
-    line-height: 2rem;
+  &[disabled] {
+    background: rgba(48, 80, 153, 0.55) !important;
+    color: #999;
   }
 `
 
 const MobileContainer = styled.div`
-
-
-
 `
 
 const MobileNFTBaseInfoContainer = styled.div`
-
-
-  .nft-info{
+  .nft-info {
     display: flex;
     justify-content: space-between;
     padding: 1vh 10.5vw;
     color: #B2B1B9;
     font-size: 5vw;
 
-    .info-favorite >img {
+    .info-favorite > img {
       width: 8vw;
       height: 2.5vh;
       display: flex;
@@ -682,6 +666,7 @@ const MobileNFTBaseInfoContainer = styled.div`
     .nft-artist-label {
       font-weight: 550;
     }
+
     .nft-artist-value {
       font-weight: normal;
     }
@@ -697,30 +682,30 @@ const Properties: React.FC = () => {
       <PropertiesArea>
         {
           isMobile ?
-            <div className="mobile-properties" style={{ display:'flex', justifyContent:'center' }} >
-              <div style={{ display:'flex', justifyContent:'space-around', flexWrap:'wrap', width:'100vw' }}>
-                <div className="properties-group" >
+            <div className="mobile-properties" style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', width: '100vw' }}>
+                <div className="properties-group">
                   <div className="properties-item">
                     <div className="key">CHARACTER</div>
                     <div className="value">Cats</div>
                     <div className="percent">25% have this trait</div>
                   </div>
                 </div>
-                <div className="properties-group" >
+                <div className="properties-group">
                   <div className="properties-item">
                     <div className="key">CHARACTER</div>
                     <div className="value">Cats</div>
                     <div className="percent">25% have this trait</div>
                   </div>
                 </div>
-                <div className="properties-group" >
+                <div className="properties-group">
                   <div className="properties-item">
                     <div className="key">CHARACTER</div>
                     <div className="value">Cats</div>
                     <div className="percent">25% have this trait</div>
                   </div>
                 </div>
-                <div className="properties-group" >
+                <div className="properties-group">
                   <div className="properties-item">
                     <div className="key">CHARACTER</div>
                     <div className="value">Cats</div>
@@ -730,8 +715,8 @@ const Properties: React.FC = () => {
               </div>
             </div>
             :
-            <div style={{ display:'flex', justifyContent:'space-between', width:'30rem', flexWrap:'wrap' }} >
-              <div className="properties-group" >
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '30rem', flexWrap: 'wrap' }}>
+              <div className="properties-group">
                 <div className="properties-item">
                   <div className="key">CHARACTER</div>
                   <div className="value">Cats</div>
@@ -761,15 +746,14 @@ const Properties: React.FC = () => {
               </div>
             </div>
         }
-
       </PropertiesArea>
     </div>
   )
 }
 
-const TradingHistories: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
+const TradingHistories: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) => {
 
-  const isMobile = useMediaQuery({ query:'(max-width:1000px' })
+  const isMobile = useMediaQuery({ query: '(max-width:1000px' })
 
   const columns = [
     {
@@ -838,13 +822,9 @@ const TradingHistories: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
   )
 }
 
-const MobileNFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
+const MobileNFTBaseInfo: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) => {
   const uri = useLocationQuery('uri')
   const [likeNum, setLikeNum] = useState<any>()
-
-  const handleCopy = (content: any) => {
-    copy(content) && message.success('Copied successfully.', 1)
-  }
 
   const fetchLikeCount = useCallback(async () => {
     getNftFavoriteCount(uri).then(res => {
@@ -855,16 +835,17 @@ const MobileNFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
   useEffect(() => {
     fetchLikeCount()
   }, [fetchLikeCount])
+
   return (
     <MobileNFTBaseInfoContainer>
       <div className="nft-info">
-        <div style={{ display:'flex' }}>
-          <div className="nft-artist-label"> Artist : </div>
+        <div style={{ display: 'flex' }}>
+          <div className="nft-artist-label"> Artist :</div>
           <div className="nft-artist-value">
-            { nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate) }
+            {nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate)}
           </div>
         </div>
-        <div className="info-favorite" style={{ display:'flex' }}>
+        <div className="info-favorite" style={{ display: 'flex' }}>
           <img
             src={Show}
             alt=""
@@ -872,22 +853,20 @@ const MobileNFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
           />
           <div className="info-row-item-value">{likeNum?.view ? likeNum?.view : 0}</div>
         </div>
-
-
       </div>
 
       <div className="nft-info">
-        <div style={{ display:'flex' }}>
-          <div className="nft-artist-label"> Owner : </div>
+        <div style={{ display: 'flex' }}>
+          <div className="nft-artist-label"> Owner :</div>
           <div className="nft-artist-value">
-            <div className="nft-owner">{ thumbnailAddress(nftDetail?.addressOwner) }</div>
+            <div className="nft-owner">{thumbnailAddress(nftDetail?.addressOwner)}</div>
           </div>
         </div>
-        <div style={{ display:'flex' }} className = "icon-heart">
+        <div style={{ display: 'flex' }} className="icon-heart">
           <img
-            className = "icon-heart"
-            src = {Heart}
-            alt = ""
+            className="icon-heart"
+            src={Heart}
+            alt=""
           />
           <div className="info-name">{likeNum?.favorite}</div>
         </div>
@@ -896,7 +875,7 @@ const MobileNFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
   )
 }
 
-const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
+const NFTBaseInfo: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) => {
   const uri = useLocationQuery('uri')
 
   const [likeNum, setLikeNum] = useState<any>()
@@ -915,7 +894,7 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
     fetchLikeCount()
   }, [fetchLikeCount])
 
-  const isMobile = useMediaQuery({ query:'(max-width:600px)' })
+  const isMobile = useMediaQuery({ query: '(max-width:600px)' })
   return (
     <NFTBaseInfoContainer>
       {
@@ -1010,7 +989,7 @@ const NFTBaseInfo: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
   )
 }
 
-const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
+const NFTMetadata: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) => {
   const type = useLocationQuery('type')
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
 
@@ -1018,7 +997,7 @@ const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
     <ItemsContainer>
       {
         isMobile ?
-          <div >
+          <div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <div className="item">
                 <div className="row">
@@ -1042,7 +1021,7 @@ const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop:'2.5vh' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2.5vh' }}>
               <div className="item">
                 <div className="row">
                   <div className="label">Creator&apos;s Address：</div>
@@ -1063,7 +1042,7 @@ const NFTMetadata: React.FC<{ nftDetail: any }> = ({ nftDetail }) => {
 
           :
 
-          <div style={{ display:'flex', justifyContent:'space-between', width:'90rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '90rem' }}>
             <div className="item">
               <div className="row">
                 <div className="label">NFT Contract ID：</div>
@@ -1227,113 +1206,31 @@ const MoreArtworks: React.FC = () => {
   )
 }
 
-async function handlePurchase(nftDetail: any, account: string, {
-  onAuthorized,
-  onSuccess
-}: { onAuthorized: () => void, onSuccess: () => void }) {
-  const buyData = (await chooseOrder({
-    valueUri: nftDetail?.valueUri
-  })).data.data
-
-  const price = toWei(buyData!.makerAsset!.baseAsset!.value)
-
-  const sellOrder: ExchangeOrder = {
-    dir: 0,
-    maker: nftDetail!.addressOwner,
-    makerAsset: {
-      settleType: 0,
-      baseAsset: {
-        code: {
-          baseType: 3,
-          extraType: nftDetail!.tokenId,
-          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
-        },
-        value: 1
-      },
-      extraValue: 0
-    },
-    taker: '0x0000000000000000000000000000000000000000',
-    takerAsset: {
-      settleType: 0,
-      baseAsset: {
-        code: {
-          baseType: 1,
-          extraType: 0,
-          contractAddr: '0x0000000000000000000000000000000000000000'
-        },
-        value: price
-      },
-      extraValue: 0
-    },
-    fee: 0,
-    feeRecipient: '0x0000000000000000000000000000000000000000',
-    startTime: 0,
-    endTime: 0,
-    salt: buyData?.salt
-  }
-
-  const makerAsset: ExchangeOrderAsset = {
-    settleType: 0,
-    baseAsset: {
-      code: {
-        baseType: 1,
-        extraType: 0,
-        contractAddr: '0x0000000000000000000000000000000000000000'
-      },
-      value: price
-    },
-    extraValue: 0
-  }
-
-  const takerAsset: ExchangeOrderAsset = {
-    settleType: 0,
-    baseAsset: {
-      code: {
-        baseType: 3,
-        extraType: nftDetail?.tokenId,
-        contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
-      },
-      value: 1
-    },
-    extraValue: 0
-  }
-
-  const buyOrder: ExchangeOrder = {
-    dir: 1,
-    maker: account!,
-    makerAsset,
-    makerAssetHash: hashExchangeOrderAsset(makerAsset),
-    taker: nftDetail!.addressOwner,
-    takerAsset,
-    takerAssetHash: hashExchangeOrderAsset(takerAsset),
-    fee: 0,
-    feeRecipient: '0x0000000000000000000000000000000000000000',
-    startTime: 0,
-    endTime: 0,
-    salt: (Date.parse(new Date().toString())) / 1000
-  }
-
-  const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(buyOrder)))
-  onAuthorized()
-
-  await banksyWeb3.eth.Exchange.matchSingle(sellOrder, buyData!.signature, buyOrder, signature, `${makerAsset!.baseAsset.value}`)
-  await completeOrder({
-    valueUri: nftDetail?.valueUri,
-    addressOwner: account!
-  })
-  onSuccess()
-}
-
 const CollectibleDetailPage: React.FC = () => {
   moment.locale('en')
 
+  const history = useHistory()
+
+  const { providerInitialized } = useWeb3EnvContext()
+
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
+
   const account = useSelector(getAccount)
+  const currentChain = useSelector(getCurrentChain)
 
   const uri = useLocationQuery('uri')
   const contractAddress = useLocationQuery('contractAddress')
 
-  const [nftDetail, setNftDetail] = useState<any | undefined>()
+  if (!uri) {
+    history.push('/collectibles')
+    return <div />
+  }
 
+  const { data: nftDetail } = useNftDetailQuery({ uri, contractAddress })
+
+  const [reasonOfUnableToBuy, setReasonOfUnableToBuy] = useState<string>()
+
+  const { open: openWalletSelectionModal } = useWalletSelectionModal()
   const { purchaseBlockedModal, openPurchaseBlockedModal } = usePurchaseBlockedModal()
   const { authorizingModal, openAuthorizingModal, closeAuthorizingModal } = useAuthorizingModal()
   const {
@@ -1352,7 +1249,10 @@ const CollectibleDetailPage: React.FC = () => {
 
   const checkoutPassed = () => {
     openAuthorizingModal()
-    handlePurchase(nftDetail, account!, {
+
+    banksyWeb3.services.purchaseByFixedPrice({
+      account: account!,
+      nftDetail,
       onAuthorized: () => {
         closeAuthorizingModal()
         openPurchaseWaitingConfirmationModal()
@@ -1376,20 +1276,57 @@ const CollectibleDetailPage: React.FC = () => {
     closePurchaseCheckoutModal
   } = usePurchaseCheckoutModal(nftDetail, checkoutPassed, checkoutFailed)
 
-  const init = useCallback(async () => {
-    const { data } = await banksyNftDetail({ uri, contractAddress })
-    setNftDetail(data.data)
-  }, [uri, contractAddress])
+  useEffect(() => {
+    if (nftDetail?.nftPubKey) {
+      //
+    }
+
+  }, [nftDetail])
+
+  const allowToSell = () => {
+    if (nftDetail?.typeChain === 'Solana') {
+      // TODO: hack
+      // return true
+      return nftDetail?.nftPubKey?.length > 0 && account === nftDetail?.addressOwner
+    }
+
+    if (nftDetail?.typeChain === 'Ethereum') {
+      return nftDetail?.tokenId > 0 && account === nftDetail?.addressOwner
+    }
+  }
 
   useEffect(() => {
-    init()
-    window.scrollTo(0, 0)
-  }, [init])
+    if (!(nftDetail?.onSale && nftDetail.price)) {
+      setReasonOfUnableToBuy('Not on sale')
+      return
+    }
 
-  const isOwnerOfNFT = () => nftDetail?.tokenId > 0 && account === nftDetail?.addressOwner
+    if (account === nftDetail?.addressOwner) {
+      setReasonOfUnableToBuy('You CANNOT buy your own NFT')
+      return
+    }
+
+    if (nftDetail?.typeChain === 'Ethereum' && currentChain !== 'Ethereum'
+      || nftDetail?.typeChain === 'Solana' && currentChain !== 'Solana') {
+      setReasonOfUnableToBuy(`The NFT is on ${nftDetail.typeChain}, but now you are on ${currentChain}`)
+      return
+    }
+
+    setReasonOfUnableToBuy(undefined)
+  }, [account, currentChain, nftDetail])
+
+  const allowToSoldOut = () => {
+    return nftDetail?.onSale && allowToSell()
+  }
 
   const onClickBuyButton = () => {
     openPurchaseCheckoutModal()
+  }
+
+  const handleSoldOut = async () => {
+    const exchangePubKey = (await (getExchangeInfo(nftDetail!.nftPubKey))).data.data.exchangePubKey
+
+    closeExchange(nftDetail!.nftPubKey, exchangePubKey)
   }
 
   const coverImageUrl = useCallback(() => {
@@ -1398,19 +1335,15 @@ const CollectibleDetailPage: React.FC = () => {
       `https://banksy.mypinata.cloud${nftDetail?.image?.slice(-52)}`
   }, [nftDetail])
 
-  const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
-
   return (
-    <BundleDetailContainer>
+    <CollectiblesDetailContainer>
       {
         isMobile ?
-          <MobileContainer >
+          <MobileContainer>
             <NFTBaseInfo nftDetail={nftDetail} />
             <ImageContainer>
               {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
-              <img src={coverImageUrl()}
-                alt={nftDetail?.name}
-              />
+              <img src={coverImageUrl()} alt={nftDetail?.name} />
             </ImageContainer>
             <MobileNFTBaseInfo nftDetail={nftDetail} />
             <NFTMetadata nftDetail={nftDetail} />
@@ -1420,20 +1353,25 @@ const CollectibleDetailPage: React.FC = () => {
             <TradingHistories nftDetail={nftDetail} />
             <MoreArtworks />
           </MobileContainer>
-
           :
           <div>
             <div className="operating">
-              {
-                isOwnerOfNFT() &&
-                <Operating>
-                  {/*<Button className="edit">Edit</Button>*/}
-                  <Button className="sell"
-                    onClick={openSellingModal}
-                  >Sell
-                  </Button>
-                </Operating>
-              }
+              <Operating>
+                {
+                  allowToSoldOut() && (
+                    <Button onClick={handleSoldOut}>
+                      Sold out
+                    </Button>
+                  )
+                }
+                {
+                  allowToSell() && (
+                    <Button onClick={openSellingModal}>
+                      Sell
+                    </Button>
+                  )
+                }
+              </Operating>
             </div>
             <Row>
               <LeftArea>
@@ -1444,16 +1382,25 @@ const CollectibleDetailPage: React.FC = () => {
               </LeftArea>
               <RightArea>
                 <NFTBaseInfo nftDetail={nftDetail} />
-
                 {
-                  nftDetail?.onSale && nftDetail?.price && account !== nftDetail?.addressOwner &&
-                  <BuyOperating>
-                    <Button className="buyNow" onClick={onClickBuyButton}>
-                      Buy Now
-                    </Button>
-                  </BuyOperating>
+                  !providerInitialized ? (
+                    <BuyButton onClick={openWalletSelectionModal}>
+                      Connect To A Wallet
+                    </BuyButton>
+                  ) : (
+                    !reasonOfUnableToBuy ? (
+                      <BuyButton onClick={onClickBuyButton}>
+                        Buy Now
+                      </BuyButton>
+                    ) : (
+                      <Popover content={reasonOfUnableToBuy}>
+                        <BuyButton onClick={onClickBuyButton} disabled={true}>
+                          Buy Now
+                        </BuyButton>
+                      </Popover>
+                    )
+                  )
                 }
-
                 <NFTMetadata nftDetail={nftDetail} />
               </RightArea>
             </Row>
@@ -1478,7 +1425,7 @@ const CollectibleDetailPage: React.FC = () => {
       {purchaseTransactionSentModal}
       {sellingModal}
 
-    </BundleDetailContainer>
+    </CollectiblesDetailContainer>
   )
 }
 

@@ -6,15 +6,6 @@ import clsx from 'clsx'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { banksyWeb3 } from '../../BanksyWeb3'
-import { toWei } from '../../web3/utils'
-import {
-  ExchangeOrder,
-  ExchangeOrderAsset,
-  SellingOrder
-} from '../../BanksyWeb3/contracts/ethereum/services/exchange/types'
-import { hashExchangeOrder, hashExchangeOrderAsset } from '../../BanksyWeb3/contracts/ethereum/services/exchange/utils'
-import { ethers } from 'ethers'
-import { sellOrder } from '../../apis/transaction'
 
 
 type MessageHintProps = {
@@ -26,13 +17,16 @@ const SellingModal = styled(Modal)`
   .ant-modal-close-icon {
     color: white;
   }
+
   .ant-modal-content {
     border-radius: 1rem;
     width: 58.3rem;
   }
+
   .ant-modal-body,
-  .ant-modal-header{
-    background-color: #111C3A; !important;
+  .ant-modal-header {
+    background-color: #111C3A;
+  !important;
   }
 
   .ant-modal-header {
@@ -114,8 +108,9 @@ const SellingModal = styled(Modal)`
         border: none;
 
       }
+
       .ant-select-selection-item {
-        color:white;
+        color: white;
         font-weight: 550;
       }
 
@@ -349,7 +344,7 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed, onStart }: Sell
     message: '', type: 'hint'
   })
 
-  const tabs = ['Fixed price', 'Auction', 'Spliting', 'Mortgage']
+  const AVAILABLE_SELLING_METHODS = ['Fixed price', 'Auction', 'Splitting', 'Mortgage']
 
   const checkCheckbox = () => new Promise<void>((resolve, reject) => {
     if (!checked) {
@@ -364,74 +359,8 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed, onStart }: Sell
 
   const handleListing = async (values: typeof formInitialValues) => {
     onStart()
-    if (!await banksyWeb3.eth.Banksy.isApprovedForAll(account!, '0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A')) {
-      banksyWeb3.eth.Banksy.setApprovalForAll('0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A', true)
-    }
 
-    const salt = (Date.parse(new Date().toString())) / 1000
-
-    const price = toWei(values.price)
-
-    const makerAsset: ExchangeOrderAsset = {
-      settleType: 0,
-      baseAsset: {
-        code: {
-          baseType: 3,
-          extraType: nftDetail?.tokenId,
-          contractAddr: '0xb1e45866BF3298A9974a65577c067C477D38712a'
-        },
-        value: 1
-      },
-      extraValue: 0
-    }
-
-    const takerAsset: ExchangeOrderAsset = {
-      settleType: 0,
-      baseAsset: {
-        code: {
-          baseType: 1,
-          extraType: 0,
-          contractAddr: '0x0000000000000000000000000000000000000000'
-        },
-        value: price
-      },
-      extraValue: 0
-    }
-
-    const order: ExchangeOrder = {
-      dir: 0,
-      maker: account!,
-      makerAssetHash: hashExchangeOrderAsset(makerAsset),
-      taker: '0x0000000000000000000000000000000000000000',
-      takerAssetHash: hashExchangeOrderAsset(takerAsset),
-      fee: 0,
-      feeRecipient: '0x0000000000000000000000000000000000000000',
-      startTime: 0,
-      endTime: 0,
-      salt
-    }
-
-    const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(order)))
-
-    const sellingOrder: SellingOrder = {
-      dir: 'sell',
-      maker: account,
-      makerAssetSettleType: 0,
-      makerAssetBaseType: 3,
-      makerAssetExtraType: nftDetail!.tokenId,
-      makerAssetContractAddr: nftDetail!.addressContract,
-      makerAssetValue: values.price,
-      makerAssetExtraValue: 0,
-      fee: 0,
-      feeRecipient: 0,
-      startTime: 0,
-      endTime: 0,
-      valueUri: nftDetail!.valueUri,
-      signature,
-      salt
-    }
-
-    await sellOrder(sellingOrder)
+    await banksyWeb3.services.listByFixedPrice(nftDetail, values.price, account)
 
     onSellingConfirmed()
   }
@@ -454,7 +383,7 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed, onStart }: Sell
         <div className="checkout-list-title">Sell Method</div>
         <div className="sellMethodButton">
           {
-            tabs.map((item: string, index: number) => (
+            AVAILABLE_SELLING_METHODS.map((item: string, index: number) => (
               <Button
                 className={clsx(index === current && 'tabs__link')}
                 onClick={() => setCurrent(index)}
@@ -470,7 +399,7 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed, onStart }: Sell
         <p className="hightest">Set Price</p>
         <Form form={form} initialValues={formInitialValues}>
           <div className="fixedPrice">
-            <Input.Group compact >
+            <Input.Group compact>
               <Select defaultValue="ETH">
                 <Select.Option value="ETH">
                   ETH
@@ -491,20 +420,19 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed, onStart }: Sell
           <Checkbox
             checked={checked}
             onChange={e => setChecked(e.target.checked)}
-            style={{ marginLeft:'5rem' }}
+            style={{ marginLeft: '5rem' }}
           >
             <div className="text">
               Listing is free! At the time of the sale, the following fees will be decucted.
             </div>
             <div className="text">Total fees ----------------------------------------------------------- 2%</div>
-
           </Checkbox>
         </Announcement>
       </div>
 
       <div className={'sellContent ' + (current === 1 ? 'active' : '')}>
         <p className="hightest">Highest Bid</p>
-        <Line style={{ marginTop:'15.2rem' }} />
+        <Line style={{ marginTop: '15.2rem' }} />
         <div>
           <AuctionItem>
             <div className="auctionItemLeft">

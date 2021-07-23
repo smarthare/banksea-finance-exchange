@@ -2,7 +2,7 @@ import { PhantomProvider } from '../types/Phantom'
 import { Dispatch, useCallback, useEffect, useState } from 'react'
 import { Web3Provider } from '@ethersproject/providers'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { getSelectedWallet, setAccount, setSelectedWallet } from '../store/wallet'
+import { getSelectedWallet, setAccount, setCurrentChain, setSelectedWallet } from '../store/wallet'
 import { getPhantomProvider } from '../web3/providers/Phantom'
 import { PublicKey } from '@solana/web3.js'
 import { useDispatch, useSelector } from 'react-redux'
@@ -126,15 +126,15 @@ function useInitializeProvider(chainId: number, RPCUrl?: string): boolean {
 
     const init = (phantomProvider?: PhantomProvider) => {
       if (selectedWallet !== 'Phantom') {
+        dispatch(setCurrentChain('Ethereum'))
         banksyWeb3.setEthereumWeb3(new ContractSettings(
           provider,
           provider?.getSigner ? provider.getSigner() : null,
           chainId
         ))
       } else {
-        banksyWeb3.setSolanaWeb3(
-          phantomProvider!
-        )
+        dispatch(setCurrentChain('Solana'))
+        banksyWeb3.setSolanaWeb3(phantomProvider!)
       }
       setInitialized(true)
     }
