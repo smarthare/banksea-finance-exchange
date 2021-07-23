@@ -128,7 +128,8 @@ const routes: Route[] = [
     path: '/Airdrop',
     title: 'Airdrop',
     icon: PriceAirDropIcon,
-    component: VotePage
+    component: VotePage,
+    hidden: true
   },
   {
     path: '/nftMortgageDetailPage',
