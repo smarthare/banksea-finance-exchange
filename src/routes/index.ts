@@ -33,6 +33,7 @@ export type Route = {
   hidden?: boolean
   match?: RegExp
   pools?: boolean
+  disable?: boolean
 }
 
 const routes: Route[] = [
@@ -86,19 +87,22 @@ const routes: Route[] = [
     path: '/artists',
     title: 'Artists',
     icon: ArtistsIcon,
-    component: PleaseWaiting
+    component: PleaseWaiting,
+    disable: true
   },
   {
     path: '/farms',
     title: 'Farms',
     icon: FarmsIcon,
-    component: FarmPage
+    component: FarmPage,
+    hidden: true
   },
   {
     path: '/oracle',
     title: 'Oracle',
     icon: OracleIcon,
-    component: PleaseWaiting
+    component: PleaseWaiting,
+    disable: true
   },
   {
     path: '/personal/home',
@@ -124,7 +128,8 @@ const routes: Route[] = [
     path: '/Airdrop',
     title: 'Airdrop',
     icon: PriceAirDropIcon,
-    component: VotePage
+    component: VotePage,
+    hidden: true
   },
   {
     path: '/nftMortgageDetailPage',

@@ -11,6 +11,7 @@ const SearchInput = styled(Input)`
     background-color: #305099;
     color: white;
     font-weight: bold;
+    font-size: 1.4rem;
   }
 
   @media screen and (max-width: 1000px) {

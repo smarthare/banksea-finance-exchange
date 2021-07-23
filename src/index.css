@@ -8,6 +8,16 @@
 html {
   font-size: 62.5%;
 }
+@media screen and (min-width: 3200px){
+  html {
+    font-size: 125%;
+  }
+}
+@media screen and (min-width: 3840px){
+  html {
+    font-size: 150%;
+  }
+}
 
 body {
   margin: 0;

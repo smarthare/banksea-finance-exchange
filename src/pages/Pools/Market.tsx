@@ -189,7 +189,7 @@ const DepositButton = styled.div`
   background: #234890;
   border-radius: 0.5rem;
   margin-left: 2rem;
-  z-index: 9999;
+  z-index: 999;
 `
 
 const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {

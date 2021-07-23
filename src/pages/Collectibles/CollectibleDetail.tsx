@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { Button, message, Popover, Table } from 'antd'
+import { Button, message, Popover, Table, Image } from 'antd'
 import Show from '@/assets/images/collectibleDetailImg/show.png'
 import Heart from '@/assets/images/collectibleDetailImg/like.png'
 import moment from 'moment'
@@ -45,7 +45,7 @@ const CollectiblesDetailContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 2rem 10rem;
+  padding: 2vw 6vw;
   position: relative;
 
   .operating {
@@ -65,11 +65,11 @@ const CollectiblesDetailContainer = styled.div`
 `
 
 const LeftArea = styled.div`
-  width: 35.2rem;
+  width: fit-content;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-right: 1.3rem;
+  margin-right: 2vw;
 
 `
 
@@ -144,22 +144,33 @@ const RightArea = styled.div`
 `
 
 const Operating = styled.div`
-  display: flex;
   width: 100%;
   position: relative;
+  display: flex;
   justify-content: flex-end;
-
 
   .ant-btn {
     width: fit-content;
     margin-left: 1vw;
     background: #354d86;
     border: none;
-    border-radius: 10px;
-    font-size: 1.4rem;
-    font-weight: 500;
+    border-radius: 0.5vw;
+    font-size: 1vw;
+    font-weight: 550;
     color: #FFFFFF;
     line-height: 2rem;
+  }
+
+  @media screen and (max-width: 1000px) {
+    display: flex;
+    justify-content: center;
+
+    .ant-btn {
+      width: 40vw;
+      height: 10vw;
+      border-radius: 2vw;
+      font-size: 5vw;
+    }
   }
 `
 
@@ -246,15 +257,22 @@ const PropertiesArea = styled.div`
 const CornerFlag = styled.div`
   position: absolute;
   color: white;
-  top: -1rem;
-  left: -0.45rem;
-  font-width: 500;
+  bottom: 20vw;
+  right: 16vw;
+  font-weight: 550;
   text-align: center;
-  line-height: 3rem;
-  width: 8.5rem;
-  height: 3.7rem;
+  width: 4.5vw;
+  height: 2vw;
   background-image: url(${require('../../assets/images/collectibles-item-corner-flag-bg.png').default});
   background-size: cover;
+  z-index: 2;
+
+  @media screen and (max-width: 1000px) {
+    top: 3vw;
+    left: 8.7vw;
+    width: 25vw;
+    height: 10vw;
+  }
 `
 
 const ImageContainer = styled.div`
@@ -266,9 +284,7 @@ const ImageContainer = styled.div`
   border-radius: 2rem;
   justify-content: center;
   position: relative;
-  border: 1px solid #98BDF9;
   object-fit: cover;
-
 
   img {
     height: 100%;
@@ -288,7 +304,6 @@ const ImageContainer = styled.div`
       width: 80vw;
       object-fit: cover;
       border: 1px solid #98BDF9;
-
     }
   }
 `
@@ -376,7 +391,6 @@ const ItemsContainer = styled.div`
         display: flex;
         justify-content: space-between;
       }
-
     }
 `
 
@@ -492,25 +506,6 @@ const NFTBaseInfoContainer = styled.div`
     color: #98BDF9;
   }
 
-  @media screen and (max-width: 600px) {
-    display: flex;
-    justify-content: center;
-
-    .nft-name {
-      width: fit-content;
-      font-size: 4.5rem;
-      font-weight: 550;
-      color: #98BDF9;
-      padding: 5vh 0;
-    }
-
-    .line {
-      margin-bottom: 5vh;
-      width: 80vw;
-      border-bottom: solid 0.2rem #787A91;
-
-    }
-  }
 
   .description {
     margin-top: 1.2rem;
@@ -554,8 +549,6 @@ const NFTBaseInfoContainer = styled.div`
         color: #98BDF9;
         cursor: pointer;
       }
-
-
     }
   }
 
@@ -576,8 +569,6 @@ const NFTBaseInfoContainer = styled.div`
       align-self: center;
       margin-right: 0.4rem;
     }
-
-
   }
 
   .price-favorite-row {
@@ -614,7 +605,25 @@ const NFTBaseInfoContainer = styled.div`
       justify-content: flex-end;
       font-size: 1.6rem;
     }
+  }
 
+  @media screen and (max-width: 600px) {
+    display: flex;
+    justify-content: center;
+
+    .nft-name {
+      width: fit-content;
+      font-size: 4.5rem;
+      font-weight: 550;
+      color: #98BDF9;
+      padding: 5vh 0;
+    }
+
+    .line {
+      margin-bottom: 5vh;
+      width: 80vw;
+      border-bottom: solid 0.2rem #787A91;
+    }
   }
 `
 
@@ -647,21 +656,20 @@ const MobileNFTBaseInfoContainer = styled.div`
     font-size: 5vw;
 
     .info-favorite > img {
-      width: 8vw;
-      height: 2.5vh;
+      width: 7vw;
+      height: 2vh;
       display: flex;
       align-self: center;
       margin-right: 2vw;
     }
 
     .icon-heart > img {
-      width: 6vw;
-      height: 2.5vh;
+      width: 5vw;
+      height: 2vh;
       display: flex;
       align-self: center;
       margin-right: 2vw;
     }
-
 
     .nft-artist-label {
       font-weight: 550;
@@ -826,6 +834,10 @@ const MobileNFTBaseInfo: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) =
   const uri = useLocationQuery('uri')
   const [likeNum, setLikeNum] = useState<any>()
 
+  const handleCopy = (content: any) => {
+    copy(content) && message.success('Copied successfully.', 1)
+  }
+
   const fetchLikeCount = useCallback(async () => {
     getNftFavoriteCount(uri).then(res => {
       setLikeNum(res.data.data)
@@ -844,6 +856,10 @@ const MobileNFTBaseInfo: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) =
           <div className="nft-artist-value">
             {nftDetail?.nameArtist || thumbnailAddress(nftDetail?.addressCreate)}
           </div>
+          <CopyOutlined
+            className="icon-copy"
+            onClick={() => handleCopy(nftDetail?.addressCreate)}
+          />
         </div>
         <div className="info-favorite" style={{ display: 'flex' }}>
           <img
@@ -861,6 +877,10 @@ const MobileNFTBaseInfo: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) =
           <div className="nft-artist-value">
             <div className="nft-owner">{thumbnailAddress(nftDetail?.addressOwner)}</div>
           </div>
+          <CopyOutlined
+            className="icon-copy"
+            onClick={() => handleCopy(nftDetail?.addressCreate)}
+          />
         </div>
         <div style={{ display: 'flex' }} className="icon-heart">
           <img
@@ -950,13 +970,10 @@ const NFTBaseInfo: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) => {
               <div className="info-row-item-value">{likeNum?.view ? likeNum?.view : 0}</div>
             </div>
 
-            {/*<div className="description">
-        {nftDetail?.description}
-      </div>*/}
             <PriceContainer>
               <div className="price-favorite-row">
                 {
-                  nftDetail?.onSale ? (
+                  nftDetail?.onSale && (
                     <div className="price">
                       <span className="price-label">Current Price</span>
                       <ETHIcon />
@@ -965,7 +982,7 @@ const NFTBaseInfo: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) => {
                       </span>
                       {/*<div className="price-in-usd">($297.21)</div>*/}
                     </div>
-                  ) : <div />
+                  )
                 }
                 <div>
                   <img
@@ -1330,9 +1347,9 @@ const CollectibleDetailPage: React.FC = () => {
   }
 
   const coverImageUrl = useCallback(() => {
-    return nftDetail?.image?.startsWith('ipfs:/') ?
-      `https://banksy.mypinata.cloud${nftDetail?.image?.slice(6)}` :
-      `https://banksy.mypinata.cloud${nftDetail?.image?.slice(-52)}`
+    return nftDetail?.image?.startsWith('ipfs:/')
+      ? `https://banksy.mypinata.cloud${nftDetail?.image?.slice(6)}`
+      : `https://banksy.mypinata.cloud${nftDetail?.image?.slice(-52)}`
   }, [nftDetail])
 
   return (
@@ -1343,41 +1360,53 @@ const CollectibleDetailPage: React.FC = () => {
             <NFTBaseInfo nftDetail={nftDetail} />
             <ImageContainer>
               {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
-              <img src={coverImageUrl()} alt={nftDetail?.name} />
+              <Image src={coverImageUrl()} />
             </ImageContainer>
+
             <MobileNFTBaseInfo nftDetail={nftDetail} />
+            {
+              !reasonOfUnableToBuy &&
+              <Button className="buyNow" onClick={onClickBuyButton}>
+                Buy Now
+              </Button>
+            }
+            {
+              allowToSell() &&
+              <Operating>
+                <Button className="sell" onClick={openSellingModal}>
+                  Sell
+                </Button>
+              </Operating>
+            }
             <NFTMetadata nftDetail={nftDetail} />
             <div className="mobile-properties-area">
               <Properties />
             </div>
             <TradingHistories nftDetail={nftDetail} />
             <MoreArtworks />
-          </MobileContainer>
-          :
+          </MobileContainer> :
           <div>
-            <div className="operating">
-              <Operating>
-                {
-                  allowToSoldOut() && (
-                    <Button onClick={handleSoldOut}>
-                      Sold out
-                    </Button>
-                  )
-                }
-                {
-                  allowToSell() && (
-                    <Button onClick={openSellingModal}>
-                      Sell
-                    </Button>
-                  )
-                }
-              </Operating>
-            </div>
+            <Operating>
+              {
+                allowToSoldOut() && (
+                  <Button onClick={handleSoldOut}>
+                    Sold out
+                  </Button>
+                )
+              }
+              {
+                allowToSell() && (
+                  <Button onClick={openSellingModal}>
+                    Sell
+                  </Button>
+                )
+              }
+            </Operating>
             <Row>
               <LeftArea>
                 <ImageContainer>
                   {nftDetail?.onSale && <CornerFlag>on Sale</CornerFlag>}
-                  <img src={coverImageUrl()} alt={nftDetail?.name} />
+                  <Image src={coverImageUrl()} height="34.4rem" width="31.2rem" />
                 </ImageContainer>
               </LeftArea>
               <RightArea>
@@ -1424,7 +1453,6 @@ const CollectibleDetailPage: React.FC = () => {
       {purchaseWaitingConfirmationModal}
       {purchaseTransactionSentModal}
       {sellingModal}
-
     </CollectiblesDetailContainer>
   )
 }

@@ -172,17 +172,13 @@ const MyAccessTableYop = styled.div`
   }
 
   div:nth-of-type(1) {
-    width: 24%;
+    width: 30%;
     padding-left: 1rem;
   }
 
   div:nth-of-type(2), div:nth-of-type(3) {
-    width: 17%;
+    width: 25%;
     text-align: center;
-  }
-
-  div:nth-of-type(4) {
-    width: 22%;
   }
 `
 
@@ -199,28 +195,23 @@ const MyAccessTableMain = styled.div`
     margin-top: 1.5rem;
 
     div {
-      width: 22%;
       color: #ffffff;
     }
 
     div:nth-of-type(1) {
-      width: 24%;
+      width: 30%;
     }
 
     div:nth-of-type(2), div:nth-of-type(3) {
-      width: 17%;
+      width: 25%;
     }
 
     div:nth-of-type(4) {
-      width: 22%;
-    }
-
-    div:nth-of-type(5) {
       width: 7%;
       cursor: pointer;
     }
 
-    div:nth-of-type(6) {
+    div:nth-of-type(5) {
       width: 8%;
       margin-left: 1rem;
       cursor: pointer;
@@ -453,7 +444,6 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
           <div>Your deposits</div>
           <div>Current balance</div>
           <div>APY</div>
-          <div>Collateral</div>
         </MyAccessTableYop>
         <MyAccessTableMain>
           {
@@ -473,10 +463,6 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
                 </div>
                 <div className="universal-item-text">
                   <p>{item?.depositApy}</p>
-                </div>
-                <div className="collateral">
-                  <span className="checked">Variable</span>
-                  <Switch />
                 </div>
                 <DepositButton>deposit</DepositButton>
                 <DepositButton>Withdraw</DepositButton>
@@ -540,7 +526,6 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
           <div>Your borrows</div>
           <div>Borrowed</div>
           <div>APY</div>
-          <div>APY Type</div>
         </MyAccessTableYop>
         <MyAccessTableMain>
           {
@@ -560,10 +545,6 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
                 </div>
                 <div className="universal-item-text">
                   <p>{item?.variableBorrowApy * 100}%</p>
-                </div>
-                <div className="collateral">
-                  <span className="checked">Variable</span>
-                  <Switch />
                 </div>
                 <DepositButton>Borrow</DepositButton>
                 <DepositButton>Repay</DepositButton>
