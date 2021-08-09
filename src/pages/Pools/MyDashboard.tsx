@@ -532,7 +532,7 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
 
   return (
     <NFTMortgagesContainer>
-      <AreaTitle>Available to Mortgages</AreaTitle>
+      <AreaTitle>Available to Collaterals</AreaTitle>
       <Line />
       <NFTMortgagesMain>
         {
@@ -551,10 +551,10 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
                   <p className="message-number">$ {item?.price}</p>
                 </MortgagesItemText>
                 <MortgagesItemText>
-                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate}</p>
                 </MortgagesItemText>
-                <WithdrawButton>Mortgage</WithdrawButton>
+                <WithdrawButton>Collateral</WithdrawButton>
               </div>
             </div>
           ))
@@ -567,7 +567,7 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
 const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgaged }) => {
   return (
     <NFTMortgagesContainer>
-      <AreaTitle>My Mortgages</AreaTitle>
+      <AreaTitle>My Collaterals</AreaTitle>
       <Line />
       <NFTMortgagesMain>
         {
@@ -583,7 +583,7 @@ const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgag
                   <p className="message-number">$ {item?.price}</p>
                 </MortgagesItemText>
                 <MortgagesItemText>
-                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate}</p>
                 </MortgagesItemText>
                 <WithdrawButton>redemption</WithdrawButton>
@@ -615,7 +615,7 @@ const NFTLiquidation: React.FC<{ mortgagePreorder: any }> = ({ mortgagePreorder 
                   <p className="message-number">$ {item?.price}</p>
                 </MortgagesItemText>
                 <MortgagesItemText>
-                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate}</p>
                 </MortgagesItemText>
                 <WithdrawButton>Cancel pre-purchase</WithdrawButton>

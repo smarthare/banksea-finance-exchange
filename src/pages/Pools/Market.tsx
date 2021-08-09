@@ -195,12 +195,12 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
 
   const history = useHistory()
 
-  const usdTableTop = ['', 'NFT Name', 'Market size', 'Mortgage Number', 'Mortgage rate', 'Borrow Rate']
+  const usdTableTop = ['', 'NFT Name', 'Market size', 'Collateral Number', 'Collateral rate', 'Borrow Rate']
 
   return (
     <PoolContainer>
       <div className="UsdPool-container">
-        <AreaTitle>Mortgage Pools</AreaTitle>
+        <AreaTitle>Collateral Pools</AreaTitle>
         <TableTop>
           {
             usdTableTop.map((item: string, index) => (

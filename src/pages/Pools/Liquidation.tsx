@@ -239,7 +239,7 @@ const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
                   <p className="message-number">{item?.price}</p>
                 </MortgagesItemText>
                 <MortgagesItemText>
-                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate * 100}%</p>
                 </MortgagesItemText>
                 <WithdrawButton onClick={() => history.push(`/pools/liquidation/detail/${item.id}`)}>Prepay</WithdrawButton>
