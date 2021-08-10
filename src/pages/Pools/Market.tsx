@@ -355,7 +355,7 @@ const MarketPage: React.FC = () => {
                 </MarketSizeStatistics>
               </Tatistics>
               <Tatistics>
-                <AreaTitle>Mortgage NFT value</AreaTitle>
+                <AreaTitle>Collateral NFT value</AreaTitle>
                 <Line />
                 <MarketSizeStatistics>
                   <div className="market-size">${mortgageSizeNum}</div>
