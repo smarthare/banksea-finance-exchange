@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import { Button, Progress, Switch } from 'antd'
+import { Button, Progress } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import {
@@ -136,30 +136,10 @@ const BorrowInformationLeft = styled.div`
   }
 `
 
-const LeftTitle = styled.div`
-  color: #6644F9;
-`
-
-const DepositInformation = styled.div`
-  padding: 1.5rem 3.5rem;
-
-  p {
-    color: #fff;
-    margin-top: 1rem;
-  }
-`
-
-const MyAccess = styled.div`
-  width: 71.1rem;
-  margin-left: 1.4rem;
-`
-
 const MyAccessTable = styled.div`
-
   &:nth-of-type(2) {
     margin-top: 1rem;
   }
-
 `
 
 const MyAccessTableYop = styled.div`
@@ -403,16 +383,6 @@ const NFTLiquidationMortgagesMain = styled.div`
   }
 `
 
-const ETHIcon: React.FC = () => {
-  return (
-    <img
-      src={require('../../assets/images/eth.svg').default}
-      alt="ETH"
-      style={{ width: '1.2rem', marginRight: '0.8rem' }}
-    />
-  )
-}
-
 const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({ userInfo, depositList }) => {
   console.log(userInfo)
   return (
@@ -562,7 +532,7 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
 
   return (
     <NFTMortgagesContainer>
-      <AreaTitle>Available to Mortgages</AreaTitle>
+      <AreaTitle>Available to Collaterals</AreaTitle>
       <Line />
       <NFTMortgagesMain>
         {
@@ -581,10 +551,10 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
                   <p className="message-number">$ {item?.price}</p>
                 </MortgagesItemText>
                 <MortgagesItemText>
-                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate}</p>
                 </MortgagesItemText>
-                <WithdrawButton>Mortgage</WithdrawButton>
+                <WithdrawButton>Collateral</WithdrawButton>
               </div>
             </div>
           ))
@@ -597,7 +567,7 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
 const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgaged }) => {
   return (
     <NFTMortgagesContainer>
-      <AreaTitle>My Mortgages</AreaTitle>
+      <AreaTitle>My Collaterals</AreaTitle>
       <Line />
       <NFTMortgagesMain>
         {
@@ -613,7 +583,7 @@ const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgag
                   <p className="message-number">$ {item?.price}</p>
                 </MortgagesItemText>
                 <MortgagesItemText>
-                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate}</p>
                 </MortgagesItemText>
                 <WithdrawButton>redemption</WithdrawButton>
@@ -645,7 +615,7 @@ const NFTLiquidation: React.FC<{ mortgagePreorder: any }> = ({ mortgagePreorder 
                   <p className="message-number">$ {item?.price}</p>
                 </MortgagesItemText>
                 <MortgagesItemText>
-                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate}</p>
                 </MortgagesItemText>
                 <WithdrawButton>Cancel pre-purchase</WithdrawButton>

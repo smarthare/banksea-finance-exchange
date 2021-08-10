@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Button } from 'antd'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useLocationQuery } from '../../utils'
+import { getUriByIpfsHash } from '../../utils/ipfs'
 
 type NFTCreatedSuccessProps = {
   name: string
@@ -62,7 +63,7 @@ const NFTCreatedSuccess: React.FC<NFTCreatedSuccessProps> = () => {
   const history = useHistory()
 
   useEffect(() => {
-    if (!name || ! img) {
+    if (!name || !img) {
       history.push('/')
     }
   }, [name, img])
@@ -71,23 +72,22 @@ const NFTCreatedSuccess: React.FC<NFTCreatedSuccessProps> = () => {
     <div style={{ height: 'calc(100vh - 62px)' }}>
       <SCNFTCreatedSuccessContainer>
         <SCTitle>
-          <b>
-            {name}
-          </b>
+          <b>{name}</b>
           has been created !
         </SCTitle>
-        <SCImage src={`https://gateway.pinata.cloud/ipfs/${img}`} alt={name} />
+        <SCImage src={getUriByIpfsHash(img!)} alt={name} />
         <SCButtonRow>
-          <Button
-            style={{ color: 'white', backgroundColor: 'rgb(78,82,255)', flex: 6 }}
-            onClick={() => history.push('/personal/home')}
-          >
-            Go to Personal Home
-          </Button>
+          <Link to="/collectibles" style={{ flex: 8 }}>
+            <Button style={{ color: 'white', backgroundColor: '#305099', width: '100%' }}>
+              View in Collectibles
+            </Button>
+          </Link>
           <div style={{ flex: 1 }} />
-          <Button style={{ color: '#7C6DEB', backgroundColor: 'white', border: '1px solid #7C6DEB', flex: 2 }}>
-            Edit
-          </Button>
+          <Link to="/personal/home" style={{ flex: 3 }}>
+            <Button style={{ color: '#305099', backgroundColor: '#ddd', border: '1px solid #305099', width: '100%' }}>
+              Go to Personal Home
+            </Button>
+          </Link>
         </SCButtonRow>
       </SCNFTCreatedSuccessContainer>
     </div>

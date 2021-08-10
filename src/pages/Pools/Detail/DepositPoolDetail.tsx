@@ -237,7 +237,7 @@ const DepositStableTextItem = styled.div`
   }
 `
 
-const Stable = styled.div`
+/*const Stable = styled.div`
   width: 25rem;
   height: 13rem;
   border-radius: 1rem;
@@ -251,7 +251,7 @@ const Stable = styled.div`
     border-top-right-radius: 1rem;
     color: #fff;
   }
-`
+`*/
 
 const Variable = styled.div`
   width: 25rem;
@@ -533,8 +533,6 @@ const IndexValueStatistics:React.FC = () => {
 }
 
 const DepositPoolDetailPage:React.FC = () => {
-  const history = useHistory()
-
   const { id } = useParams<any>()
 
   const account = useSelector(getAccount)

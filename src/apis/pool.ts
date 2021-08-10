@@ -1,4 +1,3 @@
-import banksyTestRequest from '../utils/banksyTestRequest'
 import banksyRequest, { BanksyApiResponse } from '../utils/banksyRequest'
 
 export function depositPoolsList(data: any) {

@@ -21,16 +21,15 @@
 }
 
 .ant-btn {
-  background: #554BFF;
-  color: #ffffff;
+  background: #305099;
+  color: white;
   border: none;
   font-weight: 550;
   border-radius: 1rem;
 
   &:hover, &:focus {
-    background-color: rgb(105,116,255);
+    background: #305099;
     color: white;
   }
-
 }
 

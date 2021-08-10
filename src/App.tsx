@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import './app.scss'
-import { Button, Layout } from 'antd'
+import { Layout } from 'antd'
 import AppHeader from './layout/AppHeader'
 import AppSideBar from './layout/AppSideBar'
 // @ts-ignore
 import routes from './routes'
 import styled from 'styled-components'
-import { MenuFoldOutlined } from '@ant-design/icons'
 import { useMediaQuery } from 'react-responsive'
 import { Route } from 'react-router-dom'
 

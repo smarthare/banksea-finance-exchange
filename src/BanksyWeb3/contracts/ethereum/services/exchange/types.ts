@@ -38,7 +38,7 @@ export type SellingOrder = {
   valueUri: any;
   makerAssetContractAddr: any;
   makerAssetSettleType: number;
-  makerAssetExtraType: string;
+  makerAssetExtraType: number;
   makerAssetBaseType: number;
   startTime: number;
   endTime: number;

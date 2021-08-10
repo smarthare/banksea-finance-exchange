@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAccount, getSelectedWallet, setAccount, setSelectedWallet } from '../../store/wallet'
+import { getAccount, getSelectedWallet, setAccount, setCurrentChain, setSelectedWallet } from '../../store/wallet'
 import { Button, Modal } from 'antd'
 // @ts-ignore
 import Jazzicon from 'jazzicon'
@@ -8,6 +8,7 @@ import { getIconByWalletName, getWeb3ProviderByWallet, WalletNames } from '../..
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import styled from 'styled-components'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
+import { banksyWeb3 } from '../../BanksyWeb3'
 
 type CurrentAccountProps = {
   account: string
@@ -30,6 +31,7 @@ const SCCurrentAccount = styled.div`
   }
 
 `
+
 const WalletModal = styled(Modal)`
 
   .ant-modal-content {
@@ -106,8 +108,11 @@ const WalletModalContent: React.FC<WalletModalContentProps> = ({ account }) => {
   const selectedWallet = useSelector(getSelectedWallet) as WalletNames
 
   const disconnect = async () => {
+    banksyWeb3.destroy()
+
     dispatch(setSelectedWallet(undefined))
     dispatch(setAccount(null))
+    dispatch(setCurrentChain(undefined))
 
     if (selectedWallet === 'WalletConnect') {
       const chainId: number = parseInt(process.env.CHAIN_ID!, 16)

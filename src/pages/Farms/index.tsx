@@ -325,8 +325,8 @@ const YourLiquidity: React.FC<any> = ({ liquidityCurrent }) => {
             <div className="formsModalTop-text">Remove Liquidity to receive tokens back</div>
           </div>
           <div className="forms-modal-top-right">
-            <img src={setting} />
-            <img src={history} />
+            <img src={setting} alt="" />
+            <img src={history} alt="" />
           </div>
         </FormsModalTop>
         <div className="yourLiquidityContent">
@@ -334,7 +334,7 @@ const YourLiquidity: React.FC<any> = ({ liquidityCurrent }) => {
         </div>
         <Button className="addLiquidity">
           Add liquidity instead
-          <img src={addInit} />
+          <img src={addInit} alt="" />
         </Button>
       </div>
     </YourLiquidityMain>
@@ -351,8 +351,8 @@ const Add: React.FC<any> = ({ liquidityCurrent, liquidityValue }) => {
             <div className="forms-modal-top-text">Remove Liquidity to receive tokens back</div>
           </div>
           <div className="forms-modal-top-right">
-            <img src={setting} />
-            <img src={history} />
+            <img src={setting} alt="" />
+            <img src={history} alt="" />
           </div>
         </FormsModalTop>
         <div className="addliquidity-container">
@@ -362,12 +362,12 @@ const Add: React.FC<any> = ({ liquidityCurrent, liquidityValue }) => {
               <Input value={liquidityValue} />
               <CurrencySelect>
                 Select a currency
-                <img className="selectArrow" src={selectArrow} />
+                <img className="selectArrow" src={selectArrow} alt="" />
               </CurrencySelect>
             </div>
           </InputItem>
           <DownArray>
-            <img src={addImg} />
+            <img src={addImg} alt="" />
           </DownArray>
           <InputItem>
             <div className="swap-main-container-title">Input</div>
@@ -375,7 +375,7 @@ const Add: React.FC<any> = ({ liquidityCurrent, liquidityValue }) => {
               <Input value={liquidityValue} />
               <CurrencySelect>
                 Select a currency
-                <img className="selectArrow" src={selectArrow} />
+                <img className="selectArrow" src={selectArrow} alt="" />
               </CurrencySelect>
             </div>
           </InputItem>
@@ -414,9 +414,7 @@ const FarmPage: React.FC = () => {
 
   const [liquidityCurrent, setLiquidityCurrent] = useState<any>(0)
 
-  const [fromValue, setFromValue] = useState<any>('0.0')
-
-  const [liquidityValue, setLiquidityValue] = useState<any>('0.0')
+  const [liquidityValue] = useState<any>('0.0')
 
   const formsTabsChange = (e: any) => {
     console.log(e.target.value)
@@ -461,8 +459,8 @@ const FarmPage: React.FC = () => {
                   <div className="formsModalTop-text">Trade tokens in an instant</div>
                 </div>
                 <div className="forms-modal-top-right">
-                  <img src={setting} onClick={showSettingModal} />
-                  <img src={history} />
+                  <img src={setting} onClick={showSettingModal} alt="" />
+                  <img src={history} alt="" />
                 </div>
               </FormsModalTop>
               <Line />
@@ -472,14 +470,14 @@ const FarmPage: React.FC = () => {
                   <div className="inputMain">
                     <Input placeholder="0.0" />
                     <CurrencySelect>
-                      <img className="babImg" src={babImg} />
+                      <img className="babImg" src={babImg} alt="" />
                       BNB
-                      <img className="selectArrow" src={selectArrow} />
+                      <img className="selectArrow" src={selectArrow} alt="" />
                     </CurrencySelect>
                   </div>
                 </InputItem>
                 <DownArray>
-                  <img src={toArray} />
+                  <img src={toArray} alt="" />
                 </DownArray>
                 <InputItem>
                   <div className="swap-main-container-title">to</div>
@@ -487,7 +485,7 @@ const FarmPage: React.FC = () => {
                     <Input placeholder="0.0" />
                     <CurrencySelect>
                       Select a currency
-                      <img className="selectArrow" src={selectArrow} />
+                      <img className="selectArrow" src={selectArrow} alt="" />
                     </CurrencySelect>
                   </div>
                 </InputItem>
@@ -504,7 +502,7 @@ const FarmPage: React.FC = () => {
                         onClick={() => clickTabs(item, i)}
                         key={i}
                       >
-                        <img src={item?.icon} />
+                        <img src={item?.icon} alt="" />
                         {item.name}
                       </div>
                     )

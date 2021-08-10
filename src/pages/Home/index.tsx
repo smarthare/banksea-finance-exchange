@@ -7,8 +7,6 @@ import Mortgage from '@/assets/images/homePageImg/mortgage-bg.svg'
 import Liquidity from '@/assets/images/homePageImg/liquidity-bg.svg'
 import RightArrow from '@/assets/images/homePageImg/right-arrow.svg'
 import CornerFlag from '@/assets/images/homePageImg/corner-flag-ai.svg'
-
-import { Carousel } from 'antd'
 import { useHistory } from 'react-router-dom'
 import NFTListItem from '../../components/NFTListItem'
 import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
@@ -37,13 +35,13 @@ const BodyContainer = styled.div`
   }
 `
 
-const HeadLine = styled.div`
+/*const HeadLine = styled.div`
   height: 30rem;
 `
 
 const MyCarousel = styled(Carousel)`
   height: 30rem;
-`
+`*/
 
 const InfoContainer = styled.div`
   width: 100%;
@@ -578,13 +576,16 @@ const HomePage: React.FC = () => {
 
           <div className="row2">
             <div className="info-panel" style={{ padding: '1vw 2vw ' }}>
-              <div className="main-title2">Create
+              <div className="main-title2">Users
                 <PanelIcon iconName={Mortgage} />
               </div>
-              <div className="sub-title2">NFT Number : 3220</div>
               <div className="nft-values">
-                <div className="sub-title2">NFT Values :</div>
-                <div className="value">$3,210,00</div>
+                <div className="sub-title2">KSY Address Number :</div>
+                <div className="value">3230</div>
+              </div>
+              <div className="nft-values">
+                <div className="sub-title2">NFT Address Number :</div>
+                <div className="value">2890</div>
               </div>
               <GotoArrow path="/nft/create" />
             </div>

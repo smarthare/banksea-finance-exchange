@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
-import { toBigNumber, weiToBigNumber } from '../../web3/utils'
 import { banksyWeb3 } from '../../BanksyWeb3'
-import { Button, Checkbox, Divider, Modal } from 'antd'
+import { Button, Checkbox, Divider, message, Modal } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { useModal } from '../useModal'
@@ -220,6 +219,7 @@ const Announcement = styled.div`
     font-size: 1.2  rem;
   }
 `
+
 const Line = styled.div`
   position: absolute;
   right: 0rem;
@@ -230,7 +230,6 @@ const Line = styled.div`
 `
 
 export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => void, checkoutFailed: () => void) => {
-  // const [isCaveatContentVisible, setCaveatContentVisible] = useState(false)
   const [allChecked, setAllChecked] = useState(false)
   const [checking, setChecking] = useState(false)
 
@@ -241,17 +240,19 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
 
   const onChange = (e: any) => setAllChecked(e.length === checkboxOptions.length)
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     setChecking(true)
-    const balance = weiToBigNumber((await banksyWeb3.signer?.getBalance())?.toString())
-    setChecking(false)
 
-    // insufficient fund
-    if (balance.lt(toBigNumber(nftDetail.price))) {
-      checkoutFailed()
-    } else {
-      checkoutPassed()
-    }
+    banksyWeb3.services.checkBalance(nftDetail)
+      .then(() => {
+        setChecking(false)
+        checkoutPassed()
+      })
+      .catch(e => {
+        message.warn(e?.toString() ?? 'Error occurred while checking balance')
+        setChecking(false)
+        checkoutFailed()
+      })
   }
 
   const buildModalByNftDetail = useCallback((close: () => void, visible: boolean) => (
@@ -262,24 +263,24 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
       footer={null}
     >
       <Line />
-      {/*<Caveat*/}
-      {/*  onClick={() => setCaveatContentVisible(!isCaveatContentVisible)}*/}
-      {/*>*/}
-      {/*  <img className="danger" src={danger} alt="" />*/}
-      {/*  <span>This item has not been reviewed by Banksy</span>*/}
-      {/*  <img className="dangerDownArrow" src={dangerDownArrow} alt="" />*/}
-      {/*</Caveat>*/}
-      {/*{*/}
-      {/*  isCaveatContentVisible ?*/}
-      {/*    <CaveatContent>*/}
-      {/*      You should proceed with extra caution. Anyone can*/}
-      {/*      create a digital item on a blockchain with any name.*/}
-      {/*      Including fake versions of existing items. Please take*/}
-      {/*      extra caution an do your research when interacting with*/}
-      {/*      this item to ensure it&apos;s what it claims to be.*/}
-      {/*    </CaveatContent> :*/}
-      {/*    <div />*/}
-      {/*}*/}
+      {/*<Caveat
+        onClick={() => setCaveatContentVisible(!isCaveatContentVisible)}
+      >
+        <img className="danger" src={danger} alt="" />
+        <span>This item has not been reviewed by Banksy</span>
+        <img className="dangerDownArrow" src={dangerDownArrow} alt="" />
+      </Caveat>
+      {
+        isCaveatContentVisible ?
+          <CaveatContent>
+            You should proceed with extra caution. Anyone can
+            create a digital item on a blockchain with any name.
+            Including fake versions of existing items. Please take
+            extra caution an do your research when interacting with
+            this item to ensure it&apos;s what it claims to be.
+          </CaveatContent> :
+          <div />
+      }*/}
       <div className="checkout-list">
         <p>Item</p>
         <p>Subtotal</p>

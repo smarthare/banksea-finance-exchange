@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import { Button, Input } from 'antd'
+import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { liquidationList } from '../../apis/pool'
 import { useSelector } from 'react-redux'
@@ -24,12 +24,12 @@ const MortgageMain = styled.div`
   }
 `
 
-const MortgagesTitle = styled.div`
-  color: #6C48FF;
-  font-size: 2.4rem;
-  font-weight: bolder;
-  padding-left: 2rem;
-`
+// const MortgagesTitle = styled.div`
+//   color: #6C48FF;
+//   font-size: 2.4rem;
+//   font-weight: bolder;
+//   padding-left: 2rem;
+// `
 
 const MortgageMainLeft = styled.div`
   width: 100%;
@@ -80,21 +80,6 @@ const SerialsTop = styled.div`
       background: #6C48FF;
       margin-left: -0.1rem;
     }
-  }
-`
-
-const SearchInput = styled(Input)`
-  width: 22rem;
-  height: 3rem;
-  border-color: #3658A7;
-  background-color: #3658A7;
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-
-  .ant-input {
-    background-color: #305099;
-    color: white;
-    font-weight: bold;
   }
 `
 
@@ -173,7 +158,7 @@ const WithdrawButton = styled(Button)`
   }
 `
 
-const MortgageMainRightMain = styled.div`
+/*const MortgageMainRightMain = styled.div`
   width: 33.6rem;
   height: 27rem;
   background: #101D44;
@@ -230,7 +215,7 @@ const CryptoOperatingValue = styled.div`
     color: #fff;
     font-size: 1.8rem;
   }
-`
+`*/
 
 const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
 
@@ -254,7 +239,7 @@ const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
                   <p className="message-number">{item?.price}</p>
                 </MortgagesItemText>
                 <MortgagesItemText>
-                  <p className="message-name">Mortgage Rate:</p>
+                  <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate * 100}%</p>
                 </MortgagesItemText>
                 <WithdrawButton onClick={() => history.push(`/pools/liquidation/detail/${item.id}`)}>Prepay</WithdrawButton>

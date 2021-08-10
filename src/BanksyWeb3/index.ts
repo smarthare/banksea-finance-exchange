@@ -9,15 +9,16 @@ import { BanksyWeb3EthereumServicesImpl } from './services/ethereum'
 import { BanksyWeb3SolanaServicesImpl } from './services/solana'
 
 type BanksyWeb3 = {
-  onEth: boolean,
-  onSol: boolean,
-  eth: BanksyEthereumWeb3,
-  sol: BanksySolanaWeb3,
-  services: BanksyWeb3Services,
-  signer?: Signer,
-  provider?: Web3Provider | PhantomProvider,
+  onEth: boolean
+  onSol: boolean
+  eth: BanksyEthereumWeb3
+  sol: BanksySolanaWeb3
+  services: BanksyWeb3Services
+  signer?: Signer
+  provider?: Web3Provider | PhantomProvider
   setEthereumWeb3: (_: ContractSettings) => void
   setSolanaWeb3: (_: PhantomProvider) => void
+  destroy: () => void
 }
 
 const banksyWeb3: BanksyWeb3 = {
@@ -42,6 +43,14 @@ const banksyWeb3: BanksyWeb3 = {
     this.sol = new BanksySolanaWeb3(phantomProvider)
     this.provider = phantomProvider
     this.services = new BanksyWeb3SolanaServicesImpl()
+  },
+
+  destroy() {
+    this.eth = new BanksyEthereumWeb3()
+    this.sol = new BanksySolanaWeb3()
+    this.onSol = false
+    this.onEth = false
+    this.services = new BanksyWeb3ServicesEmptyImpl()
   }
 }
 

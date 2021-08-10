@@ -303,7 +303,7 @@ const MortgagePoolDetailPage:React.FC = () => {
         <BackIcon />
         <div className="mainSeries">
           <div className="mainSeries-Img">
-            <img />
+            <img alt="" />
           </div>
           <div className="mainSeries-title">CryptoPunks</div>
         </div>

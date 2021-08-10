@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { State, WalletState } from '../type'
+import { State, SupportedChain, WalletState } from '../type'
 import { WalletNames } from '../../web3/wallets'
 
 const initialState: WalletState = {
@@ -7,6 +7,7 @@ const initialState: WalletState = {
   account: undefined,
   chainId: undefined,
   rpcUrl: undefined,
+  currentChain: undefined
 }
 
 export const walletSlice = createSlice({
@@ -32,6 +33,9 @@ export const walletSlice = createSlice({
     },
     setSelectedWallet: (state, action: { payload: WalletNames | undefined, type: string }) => {
       state.selectedWallet = action.payload
+    },
+    setCurrentChain: (state, action: { payload: SupportedChain | undefined, type: string }) => {
+      state.currentChain = action.payload
     }
   }
 })
@@ -52,6 +56,10 @@ export function getSelectedWallet(state: State): string | undefined {
   return state.wallet.selectedWallet
 }
 
-export const { setRpcUrl, setChainId, setAccount, setSelectedWallet } = walletSlice.actions
+export function getCurrentChain(state: State): SupportedChain | undefined {
+  return state.wallet.currentChain
+}
+
+export const { setRpcUrl, setChainId, setAccount, setSelectedWallet, setCurrentChain } = walletSlice.actions
 
 export default walletSlice.reducer

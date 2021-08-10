@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { CopyOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
-import { banksyNftDetail } from '../../../apis/nft'
 import { mortgageConfirm } from '../../../apis/pool'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import neuralNetworks from '../../../assets/images/Pools/neuralNetworksImg.png'
-import { useMortgageComfirmModal } from '../../../hooks/modals/NFTMortgageComfirmModal'
+import { useMortgageConfirmModal } from '../../../hooks/modals/useNFTMortgageConfirmModal'
+import { useNftDetailQuery } from '../../../hooks/queries/useNftDetailQuery'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
@@ -64,7 +64,7 @@ const RightArea = styled.div`
   position: relative;
 `
 
-const PriceContainer = styled.div`
+/*const PriceContainer = styled.div`
   .item {
     display: flex;
     flex-direction: row;
@@ -93,7 +93,7 @@ const PriceContainer = styled.div`
       margin-left: 1rem;
     }
   }
-`
+`*/
 
 const NFTBaseInfoContainer = styled.div`
   .nft-name {
@@ -313,17 +313,14 @@ const NFTBaseInfo:React.FC<{ data: any }> = ({ data }) => {
 
 type ScheduleAI = {
   data: any
-  openmortgageComfirmModal: any
+  openMortgageConfirmModal: any
   showAINetwork: () => void
   isAINetwork: boolean
   isConfirm: boolean
   showConfirm: () => void
 }
 
-const Schedule:React.FC<ScheduleAI> = ({ data, openmortgageComfirmModal, showAINetwork, isAINetwork, isConfirm, showConfirm }) => {
-
-  const history = useHistory()
-
+const Schedule:React.FC<ScheduleAI> = ({ data, openMortgageConfirmModal, showAINetwork, isAINetwork, isConfirm, showConfirm }) => {
   const account = useSelector(getAccount)
 
   const showAIConfirm = () => {
@@ -332,7 +329,7 @@ const Schedule:React.FC<ScheduleAI> = ({ data, openmortgageComfirmModal, showAIN
   }
 
   const confirm = () => {
-    openmortgageComfirmModal()
+    openMortgageConfirmModal()
     mortgageConfirm({
       uri: data?.valueUri,
       mortgageRate: data?.mortgageRate,
@@ -380,30 +377,15 @@ const Schedule:React.FC<ScheduleAI> = ({ data, openmortgageComfirmModal, showAIN
 }
 
 const AvailablePurchasePage:React.FC = () => {
+  const { uri } = useParams<any>()
 
-  const history = useHistory()
+  const { data } = useNftDetailQuery({ uri })
 
-  const [data, setData] = useState<any>()
-
-  const { mortgageComfirmModal, openmortgageComfirmModal, closemortgageComfirmModal } = useMortgageComfirmModal()
+  const { mortgageConfirmModal, openMortgageConfirmModal } = useMortgageConfirmModal()
 
   const [isAINetwork, setAINetwork] = useState<boolean>(false)
 
   const [isConfirm, setConfirm] = useState<boolean>(false)
-
-  const { uri } = useParams<any>()
-
-  const init = useCallback(async () => {
-    banksyNftDetail({
-      uri: uri,
-    }).then(res => {
-      setData(res.data.data)
-    })
-  },[])
-
-  useEffect(() => {
-    init()
-  },[init])
 
   const showAINetwork = () => {
     setAINetwork(true)
@@ -429,14 +411,14 @@ const AvailablePurchasePage:React.FC = () => {
         </div>
       </Row>
       <Schedule data={data}
-        openmortgageComfirmModal={openmortgageComfirmModal}
+        openMortgageConfirmModal={openMortgageConfirmModal}
         isAINetwork={isAINetwork}
         showAINetwork={showAINetwork}
         isConfirm={isConfirm}
         showConfirm={showConfirm}
       />
 
-      {mortgageComfirmModal}
+      {mortgageConfirmModal}
     </NFTMortgageDetailContainer>
   )
 }

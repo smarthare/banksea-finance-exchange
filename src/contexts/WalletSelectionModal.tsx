@@ -3,7 +3,6 @@ import { SUPPORT_WALLETS, useConnectToWallet, Wallet } from '../web3/wallets'
 import { Modal } from 'antd'
 import { useWeb3EnvContext } from './Web3EnvProvider'
 import styled from 'styled-components'
-import CloseIcn from '@/assets/images/wallets/close-icon.png'
 
 
 type WalletCardProps = {

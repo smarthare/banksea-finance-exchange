@@ -1,4 +1,5 @@
 import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '../utils/banksyRequest'
+import { NftDetail, NftListItem } from '../types/NFTDetail'
 
 export type ChainType = 'Ethereum' | 'Solana' | ''
 
@@ -32,7 +33,16 @@ export type NftCreateForm = {
   fee: string
   nameArtist: string
   typeChain: ChainType
+
+  // Below 3 is Solana-specific fields
   supply?: number
+  accountOwner?: string
+  nftPubKey?: string
+}
+
+export type NftDetailQueryRequest = {
+  uri: string
+  contractAddress?: string
 }
 
 export function createNFT(data: NftCreateForm) {
@@ -40,11 +50,11 @@ export function createNFT(data: NftCreateForm) {
 }
 
 export function banksyNftList(data: BanksyNftListQueryParams) {
-  return banksyRequest.post<BanksyApiResponse<BanksyApiPagingData<any>>>('/query/list', data)
+  return banksyRequest.post<BanksyApiResponse<BanksyApiPagingData<NftListItem>>>('/query/list', data)
 }
 
-export function banksyNftDetail(data: { uri?: string, contractAddress?: string }) {
-  return banksyRequest.post<BanksyApiResponse<any>>('/query/detail', data)
+export function banksyNftDetail(data: NftDetailQueryRequest) {
+  return banksyRequest.post<BanksyApiResponse<NftDetail>>('/query/detail', data)
 }
 
 export function personalNftList(data: BanksyPersonalNftListQueryParams) {

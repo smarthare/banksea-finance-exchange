@@ -1,6 +1,6 @@
-export type VoidFunction = (..._args: any[]) => void
+type VoidFunction = (..._args: any[]) => void
 
-export type AsyncVoidFunction = () => Promise<void>
+type AsyncVoidFunction = () => Promise<void>
 
 class SimpleEventEmitter<EventType extends string> {
   _task?: AsyncVoidFunction

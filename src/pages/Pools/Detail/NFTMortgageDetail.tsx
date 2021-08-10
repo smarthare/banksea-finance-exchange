@@ -4,8 +4,7 @@ import { useLocationQuery } from '../../../utils'
 import { CopyOutlined } from '@ant-design/icons'
 import { Statistic } from 'antd'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
-import { banksyNftDetail, getNftFavoriteCount } from '../../../apis/nft'
-import { useHistory, useParams } from 'react-router-dom'
+import { getNftFavoriteCount } from '../../../apis/nft'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
@@ -59,7 +58,7 @@ const RightArea = styled.div`
   position: relative;
 `
 
-const PriceContainer = styled.div`
+/*const PriceContainer = styled.div`
   .item {
     display: flex;
     flex-direction: row;
@@ -88,7 +87,7 @@ const PriceContainer = styled.div`
       margin-left: 1rem;
     }
   }
-`
+`*/
 
 const NFTBaseInfoContainer = styled.div`
   .nft-name {
@@ -225,7 +224,7 @@ const NeuralNetworks = styled.div`
 const NFTBaseInfo: React.FC = () => {
   const uri = useLocationQuery('uri')
 
-  const [likeNum, setLikeNum] = useState<any>()
+  const [, setLikeNum] = useState<number>()
 
   const fetchLikeCount = useCallback(async () => {
     getNftFavoriteCount(uri).then(res => {
@@ -266,24 +265,6 @@ const { Countdown } = Statistic
 const NFTMortgageDetailPage:React.FC = () => {
 
   const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
-
-  const history = useHistory()
-
-  const { uri } = useParams<any>()
-
-  const [data, setData] = useState<any>()
-
-  const init = useCallback(async () => {
-    banksyNftDetail({
-      uri: uri,
-    }).then(res => {
-      setData(res.data.data)
-    })
-  },[])
-
-  useEffect(() => {
-    init()
-  },[init])
 
   return (
     <NFTMortgageDetailContainer>

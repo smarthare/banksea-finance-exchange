@@ -9,6 +9,7 @@ import { useWalletSelectionModal } from '../contexts/WalletSelectionModal'
 import { useWeb3EnvContext } from '../contexts/Web3EnvProvider'
 import PriceIcon from '@/assets/images/homePageImg/price-icon.svg'
 import { ChainType, setNftFavorite } from '../apis/nft'
+import { NftListItem } from '../types/NFTDetail'
 
 const NFTItemCardContainer = styled.div`
   color: #7c6deb;
@@ -130,14 +131,13 @@ const TypeChainThumbnailMapper: { [key in ChainType]?: string } = {
   'Solana': 'Sol'
 }
 
-const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, type }) => {
-  const [clickFavorite, setClickFavorite] = useState<number>(data?.favorite)
-
+const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({ data, type }) => {
   const { providerInitialized } = useWeb3EnvContext()
 
+  const [favorite, setFavorite] = useState<number>(data.favorite ?? 0)
+  const [isHeart, setHeart] = useState<boolean>(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [isHeart, setHeart] = useState<boolean>(false)
 
   const { open: openWalletSelectionModal } = useWalletSelectionModal()
 
@@ -155,7 +155,9 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
     if (!loading) {
       return
     }
-    const img = new Image(imageUrl())
+
+    const img = new Image()
+    img.src = imageUrl()
     if (img.complete) {
       setLoading(false)
     }
@@ -201,10 +203,10 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
       openWalletSelectionModal()
     } else {
       if (isHeart) {
-        setClickFavorite(clickFavorite)
+        setFavorite(favorite)
       } else {
         setNftFavorite(data?.valueUri)
-        setClickFavorite(clickFavorite + 1)
+        setFavorite(favorite + 1)
         setHeart(true)
       }
     }
@@ -213,14 +215,10 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
   return (
     <div style={{ position: 'relative' }}>
       {
-        data.onSale ?
-          <CornerFlag status="On Sale" /> :
-          <div />
+        data.onSale && <CornerFlag status="On Sale" />
       }
       <NFTItemCardContainer>
-        <Link to={detailUrl}
-          target={'_blank'}
-        >
+        <Link to={detailUrl}>
           <div className="img-container">
             {/*<LazyLoad>*/}
             <img
@@ -270,7 +268,7 @@ const NFTListItem: React.FC<{ data: any, type: 'nftList' | 'own' }> = ({ data, t
                   ? <HeartFilled className="heart" />
                   : <HeartOutlined className="heart" />
               }
-              {clickFavorite ? clickFavorite : 0}
+              {favorite ? favorite : 0}
             </div>
           </div>
         </div>

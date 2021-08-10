@@ -127,7 +127,7 @@ const DepositItemDetailPage:React.FC = () => {
         <div className="detailData-top">
           <div className="detailData-top-name">Deposit {data?.assetsName}</div>
           <div className="detailData-top-overview">
-            <img src={data?.assetsImage} />
+            <img src={data?.assetsImage} alt="" />
             <div>{data?.assetsName} Reserve Overview</div>
           </div>
         </div>

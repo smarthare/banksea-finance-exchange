@@ -12,6 +12,9 @@ import { useMediaQuery } from 'react-responsive'
 import { BanksyNftTransactionStatus, ChainType } from '../../apis/nft'
 import { ChainSelector, OrderSelector, StatusSelector } from '../../components/NFTListSelectors'
 import { SearchInput } from '../../styles/SearchInput'
+import { useHistory } from 'react-router-dom'
+import { useLocationQuery } from '../../utils'
+import { NftListItem } from '../../types/NFTDetail'
 
 const PageContainer = styled.div`
   padding: 0 16rem;
@@ -255,25 +258,30 @@ const Filter: React.FC = () => {
   )
 }
 
-const NFTList: React.FC<any> = ({ list }) => {
+const NFTList: React.FC<{ list: Array<NftListItem> | undefined }> = ({ list }) => {
   return (
     <NFTListContainer>
-      {list?.map((nft: any, index: number) => (
-        <NFTListItem
-          data={nft}
-          key={index}
-          type="nftList"
-        />
-      ))}
+      {
+        list?.map((nft: NftListItem, index: number) => (
+          <NFTListItem
+            data={nft}
+            key={index}
+            type="nftList"
+          />
+        ))
+      }
     </NFTListContainer>
   )
 }
 
 const CollectiblesPage: React.FC = () => {
+  const history = useHistory()
+
   const [selectedStatus, setSelectedStatus] = useState<BanksyNftTransactionStatus | undefined>()
   const [selectedChain, setSelectedChain] = useState<ChainType>('')
 
-  const [current, setCurrent] = useState(1)
+  const current = parseInt(useLocationQuery('page') ?? '1')
+
   const [size, setSize] = useState(20)
   const [searchKey, setSearchKey] = useState<any>()
 
@@ -289,8 +297,14 @@ const CollectiblesPage: React.FC = () => {
     window.scrollTo(0, 0)
   }, [pagingData])
 
-  const onChangePage = (page: number, pageSize?: number) => {
-    setCurrent(page)
+  useEffect(() => {
+    if (selectedChain || selectedStatus) {
+      history.push('/collectibles')
+    }
+  }, [selectedStatus, selectedChain])
+
+  const onPageChange = (page: number, pageSize?: number) => {
+    history.push(`/collectibles?page=${page}`)
     pageSize && setSize(pageSize)
   }
 
@@ -337,13 +351,13 @@ const CollectiblesPage: React.FC = () => {
       }
 
       <ListPageLoading loading={isLoading} />
-      <NFTList list={pagingData?.records} fetch={fetch} />
+      <NFTList list={pagingData?.records} />
       {
         !isLoading && (
           <CustomPagination
             current={current}
             total={pagingData?.total}
-            onChange={onChangePage}
+            onChange={onPageChange}
             pageSize={size}
             pageSizeOptions={['12', '20', '28', '40']}
           />
