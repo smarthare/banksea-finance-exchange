@@ -576,13 +576,16 @@ const HomePage: React.FC = () => {
 
           <div className="row2">
             <div className="info-panel" style={{ padding: '1vw 2vw ' }}>
-              <div className="main-title2">Create
+              <div className="main-title2">Users
                 <PanelIcon iconName={Mortgage} />
               </div>
-              <div className="sub-title2">NFT Number : 3220</div>
               <div className="nft-values">
-                <div className="sub-title2">NFT Values :</div>
-                <div className="value">$3,210,00</div>
+                <div className="sub-title2">KSY Address Number :</div>
+                <div className="value">3230</div>
+              </div>
+              <div className="nft-values">
+                <div className="sub-title2">NFT Address Number :</div>
+                <div className="value">2890</div>
               </div>
               <GotoArrow path="/nft/create" />
             </div>
