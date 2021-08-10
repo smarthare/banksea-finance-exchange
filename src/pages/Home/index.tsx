@@ -532,7 +532,7 @@ const HomePage: React.FC = () => {
           <div className="row1">
             <div className="nft-mortgage-container" onClick={() => history.push('/pools/*')}>
               <AIFlag />
-              <div className="main-title">NFT Mortgage</div>
+              <div className="main-title">NFT Collateral</div>
               <div className="sub-title">Market size</div>
               <div className="value">$125,300,00</div>
               <div className="sub-title">Transaction Volumn</div>
