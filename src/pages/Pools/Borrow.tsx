@@ -37,7 +37,7 @@ const DepositAreaRight = styled.div`
 
   .MyTotal {
     width: 100%;
-    padding: 0 3.5rem;
+    padding: 0 2.5rem;
     position: relative;
     display: flex;
     align-items: center;
@@ -253,7 +253,7 @@ const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
               <div className="assets">
                 <img
                   src={item?.assetsImage}
-                  alt="ETH"
+                  alt=""
                   style={{ width: '2.2rem', marginRight: '0.8rem' }}
                 />
                 <span>{item?.assetsName}</span>
@@ -305,19 +305,19 @@ const BorrowPage:React.FC = () => {
             </DepositAreaLeft>
             <DepositAreaRight>
               <MyNFTMortgage>
-                <AreaTitle>My NFT-Mortgage</AreaTitle>
+                <AreaTitle>My Borrow</AreaTitle>
                 <Line />
                 <div className="MyTotal">
                   <div className="MyTotal-name">
-                    <span>NFT-Mortgage Number</span>
+                    <span>Total value</span>
                   </div>
                   <div className="MyTotalNum">3</div>
                 </div>
                 <div className="MyTotal">
                   <div className="MyTotal-name">
-                    <span>Total Valuation</span>
+                    <span>Number of currencies</span>
                   </div>
-                  <div className="MyTotalNum">7.6 ETH</div>
+                  <div className="MyTotalNum">7</div>
                 </div>
                 <MortgageButton onClick={() => history.push('/pools/dashboard')}>Mortgage</MortgageButton>
               </MyNFTMortgage>

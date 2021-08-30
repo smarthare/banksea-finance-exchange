@@ -20,6 +20,8 @@ import { poolsConnect } from '../../apis/pool'
 import NFTMortgageDetailPage from './Detail/NFTMortgageDetail'
 import AvailablePurchasePage from './Detail/AvailablePurchase'
 import BorrowItemDetailPage from './Detail/BorrowItemDetail'
+import WithdrawDetailPage from './Detail/WithdrawDetail'
+import RepayDetailPage from './Detail/RepayDetail'
 
 export type PoolPageKeys =
   | 'market'
@@ -34,6 +36,8 @@ export type PoolPageKeys =
   | 'liquidation/detail/:id'
   | 'borrow/detail/:id'
   | 'available/detail/:uri'
+  | 'withdraw/detail/:id'
+  | 'repay/detail/:id'
 
 // eslint-disable-next-line no-unused-vars
 const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
@@ -48,7 +52,9 @@ const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
   'market/deposit/pool/:id': <DepositPoolDetailPage />,
   'liquidation/detail/:id': <NFTMortgageDetailPage />,
   'borrow/detail/:id': <BorrowItemDetailPage />,
-  'available/detail/:uri': <AvailablePurchasePage />
+  'available/detail/:uri': <AvailablePurchasePage />,
+  'withdraw/detail/:id': <WithdrawDetailPage />,
+  'repay/detail/:id': <RepayDetailPage />
 }
 
 // eslint-disable-next-line no-unused-vars
