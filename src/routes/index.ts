@@ -91,7 +91,7 @@ const routes: Route[] = [
 
   {
     path: '/valuation',
-    title: 'NFT valuation',
+    title: 'NFT Valuation',
     icon: PoolsIcon,
     component: ValuationPage
   },

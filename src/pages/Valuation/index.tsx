@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import ReactECharts from 'echarts-for-react'
+import FeatureAddedWhitelistCollections from './components/FeatureAddedWhitelistCollections'
+import AllWhitelistCollections from './components/AllWhitelistCollections'
+import { useValuationPageData } from '../../hooks/data/useValuationPageData'
 
 type ValuationPageProps = {
   //
@@ -17,9 +20,13 @@ const Wrapper = styled.div`
   margin-top: 45px;
 `
 
-const Title = styled.div`
+const PageTitle = styled.div`
   font-size: 30px;
   font-weight: 500;
+
+  &:before {
+    content: 'NFT Valuation';
+  }
 `
 
 const TitleDivider = styled.div`
@@ -31,7 +38,7 @@ const TitleDivider = styled.div`
   //text-fill-color: transparent;
 `
 
-const Summary = styled.div`
+const SummaryContainer = styled.div`
   font-size: 25px;
   font-weight: 500;
   color: #FFFFFF;
@@ -42,6 +49,25 @@ const Summary = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+  }
+`
+
+const ChartTextContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  align-items: center;
+
+  div {
+    display: inline-block;
+  }
+
+  .changes {
+    font-size: 25px;
+  }
+
+  .update-time {
+    font-size: 18px;
   }
 `
 
@@ -96,37 +122,55 @@ const ValuationChart: React.FC = () => {
   }
 
   return (
-    <ReactECharts option={options} />
+    <div>
+      <ReactECharts option={options} />
+      <ChartTextContainer>
+        <div className="changes">
+          +68.45% last 7 days +202.07% last 30 days
+        </div>
+        <div className="update-time">
+          Data was last updated 8 hours ago
+        </div>
+      </ChartTextContainer>
+    </div>
+  )
+}
+
+const Summary: React.FC = () => {
+  return (
+    <SummaryContainer>
+      <div className="row">
+        <div className="item">
+          1,248,837,08 ETH ($4.04B)
+        </div>
+        <div className="item">
+          BTC: $49,017,99
+        </div>
+      </div>
+      <div className="row">
+        <div className="item">
+          Valuation of All NFT
+        </div>
+        <div className="item">
+          Ethereum: $3,241.44
+        </div>
+      </div>
+    </SummaryContainer>
   )
 }
 
 const ValuationPage: React.FC<ValuationPageProps> = () => {
+  const { allWhitelistCollections, featureAddedWhitelistCollections } = useValuationPageData()
+
   return (
     <ValuationPageContainer>
       <Wrapper>
-        <Title>
-          NFT Valuation
-        </Title>
+        <PageTitle />
         <TitleDivider />
-        <Summary>
-          <div className="row">
-            <div className="item">
-              1,248,837,08 ETH ($4.04B)
-            </div>
-            <div className="item">
-              BTC: $49,017,99
-            </div>
-          </div>
-          <div className="row">
-            <div className="item">
-              Valuation of All NFT
-            </div>
-            <div className="item">
-              Ethereum: $3,241.44
-            </div>
-          </div>
-        </Summary>
+        <Summary />
         <ValuationChart />
+        <FeatureAddedWhitelistCollections collections={featureAddedWhitelistCollections} />
+        <AllWhitelistCollections collections={allWhitelistCollections} />
       </Wrapper>
     </ValuationPageContainer>
   )
