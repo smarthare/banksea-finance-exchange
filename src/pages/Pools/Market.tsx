@@ -91,16 +91,22 @@ const TableMain = styled.div`
     transition: all 0.7s;
     border: none;
     cursor: pointer;
-    z-index: -1;
 
     div:nth-of-type(1) {
       width: 15%;
+      height: 100%;
+      line-height: 5.7rem;
       color: #fff;
       padding-left: 3rem;
       font-weight: bolder;
       display: flex;
       align-items: center;
     }
+    div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4) {
+      height: 100%;
+      line-height: 5.7rem;
+    }
+
 
     div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5), div:nth-of-type(6) {
       width: 14%;
@@ -181,14 +187,14 @@ const MarketSizeStatistics = styled.div`
 
 const DepositButton = styled.div`
   width: 6rem;
-  height: 2rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
   font-size: 1.2rem;
   color: #fff;
   text-align: center;
   background: #234890;
   border-radius: 0.5rem;
   margin-left: 2rem;
-  z-index: 999;
 `
 
 const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
@@ -261,21 +267,21 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
               <div
                 key={index}
                 className="table-item"
-                onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}
               >
                 <div>
                   <img
                     src={item?.assetsImage}
                     alt=""
                     style={{ width: '2.5rem', marginRight: '0.8rem' }}
+                    onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}
                   />
                   {item?.assetsName}
                 </div>
-                <div>{item?.marketSize}</div>
-                <div>{item?.totalBorrowed}</div>
-                <div>{item?.depositApy}</div>
-                <div>{item?.variableBorrowApy}</div>
-                <div>{item?.stableBorrowApy}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.marketSize}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.totalBorrowed}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.depositApy}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.variableBorrowApy}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.stableBorrowApy}</div>
                 <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>deposit</DepositButton>
                 <DepositButton onClick={() => history.push(`/pools/borrow/detail/${item?.id}`)}>Borrow</DepositButton>
               </div>

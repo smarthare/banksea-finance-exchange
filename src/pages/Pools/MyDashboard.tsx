@@ -13,6 +13,7 @@ import {
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import PageLoading from '../../components/PageLoding'
+import VariableAPY from '../../components/EchartsStatistics/VariableAPY'
 
 const MyDashboardContainer = styled.div`
   width: 135.6rem;
@@ -157,7 +158,7 @@ const MyAccessTableYop = styled.div`
   }
 
   div:nth-of-type(2), div:nth-of-type(3) {
-    width: 25%;
+    width: 22%;
     text-align: center;
   }
 `
@@ -183,16 +184,16 @@ const MyAccessTableMain = styled.div`
     }
 
     div:nth-of-type(2), div:nth-of-type(3) {
-      width: 25%;
+      width: 22%;
     }
 
     div:nth-of-type(4) {
-      width: 7%;
+      width: 10%;
       cursor: pointer;
     }
 
     div:nth-of-type(5) {
-      width: 8%;
+      width: 10%;
       margin-left: 1rem;
       cursor: pointer;
     }
@@ -231,17 +232,12 @@ const MyAccessTableMain = styled.div`
       }
     }
   }
-
-  .allCoin-table-item:hover {
-    border: 1px solid #6845FE;
-    background: #182C58;
-    box-sizing: border-box;
-  }
 `
 
 const DepositButton = styled.div`
-  width: 3rem;
-  height: 2rem;
+  width: 5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
   font-size: 1.2rem;
   color: #fff;
   text-align: center;
@@ -250,15 +246,16 @@ const DepositButton = styled.div`
 `
 
 const NFTMortgagesContainer = styled.div`
-  width: 67.1rem;
+  width: 100%;
   height: 48rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-bottom: 1.4rem;
+  margin-top: 20px;
 `
 
 const NFTMortgagesMain = styled.div`
-  width: 67.1rem;
+  width: 100%;
   display: flex;
   padding: 3rem;
   overflow-x: auto;
@@ -384,6 +381,8 @@ const NFTLiquidationMortgagesMain = styled.div`
 `
 
 const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({ userInfo, depositList }) => {
+  const history = useHistory()
+
   console.log(userInfo)
   return (
     <Deposits>
@@ -398,20 +397,25 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
                   <p>Approximate balance</p>
                   <p>$ { userInfo?.approximateBalance } USD</p>
                 </div>
+                <div className="left-text-line-item">
+                  <p>Deposit Interest</p>
+                  <p>10%</p>
+                </div>
+                <div className="left-text-line-item">
+                  <p>Deposit rate</p>
+                  <p>2.44%</p>
+                </div>
               </div>
-              <ProgressArea type="circle"
-                width={130}
-                strokeColor={'#88D12E'}
-                percent={30}
-                format={() => 'Borrow Composition'}
-              />
+              <div style={{ width: '400px' }}>
+                <VariableAPY />
+              </div>
             </div>
           </BorrowInformationLeft>
         </BorrowInformation>
       </div>
       <MyAccessTable>
         <MyAccessTableYop>
-          <div>Your deposits</div>
+          <div>My deposits</div>
           <div>Current balance</div>
           <div>APY</div>
         </MyAccessTableYop>
@@ -422,7 +426,7 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
                 <div className="assets">
                   <img
                     src={item?.assetsImage}
-                    alt="ETH"
+                    alt=""
                     style={{ width: '1.2rem', marginRight: '0.8rem' }}
                   />
                   {item?.poolName}
@@ -434,8 +438,8 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
                 <div className="universal-item-text">
                   <p>{item?.depositApy}</p>
                 </div>
-                <DepositButton>deposit</DepositButton>
-                <DepositButton>Withdraw</DepositButton>
+                <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>deposit</DepositButton>
+                <DepositButton onClick={() => history.push(`/pools/withdraw/detail/${item?.id}`)}>Withdraw</DepositButton>
               </div>
             ))
           }
@@ -446,6 +450,9 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
 }
 
 const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ userInfo, borrowList }) => {
+
+  const history = useHistory()
+
   return (
     <Borrow>
       <div className="borrowArea">
@@ -456,11 +463,11 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
             <div className="left-text-main">
               <div className="left-text-column">
                 <div className="left-text-line-item">
-                  <p>Your borrowed</p>
+                  <p>My borrowed</p>
                   <p>$ {userInfo?.borrowed} ETH</p>
                 </div>
                 <div className="left-text-line-item">
-                  <p>Your collateral</p>
+                  <p>My collateral</p>
                   <p>$110.500 ETH</p>
                 </div>
                 <div className="left-text-line-item">
@@ -493,7 +500,7 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
       </div>
       <MyAccessTable>
         <MyAccessTableYop>
-          <div>Your borrows</div>
+          <div>My borrows</div>
           <div>Borrowed</div>
           <div>APY</div>
         </MyAccessTableYop>
@@ -504,7 +511,7 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
                 <div className="assets">
                   <img
                     src={item?.assetsImage}
-                    alt="ETH"
+                    alt=""
                     style={{ width: '2.4rem', height: '2.4rem', marginRight: '0.8rem' }}
                   />
                   {item?.poolName}
@@ -516,8 +523,8 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
                 <div className="universal-item-text">
                   <p>{item?.variableBorrowApy * 100}%</p>
                 </div>
-                <DepositButton>Borrow</DepositButton>
-                <DepositButton>Repay</DepositButton>
+                <DepositButton onClick={() => history.push(`/pools/borrow/detail/${item?.id}`)}>Borrow</DepositButton>
+                <DepositButton onClick={() => history.push(`/pools/repay/detail/${item?.id}`)}>Repay</DepositButton>
               </div>
             ))
           }
@@ -532,7 +539,7 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
 
   return (
     <NFTMortgagesContainer>
-      <AreaTitle>Available to Collaterals</AreaTitle>
+      <AreaTitle>My NFT</AreaTitle>
       <Line />
       <NFTMortgagesMain>
         {
@@ -686,10 +693,8 @@ const MyDashboardPage: React.FC = () => {
                     <DepositInformationArea userInfo={userInfo} depositList={depositList} />
                     <BorrowInformationArea userInfo={userInfo} borrowList={borrowList} />
                   </MyDashboardData>
-                  <NFTBorrowMortgage>
-                    <NFTAvailableMortgages mortgageAvailable={mortgageAvailable} />
-                    <NFTYourMortgage mortgageMortgaged={mortgageMortgaged} />
-                  </NFTBorrowMortgage>
+                  <NFTAvailableMortgages mortgageAvailable={mortgageAvailable} />
+                  <NFTYourMortgage mortgageMortgaged={mortgageMortgaged} />
                   <NFTLiquidation mortgagePreorder={mortgagePreorder} />
                 </div> :
                 <PageLoading />

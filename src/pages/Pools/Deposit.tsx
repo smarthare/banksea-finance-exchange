@@ -40,7 +40,7 @@ const DepositAreaRight = styled.div`
 
   .MyTotal {
     width: 100%;
-    padding: 0 3.5rem;
+    padding: 0 2.5rem;
     position: relative;
     display: flex;
     align-items: center;
@@ -276,13 +276,13 @@ const DepositPage: React.FC = () => {
               <Line />
               <div className="MyTotal">
                 <div className="MyTotal-name">
-                  <span>Ethereum</span>
+                  <span>Total value</span>
                 </div>
                 <div className="MyTotalNum">12.000</div>
               </div>
               <div className="MyTotal">
                 <div className="MyTotal-name">
-                  <span>Ethereum</span>
+                  <span>Number of currencies</span>
                 </div>
                 <div className="MyTotalNum">12.000</div>
               </div>

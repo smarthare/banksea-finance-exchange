@@ -97,7 +97,7 @@ const RightArea = styled.div`
 
 const NFTBaseInfoContainer = styled.div`
   .nft-name {
-    font-size: 4.5rem;
+    font-size: 3rem;
     font-weight: 550;
     color: #98BDF9;
   }
@@ -237,6 +237,7 @@ const ScheduleFirst = styled.div`
   text-align: center;
   width: 80rem;
   margin-left: calc((100% - 80rem) / 2);
+
   .title {
     color: #F172ED;
     font-size: 2rem;
@@ -291,7 +292,7 @@ const Valuation = styled.div`
   position: relative;
 `
 
-const NFTBaseInfo:React.FC<{ data: any }> = ({ data }) => {
+const NFTBaseInfo: React.FC<{ data: any }> = ({ data }) => {
 
   return (
     <NFTBaseInfoContainer>
@@ -302,7 +303,7 @@ const NFTBaseInfo:React.FC<{ data: any }> = ({ data }) => {
         <div className="info-row-item">
           <div className="info-row-item-label">Artist</div>
           <div className="info-row-item-value">
-            {data?.addressCreate.substring(0,4)+'...'+data?.addressCreate.slice(-4)}
+            {data?.addressCreate.substring(0, 4) + '...' + data?.addressCreate.slice(-4)}
           </div>
           <CopyOutlined className="icon-copy" />
         </div>
@@ -314,19 +315,10 @@ const NFTBaseInfo:React.FC<{ data: any }> = ({ data }) => {
 type ScheduleAI = {
   data: any
   openMortgageConfirmModal: any
-  showAINetwork: () => void
-  isAINetwork: boolean
-  isConfirm: boolean
-  showConfirm: () => void
 }
 
-const Schedule:React.FC<ScheduleAI> = ({ data, openMortgageConfirmModal, showAINetwork, isAINetwork, isConfirm, showConfirm }) => {
+const Schedule: React.FC<ScheduleAI> = ({ data, openMortgageConfirmModal }) => {
   const account = useSelector(getAccount)
-
-  const showAIConfirm = () => {
-    showAINetwork()
-    showConfirm()
-  }
 
   const confirm = () => {
     openMortgageConfirmModal()
@@ -340,60 +332,39 @@ const Schedule:React.FC<ScheduleAI> = ({ data, openMortgageConfirmModal, showAIN
 
   return (
     <ScheduleMain>
-      <EvaluateButton onClick={showAIConfirm}>Evaluate</EvaluateButton>
-      {
-        isAINetwork ?
-          <Valuation>
-            <img src={neuralNetworks} alt="" />
-            <NeuralNetworks>
-              <div className="NeuralNetworksMain">
-                <div className="networksValue-name">Evaluation Value</div>
-                <div className="networksValue-value">{data?.evaluate} ETH</div>
-                <div className="networksValue-name">Mortgage Rate</div>
-                <div className="networksValue-value">{data?.mortgageRate * 100}%</div>
-              </div>
-            </NeuralNetworks>
-          </Valuation> :
-          <div />
-      }
-      {
-        isConfirm ?
-          <div>
-            <ScheduleFirst>
-              <div className="title">Mortgage overview</div>
-              <div className="main-text">
-                If you agree with the valuation of the NFT,you can make a
-                mortgage,,and the NFT will be locked in the smart contract during
-                the mortgage.During the mortgage period,AI Oracle will regularly
-                update the valuation of NFT,please pay attention to it regularly.
-              </div>
-            </ScheduleFirst>
-            <ConfirmButton onClick={confirm}>Confirm</ConfirmButton>
-          </div> :
-          <div />
-      }
+      <Valuation>
+        <img src={neuralNetworks} alt="" />
+        <NeuralNetworks>
+          <div className="NeuralNetworksMain">
+            <div className="networksValue-name">Evaluation Value</div>
+            <div className="networksValue-value">{data?.evaluate} ETH</div>
+            <div className="networksValue-name">Collateral Rate</div>
+            <div className="networksValue-value">{data?.mortgageRate * 100}%</div>
+          </div>
+        </NeuralNetworks>
+      </Valuation>
+      <div>
+        <ScheduleFirst>
+          <div className="title">Mortgage overview</div>
+          <div className="main-text">
+            If you agree with the valuation of the NFT,you can make a
+            mortgage,,and the NFT will be locked in the smart contract during
+            the mortgage.During the mortgage period,AI Oracle will regularly
+            update the valuation of NFT,please pay attention to it regularly.
+          </div>
+        </ScheduleFirst>
+        <ConfirmButton onClick={confirm}>Confirm</ConfirmButton>
+      </div>
     </ScheduleMain>
   )
 }
 
-const AvailablePurchasePage:React.FC = () => {
+const AvailablePurchasePage: React.FC = () => {
   const { uri } = useParams<any>()
 
   const { data } = useNftDetailQuery({ uri })
 
   const { mortgageConfirmModal, openMortgageConfirmModal } = useMortgageConfirmModal()
-
-  const [isAINetwork, setAINetwork] = useState<boolean>(false)
-
-  const [isConfirm, setConfirm] = useState<boolean>(false)
-
-  const showAINetwork = () => {
-    setAINetwork(true)
-  }
-
-  const showConfirm = () => {
-    setConfirm(true)
-  }
 
   return (
     <NFTMortgageDetailContainer>
@@ -405,17 +376,14 @@ const AvailablePurchasePage:React.FC = () => {
         </LeftArea>
         <RightArea>
           <NFTBaseInfo data={data} />
+          <div className="statistics">
+            <DepositAPY />
+          </div>
         </RightArea>
-        <div className="statistics">
-          <DepositAPY />
-        </div>
       </Row>
-      <Schedule data={data}
+      <Schedule
+        data={data}
         openMortgageConfirmModal={openMortgageConfirmModal}
-        isAINetwork={isAINetwork}
-        showAINetwork={showAINetwork}
-        isConfirm={isConfirm}
-        showConfirm={showConfirm}
       />
 
       {mortgageConfirmModal}

@@ -1,13 +1,13 @@
+
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
-import { useHistory, useParams } from 'react-router-dom'
-import { borrowConfirm, depositPoolsDetail, mortgageOpinion } from '../../../apis/pool'
+import { useHistory } from 'react-router-dom'
+import { Button, Form, Input } from 'antd'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
-import { Button, Form, Input, message } from 'antd'
-import { useAuthorizingModal } from '../../../hooks/modals/useAuthorizingModal'
-import { useBorrowCheckoutModal } from '../../../hooks/modals/useBorrowCheckoutModal'
+import { useWithdrawCheckoutModal } from '../../../hooks/modals/useWithdrawCheckoutModal'
+import { useRepayCheckoutModal } from '../../../hooks/modals/useRepayCheckout'
 
 const ItemDetailMain = styled.div`
   min-height: 100vh;
@@ -30,7 +30,7 @@ const DetailTop = styled.div`
     font-size: 1.7rem;
   }
 
-  span:nth-of-type(2), span:nth-of-type(3) {
+  span:nth-of-type(2) {
     margin-left: 7rem;
   }
 `
@@ -111,40 +111,6 @@ const DetailDataMainStatistics = styled.div`
   margin-left: 15rem;
 `
 
-const OptionMain = styled.div`
-  text-align: center;
-  padding-top: 5rem;
-
-  .title {
-    color: #F172ED;
-    font-size: 2rem;
-    font-weight: bolder;
-  }
-
-  .main-text {
-    font-size: 1.7rem;
-    color: #fff;
-  }
-`
-
-const DepositNowButton = styled(Button)`
-  width: 16.9rem;
-  height: 4.8rem;
-  background: #554BFF;
-  border-radius: 1rem;
-  border: none;
-  color: #fff;
-  font-weight: bolder;
-  font-size: 1.7rem;
-  transition: all 0.7s;
-  margin-top: 5rem;
-
-  &:hover {
-    background: #7A7AFF;
-    color: #fff;
-  }
-`
-
 const ScheduleMain = styled.div`
   margin-top: 3rem;
 `
@@ -153,6 +119,7 @@ const ScheduleFirst = styled.div`
   text-align: center;
   width: 60rem;
   margin-left: calc((100% - 60rem) / 2);
+
   .title {
     color: #F172ED;
     font-size: 2rem;
@@ -217,19 +184,6 @@ const ConfirmButton = styled(Button)`
   }
 `
 
-const Option:React.FC = () => {
-
-  const history = useHistory()
-
-  return (
-    <OptionMain>
-      <div className="title">No Borrow yet</div>
-      <div className="main-text">You need to deposit some collateral first to unlock your borrowing power.</div>
-      <DepositNowButton onClick={() => history.push('/pools/deposit/detail/${item.id}')}>Deposit now</DepositNowButton>
-    </OptionMain>
-  )
-}
-
 const Schedule:React.FC<{ data: any }> = ({ data }) => {
   const account = useSelector(getAccount)
 
@@ -239,43 +193,28 @@ const Schedule:React.FC<{ data: any }> = ({ data }) => {
     price: ''
   }
 
-  const { borrowCheckoutModal, openBorrowCheckoutModal, closeBorrowCheckoutModal } = useBorrowCheckoutModal(formData)
+  const { repayCheckoutModal, openRepayCheckoutModal, closeRepayCheckoutModal } = useRepayCheckoutModal()
 
   const [form] = Form.useForm<typeof formInitialValues>()
 
   const confirm = () => {
-    form.validateFields().then(values => {
-
-      setFormData({
-        poolName: data?.assetsName,
-        walletAddress: account,
-        unit: data?.unit,
-        borrowValue: values?.price,
-        variableBorrowApy: data?.variableBorrowApy.slice(0,-1) / 100,
-        stableBorrowApy: data?.stableBorrowApy.slice(0,-1) / 100,
-        borrowType: 'variable'
-      })
-      // borrowConfirm(formData).then(() => {
-      //   message.success('You successfully borrowed！')
-      // })
-    })
-    openBorrowCheckoutModal()
+    openRepayCheckoutModal()
   }
 
   return (
     <ScheduleMain>
       <ScheduleFirst>
-        <div className="title">Borrow overview</div>
+        <div className="title">Repay overview</div>
         <div className="main-title">
-          How much would you like to borrow ?
+          How much would you like to repay ?
         </div>
         <div className="main-text">
-          Please enter an amount you would like to borrow.The maximum amount you can borrow is shown below.
+          Please enter an amount you would like to repay.The maximum amount you can deposit is shown below.
         </div>
         <Form form={form} initialValues={formInitialValues}>
           <div className="fixedPrice">
             <div className="input-text">
-              <span>available to borrow</span>
+              <span>available to repay</span>
               <span>19.668322 MATIC</span>
             </div>
             <Form.Item name="price">
@@ -285,46 +224,28 @@ const Schedule:React.FC<{ data: any }> = ({ data }) => {
         </Form>
         <ConfirmButton onClick={confirm}>Continue</ConfirmButton>
       </ScheduleFirst>
-      {borrowCheckoutModal}
+      {repayCheckoutModal}
     </ScheduleMain>
   )
 }
 
+const RepayDetailPage:React.FC = () => {
 
-const BorrowItemDetailPage:React.FC = () => {
-  const account = useSelector(getAccount)
+  const history = useHistory()
 
-  const { id } = useParams<any>()
+  const id = history.location.pathname.slice(22)
 
   const [data, setData] = useState<any>()
-
-  const [isOption, setOption] = useState<boolean>(false)
-
-  const init = useCallback(async () => {
-    await depositPoolsDetail({ id: id }).then(res => {
-      setData(res.data.data)
-    })
-
-    await mortgageOpinion({ walletAddress: account }).then(res => {
-      setOption(res.data.data)
-    })
-  },[])
-
-  useEffect(() => {
-    init()
-  },[init])
-
 
   return (
     <ItemDetailMain>
       <DetailTop>
-        <span>You borrowed -</span>
-        <span>Total collateral -</span>
-        <span>Loan to value</span>
+        <span>Your balance in Banksy -</span>
+        <span>Your borrowed: 2.0 ETH</span>
       </DetailTop>
       <ItemDetailData>
         <div className="detailData-top">
-          <div className="detailData-top-name">Borrow {data?.assetsName}</div>
+          <div className="detailData-top-name">Repay</div>
           <div className="detailData-top-overview">
             <img src={data?.assetsImage} alt="" />
             <div>{data?.assetsName} Reserve Overview</div>
@@ -334,16 +255,20 @@ const BorrowItemDetailPage:React.FC = () => {
         <ItemDetailDataMain>
           <DetailDataMainItem>
             <div className="item-line">
-              <div>Utilization rate</div>
-              <div>{data?.utilizationRate}</div>
-            </div>
-            <div className="item-line">
-              <div>Available liquidity</div>
-              <div>{data?.availableLiquidity}</div>
-            </div>
-            <div className="item-line">
               <div>Asset price</div>
               <div>64.71</div>
+            </div>
+            <div className="item-line">
+              <div>Maximum LTV</div>
+              <div>80.00%</div>
+            </div>
+            <div className="item-line">
+              <div>Liquidation threshold</div>
+              <div>10.00%</div>
+            </div>
+            <div className="item-line">
+              <div>Liquidation penalty</div>
+              <div>20.00%</div>
             </div>
           </DetailDataMainItem>
           <DetailDataMainStatistics>
@@ -351,13 +276,9 @@ const BorrowItemDetailPage:React.FC = () => {
           </DetailDataMainStatistics>
         </ItemDetailDataMain>
       </ItemDetailData>
-      {
-        !isOption ?
-          <Option /> :
-          <Schedule data={data} />
-      }
+      <Schedule data={data} />
     </ItemDetailMain>
   )
 }
 
-export default BorrowItemDetailPage
+export default RepayDetailPage
