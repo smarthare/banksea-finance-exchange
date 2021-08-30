@@ -24,6 +24,9 @@ import PoolsPage from '../pages/Pools/index'
 import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTMortgageDetail'
 import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
 import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
+import ValuationPage from '../pages/Valuation'
+import CollectionValuationPage from '../pages/Valuation/CollectionValuation'
+import NFTValuationPage from '../pages/Valuation/NFTValuation'
 
 export type Route = {
   path: string
@@ -44,6 +47,7 @@ const routes: Route[] = [
     icon: HomeIcon,
     component: HomePage
   },
+
   {
     path: '/collectibles',
     title: 'Marketplace',
@@ -52,10 +56,18 @@ const routes: Route[] = [
     component: CollectiblesPage
   },
   {
+    path: '/collectible/:id',
+    title: 'Collectible',
+    icon: CollectiblesIcon,
+    component: CollectibleDetailPage,
+    hidden: true
+  },
+
+  {
     path: '/ai-generators',
     title: 'Level Up',
     icon: LevelUpIcon,
-    component: AIGenerators,
+    component: AIGenerators
   },
   {
     path: '/nft/create',
@@ -76,13 +88,26 @@ const routes: Route[] = [
     icon: PoolsIcon,
     component: PoolsPage
   },
+
   {
-    path: '/collectible/:id',
-    title: 'Collectible',
-    icon: CollectiblesIcon,
-    component: CollectibleDetailPage,
-    hidden: true
+    path: '/valuation',
+    title: 'NFT valuation',
+    icon: PoolsIcon,
+    component: ValuationPage
   },
+  {
+    path: '/valuation/:collection',
+    hidden: true,
+    title: 'Collection Valuation',
+    component: CollectionValuationPage
+  },
+  {
+    path: '/valuation/:nft',
+    hidden: true,
+    title: 'NFTValuation',
+    component: NFTValuationPage
+  },
+
   {
     path: '/artists',
     title: 'Artists',
