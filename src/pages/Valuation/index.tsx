@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ReactECharts from 'echarts-for-react'
 import FeatureAddedWhitelistCollections from './components/FeatureAddedWhitelistCollections'
 import AllWhitelistCollections from './components/AllWhitelistCollections'
-import { useValuationPageData } from '../../hooks/data/useValuationPageData'
+import { useValuationOverviewData } from '../../hooks/data/useValuationOverviewData'
 
 type ValuationPageProps = {
   //
@@ -160,7 +160,7 @@ const Summary: React.FC = () => {
 }
 
 const ValuationPage: React.FC<ValuationPageProps> = () => {
-  const { allWhitelistCollections, featureAddedWhitelistCollections } = useValuationPageData()
+  const { allWhitelistCollections, featureAddedWhitelistCollections } = useValuationOverviewData()
 
   return (
     <ValuationPageContainer>

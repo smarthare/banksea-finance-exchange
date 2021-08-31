@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Pagination } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
-import '../../styles/override-antd-select-dropdown.scss'
 import NFTListItem from '../../components/NFTListItem'
 import clsx from 'clsx'
 import ListPageLoading from '../../components/ListPageLoading'

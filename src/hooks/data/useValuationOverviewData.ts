@@ -7,7 +7,7 @@ type ValuationPageData = {
   featureAddedWhitelistCollections: FeatureAddedWhitelistCollection[]
 }
 
-const useValuationPageData = (): ValuationPageData => {
+const useValuationOverviewData = (): ValuationPageData => {
   const [allWhitelistCollections, setAllWhitelistCollections] = useState<WhitelistCollection[]>([])
   const [featureAddedWhitelistCollections, setFeatureAddedWhitelistCollections] = useState<FeatureAddedWhitelistCollection[]>([])
 
@@ -47,5 +47,5 @@ const useValuationPageData = (): ValuationPageData => {
 }
 
 export {
-  useValuationPageData
+  useValuationOverviewData
 }

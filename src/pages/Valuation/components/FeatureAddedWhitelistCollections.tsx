@@ -37,6 +37,8 @@ const ItemContainer = styled.div`
   background-color: #101C3A;
 
   img.cover {
+    height: 206px;
+    object-fit: cover;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
@@ -71,8 +73,13 @@ const ItemContainer = styled.div`
     .description {
       font-size: 14px;
       color: white;
-      line-height: 27px;
       color: #ddd;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
     }
   }
 `

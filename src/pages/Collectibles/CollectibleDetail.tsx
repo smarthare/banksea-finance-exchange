@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { Button, message, Popover, Table, Image } from 'antd'
+import { Button, Image, message, Popover } from 'antd'
 import Show from '@/assets/images/collectibleDetailImg/show.png'
 import Heart from '@/assets/images/collectibleDetailImg/like.png'
 import moment from 'moment'
@@ -32,6 +32,7 @@ import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import { useNftDetailQuery } from '../../hooks/queries/useNftDetailQuery'
 import { useHistory } from 'react-router-dom'
+import ThemeTable from '../../styles/ThemeTable'
 
 const Row = styled.div`
   display: flex;
@@ -71,70 +72,6 @@ const LeftArea = styled.div`
   flex-wrap: wrap;
   margin-right: 2vw;
 
-`
-
-const TradingHistoryTable = styled(Table)`
-  width: 100%;
-  margin-top: 1.5rem;
-
-  .ant-table-container table > thead > tr:first-child th:first-child {
-
-
-  }
-
-  .ant-table-container table > thead > tr:first-child th:last-child {
-
-
-  }
-
-  .ant-table-thead > tr > th {
-    background-color: #0B111E !important;
-  }
-
-  .ant-table-thead .ant-table-cell {
-    font-size: 14px;
-    font-weight: 550;
-    line-height: 20px;
-    color: #B3B3B3 !important;
-  }
-
-  .ant-table-tbody .ant-table-cell {
-    font-size: 1.4rem;
-    color: white;
-    line-height: 20px;
-    font-weight: 550;
-  }
-
-  .ant-table-tbody .ant-table-cell :first-child {
-    border-radius: 5rem;
-  }
-
-  .ant-table-row {
-    background-color: #18284C;
-    user-select: none;
-  }
-
-  .ant-table-tbody {
-    > tr:hover:not(.ant-table-expanded-row) > td, .ant-table-row-hover, .ant-table-row-hover > td {
-      background: #354d86 !important;
-    }
-  }
-
-  .ant-table-tbody > tr > td {
-    border-bottom: 4px solid #0B111E;
-    border-top: 4px solid #0B111E;
-  }
-
-  .ant-table-empty {
-    background-color: transparent;
-  }
-
-  @media screen and (max-width: 1000px) {
-    padding: 0 8vw;
-    width: 100vw !important;
-    overflow-x: scroll;
-    position: relative;
-  }
 `
 
 const RightArea = styled.div`
@@ -812,14 +749,14 @@ const TradingHistories: React.FC<{ nftDetail?: NftDetail }> = ({ nftDetail }) =>
       <SubTitle>Trading Histories</SubTitle>
       {
         isMobile ?
-          <TradingHistoryTable
+          <ThemeTable
             columns={columns}
             dataSource={historyDataSource}
             scroll={{ x: 550 }}
             pagination={false}
           />
           :
-          <TradingHistoryTable
+          <ThemeTable
             columns={columns}
             dataSource={historyDataSource}
             scroll={{ x: 100 }}
