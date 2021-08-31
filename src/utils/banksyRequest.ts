@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const banksyRequest = axios.create({
-  baseURL: 'https://gaolingtech.com/banksy/nft/web/v1',
+  // baseURL: 'https://gaolingtech.com/banksy/nft/web/v1',
+  baseURL: 'http://43.129.189.139:25566/nft/web/v1',
   timeout: 10000
 })
 

@@ -2,27 +2,29 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useLocationQuery } from '../../../utils'
 import { CopyOutlined } from '@ant-design/icons'
-import { Statistic } from 'antd'
+import { Button, Statistic } from 'antd'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
 import { getNftFavoriteCount } from '../../../apis/nft'
+import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
-  padding: 8rem 10rem;
+  padding: 8rem 30rem;
 `
 
 const Row = styled.div`
   display: flex;
   justify-content: center;
 
-  .statistics {
-    width: 50rem;
+  .time {
+    width: 100%;
     position: relative;
 
     .ant-statistic-content-value {
       position: absolute;
-      right: 10rem;
+      right: 1rem ;
       color: #fff;
+      font-weight: bolder;
     }
   }
 `
@@ -47,7 +49,6 @@ const ImageContainer = styled.div`
   border: 1px solid #98BDF9;
 
   img {
-    max-height: 34.4rem;
     border-radius: 2rem;
   }
 `
@@ -206,11 +207,12 @@ const NeuralNetworks = styled.div`
   position: relative;
 
   .NeuralNetworksMain {
+    margin-top: 2rem;
+    padding: 1rem 1rem;
 
     .networksValue-name {
       color: #98BAF2;
       font-size: 2rem;
-      margin-top: 1rem;
     }
 
     .networksValue-value {
@@ -221,7 +223,91 @@ const NeuralNetworks = styled.div`
   }
 `
 
-const NFTBaseInfo: React.FC = () => {
+const StatisticsContainer = styled.div`
+  width: 100%;
+  height: 26rem;
+  background: #101D44;
+  border-radius: 1.5rem;
+  margin-bottom: 1.4rem;
+  margin-top: 2rem;
+`
+
+const AreaTitle = styled.div`
+  padding: 1rem 3.5rem;
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: bolder;
+`
+
+const Line = styled.div`
+  width: 100%;
+  height: 0.1rem;
+  background: linear-gradient(to right, #00D4D7, #5D00B3);
+`
+
+const StatisticsMain = styled.div`
+
+`
+
+const ScheduleFirst = styled.div`
+  text-align: center;
+  width: 60rem;
+  margin-top: 2rem;
+  margin-left: calc((100% - 60rem) / 2);
+
+  .title {
+    color: #F172ED;
+    font-size: 2rem;
+    font-weight: bolder;
+    margin-bottom: 2rem;
+  }
+
+  .main-title {
+    font-weight: bolder;
+    font-size: 1.7rem;
+    color: #fff;
+    margin-bottom: 2rem;
+  }
+`
+
+const ConfirmButton = styled(Button)`
+  width: 16.9rem;
+  height: 4.8rem;
+  background: #554BFF;
+  border-radius: 1rem;
+  border: none;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 1.7rem;
+  transition: all 0.7s;
+  margin-top: 1rem;
+
+  &:hover {
+    background: #7A7AFF;
+    color: #fff;
+  }
+`
+
+const Statistics:React.FC = () => {
+  return (
+    <StatisticsContainer>
+      <AreaTitle>??????</AreaTitle>
+      <Line />
+      <StatisticsMain>
+        <DepositAPY />
+      </StatisticsMain>
+      <ScheduleFirst>
+        <div className="title">Prepay overview</div>
+        <div className="main-title">
+          Are you sure you want to prepay this NFT ？
+        </div>
+        <ConfirmButton>Confirm</ConfirmButton>
+      </ScheduleFirst>
+    </StatisticsContainer>
+  )
+}
+
+const NFTBaseInfo:React.FC = () => {
   const uri = useLocationQuery('uri')
 
   const [, setLikeNum] = useState<number>()
@@ -261,7 +347,9 @@ const NFTBaseInfo: React.FC = () => {
     </NFTBaseInfoContainer>
   )
 }
+
 const { Countdown } = Statistic
+
 const NFTMortgageDetailPage:React.FC = () => {
 
   const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
@@ -277,10 +365,11 @@ const NFTMortgageDetailPage:React.FC = () => {
         <RightArea>
           <NFTBaseInfo />
         </RightArea>
-        <div className="statistics">
+        <div className="time">
           <Countdown value={deadline} />
         </div>
       </Row>
+      <Statistics />
     </NFTMortgageDetailContainer>
   )
 }

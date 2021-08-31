@@ -89,6 +89,7 @@ const BorrowInformationLeft = styled.div`
     align-items: center;
 
     .left-text-column {
+      height: 20rem;
 
       .left-text-line-item {
         margin-right: 5rem;
@@ -115,18 +116,6 @@ const BorrowInformationLeft = styled.div`
           font-size: 1.7rem;
           font-weight: bolder;
         }
-      }
-
-      .details {
-        width: 6rem;
-        height: 2.5rem;
-        text-align: center;
-        line-height: 2.5rem;
-        color: #fff;
-        font-size: 1.4rem;
-        border: 1px solid #fff;
-        border-radius: 0.5rem;
-        margin-top: 1.5rem;
       }
     }
 
@@ -247,11 +236,10 @@ const DepositButton = styled.div`
 
 const NFTMortgagesContainer = styled.div`
   width: 100%;
-  height: 48rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-bottom: 1.4rem;
-  margin-top: 20px;
+  margin-top: 2rem;
 `
 
 const NFTMortgagesMain = styled.div`
@@ -264,7 +252,6 @@ const NFTMortgagesMain = styled.div`
 
   .mortgages-item {
     width: 16.2rem;
-    height: 37rem;
     border-radius: 1rem;
     background: #3658A7;
     margin-left: 3.3rem;
@@ -351,7 +338,6 @@ const NFTLiquidationMortgagesMain = styled.div`
 
   .mortgages-item {
     width: 16.2rem;
-    height: 37rem;
     border-radius: 1rem;
     background: #3658A7;
     margin-left: 3.3rem;
@@ -484,9 +470,6 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
                   <p>Borrowing Power Used</p>
                   <p>{userInfo?.borrowUsed ? userInfo?.borrowUsed : '---'}</p>
                 </div>
-                <div className="details">
-                  details
-                </div>
               </div>
               <ProgressArea type="circle"
                 width={130}
@@ -556,10 +539,6 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
                 <MortgagesItemText>
                   <p className="message-name">Values:</p>
                   <p className="message-number">$ {item?.price}</p>
-                </MortgagesItemText>
-                <MortgagesItemText>
-                  <p className="message-name">Collateral Rate:</p>
-                  <p className="message-number">{item?.mortgageRate}</p>
                 </MortgagesItemText>
                 <WithdrawButton>Collateral</WithdrawButton>
               </div>

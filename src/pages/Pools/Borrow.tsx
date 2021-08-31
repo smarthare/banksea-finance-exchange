@@ -49,6 +49,7 @@ const DepositAreaRight = styled.div`
       align-items: center;
 
       span {
+        font-size: 1.7rem;
         margin-left: 1.4rem;
       }
     }
@@ -57,6 +58,7 @@ const DepositAreaRight = styled.div`
       position: absolute;
       right: 3.5rem;
       font-size: 2.5rem;
+      font-weight: bolder;
     }
   }
 `
@@ -74,30 +76,6 @@ const Line = styled.div`
   height: 0.1rem;
   background: linear-gradient(to right, #00FFFF, #5D00B3);
 `
-
-// const CoinTabsArea = styled.div`
-//   width: 20.6rem;
-//   height: 2.7rem;
-//   background: #080F26;
-//   border-radius: 0.5rem;
-//   color: #fff;
-//   display: flex;
-//   margin-left: 2.9rem;
-//   margin-top: 3.5rem;
-//
-//   .coin-tab-item {
-//     width: 10.3rem;
-//     height: 2.7rem;
-//     line-height: 2.7rem;
-//     text-align: center;
-//     border-radius: 0.5rem;
-//     cursor: pointer;
-//   }
-//
-//   .tabs__link {
-//     background: #6C48FF;
-//   }
-// `
 
 const AllCoinTable = styled.div`
   width: 72.4rem;
@@ -196,7 +174,7 @@ const AllCoinTableMain = styled.div`
 `
 
 const MyNFTMortgage = styled.div`
-  height: 31rem;
+  height: 23rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-left: 1.4rem;
@@ -220,18 +198,6 @@ const MortgageButton = styled(Button)`
     color: #fff;
   }
 `
-
-/*const DepositButton = styled.div`
-  width: 7rem;
-  height: 2rem;
-  font-size: 1.2rem;
-  color: #fff;
-  text-align: center;
-  background: #234890;
-  border-radius: 0.5rem;
-  margin-right: 1rem;
-  cursor: pointer;
-`*/
 
 const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
   const history = useHistory()
@@ -319,7 +285,6 @@ const BorrowPage:React.FC = () => {
                   </div>
                   <div className="MyTotalNum">7</div>
                 </div>
-                <MortgageButton onClick={() => history.push('/pools/dashboard')}>Mortgage</MortgageButton>
               </MyNFTMortgage>
             </DepositAreaRight>
           </div> :

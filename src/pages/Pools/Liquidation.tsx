@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import { Button } from 'antd'
+import { Button, Statistic } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { liquidationList } from '../../apis/pool'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import PageLoading from '../../components/PageLoding'
+import { SearchOutlined } from '@ant-design/icons'
+import { SearchInput } from '../../styles/SearchInput'
+import { LiquidationSelector } from '../../components/NFTListSelectors'
 
 const MortgageMain = styled.div`
   display: none;
@@ -23,13 +26,6 @@ const MortgageMain = styled.div`
     margin: 0;
   }
 `
-
-// const MortgagesTitle = styled.div`
-//   color: #6C48FF;
-//   font-size: 2.4rem;
-//   font-weight: bolder;
-//   padding-left: 2rem;
-// `
 
 const MortgageMainLeft = styled.div`
   width: 100%;
@@ -59,27 +55,11 @@ const SerialsTop = styled.div`
   padding: 4rem 3rem 0 3rem;
   position: relative;
 
-  span {
-    color: #fff;
-    font-size: 1.8rem;
-  }
-
   .search {
+    width: 35rem;
     display: flex;
     position: absolute;
     right: 3rem;
-
-    .searchButton {
-      width: 3rem;
-      height: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-top-right-radius: 0.5rem;
-      border-bottom-right-radius: 0.5rem;
-      background: #6C48FF;
-      margin-left: -0.1rem;
-    }
   }
 `
 
@@ -87,29 +67,103 @@ const NFTMortgagesContainer = styled.div`
   width: 100%;
   background: #101D44;
   border-radius: 1.5rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
   padding-bottom: 3rem;
 `
 
 const NFTMortgagesMain = styled.div`
   display: flex;
   flex-flow: wrap;
+  justify-content: space-between;
   padding: 0 3rem;
 
   .mortgages-item {
-    width: 18.2rem;
-    height: 37rem;
+    width: 20.2rem;
     border-radius: 1rem;
     background: #3658A7;
-    margin-left: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
 
     .mortgages-item-image {
-      height: 17rem;
+      height: 20.2rem;
       border-top-left-radius: 1rem;
       border-top-right-radius: 1rem;
+      position: relative;
+
+      //.time-box {
+      //  width: 8rem;
+      //  height: 3.5rem;
+      //  border-radius: 0.4rem;
+      //  position: absolute;
+      //  right: 0;
+      //  bottom: 0;
+      //  background: linear-gradient(to right, #00FFFF, #5D00B3);
+      //}
+      @keyframes rotate {
+        100% {
+          transform: rotate(1turn);
+        }
+      }
+
+      .conic {
+        position: relative;
+        z-index: 0;
+        width: 10rem;
+        height: 3.5rem;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &::before {
+          content: '';
+          position: absolute;
+          z-index: -2;
+          left: -50%;
+          top: -50%;
+          width: 200%;
+          height: 200%;
+          background-color: #00FFFF;
+          background-repeat: no-repeat;
+          background-position: 0 0;
+          background-image: conic-gradient(transparent, #5D00B3, transparent 30%);
+          animation: rotate 4s linear infinite;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          z-index: -1;
+          left: 4px;
+          top: 4px;
+          width: calc(100% - 8px);
+          height: calc(100% - 8px);
+          background: #FFFFFF;
+          border-radius: 0.4rem;
+        }
+
+        .ant-statistic-content-value {
+          font-size: 1.4rem;
+          font-weight: bolder;
+          color: #5D00B3;
+        }
+      }
+
+      @keyframes opacityChange {
+        50% {
+          opacity:.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
 
       img {
+        height: 100%;
         border-top-left-radius: 1rem;
         border-top-right-radius: 1rem;
       }
@@ -119,6 +173,7 @@ const NFTMortgagesMain = styled.div`
       padding: 1rem 1rem;
 
       .mortgages-item-text-name {
+        font-weight: bolder;
         color: #fff;
       }
     }
@@ -129,6 +184,7 @@ const MortgagesItemText = styled.div`
   margin-top: 0.5rem;
 
   .message-name {
+    font-weight: bolder;
     color: #85A9E7;
   }
 
@@ -148,6 +204,7 @@ const WithdrawButton = styled(Button)`
   border-radius: 1rem;
   border: none;
   margin-top: 1rem;
+  margin-bottom: 2rem;
   transition: all 0.7s;
   font-size: 1.7rem;
   font-weight: bolder;
@@ -157,69 +214,13 @@ const WithdrawButton = styled(Button)`
     color: #fff;
   }
 `
-
-/*const MortgageMainRightMain = styled.div`
-  width: 33.6rem;
-  height: 27rem;
-  background: #101D44;
-  border-radius: 1.5rem;
-  margin-top: 1rem;
-  float: right;
-`
-
-const CryptoOperating = styled.div`
-  padding: 2rem 2rem 1rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const CryptoButton = styled(Button)`
-  width: 20.7rem;
-  height: 3.7rem;
-  background: #6C48FF;
-  color: #fff;
-  border-radius: 1rem;
-  border: none;
-  transition: all 0.7s;
-  font-size: 1.7rem;
-  font-weight: bolder;
-
-  &:hover {
-    background: #7A7AFF;
-    color: #fff;
-  }
-`
-
-const CryptoInput = styled(Input)`
-  width: 8rem;
-  height: 3.7rem;
-  border-color: #3658A7;
-  background-color: #3658A7;
-  border-radius: 0.5rem;
-
-  .ant-input {
-    background-color: #305099;
-    color: white;
-    font-weight: bold;
-  }
-`
-
-const CryptoOperatingValue = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 3rem;
-
-  div {
-    color: #fff;
-    font-size: 1.8rem;
-  }
-`*/
 
 const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
 
   const history = useHistory()
+
+  const { Countdown } = Statistic
+  const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
 
   return (
     <NFTMortgagesContainer>
@@ -230,6 +231,9 @@ const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
               className="mortgages-item"
             >
               <div className="mortgages-item-image">
+                <div className="conic">
+                  <Countdown value={deadline} />
+                </div>
                 <img src={item?.image} alt="" />
               </div>
               <div className="mortgages-item-text">
@@ -242,11 +246,16 @@ const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
                   <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate * 100}%</p>
                 </MortgagesItemText>
-                <WithdrawButton onClick={() => history.push(`/pools/liquidation/detail/${item.id}`)}>Prepay</WithdrawButton>
               </div>
+              <WithdrawButton onClick={() => history.push(`/pools/liquidation/detail/${item.id}`)}>Prepay</WithdrawButton>
             </div>
           ))
         }
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
       </NFTMortgagesMain>
     </NFTMortgagesContainer>
   )
@@ -279,7 +288,12 @@ const LiquidationListPage: React.FC = () => {
             <AreaTitle>Liquidation list</AreaTitle>
             <Line />
             <SerialsTop>
-              <span>Crypto Punks Serials</span>
+              <div className="search">
+                <SearchInput
+                  prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
+                />
+                <LiquidationSelector />
+              </div>
             </SerialsTop>
             <NFTMortgages data={data} />
           </MortgageMainLeft> :

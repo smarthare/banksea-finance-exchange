@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import { useHistory, useParams } from 'react-router-dom'
-import { borrowConfirm, depositPoolsDetail, mortgageOpinion } from '../../../apis/pool'
+import { depositPoolsDetail, mortgageOpinion } from '../../../apis/pool'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
 import { Button, Form, Input, message } from 'antd'
-import { useAuthorizingModal } from '../../../hooks/modals/useAuthorizingModal'
 import { useBorrowCheckoutModal } from '../../../hooks/modals/useBorrowCheckoutModal'
+import { LeftOutlined } from '@ant-design/icons'
 
 const ItemDetailMain = styled.div`
   min-height: 100vh;
@@ -18,7 +18,7 @@ const ItemDetailMain = styled.div`
 
 const DetailTop = styled.div`
   height: 5rem;
-  background: #000D17;
+  background: #111C3A;
   border-radius: 1.5rem;
   padding-left: 3rem;
   position: relative;
@@ -217,6 +217,32 @@ const ConfirmButton = styled(Button)`
   }
 `
 
+const BackIconButton = styled.div`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #284779;
+  transition: all 0.7s;
+  margin-right: 1rem;
+
+  &:hover {
+    background: #6C48FF;
+  }
+`
+
+const BackIcon:React.FC = () => {
+  const history = useHistory()
+  return (
+    <BackIconButton onClick={() => history.goBack()}>
+      <LeftOutlined style={{ fontSize: '1.6rem', color: '#fff' }} />
+    </BackIconButton>
+  )
+}
+
+
 const Option:React.FC = () => {
 
   const history = useHistory()
@@ -318,6 +344,7 @@ const BorrowItemDetailPage:React.FC = () => {
   return (
     <ItemDetailMain>
       <DetailTop>
+        <BackIcon />
         <span>You borrowed -</span>
         <span>Total collateral -</span>
         <span>Loan to value</span>
