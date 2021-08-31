@@ -7,6 +7,7 @@ import { Button, Form, Input } from 'antd'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
 import { useDepositCheckoutModal } from '../../../hooks/modals/useDepositCheckoutModal'
+import { LeftOutlined } from '@ant-design/icons'
 
 const ItemDetailMain = styled.div`
   min-height: 100vh;
@@ -17,7 +18,7 @@ const ItemDetailMain = styled.div`
 
 const DetailTop = styled.div`
   height: 5rem;
-  background: #000D17;
+  background: #111C3A;
   border-radius: 1.5rem;
   padding-left: 3rem;
   position: relative;
@@ -183,6 +184,31 @@ const ConfirmButton = styled(Button)`
   }
 `
 
+const BackIconButton = styled.div`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #284779;
+  transition: all 0.7s;
+  margin-right: 1rem;
+
+  &:hover {
+    background: #6C48FF;
+  }
+`
+
+const BackIcon:React.FC = () => {
+  const history = useHistory()
+  return (
+    <BackIconButton onClick={() => history.goBack()}>
+      <LeftOutlined style={{ fontSize: '1.6rem', color: '#fff' }} />
+    </BackIconButton>
+  )
+}
+
 const Schedule:React.FC<{ data: any }> = ({ data }) => {
   const account = useSelector(getAccount)
 
@@ -249,6 +275,7 @@ const DepositItemDetailPage:React.FC = () => {
   return (
     <ItemDetailMain>
       <DetailTop>
+        <BackIcon />
         <span>Your balance in Banksy -</span>
       </DetailTop>
       <ItemDetailData>

@@ -52,6 +52,7 @@ const DepositAreaRight = styled.div`
       align-items: center;
 
       span {
+        font-size: 1.7rem;
         margin-left: 1.4rem;
       }
     }
@@ -60,6 +61,7 @@ const DepositAreaRight = styled.div`
       position: absolute;
       right: 3.5rem;
       font-size: 2.5rem;
+      font-weight: bolder;
     }
   }
 `

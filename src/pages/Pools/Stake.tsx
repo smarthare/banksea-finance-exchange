@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
 import stateKSY from '../../assets/images/Pools/stateKSY.png'
 import stateBPT from '../../assets/images/Pools/StateBPT.png'
+import { useStakeUnderstandModal } from '../../hooks/modals/useStakeUnderstandModal'
 
 const StakeMain = styled.div`
   width: 123rem;
@@ -161,6 +162,16 @@ const StakeMainRightContainer = styled.div`
 `
 
 const StakePage: React.FC = () => {
+
+  const [stakeCurrency, setStakeCurrency] = useState<any>()
+
+  const { stakeUnderstandModal, openStakeUnderstandModal, closeStakeUnderstandModal } = useStakeUnderstandModal(stakeCurrency)
+
+  const toStake = (s: string) => {
+    openStakeUnderstandModal()
+    setStakeCurrency(s)
+  }
+
   return (
     <StakeMain className={clsx('active')}>
       <StakeMainLeft>
@@ -171,11 +182,11 @@ const StakePage: React.FC = () => {
           to secure the protocol
         </StakeMainText>
         <StakeMainPledge>
-          <div className="StakeMainPledge-item">
+          <div className="StakeMainPledge-item" onClick={() => toStake('KSY')}>
             <img src={stateKSY} alt="Stake KSY" />
             <div>Stake KSY</div>
           </div>
-          <div className="StakeMainPledge-item">
+          <div className="StakeMainPledge-item" onClick={() => toStake('BPT')}>
             <img src={stateBPT} alt="Stake KSY/ETH BPT" />
             <div>
               Stake<br />
@@ -196,7 +207,7 @@ const StakePage: React.FC = () => {
             <div className="stakeMain-item-name">BPT Staked</div>
             <div className="stakeMain-item-number">15.000</div>
             <div className="stakeMain-item-value">$123 USD</div>
-            <div className="stakeMain-item-button">Activate Cooldown</div>
+            <div className="stakeMain-item-button">Claim</div>
           </div>
         </StakeMainPledge>
         <StakeMainRightContainer>
@@ -227,6 +238,7 @@ const StakePage: React.FC = () => {
           </div>
         </StakeMainRightContainer>
       </StakeMainRight>
+      {stakeUnderstandModal}
     </StakeMain>
   )
 }
