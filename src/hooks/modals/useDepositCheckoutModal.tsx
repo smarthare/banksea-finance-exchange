@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Button, message, Modal } from 'antd'
 import { useModal } from '../useModal'
 import { borrowConfirm } from '../../apis/pool'
+import { useRequestingModal } from './stateModals/useRequestingModal'
 
 const BorrowCheckoutModal = styled(Modal)`
   .ant-modal-close-icon {
@@ -78,6 +79,12 @@ const BorrowButton = styled(Button)`
 
 export const useDepositCheckoutModal = () => {
 
+  const { requestingModal,openRequestingModal } = useRequestingModal()
+
+  const deposit = () => {
+    openRequestingModal()
+  }
+
   const { modal, open, close } = useModal((_open, close, visible) => (
     <BorrowCheckoutModal
       visible={visible}
@@ -97,8 +104,9 @@ export const useDepositCheckoutModal = () => {
             <span>3.88%</span>
           </div>
         </div>
-        <BorrowButton >Deposit</BorrowButton>
+        <BorrowButton onClick={deposit}>Deposit</BorrowButton>
       </div>
+      {requestingModal}
     </BorrowCheckoutModal>
   ))
 

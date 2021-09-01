@@ -1,10 +1,10 @@
 import React from 'react'
-import Authorizing from '@/assets/images/allModalImg/authorizing.svg'
 import styled from 'styled-components'
-import { Button, message, Modal } from 'antd'
+import { Button, Modal } from 'antd'
 import { useModal } from '../useModal'
 import { borrowConfirm } from '../../apis/pool'
 import { useHistory } from 'react-router-dom'
+import { useSuccessModal } from './stateModals/useSuccessModal'
 
 const BorrowCheckoutModal = styled(Modal)`
   .ant-modal-close-icon {
@@ -81,10 +81,11 @@ export const useBorrowCheckoutModal = (formData: any) => {
 
   const history = useHistory()
 
+  const { successModal, openSuccessModal } = useSuccessModal()
+
   const borrow = () => {
     borrowConfirm(formData).then(() => {
-      message.success('You successfully borrowed！')
-      history.push('/pools/borrow')
+      openSuccessModal()
     })
   }
 
@@ -109,6 +110,7 @@ export const useBorrowCheckoutModal = (formData: any) => {
         </div>
         <BorrowButton onClick={borrow}>Borrow</BorrowButton>
       </div>
+      {successModal}
     </BorrowCheckoutModal>
   ))
 

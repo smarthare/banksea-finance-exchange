@@ -527,10 +527,7 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
       <NFTMortgagesMain>
         {
           mortgageAvailable?.map((item: any, index: number) => (
-            <div key={index}
-              className="mortgages-item"
-              onClick={() => history.push(`available/detail/${item?.valueUri}`)}
-            >
+            <div key={index} className="mortgages-item">
               <div className="mortgages-item-image">
                 <img src={item?.image} alt="" />
               </div>
@@ -540,7 +537,7 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
                   <p className="message-name">Values:</p>
                   <p className="message-number">$ {item?.price}</p>
                 </MortgagesItemText>
-                <WithdrawButton>Collateral</WithdrawButton>
+                <WithdrawButton onClick={() => history.push(`available/detail/${item?.valueUri}`)}>Collateral</WithdrawButton>
               </div>
             </div>
           ))
@@ -551,6 +548,9 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
 }
 
 const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgaged }) => {
+
+  const history = useHistory()
+
   return (
     <NFTMortgagesContainer>
       <AreaTitle>My Collaterals</AreaTitle>
@@ -572,7 +572,7 @@ const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgag
                   <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate}</p>
                 </MortgagesItemText>
-                <WithdrawButton>redemption</WithdrawButton>
+                <WithdrawButton onClick={() => history.push(`redemption/detail/${item?.valueUri}`)}>redemption</WithdrawButton>
               </div>
             </div>
           ))

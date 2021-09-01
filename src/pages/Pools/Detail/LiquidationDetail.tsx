@@ -21,19 +21,15 @@ const LeftArea = styled.div`
 `
 
 const ImageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 31.2rem;
   height: 34.4rem;
-  border-radius: 2rem;
-  justify-content: center;
-  position: relative;
+  padding: 0.5rem;
   border: 1px solid #98BDF9;
 
   img {
-    max-height: 34.4rem;
-    border-radius: 2rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `
 
