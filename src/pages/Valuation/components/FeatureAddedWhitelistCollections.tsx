@@ -58,12 +58,15 @@ const ItemContainer = styled.div`
   }
 
   .main-area {
+    position: relative;
     padding: 8px 15px;
 
-    .base-row {
+    .column {
       display: flex;
+      width: 100%;
       justify-content: space-between;
       align-items: flex-start;
+      flex-direction: column;
       margin-bottom: 8px;
 
       .name {
@@ -75,26 +78,32 @@ const ItemContainer = styled.div`
         color: rgb(122, 129, 146);
       }
 
-      img {
-        width: 42px;
-        height: 42px;
-        border-radius: 21px;
-        margin-right: 7px;
-        margin-top: 4px;
+      .description {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #ddd;
+        width: 100%;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
       }
+
     }
 
-    .description {
-      font-size: 14px;
-      color: white;
-      color: #ddd;
-
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
+    img.logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 21px;
+      margin-right: 7px;
+      margin-top: 4px;
+      position: absolute;
+      right: 8px;
+      top: 8px;
     }
+
   }
 `
 
@@ -108,17 +117,16 @@ const SingleCollection: React.FC<{ collection: CollectionInfo }> = ({ collection
       <img src={seriesPoster} alt={seriesName} className="cover" />
 
       <div className="main-area">
-        <div className="base-row">
-          <div>
-            <div className="name">{seriesName}</div>
-            <div className="info">Added: {added}</div>
-            <div className="info">Owner(s): {numOwners}</div>
-            <div className="info">Total Volume: {totalVolume}</div>
-          </div>
-          <img src={seriesLogo} alt={seriesName} />
+        <div className="column">
+          <div className="name">{seriesName}</div>
+          <div className="info">Added: {added}</div>
+          <div className="info">Owner(s): {numOwners}</div>
+          <div className="info">Total Volume: {totalVolume}</div>
+          <div className="description">{seriesDescription}</div>
         </div>
 
-        <div className="description">{seriesDescription}</div>
+        <img src={seriesLogo} alt={seriesName} className="logo" />
+
       </div>
     </ItemContainer>
   )

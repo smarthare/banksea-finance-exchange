@@ -6,7 +6,7 @@ module.exports = [
     seriesSlug: 'cryptopunks',
     seriesPoster: 'https://lh3.googleusercontent.com/48oVuDyfe_xhs24BC2TTVcaYCX7rrU5mpuQLyTgRDbKHj2PtzKZsQ5qC3xTH4ar34wwAXxEKH8uUDPAGffbg7boeGYqX6op5vBDcbA=s2500',
     createdTime: '2019-04-26T14:13:09.000+0000',
-    seriesDescription: 'CryptoPunks launched as a fixed set of 10,000 items in mid-2017 and became one of the inspirations for the ERC-721 standard. They have been featured in places like The New York Times, Christie’s of London, Art|Basel Miami, and The PBS NewsHour.',
+    seriesDescription: 'CryptoPunks launched as a fixed set of 10,000 items in mid-2017 and became one of the inspirations for the ERC-721 standard. They have been featured in places like The New York Times, Christie’s of London, Art|Basel Miami, and The PBS NewsHour.',
     seriesWebsite: 'https://www.larvalabs.com/cryptopunks',
     seriesLink: 'https://www.larvalabs.com/cryptopunks',
     seriesDiscord: 'https://discord.gg/tQp4pSE',
