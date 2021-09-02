@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import stateKSY from '../../assets/images/Pools/stateKSY.png'
 import stateBPT from '../../assets/images/Pools/StateBPT.png'
 import { useStakeUnderstandModal } from '../../hooks/modals/useStakeUnderstandModal'
+import { Button } from 'antd'
 
 const StakeMain = styled.div`
   width: 123rem;
@@ -55,6 +56,12 @@ const StakeMainPledge = styled.div`
     height: 18rem;
     background: #3658A7;
     border-radius: 1.5rem;
+    cursor: pointer;
+    transition: all 0.5s;
+
+    &:hover {
+      box-shadow: 0px 1px 10px 0px rgba(54,88,167,0.7);
+    }
 
     &:nth-of-type(2) {
       margin-left: 5rem;
@@ -73,6 +80,10 @@ const StakeMainPledge = styled.div`
       color: #fff;
       font-size: 1.7rem;
       margin-top: 2rem;
+
+      span {
+        font-weight: bolder;
+      }
     }
   }
 
@@ -161,6 +172,23 @@ const StakeMainRightContainer = styled.div`
   }
 `
 
+const StakeMainItemButton = styled(Button)`
+  width: 14rem;
+  height: 2.5rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-size: 1.2rem;
+  background: #6C48FF;
+  margin-left: calc((100% - 14rem) / 2);
+  margin-top: 2rem;
+  cursor: pointer;
+
+  &:hover {
+    background: #7A7AFF
+  }
+`
+
 const StakePage: React.FC = () => {
 
   const [stakeCurrency, setStakeCurrency] = useState<any>()
@@ -184,13 +212,13 @@ const StakePage: React.FC = () => {
         <StakeMainPledge>
           <div className="StakeMainPledge-item" onClick={() => toStake('KSY')}>
             <img src={stateKSY} alt="Stake KSY" />
-            <div>Stake KSY</div>
+            <div>Stake <span>KSY</span></div>
           </div>
           <div className="StakeMainPledge-item" onClick={() => toStake('BPT')}>
             <img src={stateBPT} alt="Stake KSY/ETH BPT" />
             <div>
               Stake<br />
-              KSY/ETH BPT
+              <span>KSY/ETH BPT</span>
             </div>
           </div>
         </StakeMainPledge>
@@ -201,13 +229,13 @@ const StakePage: React.FC = () => {
             <div className="stakeMain-item-name">KSY Staked</div>
             <div className="stakeMain-item-number">20.000</div>
             <div className="stakeMain-item-value">$123 USD</div>
-            <div className="stakeMain-item-button">Activate Cooldown</div>
+            <StakeMainItemButton disabled>Activate Cooldown</StakeMainItemButton>
           </div>
           <div className="stakeMain-item">
             <div className="stakeMain-item-name">BPT Staked</div>
             <div className="stakeMain-item-number">15.000</div>
             <div className="stakeMain-item-value">$123 USD</div>
-            <div className="stakeMain-item-button">Claim</div>
+            <StakeMainItemButton disabled>Claim</StakeMainItemButton>
           </div>
         </StakeMainPledge>
         <StakeMainRightContainer>
