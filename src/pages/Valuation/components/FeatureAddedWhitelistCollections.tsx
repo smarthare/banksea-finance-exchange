@@ -1,19 +1,21 @@
 import styled from 'styled-components'
 import React from 'react'
+import { CollectionInfo } from '../../../types/CollectionValuation'
+import { useHistory } from 'react-router-dom'
 
 type FeatureAddedWhitelistCollectionsProps = {
-  collections: FeatureAddedWhitelistCollection[]
+  collections: CollectionInfo[]
 }
 
-export type FeatureAddedWhitelistCollection = {
-  coverUrl: string
-  avatarUrl: string
-  name: string
-  added: string
-  owner: number
-  volume: number
-  description: string
-}
+// export type FeatureAddedWhitelistCollection = {
+//   coverUrl: string
+//   avatarUrl: string
+//   name: string
+//   added: string
+//   owner: number
+//   volume: number
+//   description: string
+// }
 
 const ListContainer = styled.div`
   margin: 88px auto 0 auto;
@@ -46,6 +48,7 @@ const ItemContainer = styled.div`
   border-radius: 10px;
   background-color: #101C3A;
   margin-bottom: 20px;
+  cursor: pointer;
 
   img.cover {
     height: 206px;
@@ -95,25 +98,27 @@ const ItemContainer = styled.div`
   }
 `
 
-const SingleCollection: React.FC<{ collection: FeatureAddedWhitelistCollection }> = ({ collection }) => {
-  const { coverUrl, avatarUrl, description, name, owner, volume, added } = collection
+const SingleCollection: React.FC<{ collection: CollectionInfo }> = ({ collection }) => {
+  const history = useHistory()
+
+  const { seriesPoster, seriesLogo, seriesDescription, seriesName, numOwners, totalVolume, added } = collection
 
   return (
-    <ItemContainer>
-      <img src={coverUrl} alt={name} className="cover" />
+    <ItemContainer onClick={() => history.push(`/valuation/${seriesName}`)}>
+      <img src={seriesPoster} alt={seriesName} className="cover" />
 
       <div className="main-area">
         <div className="base-row">
           <div>
-            <div className="name">{name}</div>
+            <div className="name">{seriesName}</div>
             <div className="info">Added: {added}</div>
-            <div className="info">Owner(s): {owner}</div>
-            <div className="info">Total Volume: {volume}</div>
+            <div className="info">Owner(s): {numOwners}</div>
+            <div className="info">Total Volume: {totalVolume}</div>
           </div>
-          <img src={avatarUrl} alt={name} />
+          <img src={seriesLogo} alt={seriesName} />
         </div>
 
-        <div className="description">{description}</div>
+        <div className="description">{seriesDescription}</div>
       </div>
     </ItemContainer>
   )
@@ -128,7 +133,7 @@ const FeatureAddedWhitelistCollections: React.FC<FeatureAddedWhitelistCollection
           collections.map(collection => (
             <SingleCollection
               collection={collection}
-              key={collection.name}
+              key={collection.id}
             />
           ))
         }

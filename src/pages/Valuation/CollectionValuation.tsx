@@ -34,16 +34,16 @@ const Wrapper = styled.div`
   width: 80%;
 `
 
-const Banner = styled.div`
+const Banner = styled.div<{url: string}>`
   width: 100%;
   height: 0;
   padding: 0;
   padding-bottom: 10.94%;
   margin-bottom: 30px;
   border-radius: 10px;
-  background-image: url("https://www.larvalabs.com/public/images/product/cryptopunks/punk-variety-2x.png");
+  background-image: url(${props => props.url});
   background-size: 100%;
-  background-position-y: -30px;
+  background-position-y: 50%;
 `
 
 const TitleContainer = styled.div`
@@ -281,12 +281,14 @@ const Title: React.FC<{
       <div className="name">{name}</div>
       <div className="external-links">
         {
-          externalLinks.map(item => (
-            <a className="item" href={item.url} key={item.name}>
-              <img src={item.iconUrl} alt={item.name} className="icon" />
-              <div className="text">{item.name}</div>
-            </a>
-          ))
+          externalLinks
+            .filter(item => item.url)
+            .map(item => (
+              <a className="item" href={item.url} key={item.name} target="_blank" rel="noreferrer">
+                <img src={item.iconUrl} alt={item.name} className="icon" />
+                <div className="text">{item.name}</div>
+              </a>
+            ))
         }
       </div>
     </TitleContainer>
@@ -672,7 +674,7 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
   return (
     <CollectionValuationPageContainer>
       <Wrapper>
-        <Banner />
+        <Banner url={data.bannerImageUrl} />
         <Title {...data} />
         <Description {...data} />
         <Statistic {...data} />

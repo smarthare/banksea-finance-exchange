@@ -8,7 +8,6 @@ type AllWhitelistCollectionsProps = {
 }
 
 export type WhitelistCollection = {
-  index: number
   iconUrl: string
   name: string
   volumeIn7Days: string
@@ -53,16 +52,17 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
   )
 
   const columns = [
-    {
-      title: '#',
-      key: 'index',
-      dataIndex: 'index',
-    },
+    // {
+    //   title: '#',
+    //   key: 'index',
+    //   dataIndex: 'index',
+    // },
     {
       title: 'Collection',
       key: 'name',
       // eslint-disable-next-line react/display-name
-      render: (text: any, record: any) => <CollectionIconAndName {...record} />
+      render: (text: any, record: any) => <CollectionIconAndName {...record} />,
+      width: '220px'
     },
     {
       title: 'Volume(7d)',
@@ -77,12 +77,14 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
     {
       title: 'Avg Price(7d)',
       dataIndex: 'avgPriceIn7Days',
-      key: 'avgPriceIn7Days'
+      key: 'avgPriceIn7Days',
+      width: '120px'
     },
     {
       title: 'Total supply',
       dataIndex: 'totalSupply',
-      key: 'totalSupply'
+      key: 'totalSupply',
+      width: '120px'
     },
     {
       title: 'Owners',
@@ -95,19 +97,22 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
       key: 'ownerProportion'
     },
     {
-      title: 'Volume(All Time)',
+      title: 'Estimated Market Cap',
       dataIndex: 'estimatedMarketCap',
-      key: 'estimatedMarketCap'
+      key: 'estimatedMarketCap',
+      width: '180px'
     },
     {
       title: 'Volume(All Time)',
       dataIndex: 'volumeAllTime',
-      key: 'volumeAllTime'
+      key: 'volumeAllTime',
+      width: '150px'
     },
     {
       title: 'Sales(All Time)',
       dataIndex: 'salesAllTime',
-      key: 'salesAllTime'
+      key: 'salesAllTime',
+      width: '140px'
     },
     {
       title: 'Added',
@@ -131,7 +136,7 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
       <div className="title">
         All Whitelist Collections
       </div>
-      <ThemeTable columns={columns} dataSource={collections} onRow={onRow} scroll={{ x: 1200 }} />
+      <ThemeTable columns={columns} dataSource={collections} onRow={onRow} scroll={{ x: 1500 }} />
     </AllWhitelistCollectionsContainer>
   )
 }

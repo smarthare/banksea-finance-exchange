@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Energy from '../../assets/mock/energy.json'
 import LifeExpectancyTable from '../../assets/mock/life-expectancy-table.json'
 import {
+  CollectionInfo,
   CollectionToken,
   CollectionValuationByTypeAndAttribute,
   CollectionValuationData
@@ -11,12 +12,13 @@ import {
 const useCollectionValuationData = (name: string): CollectionValuationData => {
   const [data, setData] = useState<CollectionValuationData>({
     statistic: [],
+    bannerImageUrl: '',
     externalLinks: [],
     description: '',
     name: '',
     chartData: {},
     valuations: [],
-    tokens: [],
+    tokens: []
   })
 
   useEffect(() => {
@@ -40,26 +42,34 @@ const useCollectionValuationData = (name: string): CollectionValuationData => {
       totalMarketValue.data.push(Math.random() * 20)
     }
 
+    const collectionInfo: CollectionInfo = (require('../../assets/mock/valuation-collections') as CollectionInfo[]).filter(o => o.seriesName === name)[0]
+    console.log(collectionInfo)
+
+    const {
+      seriesWebsite, seriesTwitter, seriesDiscord, seriesDescription, seriesPoster
+    } = collectionInfo
+
     setData({
       name,
+      bannerImageUrl: seriesPoster,
       externalLinks: [
         {
           name: 'Website',
-          url: 'https://www.larvalabs.com/cryptopunks',
+          url: seriesWebsite,
           iconUrl: require('../../assets/images/commons/website.png').default
         },
         {
           name: 'Discord',
-          url: 'https://www.larvalabs.com/cryptopunks',
+          url: seriesDiscord,
           iconUrl: require('../../assets/images/commons/discord.png').default
         },
         {
           name: 'Twitter',
-          url: 'https://twitter.com/larvalabs',
+          url: seriesTwitter,
           iconUrl: require('../../assets/images/commons/twitter.png').default
         }
       ],
-      description: 'CryptoPunks launched as a fixed set of 10,000 items in mid-2017 and became one of the inspirations for the ERC-721 standard. They have been featured in places like The New York Times, Christie’s of London, Art|Basel Miami, and The PBS NewsHour.',
+      description: seriesDescription,
       statistic: [
         { key: '7 Day Volume', value: '4,233.03 ETH' },
         { key: 'Total Volume', value: '4,233.03 ETH' },
