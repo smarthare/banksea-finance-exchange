@@ -206,7 +206,7 @@ const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
     <AllCoinTable>
       <AllCoinTableTop>
         <div>Assets</div>
-        <div>Variable APY</div>
+        <div>Available to borrow</div>
         <div>Stable APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
@@ -225,7 +225,7 @@ const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
                 <span>{item?.assetsName}</span>
               </div>
               <div className="walletBalance">
-                <p>{item?.variableBorrowApy}</p>
+                <p>{item?.variableBorrowed}</p>
               </div>
               <div className="apy">
                 <p>{item?.stableBorrowApy}</p>

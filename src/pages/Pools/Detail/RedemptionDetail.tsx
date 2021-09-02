@@ -40,9 +40,9 @@ const LeftArea = styled.div`
 const ImageContainer = styled.div`
   width: 22.2rem;
   height: 28.4rem;
-  padding: 0.5rem;
   position: relative;
   border: 1px solid #98BDF9;
+  padding: 0.5rem;
 
   img {
     width: 100%;
@@ -57,38 +57,9 @@ const RightArea = styled.div`
   position: relative;
 `
 
-/*const PriceContainer = styled.div`
-  .item {
-    display: flex;
-    flex-direction: row;
-    margin-top: 1.2rem;
-
-    .info-label {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #A196EF;
-      line-height: 2.2rem;
-      padding-right: 1.4rem;
-    }
-
-    .price {
-      font-size: 3.2rem;
-      font-weight: 400;
-      color: #7C6DEB;
-      line-height: 2.5rem;
-    }
-
-    .price-in-usd {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #A196EF;
-      line-height: 2.2rem;
-      margin-left: 1rem;
-    }
-  }
-`*/
-
 const NFTBaseInfoContainer = styled.div`
+  width: 40rem;
+
   .nft-name {
     font-size: 4.5rem;
     font-weight: 550;
@@ -202,6 +173,7 @@ const NFTBaseInfoContainer = styled.div`
 `
 
 const NeuralNetworks = styled.div`
+  display: flex;
   position: relative;
 
   .NeuralNetworksMain {
@@ -211,13 +183,25 @@ const NeuralNetworks = styled.div`
     .networksValue-name {
       color: #98BAF2;
       font-size: 2rem;
+      font-weight: bolder;
       margin-top: 1rem;
     }
 
     .networksValue-value {
+      width: 15rem;
       color: #fff;
       font-size: 2.4rem;
       font-weight: bolder;
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      span:nth-of-type(2) {
+        position: absolute;
+        right: 0;
+        font-size: 1.2rem;
+        margin-left: 2rem;
+      }
     }
   }
 `
@@ -342,6 +326,18 @@ const NFTBaseInfo:React.FC = () => {
           <div className="networksValue-name">Mortgage Rate</div>
           <div className="networksValue-value">43.7%</div>
         </div>
+        <div className="NeuralNetworksMain" style={{ marginLeft: '5rem' }}>
+          <div className="networksValue-name">My collateral</div>
+          <div className="networksValue-value">
+            <span>3.11</span>
+            <span style={{ color: '#2ec4b6' }}>↓2.1%</span>
+          </div>
+          <div className="networksValue-name">health factor</div>
+          <div className="networksValue-value">
+            <span>43.7%</span>
+            <span style={{ color: '#e71d36' }}>↑2.1%</span>
+          </div>
+        </div>
       </NeuralNetworks>
     </NFTBaseInfoContainer>
   )
@@ -349,7 +345,7 @@ const NFTBaseInfo:React.FC = () => {
 
 const { Countdown } = Statistic
 
-const NFTMortgageDetailPage:React.FC = () => {
+const RedemptionDetailPage:React.FC = () => {
 
   const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
 
@@ -373,4 +369,4 @@ const NFTMortgageDetailPage:React.FC = () => {
   )
 }
 
-export default NFTMortgageDetailPage
+export default RedemptionDetailPage

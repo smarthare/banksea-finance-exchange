@@ -4,6 +4,7 @@ import { Button, Form, Input, Modal } from 'antd'
 import { useModal } from '../useModal'
 import stateKSY from '../../assets/images/Pools/stateKSY.png'
 import stateBPT from '../../assets/images/Pools/StateBPT.png'
+import { useRequestingModal } from './stateModals/useRequestingModal'
 
 const ApproveModal = styled(Modal)`
   .ant-modal-close-icon {
@@ -91,7 +92,13 @@ const ApproveButton = styled(Button)`
   }
 `
 
-export const useApproveModal = (stakeCurrency: any) => {
+export const useStakeApproveModal = (stakeCurrency: any) => {
+
+  const { requestingModal, openRequestingModal, closeRequestingModal } = useRequestingModal()
+
+  const stake = () => {
+    openRequestingModal()
+  }
 
   const { modal, open, close } = useModal((_open, close, visible) => (
     <ApproveModal
@@ -112,8 +119,9 @@ export const useApproveModal = (stakeCurrency: any) => {
             <Input style={{ width: '50%' }} />
           </Form.Item>
         </div>
-        <ApproveButton>Stake</ApproveButton>
+        <ApproveButton onClick={stake}>Stake</ApproveButton>
       </div>
+      {requestingModal}
     </ApproveModal>
   ))
 

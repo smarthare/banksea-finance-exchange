@@ -4,7 +4,7 @@ import { Button, Modal, Checkbox } from 'antd'
 import { useModal } from '../useModal'
 import stateKSY from '../../assets/images/Pools/stateKSY.png'
 import stateBPT from '../../assets/images/Pools/StateBPT.png'
-import { useApproveModal } from './useApproveModal'
+import { useStakeApproveModal } from './useStakeApproveModal'
 
 const StakeUnderstandModal = styled(Modal)`
   .ant-modal-close-icon {
@@ -83,11 +83,7 @@ const StakeButton = styled(Button)`
 
 export const useStakeUnderstandModal = (stakeCurrency: any) => {
 
-  const { approveModal, openApproveModal, closeApproveModal } = useApproveModal(stakeCurrency)
-
-  const understand = () => {
-    openApproveModal()
-  }
+  const { approveModal, openApproveModal, closeApproveModal } = useStakeApproveModal(stakeCurrency)
 
   const { modal, open, close } = useModal((_open, close, visible) => (
     <StakeUnderstandModal
@@ -116,7 +112,13 @@ export const useStakeUnderstandModal = (stakeCurrency: any) => {
         <div className="stake-body-check">
           <Checkbox>Remember my choice for next time</Checkbox>
         </div>
-        <StakeButton onClick={understand}>I understand</StakeButton>
+        <StakeButton
+          onClick={() => {
+            openApproveModal()
+          }}
+        >
+          I understand
+        </StakeButton>
       </div>
       {approveModal}
     </StakeUnderstandModal>

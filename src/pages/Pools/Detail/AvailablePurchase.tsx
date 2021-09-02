@@ -345,7 +345,7 @@ const Schedule: React.FC<ScheduleAI> = ({ data, openMortgageConfirmModal }) => {
       </Valuation>
       <div>
         <ScheduleFirst>
-          <div className="title">Mortgage overview</div>
+          <div className="title">Collateral overview</div>
           <div className="main-text">
             If you agree with the valuation of the NFT,you can make a
             mortgage,,and the NFT will be locked in the smart contract during
