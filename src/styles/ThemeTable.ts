@@ -88,7 +88,7 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
   }
 
   @media screen and (max-width: 1000px) {
-    padding: 0 8vw;
+    //padding: 0 8vw;
     width: 100vw !important;
     overflow-x: scroll;
     position: relative;

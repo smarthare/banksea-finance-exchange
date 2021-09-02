@@ -78,11 +78,14 @@ const App: React.FC = () => {
             backgroundColor: '#0B111E',
             position: 'relative',
             overflowY: 'scroll',
-            left: isMobile ? '0' : (collapsed ? '0' : '200px'),
-            width: collapsed ? '100vw' : 'calc(100vw - 200px)'
+            left: isMobile ? '0' : (collapsed ? '82px' : '200px'),
           }}
         >
-          <div style={{ width: collapsed ? '98.9vw' : 'calc(100vw - 200px)' }}>
+          <div
+            style={{
+              width: isMobile ? '100vw' : (collapsed ? 'calc(100vw - 82px)' : 'calc(100vw - 200px)'),
+            }}
+          >
             {
               routes.map((route: any) => (
                 <Route path={route.path}

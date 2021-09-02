@@ -9,7 +9,7 @@ type SearchInputProps = {
 const defaultColor = '#305099'
 
 const SearchInput = styled(Input)<SearchInputProps>`
-  height: 4rem;
+  height: 40px;
   border-color: ${props =>  props.backgroundColor ?? defaultColor};
   background-color: ${props =>  props.backgroundColor ?? defaultColor};
   border-radius: 10px;
@@ -21,10 +21,6 @@ const SearchInput = styled(Input)<SearchInputProps>`
     font-size: 1.4rem;
   }
 
-  @media screen and (max-width: 1000px) {
-    width: 68vw;
-    margin-bottom: 2vh;
-  }
 `
 
 export {

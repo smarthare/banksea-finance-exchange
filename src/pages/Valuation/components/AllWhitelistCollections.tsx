@@ -26,6 +26,11 @@ export type WhitelistCollection = {
 const AllWhitelistCollectionsContainer = styled.div`
   margin-bottom: 20px;
 
+  @media screen and (max-width: 1680px) {
+    margin-left: -10%;
+    margin-right: -10%;
+  }
+
   .title {
     font-size: 30px;
     text-align: center;
@@ -126,7 +131,7 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
       <div className="title">
         All Whitelist Collections
       </div>
-      <ThemeTable columns={columns} dataSource={collections} onRow={onRow} />
+      <ThemeTable columns={columns} dataSource={collections} onRow={onRow} scroll={{ x: 1200 }} />
     </AllWhitelistCollectionsContainer>
   )
 }

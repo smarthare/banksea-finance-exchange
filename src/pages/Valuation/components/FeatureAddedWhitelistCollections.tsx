@@ -16,7 +16,15 @@ export type FeatureAddedWhitelistCollection = {
 }
 
 const ListContainer = styled.div`
-  margin-top: 88px;
+  margin: 88px auto 0 auto;
+
+  @media screen and (min-width: 1000px) and (max-width: 1800px) {
+    width: 650px;
+  }
+
+  @media screen and (max-width: 1000px) {
+    width: 300px;
+  }
 
   .title {
     font-size: 30px;
@@ -27,7 +35,9 @@ const ListContainer = styled.div`
   .items {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
+
 `
 
 const ItemContainer = styled.div`
@@ -35,6 +45,7 @@ const ItemContainer = styled.div`
   height: 412px;
   border-radius: 10px;
   background-color: #101C3A;
+  margin-bottom: 20px;
 
   img.cover {
     height: 206px;

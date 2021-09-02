@@ -17,19 +17,21 @@ import {
   CollectionValuationChartData,
   CollectionValuationStatisticItem
 } from '../../types/CollectionValuation'
+import { useMediaQuery } from 'react-responsive'
 
 type CollectionValuationPageProps = {
   //
 }
 
 const CollectionValuationPageContainer = styled.div`
-  padding: 30px;
+  padding: 30px 0;
   color: #9BBFFC;
 `
 
 const Wrapper = styled.div`
   margin: 0 auto;
-  max-width: 1380px;;
+  max-width: 1380px;
+  width: 80%;
 `
 
 const Banner = styled.div`
@@ -47,10 +49,12 @@ const Banner = styled.div`
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 
   .name {
     font-size: 30px;
     font-weight: 700;
+    margin-right: 40px;
   }
 
   .external-links {
@@ -62,6 +66,10 @@ const TitleContainer = styled.div`
       align-items: center;
       margin-left: 40px;
       font-size: 14px;
+
+      &:nth-of-type(1) {
+        margin-left: 0;
+      }
 
       .icon {
         height: 17px;
@@ -94,16 +102,28 @@ const StatisticContainer = styled.div`
   display: flex;
   font-size: 18px;
   font-weight: 500;
-  width: 892px;
+  max-width: 550px;
   flex-wrap: wrap;
   margin-bottom: 72px;
+  justify-content: space-between;
+  //border: 1px red solid;
 
   .item {
-    width: 223px;
+    //border: 1px red solid;
+    width: 180px;
     margin-bottom: 30px;
 
     .key {
       margin-bottom: 10px;
+    }
+  }
+
+  @media screen and (max-width: 1100px) {
+    margin-left: auto;
+    margin-right: auto;
+
+    .item {
+      width: 45%;
     }
   }
 `
@@ -114,6 +134,7 @@ const ChartsContainer = styled.div`
   .row {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     .item {
       height: 500px;
@@ -129,14 +150,39 @@ const ChartsContainer = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 1400px) {
+    margin: 0 auto;
+
+    .row {
+      margin-left: -10%;
+      margin-right: -10%;
+
+      .item {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
 `
 
 const ValuationTableContainer = styled.div`
+
   .title {
     font-size: 30px;
   }
 
   margin-bottom: 80px;
+
+  @media screen and (max-width: 1100px) {
+    margin-left: -10%;
+    margin-right: -10%;
+
+    .title {
+      font-size: 6vw;
+      text-align: center;
+    }
+  }
 `
 
 const CollectionNFTListContainer = styled.div`
@@ -144,9 +190,11 @@ const CollectionNFTListContainer = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 25px;
+    flex-wrap: wrap;
 
     .title {
       font-size: 22px;
+      margin-bottom: 10px;
     }
 
     .text {
@@ -154,8 +202,13 @@ const CollectionNFTListContainer = styled.div`
     }
 
     .operators {
-      display: flex;
-      align-items: center;
+      flex-wrap: wrap;
+
+      &, .sort-by, .buttons, .pager {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
 
       button {
         width: 40px;
@@ -302,6 +355,8 @@ const HeatTrendChart: React.FC<{ heatTrendData: any }> = ({ heatTrendData }) => 
   const datasetWithFilters: any = []
   const seriesList: any = []
 
+  const isMobile = useMediaQuery({ query: '(max-width:1000px)' })
+
   countries.forEach(country => {
     const datasetId = 'dataset_' + country
     datasetWithFilters.push({
@@ -346,7 +401,13 @@ const HeatTrendChart: React.FC<{ heatTrendData: any }> = ({ heatTrendData }) => 
 
   const option = {
     darkMode: true,
-    animationDuration: 10000,
+    grid: {
+      top: 30,
+      bottom: 20,
+      right: isMobile ? 4 : 100,
+      left: 48
+    },
+    animationDuration: 6000,
     dataset: [{
       id: 'dataset_raw',
       source: heatTrendData
@@ -362,11 +423,6 @@ const HeatTrendChart: React.FC<{ heatTrendData: any }> = ({ heatTrendData }) => 
     yAxis: {
       name: 'Heat'
     },
-    grid: {
-      top: 30,
-      bottom: 20,
-      right: 100
-    },
     series: seriesList
   }
 
@@ -377,7 +433,7 @@ const PriceScatterChart: React.FC<{ priceData: any }> = ({ priceData }) => {
   const option = {
     darkMode: true,
     grid: {
-      top: 20, bottom: 20, left: 60, right: 20
+      top: 20, bottom: 20, left: 66, right: 20
     },
     xAxis: {
       type: 'time'
@@ -507,34 +563,39 @@ const ValuationTable: React.FC<{ valuations: CollectionValuationByTypeAndAttribu
     {
       title: 'Prevailing Trend',
       key: 'prevailingTrend',
-      dataIndex: 'prevailingTrend'
+      dataIndex: 'prevailingTrend',
+      width: '120px'
     },
     {
       title: 'Accessory',
       key: 'accessory',
-      dataIndex: 'accessory'
+      dataIndex: 'accessory',
+      width: '150px'
     },
     {
       title: 'Number',
       key: 'number',
-      dataIndex: 'number'
+      dataIndex: 'number',
+      width: '90px'
     },
     {
       title: 'Valuation',
       key: 'valuation',
-      dataIndex: 'valuation'
+      dataIndex: 'valuation',
+      width: '200px'
     },
     {
       title: 'Average',
       key: 'average',
-      dataIndex: 'average'
+      dataIndex: 'average',
+      width: '180px'
     }
   ]
 
   return (
     <ValuationTableContainer>
       <div className="title">Valuation by Type and Attribute</div>
-      <ThemeTable columns={columns} dataSource={valuations} pagination={false} />
+      <ThemeTable columns={columns} dataSource={valuations} pagination={false} scroll={{ x: 1000 }} />
     </ValuationTableContainer>
   )
 }
@@ -547,22 +608,28 @@ const CollectionNFTList: React.FC<{ tokens: CollectionToken[] }> = ({ tokens }) 
       <div className="header">
         <div className="title">10,000 Total CryptoPunks</div>
         <div className="operators">
-          <div className="text" style={{ marginRight: '15px' }}>Sort by</div>
-          <DropdownSelector style={{ width: '214px', marginRight: '24px' }} defaultValue="Rarity">
-            <DropdownSelector.Option value="Rarity">Rarity</DropdownSelector.Option>
-            <DropdownSelector.Option value="Price">Price</DropdownSelector.Option>
-          </DropdownSelector>
-          <button>IDs</button>
-          <button style={{ marginRight: '33px' }}>
-            <img
-              src={require('../../assets/images/commons/image.png').default}
-              alt="image"
-            />
-          </button>
-          <div className="text">Page</div>
-          <SearchInput style={{ marginRight: '10px', marginLeft: '10px', width: '45px' }} />
-          <div className="text" style={{ marginRight: '10px' }}>of 209</div>
-          <Button className="next">Next<RightOutlined /></Button>
+          <div className="sort-by">
+            <div className="text" style={{ marginRight: '15px' }}>Sort by</div>
+            <DropdownSelector style={{ width: '214px', marginRight: '24px' }} defaultValue="Rarity">
+              <DropdownSelector.Option value="Rarity">Rarity</DropdownSelector.Option>
+              <DropdownSelector.Option value="Price">Price</DropdownSelector.Option>
+            </DropdownSelector>
+          </div>
+          <div className="buttons">
+            <button>IDs</button>
+            <button style={{ marginRight: '33px' }}>
+              <img
+                src={require('../../assets/images/commons/image.png').default}
+                alt="image"
+              />
+            </button>
+          </div>
+          <div className="pager">
+            <div className="text">Page</div>
+            <SearchInput style={{ marginRight: '10px', marginLeft: '10px', width: '45px' }} />
+            <div className="text" style={{ marginRight: '10px' }}>of 209</div>
+            <Button className="next">Next<RightOutlined /></Button>
+          </div>
         </div>
       </div>
       <div className="list">

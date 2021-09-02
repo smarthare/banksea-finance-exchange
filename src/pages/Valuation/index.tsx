@@ -11,11 +11,11 @@ type ValuationPageProps = {
 
 const ValuationPageContainer = styled.div`
   color: white;
-
 `
 
 const Wrapper = styled.div`
   max-width: 1380px;
+  width: 80%;
   margin: 0 auto;
   margin-top: 45px;
 `
