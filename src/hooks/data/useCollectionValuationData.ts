@@ -43,7 +43,6 @@ const useCollectionValuationData = (name: string): CollectionValuationData => {
     }
 
     const collectionInfo: CollectionInfo = (require('../../assets/mock/valuation-collections') as CollectionInfo[]).filter(o => o.seriesName === name)[0]
-    console.log(collectionInfo)
 
     const {
       seriesWebsite, seriesTwitter, seriesDiscord, seriesDescription, seriesPoster
