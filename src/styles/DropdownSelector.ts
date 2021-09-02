@@ -1,8 +1,12 @@
 import styled from 'styled-components'
 import { Select } from 'antd'
+import { Property } from 'csstype'
 
-const DropdownSelector = styled(Select)`
-  margin-left: 2.5rem;
+type DropdownSelectorProps = {
+  backgroundColor?: Property.Color
+}
+
+const DropdownSelector = styled(Select)<DropdownSelectorProps>`
   font-size: 1.4rem;
 
   &,
@@ -15,7 +19,7 @@ const DropdownSelector = styled(Select)`
     border-radius: 10px !important;
     width: fit-content;
     height: 5rem !important;
-    background-color: #305099 !important;
+    background-color: ${({ backgroundColor }) => (backgroundColor ?? '#305099') + '!important;'}
     color: white;
     height: 4rem !important;
     display: flex;
@@ -31,8 +35,24 @@ const DropdownSelector = styled(Select)`
     font-size: 1.4rem;
   }
 
+  .ant-select-clear {
+    background-color: ${({ backgroundColor }) => (backgroundColor ?? '#305099')};
+
+    span {
+      position: relative;
+      bottom: 4px;
+      color: rgba(255,255,255,0.9);
+    }
+  }
+
+  .ant-select-arrow {
+    span {
+      color: white;
+    }
+  }
+
   span {
-    color: white;
+    //color: white;
   }
 
   @media screen and (max-width: 1000px) {

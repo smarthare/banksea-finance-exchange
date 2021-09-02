@@ -1,24 +1,38 @@
 import styled from 'styled-components'
 import { Table } from 'antd'
+import { Property } from 'csstype'
 
-const ThemeTable = styled(Table)`
+export type ThemeTableProps = {
+  headerBackgroundColor?: Property.Color
+  headerTextColor?: Property.Color
+
+  rowBackgroundColor?: Property.Color
+  rowTextColor?: Property.Color
+
+  gutterColor?: Property.Color
+  gutterHeight?: Property.Height
+
+  rowHoveredBackgroundColor?: Property.Color
+}
+
+const ThemeTable = styled(Table)<ThemeTableProps>`
   width: 100%;
   margin-top: 1.5rem;
 
   .ant-table-thead > tr > th {
-    background-color: #0B111E !important;
+    background-color: ${props => props.headerBackgroundColor ?? '#0B111E'};
   }
 
   .ant-table-thead .ant-table-cell {
     font-size: 14px;
     font-weight: 550;
     line-height: 20px;
-    color: rgb(244, 244, 244);
+    color: ${props => props.headerTextColor ?? 'rgb(244, 244, 244)'}
   }
 
   .ant-table-tbody .ant-table-cell {
     font-size: 1.4rem;
-    color: rgb(244, 244, 244);
+    color: ${props => (props.rowTextColor ?? 'rgb(244, 244, 244)') + '!important;'}
     line-height: 20px;
   }
 
@@ -27,7 +41,7 @@ const ThemeTable = styled(Table)`
   }
 
   .ant-table-row {
-    background-color: #18284C;
+    background-color: ${props => props.rowBackgroundColor ?? '#18284C'};
     user-select: none;
   }
 
@@ -38,8 +52,13 @@ const ThemeTable = styled(Table)`
   }
 
   .ant-table-tbody > tr > td {
-    border-bottom: 4px solid #0B111E;
-    border-top: 4px solid #0B111E;
+    border-bottom-width: ${props => props.gutterHeight ?? '4px'};
+    border-bottom-style: solid;
+    border-bottom-color: ${props => props.gutterColor ?? '#0B111E'}
+  }
+
+  .ant-table-tbody > tr:nth-last-of-type(1) > td {
+    border-bottom: none;
   }
 
   .ant-table-empty {
@@ -56,6 +75,16 @@ const ThemeTable = styled(Table)`
       position: relative;
       bottom: 2.5px !important;
     }
+  }
+
+  .ant-tooltip-open {
+    background-color: ${props => props.headerBackgroundColor ?? '#0B111E'};
+    filter: brightness(90%);
+  }
+
+  .ant-table-column-sort {
+    background-color: ${props => props.headerBackgroundColor ?? '#0B111E'};
+    filter: brightness(95%);
   }
 
   @media screen and (max-width: 1000px) {

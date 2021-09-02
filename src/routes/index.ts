@@ -103,7 +103,7 @@ const routes: Route[] = [
     component: CollectionValuationPage
   },
   {
-    path: '/valuation/:nft',
+    path: '/valuation/:collection/:tokenId',
     hidden: true,
     title: 'NFTValuation',
     component: NFTValuationPage

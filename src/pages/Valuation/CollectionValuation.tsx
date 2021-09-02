@@ -1,21 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as echarts from 'echarts/core'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import {
-  CollectionExternalLink,
-  CollectionToken,
-  CollectionValuationByTypeAndAttribute,
-  CollectionValuationChartData,
-  CollectionValuationStatisticItem,
-  useCollectionValuationData
-} from '../../hooks/data/useCollectionValuationData'
+import { useCollectionValuationData } from '../../hooks/data/useCollectionValuationData'
 import ReactECharts from 'echarts-for-react'
 import ThemeTable from '../../styles/ThemeTable'
 import { DropdownSelector } from '../../styles/DropdownSelector'
 import { Button } from 'antd'
 import { RightOutlined } from '@ant-design/icons'
 import { SearchInput } from '../../styles/SearchInput'
+
+import {
+  CollectionExternalLink,
+  CollectionToken,
+  CollectionValuationByTypeAndAttribute,
+  CollectionValuationChartData,
+  CollectionValuationStatisticItem
+} from '../../types/CollectionValuation'
 
 type CollectionValuationPageProps = {
   //
@@ -135,7 +136,7 @@ const ValuationTableContainer = styled.div`
     font-size: 30px;
   }
 
-  margin-bottom: 25px;
+  margin-bottom: 80px;
 `
 
 const CollectionNFTListContainer = styled.div`
@@ -186,6 +187,7 @@ const CollectionNFTListContainer = styled.div`
     flex-wrap: wrap;
 
     .item {
+      cursor: pointer;
       width: 210px;
       height: 278px;
       background-color: #101C3A;
@@ -537,7 +539,9 @@ const ValuationTable: React.FC<{ valuations: CollectionValuationByTypeAndAttribu
   )
 }
 
-const CollectionNFTList: React.FC<{tokens: CollectionToken[]}> = ({ tokens }) => {
+const CollectionNFTList: React.FC<{ tokens: CollectionToken[] }> = ({ tokens }) => {
+  const history = useHistory()
+
   return (
     <CollectionNFTListContainer>
       <div className="header">
@@ -549,7 +553,12 @@ const CollectionNFTList: React.FC<{tokens: CollectionToken[]}> = ({ tokens }) =>
             <DropdownSelector.Option value="Price">Price</DropdownSelector.Option>
           </DropdownSelector>
           <button>IDs</button>
-          <button style={{ marginRight: '33px' }}><img src={require('../../assets/images/commons/image.png').default} alt="image" /></button>
+          <button style={{ marginRight: '33px' }}>
+            <img
+              src={require('../../assets/images/commons/image.png').default}
+              alt="image"
+            />
+          </button>
           <div className="text">Page</div>
           <SearchInput style={{ marginRight: '10px', marginLeft: '10px', width: '45px' }} />
           <div className="text" style={{ marginRight: '10px' }}>of 209</div>
@@ -559,7 +568,10 @@ const CollectionNFTList: React.FC<{tokens: CollectionToken[]}> = ({ tokens }) =>
       <div className="list">
         {
           tokens.map((token, index) => (
-            <div className="item" key={index}>
+            <div className="item"
+              key={index}
+              onClick={() => history.push(`${history.location.pathname}/${token.tokenId}`)}
+            >
               <div className="item-header">
                 <div>#{index}</div>
                 <div>{token.owner}</div>
@@ -585,6 +597,10 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
   const { collection } = useParams<{ collection: string }>()
 
   const data = useCollectionValuationData(collection)
+
+  useEffect(() => {
+    document.getElementById('main')!.scrollTo(0, 0)
+  }, [])
 
   return (
     <CollectionValuationPageContainer>

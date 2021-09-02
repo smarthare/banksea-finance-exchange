@@ -104,6 +104,10 @@ const SelectorsContainer = styled.div`
   margin-bottom: 3.5rem;
   position: absolute;
   right: 0;
+
+  .gutter {
+    width: 30px;
+  }
 `
 
 const NFTListContainer = styled.div`
@@ -223,8 +227,11 @@ const PersonalHomepage: React.FC = () => {
           <SearchInput onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
           />
+          <div className="gutter" />
           <ChainSelector onChange={setTypeChain} />
+          <div className="gutter" />
           <StatusSelector onChange={setStatus} />
+          <div className="gutter" />
           <OrderSelector />
         </SelectorsContainer>
       </div>

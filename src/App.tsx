@@ -73,6 +73,7 @@ const App: React.FC = () => {
           }
         </Layout.Sider>
         <Layout.Content
+          id="main"
           style={{
             backgroundColor: '#0B111E',
             position: 'relative',
