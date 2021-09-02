@@ -83,7 +83,7 @@ const StakeButton = styled(Button)`
 
 export const useStakeUnderstandModal = (stakeCurrency: any) => {
 
-  const { approveModal, openApproveModal, closeApproveModal } = useStakeApproveModal(stakeCurrency)
+  const { approveModal, openApproveModal } = useStakeApproveModal(stakeCurrency)
 
   const { modal, open, close } = useModal((_open, close, visible) => (
     <StakeUnderstandModal

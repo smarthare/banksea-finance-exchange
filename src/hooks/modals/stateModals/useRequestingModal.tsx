@@ -44,7 +44,7 @@ export const useRequestingModal = () => {
   const { successModal, openSuccessModal } = useSuccessModal()
 
   const init = useCallback(() => {
-    const t = setInterval(() => {
+    setInterval(() => {
       openSuccessModal()
     },5000)
   },[])

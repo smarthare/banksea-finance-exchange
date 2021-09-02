@@ -4,8 +4,6 @@ import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import { depositPoolsDetail } from '../../../apis/pool'
 import { useHistory } from 'react-router-dom'
 import { Button, Form, Input } from 'antd'
-import { useSelector } from 'react-redux'
-import { getAccount } from '../../../store/wallet'
 import { useDepositCheckoutModal } from '../../../hooks/modals/useDepositCheckoutModal'
 import { LeftOutlined } from '@ant-design/icons'
 
@@ -209,16 +207,13 @@ const BackIcon:React.FC = () => {
   )
 }
 
-const Schedule:React.FC<{ data: any }> = ({ data }) => {
-  const account = useSelector(getAccount)
-
-  const [formData, setFormData] = useState<any>()
+const Schedule:React.FC = () => {
 
   const formInitialValues = {
     price: ''
   }
 
-  const { depositCheckoutModal, openDepositCheckoutModal, closeDepositCheckoutModal } = useDepositCheckoutModal()
+  const { depositCheckoutModal, openDepositCheckoutModal } = useDepositCheckoutModal()
 
   const [form] = Form.useForm<typeof formInitialValues>()
 
@@ -311,7 +306,7 @@ const DepositItemDetailPage:React.FC = () => {
           </DetailDataMainStatistics>
         </ItemDetailDataMain>
       </ItemDetailData>
-      <Schedule data={data} />
+      <Schedule />
     </ItemDetailMain>
   )
 }

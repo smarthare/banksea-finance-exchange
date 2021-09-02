@@ -6,9 +6,6 @@ import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import UtilisationRate from '../../../components/EchartsStatistics/UtilisationRate'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
-import myDashboard2 from '../../../assets/images/mockImg/myDashboard2.png'
-import myDashboard3 from '../../../assets/images/mockImg/myDashboard3.png'
-import { Button } from 'antd'
 
 
 const MortgagePoolDetailMain = styled.div`
@@ -183,26 +180,6 @@ const MortgagesItemText = styled.div`
     color: #fff;
   }
 `
-
-const WithdrawButton = styled(Button)`
-  width: 12.7rem;
-  height: 3.7rem;
-  margin-left: calc((100% - 12.7rem) / 2);
-  background: #6C48FF;
-  color: #fff;
-  border-radius: 1rem;
-  border: none;
-  margin-top: 1rem;
-  transition: all 0.7s;
-  font-size: 1.7rem;
-  font-weight: bolder;
-
-  &:hover {
-    background: #7A7AFF;
-    color: #fff;
-  }
-`
-
 
 const BackIcon:React.FC = () => {
   const history = useHistory()

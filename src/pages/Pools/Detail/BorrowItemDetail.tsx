@@ -5,7 +5,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { depositPoolsDetail, mortgageOpinion } from '../../../apis/pool'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
-import { Button, Form, Input, message } from 'antd'
+import { Button, Form, Input } from 'antd'
 import { useBorrowCheckoutModal } from '../../../hooks/modals/useBorrowCheckoutModal'
 import { LeftOutlined } from '@ant-design/icons'
 
@@ -265,7 +265,7 @@ const Schedule:React.FC<{ data: any }> = ({ data }) => {
     price: ''
   }
 
-  const { borrowCheckoutModal, openBorrowCheckoutModal, closeBorrowCheckoutModal } = useBorrowCheckoutModal(formData)
+  const { borrowCheckoutModal, openBorrowCheckoutModal } = useBorrowCheckoutModal(formData)
 
   const [form] = Form.useForm<typeof formInitialValues>()
 
@@ -281,9 +281,6 @@ const Schedule:React.FC<{ data: any }> = ({ data }) => {
         stableBorrowApy: data?.stableBorrowApy.slice(0,-1) / 100,
         borrowType: 'variable'
       })
-      // borrowConfirm(formData).then(() => {
-      //   message.success('You successfully borrowed！')
-      // })
     })
     openBorrowCheckoutModal()
   }

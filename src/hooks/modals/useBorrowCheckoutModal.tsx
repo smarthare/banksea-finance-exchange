@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Button, Modal } from 'antd'
 import { useModal } from '../useModal'
 import { borrowConfirm } from '../../apis/pool'
-import { useHistory } from 'react-router-dom'
 import { useSuccessModal } from './stateModals/useSuccessModal'
 
 const BorrowCheckoutModal = styled(Modal)`
@@ -78,8 +77,6 @@ const BorrowButton = styled(Button)`
 `
 
 export const useBorrowCheckoutModal = (formData: any) => {
-
-  const history = useHistory()
 
   const { successModal, openSuccessModal } = useSuccessModal()
 

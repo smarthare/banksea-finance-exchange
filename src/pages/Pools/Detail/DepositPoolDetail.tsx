@@ -69,10 +69,6 @@ const ConfigurationData = styled.div`
   margin-top: 0;
 `
 
-const ProgressMain = styled.div`
-  position: relative;
-`
-
 const TotalBorrowed = styled.div`
   position: relative;
   margin-top: 3rem;

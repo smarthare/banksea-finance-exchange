@@ -1,12 +1,8 @@
-
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import { useHistory } from 'react-router-dom'
 import { Button, Form, Input } from 'antd'
-import { useSelector } from 'react-redux'
-import { getAccount } from '../../../store/wallet'
-import { useWithdrawCheckoutModal } from '../../../hooks/modals/useWithdrawCheckoutModal'
 import { useRepayCheckoutModal } from '../../../hooks/modals/useRepayCheckout'
 import { LeftOutlined } from '@ant-design/icons'
 
@@ -210,16 +206,13 @@ const BackIcon:React.FC = () => {
   )
 }
 
-const Schedule:React.FC<{ data: any }> = ({ data }) => {
-  const account = useSelector(getAccount)
-
-  const [formData, setFormData] = useState<any>()
+const Schedule:React.FC = () => {
 
   const formInitialValues = {
     price: ''
   }
 
-  const { repayCheckoutModal, openRepayCheckoutModal, closeRepayCheckoutModal } = useRepayCheckoutModal()
+  const { repayCheckoutModal, openRepayCheckoutModal } = useRepayCheckoutModal()
 
   const [form] = Form.useForm<typeof formInitialValues>()
 
@@ -303,7 +296,7 @@ const RepayDetailPage:React.FC = () => {
           </DetailDataMainStatistics>
         </ItemDetailDataMain>
       </ItemDetailData>
-      <Schedule data={data} />
+      <Schedule />
     </ItemDetailMain>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button, message, Modal } from 'antd'
+import { Button, Modal } from 'antd'
 import { useModal } from '../useModal'
 
 const RepayCheckoutModal = styled(Modal)`

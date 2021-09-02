@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import { Button, Progress } from 'antd'
+import { Button, Progress, Statistic } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import {
@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import PageLoading from '../../components/PageLoding'
 import VariableAPY from '../../components/EchartsStatistics/VariableAPY'
+import myDashboard1 from '../../assets/images/mockImg/myDashboard1.png'
 
 const MyDashboardContainer = styled.div`
   width: 135.6rem;
@@ -260,6 +261,71 @@ const NFTMortgagesMain = styled.div`
       height: 17rem;
       border-top-left-radius: 1rem;
       border-top-right-radius: 1rem;
+      position: relative;
+
+      @keyframes rotate {
+        100% {
+          transform: rotate(1turn);
+        }
+      }
+
+      .conic {
+        position: relative;
+        z-index: 0;
+        width: 10rem;
+        height: 3.5rem;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &::before {
+          content: '';
+          position: absolute;
+          z-index: -2;
+          left: -50%;
+          top: -50%;
+          width: 200%;
+          height: 200%;
+          background-color: #00FFFF;
+          background-repeat: no-repeat;
+          background-position: 0 0;
+          background-image: conic-gradient(transparent, #5D00B3, transparent 30%);
+          animation: rotate 4s linear infinite;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          z-index: -1;
+          left: 4px;
+          top: 4px;
+          width: calc(100% - 8px);
+          height: calc(100% - 8px);
+          background: #FFFFFF;
+          border-radius: 0.4rem;
+        }
+
+        .ant-statistic-content-value {
+          font-size: 1.4rem;
+          font-weight: bolder;
+          color: #5D00B3;
+        }
+      }
+
+      @keyframes opacityChange {
+        50% {
+          opacity:.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
 
       img {
         object-fit: cover;
@@ -314,12 +380,6 @@ const WithdrawButton = styled(Button)`
   }
 `
 
-const NFTBorrowMortgage = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4rem;
-`
-
 const NFTMortgagesLiquidation = styled.div`
   width: 100%;
   height: 48rem;
@@ -328,48 +388,8 @@ const NFTMortgagesLiquidation = styled.div`
   margin-bottom: 1.4rem;
 `
 
-const NFTLiquidationMortgagesMain = styled.div`
-  width: 135.6rem;
-  display: flex;
-  padding: 3rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-
-  .mortgages-item {
-    width: 16.2rem;
-    border-radius: 1rem;
-    background: #3658A7;
-    margin-left: 3.3rem;
-
-    .mortgages-item-image {
-      height: 17rem;
-      border-top-left-radius: 1rem;
-      border-top-right-radius: 1rem;
-
-      img {
-        object-fit: cover;
-        width: 18.2rem;
-        height: 100%;
-        border-top-left-radius: 1rem;
-        border-top-right-radius: 1rem;
-      }
-    }
-
-    .mortgages-item-text {
-      padding: 1rem 1rem;
-
-      .mortgages-item-text-name {
-        color: #fff;
-      }
-    }
-  }
-`
-
 const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({ userInfo, depositList }) => {
   const history = useHistory()
-
-  console.log(userInfo)
   return (
     <Deposits>
       <div className="depositArea">
@@ -570,9 +590,9 @@ const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgag
                 </MortgagesItemText>
                 <MortgagesItemText>
                   <p className="message-name">Collateral Rate:</p>
-                  <p className="message-number">{item?.mortgageRate}</p>
+                  <p className="message-number">{item?.mortgageRate * 100}%</p>
                 </MortgagesItemText>
-                <WithdrawButton onClick={() => history.push(`redemption/detail/${item?.valueUri}`)}>redemption</WithdrawButton>
+                <WithdrawButton onClick={() => history.push(`dashboard/redemption/detail/${item?.valueUri}`)}>redemption</WithdrawButton>
               </div>
             </div>
           ))
@@ -582,34 +602,64 @@ const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgag
   )
 }
 
-const NFTLiquidation: React.FC<{ mortgagePreorder: any }> = ({ mortgagePreorder }) => {
+const NFTLiquidation: React.FC = () => {
+
+  const history = useHistory()
+
+  const { Countdown } = Statistic
+  const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
+
   return (
     <NFTMortgagesLiquidation>
       <AreaTitle>Liquidation prepayment</AreaTitle>
       <Line />
-      <NFTLiquidationMortgagesMain>
+      <NFTMortgagesMain>
+        {/*{*/}
+        {/*  mortgagePreorder?.map((item: any, index: number) => (*/}
+        {/*    <div key={index} className="mortgages-item">*/}
+        {/*      <div className="mortgages-item-image">*/}
+        {/*        <img src={item?.image} alt="" />*/}
+        {/*      </div>*/}
+        {/*      <div className="mortgages-item-text">*/}
+        {/*        <p className="mortgages-item-text-name">{item?.name}</p>*/}
+        {/*        <MortgagesItemText>*/}
+        {/*          <p className="message-name">Values:</p>*/}
+        {/*          <p className="message-number">$ {item?.price}</p>*/}
+        {/*        </MortgagesItemText>*/}
+        {/*        <MortgagesItemText>*/}
+        {/*          <p className="message-name">Collateral Rate:</p>*/}
+        {/*          <p className="message-number">{item?.mortgageRate}</p>*/}
+        {/*        </MortgagesItemText>*/}
+        {/*        <WithdrawButton>Cancel pre-purchase</WithdrawButton>*/}
+        {/*      </div>*/}
+        {/*    </div>*/}
+        {/*  ))*/}
+        {/*}*/}
         {
-          mortgagePreorder?.map((item: any, index: number) => (
-            <div key={index} className="mortgages-item">
+          new Array(4).fill((
+            <div className="mortgages-item">
               <div className="mortgages-item-image">
-                <img src={item?.image} alt="" />
+                <div className="conic">
+                  <Countdown value={deadline} />
+                </div>
+                <img src={myDashboard1} alt="" />
               </div>
               <div className="mortgages-item-text">
-                <p className="mortgages-item-text-name">{item?.name}</p>
+                <p className="mortgages-item-text-name">CryptoPunk #8761</p>
                 <MortgagesItemText>
                   <p className="message-name">Values:</p>
-                  <p className="message-number">$ {item?.price}</p>
+                  <p className="message-number">$ 0</p>
                 </MortgagesItemText>
                 <MortgagesItemText>
                   <p className="message-name">Collateral Rate:</p>
-                  <p className="message-number">{item?.mortgageRate}</p>
+                  <p className="message-number">%</p>
                 </MortgagesItemText>
-                <WithdrawButton>Cancel pre-purchase</WithdrawButton>
+                <WithdrawButton onClick={() => history.push('dashboard/liquidation/cancel/detail/11')}>Cancel</WithdrawButton>
               </div>
             </div>
           ))
         }
-      </NFTLiquidationMortgagesMain>
+      </NFTMortgagesMain>
     </NFTMortgagesLiquidation>
   )
 }
@@ -635,7 +685,6 @@ const MyDashboardPage: React.FC = () => {
 
   const init = useCallback(async () => {
     await dashboardUser({ walletAddress: account }).then(res => {
-      console.log('user'+res)
       setUserInfo(res.data.data.userInfo)
       setDepositList(res.data.data.userDepositList)
       setBorrowList(res.data.data.userBorrowList)
@@ -674,7 +723,7 @@ const MyDashboardPage: React.FC = () => {
                   </MyDashboardData>
                   <NFTAvailableMortgages mortgageAvailable={mortgageAvailable} />
                   <NFTYourMortgage mortgageMortgaged={mortgageMortgaged} />
-                  <NFTLiquidation mortgagePreorder={mortgagePreorder} />
+                  <NFTLiquidation />
                 </div> :
                 <PageLoading />
             }

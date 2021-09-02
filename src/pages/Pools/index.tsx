@@ -23,6 +23,7 @@ import BorrowItemDetailPage from './Detail/BorrowItemDetail'
 import WithdrawDetailPage from './Detail/WithdrawDetail'
 import RepayDetailPage from './Detail/RepayDetail'
 import RedemptionDetailPage from './Detail/RedemptionDetail'
+import LiquidationCancelDetailPage from './Detail/LiquidationCancelDetail'
 
 export type PoolPageKeys =
   | 'market'
@@ -39,7 +40,8 @@ export type PoolPageKeys =
   | 'available/detail/:uri'
   | 'withdraw/detail/:id'
   | 'repay/detail/:id'
-  | 'redemption/detail/:id'
+  | 'dashboard/redemption/detail/:id'
+  | 'dashboard/liquidation/cancel/detail/:id'
 
 // eslint-disable-next-line no-unused-vars
 const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
@@ -57,7 +59,8 @@ const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
   'available/detail/:uri': <AvailablePurchasePage />,
   'withdraw/detail/:id': <WithdrawDetailPage />,
   'repay/detail/:id': <RepayDetailPage />,
-  'redemption/detail/:id': <RedemptionDetailPage />
+  'dashboard/redemption/detail/:id': <RedemptionDetailPage />,
+  'dashboard/liquidation/cancel/detail/:id': <LiquidationCancelDetailPage />
 }
 
 // eslint-disable-next-line no-unused-vars

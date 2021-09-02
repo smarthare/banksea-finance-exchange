@@ -1,9 +1,7 @@
 import React from 'react'
-import Authorizing from '@/assets/images/allModalImg/authorizing.svg'
 import styled from 'styled-components'
-import { Button, message, Modal } from 'antd'
+import { Button, Modal } from 'antd'
 import { useModal } from '../useModal'
-import { borrowConfirm } from '../../apis/pool'
 import { useRequestingModal } from './stateModals/useRequestingModal'
 
 const BorrowCheckoutModal = styled(Modal)`

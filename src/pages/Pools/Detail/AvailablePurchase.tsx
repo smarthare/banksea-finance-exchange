@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { CopyOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
@@ -269,24 +269,6 @@ const ConfirmButton = styled(Button)`
   }
 `
 
-const EvaluateButton = styled(Button)`
-  width: 16.9rem;
-  height: 4.8rem;
-  margin-left: calc((100% - 16.9rem) / 2);
-  background: #554BFF;
-  border-radius: 1rem;
-  border: none;
-  color: #fff;
-  font-weight: bolder;
-  font-size: 1.7rem;
-  transition: all 0.7s;
-  margin-top: 5rem;
-
-  &:hover {
-    background: #7A7AFF;
-    color: #fff;
-  }
-`
 const Valuation = styled.div`
   margin-top: 2rem;
   position: relative;

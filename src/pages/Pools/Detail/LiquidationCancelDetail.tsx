@@ -1,10 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { useLocationQuery } from '../../../utils'
 import { CopyOutlined } from '@ant-design/icons'
 import { Button, Statistic } from 'antd'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
-import { getNftFavoriteCount } from '../../../apis/nft'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import { useRequestingModal } from '../../../hooks/modals/stateModals/useRequestingModal'
 
@@ -265,17 +263,17 @@ const Statistics:React.FC = () => {
 
   return (
     <StatisticsContainer>
-      <AreaTitle>??????</AreaTitle>
+      <AreaTitle>Historical price</AreaTitle>
       <Line />
       <StatisticsMain>
         <DepositAPY />
       </StatisticsMain>
       <ScheduleFirst>
-        <div className="title">Prepay overview</div>
+        <div className="title">Cancel overview</div>
         <div className="main-title">
-          Are you sure you want to prepay this NFT ？
+          Are you sure you want to cancel this NFT prepaid ?
         </div>
-        <ConfirmButton onClick={prepay}>Prepay</ConfirmButton>
+        <ConfirmButton onClick={prepay}>Cancel</ConfirmButton>
       </ScheduleFirst>
       {requestingModal}
     </StatisticsContainer>
@@ -283,24 +281,11 @@ const Statistics:React.FC = () => {
 }
 
 const NFTBaseInfo:React.FC = () => {
-  const uri = useLocationQuery('uri')
-
-  const [, setLikeNum] = useState<number>()
-
-  const fetchLikeCount = useCallback(async () => {
-    getNftFavoriteCount(uri).then(res => {
-      setLikeNum(res.data.data)
-    })
-  }, [uri])
-
-  useEffect(() => {
-    fetchLikeCount()
-  }, [fetchLikeCount])
 
   return (
     <NFTBaseInfoContainer>
       <div className="nft-name">
-        Scottlin
+        CryptoPunk #8761
       </div>
       <div className="info-row">
         <div className="info-row-item">
@@ -325,7 +310,7 @@ const NFTBaseInfo:React.FC = () => {
 
 const { Countdown } = Statistic
 
-const NFTMortgageDetailPage:React.FC = () => {
+const LiquidationCancelDetailPage:React.FC = () => {
 
   const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
 
@@ -349,4 +334,4 @@ const NFTMortgageDetailPage:React.FC = () => {
   )
 }
 
-export default NFTMortgageDetailPage
+export default LiquidationCancelDetailPage

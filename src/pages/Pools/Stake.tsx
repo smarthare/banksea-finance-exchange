@@ -165,7 +165,7 @@ const StakePage: React.FC = () => {
 
   const [stakeCurrency, setStakeCurrency] = useState<any>()
 
-  const { stakeUnderstandModal, openStakeUnderstandModal, closeStakeUnderstandModal } = useStakeUnderstandModal(stakeCurrency)
+  const { stakeUnderstandModal, openStakeUnderstandModal } = useStakeUnderstandModal(stakeCurrency)
 
   const toStake = (s: string) => {
     openStakeUnderstandModal()

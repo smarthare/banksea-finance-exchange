@@ -158,7 +158,7 @@ const NFTBaseInfo: React.FC = () => {
   return (
     <NFTBaseInfoContainer>
       <div className="nft-name">
-        Scottlin
+        CryptoPunk #8761
       </div>
       <div className="info-row">
         <div className="info-row-item">

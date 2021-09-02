@@ -89,15 +89,6 @@ const NFTMortgagesMain = styled.div`
       border-top-right-radius: 1rem;
       position: relative;
 
-      //.time-box {
-      //  width: 8rem;
-      //  height: 3.5rem;
-      //  border-radius: 0.4rem;
-      //  position: absolute;
-      //  right: 0;
-      //  bottom: 0;
-      //  background: linear-gradient(to right, #00FFFF, #5D00B3);
-      //}
       @keyframes rotate {
         100% {
           transform: rotate(1turn);

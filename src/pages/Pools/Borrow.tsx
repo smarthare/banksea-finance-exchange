@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { depositPoolsList } from '../../apis/pool'
 import PageLoading from '../../components/PageLoding'
@@ -180,25 +179,6 @@ const MyNFTMortgage = styled.div`
   margin-left: 1.4rem;
 `
 
-const MortgageButton = styled(Button)`
-  width: 16.9rem;
-  height: 4.8rem;
-  margin-left: calc((100% - 16.9rem) / 2);
-  background: #554BFF;
-  border-radius: 1rem;
-  border: none;
-  color: #fff;
-  font-weight: bolder;
-  font-size: 1.7rem;
-  transition: all 0.7s;
-  margin-top: 5rem;
-
-  &:hover {
-    background: #7A7AFF;
-    color: #fff;
-  }
-`
-
 const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
   const history = useHistory()
 
@@ -239,7 +219,6 @@ const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
 }
 
 const BorrowPage:React.FC = () => {
-  const history = useHistory()
 
   const [data, setData] = useState<any>()
 

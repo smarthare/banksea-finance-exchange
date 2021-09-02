@@ -94,7 +94,7 @@ const ApproveButton = styled(Button)`
 
 export const useStakeApproveModal = (stakeCurrency: any) => {
 
-  const { requestingModal, openRequestingModal, closeRequestingModal } = useRequestingModal()
+  const { requestingModal, openRequestingModal } = useRequestingModal()
 
   const stake = () => {
     openRequestingModal()
