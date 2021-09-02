@@ -136,7 +136,13 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
       <div className="title">
         All Whitelist Collections
       </div>
-      <ThemeTable columns={columns} dataSource={collections} onRow={onRow} scroll={{ x: 1500 }} />
+      <ThemeTable
+        columns={columns}
+        dataSource={collections}
+        onRow={onRow}
+        scroll={{ x: 1500 }}
+        rowCursor={'pointer'}
+      />
     </AllWhitelistCollectionsContainer>
   )
 }

@@ -13,6 +13,7 @@ export type ThemeTableProps = {
   gutterHeight?: Property.Height
 
   rowHoveredBackgroundColor?: Property.Color
+  rowCursor?: Property.Cursor
 }
 
 const ThemeTable = styled(Table)<ThemeTableProps>`
@@ -42,7 +43,7 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
 
   .ant-table-row {
     background-color: ${props => props.rowBackgroundColor ?? '#18284C'};
-    user-select: none;
+    cursor: ${props => props.rowCursor} !important;
   }
 
   .ant-table-tbody {

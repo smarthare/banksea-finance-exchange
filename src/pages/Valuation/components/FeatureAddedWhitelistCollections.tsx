@@ -20,7 +20,18 @@ type FeatureAddedWhitelistCollectionsProps = {
 const ListContainer = styled.div`
   margin: 88px auto 0 auto;
 
-  @media screen and (min-width: 1000px) and (max-width: 1800px) {
+  @media screen and (min-width: 1601px) and (max-width: 1800px) {
+    margin-left: -5%;
+    margin-right: -5%;
+  }
+
+  @media screen and (min-width: 1501px) and (max-width: 1600px) {
+    margin-left: -10%;
+    margin-right: -10%;
+  }
+
+
+  @media screen and (min-width: 1001px) and (max-width: 1500px) {
     width: 650px;
   }
 
