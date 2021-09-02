@@ -222,7 +222,7 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
                 onClick={() => history.push('/pools/market/mortgage/detail')}
               >
                 <div>
-                  <img src={item?.nftImage} alt="" />
+                  <img src={'https://banksy.finance/api'+item?.nftImage.slice(30)} alt="" />
                 </div>
                 <div>{item?.nftName}</div>
                 <div>{item?.mortgageValue}</div>
@@ -270,7 +270,7 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
               >
                 <div>
                   <img
-                    src={item?.assetsImage}
+                    src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
                     alt=""
                     style={{ width: '2.5rem', marginRight: '0.8rem' }}
                     onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}

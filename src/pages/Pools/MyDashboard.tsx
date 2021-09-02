@@ -272,14 +272,12 @@ const NFTMortgagesMain = styled.div`
       .conic {
         position: relative;
         z-index: 0;
-        width: 10rem;
-        height: 3.5rem;
+        width: 8rem;
         position: absolute;
         bottom: 0;
         right: 0;
         border-radius: 0.5rem;
         overflow: hidden;
-        padding: 2rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -431,9 +429,9 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
               <div key={index} className="allCoin-table-item">
                 <div className="assets">
                   <img
-                    src={item?.assetsImage}
+                    src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
                     alt=""
-                    style={{ width: '1.2rem', marginRight: '0.8rem' }}
+                    style={{ width: '2.2rem', marginRight: '0.8rem' }}
                   />
                   {item?.poolName}
                 </div>
@@ -513,7 +511,7 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
               <div key={index} className="allCoin-table-item">
                 <div className="assets">
                   <img
-                    src={item?.assetsImage}
+                    src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
                     alt=""
                     style={{ width: '2.4rem', height: '2.4rem', marginRight: '0.8rem' }}
                   />
@@ -652,7 +650,7 @@ const NFTLiquidation: React.FC = () => {
                 </MortgagesItemText>
                 <MortgagesItemText>
                   <p className="message-name">Collateral Rate:</p>
-                  <p className="message-number">%</p>
+                  <p className="message-number">10%</p>
                 </MortgagesItemText>
                 <WithdrawButton onClick={() => history.push('dashboard/liquidation/cancel/detail/11')}>Cancel</WithdrawButton>
               </div>
