@@ -63,7 +63,7 @@ const TokenImage = styled.img`
   border-radius: 10px;
   border: 1px solid #99BDF9;
   padding: 10px;
-  margin-bottom: 60px;
+  margin-bottom: 38px;
 `
 
 const OwnerContainer = styled.div`
@@ -288,7 +288,7 @@ const TransactionsContainer = styled.div`
     align-items: center;
 
     .text {
-      margin-right: 0px;
+      margin-right: 10px;
     }
 
     .selector {
@@ -312,7 +312,7 @@ const Details: React.FC<{ properties: NFTValuationProperties[] }> = ({
       title="Details"
       collapsible={true}
       titleIcon={<img src={InfoIcon} alt="detail" />}
-      style={{ marginBottom: '60px' }}
+      style={{ marginBottom: '38px' }}
     >
       <DetailsContainer>
         <div className="text">
@@ -323,7 +323,7 @@ const Details: React.FC<{ properties: NFTValuationProperties[] }> = ({
         </div>
         <div className="properties">
           {
-            properties.map(({ key, value }) => (
+            properties.slice(0, 3).map(({ key, value }) => (
               <div className="property" key={key}>
                 <div className="key">{key}</div>
                 <div className="value">{value}</div>
@@ -331,11 +331,11 @@ const Details: React.FC<{ properties: NFTValuationProperties[] }> = ({
               </div>
             ))
           }
-          {
-            new Array(2).fill({}).map((_, index) => (
-              <div className="property empty" key={index} />
-            ))
-          }
+          {/*{*/}
+          {/*  new Array(2).fill({}).map((_, index) => (*/}
+          {/*    <div className="property empty" key={index} />*/}
+          {/*  ))*/}
+          {/*}*/}
         </div>
       </DetailsContainer>
     </CollapsibleBox>
@@ -349,6 +349,7 @@ const Owner: React.FC = () => {
       collapsible={true}
       titleIcon={<img src={UserIcon} alt="owner" />}
       contentPadding="10px 0"
+      style={{ marginBottom: '40px' }}
     >
       <OwnerContainer>
         <img src="https://storage.googleapis.com/opensea-static/opensea-profile/20.png" alt="" className="avatar" />
@@ -590,7 +591,7 @@ const Transactions: React.FC<{ histories: NFTTransactionHistory[] }> = ({ histor
       title: 'Values',
       key: 'value',
       dataIndex: 'value',
-      sorter: (a: any, b: any) => a.value - b.value
+      // sorter: (a: any, b: any) => a.value - b.value
     },
     {
       title: 'Date',
@@ -620,10 +621,7 @@ const Transactions: React.FC<{ histories: NFTTransactionHistory[] }> = ({ histor
           pagination={false}
           columns={columns}
           dataSource={histories}
-          headerBackgroundColor={'#305099'}
-          rowBackgroundColor={'#305099'}
-          gutterColor={'#305099'}
-          gutterHeight={'0'}
+          backgroundColor={'#305099'}
         />
       </TransactionsContainer>
     </CollapsibleBox>
@@ -665,9 +663,10 @@ const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
             <Valuation valuation={valuation} valuationInUsd={valuationInUSD} />
             <MarketData marketData={marketData} />
             <ValuationChanges changes={changesData} />
-            <ValuationHistory history={valuationHistory} />
           </FlexColumn>
         </FlexRow>
+
+        <ValuationHistory history={valuationHistory} />
         <Transactions histories={transactionHistories} />
       </Wrapper>
     </NFTValuationPageContainer>

@@ -3,14 +3,13 @@ import { Table } from 'antd'
 import { Property } from 'csstype'
 
 export type ThemeTableProps = {
+  backgroundColor?: Property.Color
+
   headerBackgroundColor?: Property.Color
   headerTextColor?: Property.Color
 
   rowBackgroundColor?: Property.Color
   rowTextColor?: Property.Color
-
-  gutterColor?: Property.Color
-  gutterHeight?: Property.Height
 
   rowHoveredBackgroundColor?: Property.Color
   rowCursor?: Property.Cursor
@@ -20,46 +19,90 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
   width: 100%;
   margin-top: 1.5rem;
 
-  .ant-table-thead > tr > th {
-    background-color: ${props => props.headerBackgroundColor ?? '#0B111E'};
-  }
+  .ant-table {
+    background-color: transparent;
+    border-spacing: 10px;
 
-  .ant-table-thead .ant-table-cell {
-    font-size: 14px;
-    font-weight: 550;
-    line-height: 20px;
-    color: ${props => props.headerTextColor ?? 'rgb(244, 244, 244)'}
-  }
-
-  .ant-table-tbody .ant-table-cell {
-    font-size: 1.4rem;
-    color: ${props => (props.rowTextColor ?? 'rgb(244, 244, 244)') + '!important;'}
-    line-height: 20px;
-  }
-
-  .ant-table-tbody .ant-table-cell :first-child {
-    border-radius: 5rem;
-  }
-
-  .ant-table-row {
-    background-color: ${props => props.rowBackgroundColor ?? '#18284C'};
-    cursor: ${props => props.rowCursor} !important;
-  }
-
-  .ant-table-tbody {
-    > tr:hover:not(.ant-table-expanded-row) > td, .ant-table-row-hover, .ant-table-row-hover > td {
-      background: #354d86 !important;
+    table {
+      border-collapse: separate;
+      border-spacing: 0 4px;
     }
   }
 
-  .ant-table-tbody > tr > td {
-    border-bottom-width: ${props => props.gutterHeight ?? '4px'};
-    border-bottom-style: solid;
-    border-bottom-color: ${props => props.gutterColor ?? '#0B111E'}
+  .ant-table-thead {
+
+    th {
+      background-color: transparent;
+      border-bottom-width: 0;
+
+    }
+
+    .ant-table-cell {
+      font-size: 14px;
+      font-weight: 550;
+
+      padding-bottom: 12px;
+      line-height: 0;
+      color: ${props => props.headerTextColor ?? '#b3b3b3'}
+    }
+
+    .ant-table-column-sorters {
+      padding-bottom: 0;
+    }
+
+    .ant-tooltip-open {
+      background-color: transparent;
+    }
+
+    .ant-table-column-sort {
+      background-color: ${props => props.rowBackgroundColor ?? '#18284C'};
+      filter: brightness(85%);
+    }
   }
 
-  .ant-table-tbody > tr:nth-last-of-type(1) > td {
-    border-bottom: none;
+  .ant-table-tbody {
+    .ant-table-row {
+      background-color: ${props => props.rowBackgroundColor ?? '#18284C'};
+      cursor: ${props => props.rowCursor} !important;
+      margin-bottom: 4px !important;
+
+      .ant-table-cell {
+        font-size: 1.4rem;
+        color: ${props => (props.rowTextColor ?? 'rgb(244, 244, 244)') + '!important;'}
+        line-height: 20px;
+      }
+
+      td {
+        border-width: 0;
+      }
+
+      &:hover {
+        filter: brightness(150%);
+
+        td {
+          background-color: ${props => props.rowBackgroundColor ?? '#18284C'};
+        }
+      }
+
+      .ant-table-cell:nth-of-type(1) {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+
+      .ant-table-cell:nth-last-of-type(1) {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      &:hover {
+        height: 10px;
+      }
+    }
+
+
+    & > tr:nth-last-of-type(1) > td {
+      border-bottom: none;
+    }
   }
 
   .ant-table-empty {
@@ -78,15 +121,6 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
     }
   }
 
-  .ant-tooltip-open {
-    background-color: ${props => props.headerBackgroundColor ?? '#0B111E'};
-    filter: brightness(90%);
-  }
-
-  .ant-table-column-sort {
-    background-color: ${props => props.headerBackgroundColor ?? '#0B111E'};
-    filter: brightness(95%);
-  }
 
   @media screen and (max-width: 1000px) {
     //padding: 0 8vw;

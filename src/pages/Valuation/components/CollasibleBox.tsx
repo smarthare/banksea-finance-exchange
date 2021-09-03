@@ -4,7 +4,12 @@ import { Property } from 'csstype'
 import { DownOutlined } from '@ant-design/icons'
 import { Collapse } from 'antd'
 
-type CollapsibleBoxProps = {
+
+interface ThemeCollapseProps  {
+  contentBackground?: Property.Background
+}
+
+interface CollapsibleBoxProps extends ThemeCollapseProps {
   title: string
   collapsible?: boolean
   contentPadding?: Property.Padding
@@ -12,7 +17,8 @@ type CollapsibleBoxProps = {
   style?: CSSProperties
 }
 
-const ThemeCollapse = styled(Collapse)`
+
+const ThemeCollapse = styled(Collapse)<ThemeCollapseProps>`
   border: none;
   border-radius: 10px !important;
   background-color: transparent;
@@ -27,7 +33,7 @@ const ThemeCollapse = styled(Collapse)`
 
   .ant-collapse-content {
     border: none;
-    background-color: #305099;
+    background: ${({ contentBackground }) => contentBackground ?? '#305099'}
   }
 
   .collapse-custom-panel {
@@ -92,7 +98,7 @@ const CollapseHeader: React.FC<{ title: string, icon?: JSX.Element, collapsed?: 
 }
 
 const CollapsibleBox: React.FC<CollapsibleBoxProps> = ({
-  collapsible, contentPadding, titleIcon, title, children, style
+  collapsible, contentPadding, titleIcon, title, children, style, contentBackground
 }) => {
   const [collapsed, setCollapsed] = useState(false)
 
@@ -108,6 +114,7 @@ const CollapsibleBox: React.FC<CollapsibleBoxProps> = ({
       style={style}
       onChange={handleCollapse}
       defaultActiveKey={1}
+      contentBackground={contentBackground}
     >
       <Collapse.Panel
         showArrow={false}

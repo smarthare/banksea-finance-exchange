@@ -25,7 +25,7 @@ const PageTitle = styled.div`
   font-weight: 500;
 
   &:before {
-    content: 'NFT Valuation';
+    content: 'NFT Insight';
   }
 `
 
@@ -39,17 +39,33 @@ const TitleDivider = styled.div`
 `
 
 const SummaryContainer = styled.div`
-  font-size: 25px;
   font-weight: 500;
-  color: #FFFFFF;
   line-height: 36px;
   margin-bottom: 45px;
+
+  .item {
+    display: flex;
+    align-items: flex-end;
+
+    .value {
+      color: #eee;
+      font-size: 25px;
+    }
+
+    .key {
+      color: #b2b2b2;
+      font-size: 18px;
+      margin-right: 10px;
+      height: 32px;
+    }
+  }
 
   .row {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
   }
+
 `
 
 const ChartTextContainer = styled.div`
@@ -92,6 +108,13 @@ const ValuationChart: React.FC = () => {
         name: 'USD($)',
         axisLabel: {
           formatter: '${value}'
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: '#666',
+            type: 'dotted'
+          }
         }
       },
       {
@@ -100,6 +123,13 @@ const ValuationChart: React.FC = () => {
         name: 'ETH(Ξ)',
         axisLabel: {
           formatter: 'Ξ{value}'
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: '#666',
+            type: 'dotted'
+          }
         }
       }
     ],
@@ -123,6 +153,9 @@ const ValuationChart: React.FC = () => {
 
   return (
     <div>
+      <div style={{ textAlign:'center', fontSize: '42px', marginBottom: '20px' }}>
+        Valuation of All NFT
+      </div>
       <ReactECharts option={options} />
       <ChartTextContainer>
         <div className="changes">
@@ -140,19 +173,32 @@ const Summary: React.FC = () => {
   return (
     <SummaryContainer>
       <div className="row">
+
         <div className="item">
-          1,248,837,08 ETH ($4.04B)
+          <div className="key">Total Value:</div>
+          <div className="value">
+            1,248,837,08 ETH ($4.04B)
+          </div>
         </div>
         <div className="item">
-          BTC: $49,017,99
+          <div className="key">
+            BTC:
+          </div>
+          <div className="value">
+            $49,017,99
+          </div>
         </div>
       </div>
       <div className="row">
+        <div className="item" />
+
         <div className="item">
-          Valuation of All NFT
-        </div>
-        <div className="item">
-          Ethereum: $3,241.44
+          <div className="key">
+            Ethereum:
+          </div>
+          <div className="value">
+            $3,241.44
+          </div>
         </div>
       </div>
     </SummaryContainer>

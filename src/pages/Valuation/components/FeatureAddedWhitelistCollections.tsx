@@ -55,7 +55,7 @@ const ListContainer = styled.div`
 
 const ItemContainer = styled.div`
   width: 300px;
-  height: 412px;
+  height: 422px;
   border-radius: 10px;
   background-color: #101C3A;
   margin-bottom: 20px;

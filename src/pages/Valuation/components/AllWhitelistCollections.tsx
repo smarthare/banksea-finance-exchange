@@ -89,13 +89,14 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
     {
       title: 'Owners',
       dataIndex: 'owners',
-      key: 'owners'
+      key: 'owners',
+      width: '110px'
     },
-    {
-      title: 'Owner%',
-      dataIndex: 'ownerProportion',
-      key: 'ownerProportion'
-    },
+    // {
+    //   title: 'Owner%',
+    //   dataIndex: 'ownerProportion',
+    //   key: 'ownerProportion'
+    // },
     {
       title: 'Estimated Market Cap',
       dataIndex: 'estimatedMarketCap',
@@ -142,6 +143,7 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
         onRow={onRow}
         scroll={{ x: 1500 }}
         rowCursor={'pointer'}
+        backgroundColor={'#0b111e'}
       />
     </AllWhitelistCollectionsContainer>
   )

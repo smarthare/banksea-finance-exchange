@@ -27,6 +27,7 @@ import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
 import ValuationPage from '../pages/Valuation'
 import CollectionValuationPage from '../pages/Valuation/CollectionValuation'
 import NFTValuationPage from '../pages/Valuation/NFTValuation'
+import { EyeOutlined } from '@ant-design/icons'
 
 export type Route = {
   path: string
@@ -46,6 +47,26 @@ const routes: Route[] = [
     match: /(^\/nft\/create)|(\/personal)/,
     icon: HomeIcon,
     component: HomePage
+  },
+
+  {
+    path: '/valuation',
+    match: /^\/valuation/,
+    title: 'NFT Insight',
+    icon: EyeOutlined,
+    component: ValuationPage
+  },
+  {
+    path: '/valuation/:collection',
+    hidden: true,
+    title: 'Collection Valuation',
+    component: CollectionValuationPage
+  },
+  {
+    path: '/valuation/:collection/:tokenId',
+    hidden: true,
+    title: 'NFTValuation',
+    component: NFTValuationPage
   },
 
   {
@@ -87,26 +108,6 @@ const routes: Route[] = [
     title: 'Pools',
     icon: PoolsIcon,
     component: PoolsPage
-  },
-
-  {
-    path: '/valuation',
-    match: /^\/valuation/,
-    title: 'NFT Valuation',
-    icon: PoolsIcon,
-    component: ValuationPage
-  },
-  {
-    path: '/valuation/:collection',
-    hidden: true,
-    title: 'Collection Valuation',
-    component: CollectionValuationPage
-  },
-  {
-    path: '/valuation/:collection/:tokenId',
-    hidden: true,
-    title: 'NFTValuation',
-    component: NFTValuationPage
   },
 
   {

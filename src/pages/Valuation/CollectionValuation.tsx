@@ -6,8 +6,8 @@ import { useCollectionValuationData } from '../../hooks/data/useCollectionValuat
 import ReactECharts from 'echarts-for-react'
 import ThemeTable from '../../styles/ThemeTable'
 import { DropdownSelector } from '../../styles/DropdownSelector'
-import { Button } from 'antd'
-import { RightOutlined } from '@ant-design/icons'
+import { Button, Tooltip } from 'antd'
+import { QuestionCircleOutlined, RightOutlined } from '@ant-design/icons'
 import { SearchInput } from '../../styles/SearchInput'
 
 import {
@@ -34,16 +34,13 @@ const Wrapper = styled.div`
   width: 80%;
 `
 
-const Banner = styled.div<{url: string}>`
+const Banner = styled.img`
   width: 100%;
-  height: 0;
+  max-height: 300px;
+  object-fit: cover;
   padding: 0;
-  padding-bottom: 10.94%;
   margin-bottom: 30px;
   border-radius: 10px;
-  background-image: url(${props => props.url});
-  background-size: 100%;
-  background-position-y: 50%;
 `
 
 const TitleContainer = styled.div`
@@ -52,7 +49,7 @@ const TitleContainer = styled.div`
   flex-wrap: wrap;
 
   .name {
-    font-size: 30px;
+    font-size: 42px;
     font-weight: 700;
     margin-right: 40px;
   }
@@ -100,8 +97,6 @@ const DescriptionContainer = styled.div`
 
 const StatisticContainer = styled.div`
   display: flex;
-  font-size: 18px;
-  font-weight: 500;
   max-width: 550px;
   flex-wrap: wrap;
   margin-bottom: 72px;
@@ -115,6 +110,14 @@ const StatisticContainer = styled.div`
 
     .key {
       margin-bottom: 10px;
+
+      color: rgba(155, 191, 252, 0.8);
+      font-size: 13.5px;
+    }
+
+    .value {
+      font-size: 20px;
+      font-weight: 600;
     }
   }
 
@@ -141,8 +144,20 @@ const ChartsContainer = styled.div`
       width: calc(50% - 50px);
 
       .title {
-        font-size: 42px;
         margin-bottom: 47px;
+        display: flex;
+        align-items: center;
+
+        .text {
+          font-size: 42px;
+          margin-right: 10px;
+        }
+
+        .icon {
+          font-size: 20px;
+          position: relative;
+          top: 10px;
+        }
       }
 
       .chart {
@@ -508,53 +523,55 @@ const TotalMarketValueChart: React.FC<{ heatTrendData: any }> = ({ heatTrendData
 const Charts: React.FC<{ chartData: CollectionValuationChartData }> = ({ chartData }) => {
   const { totalMarketValue, tradeFlow, heatTrend, priceScatter } = chartData
 
+  const items: { title: string, description: string, component: JSX.Element, show: boolean }[] = [
+    {
+      title: 'Trend of Heat',
+      description: 'Here is description',
+      component: <HeatTrendChart heatTrendData={heatTrend} />,
+      show: !!heatTrend
+    },
+    {
+      title: 'Price Scatter',
+      description: 'Here is description',
+      component: <PriceScatterChart priceData={priceScatter} />,
+      show: !!priceScatter
+    },
+    {
+      title: 'Total Market Value',
+      description: 'Here is heat of trend',
+      component: <TotalMarketValueChart heatTrendData={totalMarketValue} />,
+      show: !!totalMarketValue
+    },
+    {
+      title: 'Trade Flows',
+      description: 'Here is heat of trend',
+      component: <TradeFlowChart tradeFlowData={tradeFlow} />,
+      show: !!tradeFlow
+    }
+  ]
+
   return (
     <ChartsContainer>
       <div className="row">
-        <div className="item">
-          <div className="title">
-            Trend of Heat
-          </div>
-          <div className="chart">
-            {
-              heatTrend && <HeatTrendChart heatTrendData={heatTrend} />
-            }
-          </div>
-        </div>
-
-        <div className="item">
-          <div className="title">
-            Price Scatter
-          </div>
-          <div className="chart">
-            {
-              priceScatter && <PriceScatterChart priceData={priceScatter} />
-            }
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="item">
-          <div className="title">
-            Total Market Value
-          </div>
-          <div className="chart">
-            {
-              totalMarketValue && <TotalMarketValueChart heatTrendData={totalMarketValue} />
-            }
-          </div>
-        </div>
-
-        <div className="item">
-          <div className="title">
-            Trade Flows
-          </div>
-          <div className="chart">
-            {
-              tradeFlow && <TradeFlowChart tradeFlowData={tradeFlow} />
-            }
-          </div>
-        </div>
+        {
+          items.map(({ title, show, component, description }) => (
+            <div className="item" key={title}>
+              <div className="title">
+                <div className="text">
+                  {title}
+                </div>
+                <Tooltip title={description}>
+                  <QuestionCircleOutlined className="icon" />
+                </Tooltip>
+              </div>
+              <div className="chart">
+                {
+                  show && component
+                }
+              </div>
+            </div>
+          ))
+        }
       </div>
     </ChartsContainer>
   )
@@ -604,6 +621,8 @@ const ValuationTable: React.FC<{ valuations: CollectionValuationByTypeAndAttribu
 
 const CollectionNFTList: React.FC<{ tokens: CollectionToken[] }> = ({ tokens }) => {
   const history = useHistory()
+  const { collection } = useParams<{ collection: string }>()
+
 
   return (
     <CollectionNFTListContainer>
@@ -639,7 +658,7 @@ const CollectionNFTList: React.FC<{ tokens: CollectionToken[] }> = ({ tokens }) 
           tokens.map((token, index) => (
             <div className="item"
               key={index}
-              onClick={() => history.push(`${history.location.pathname}/${token.tokenId}`)}
+              onClick={() => history.push(`/valuation/${collection}/${token.tokenId}`)}
             >
               <div className="item-header">
                 <div>#{index}</div>
@@ -674,7 +693,7 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
   return (
     <CollectionValuationPageContainer>
       <Wrapper>
-        <Banner url={data.bannerImageUrl} />
+        <Banner src={data.bannerImageUrl} />
         <Title {...data} />
         <Description {...data} />
         <Statistic {...data} />
