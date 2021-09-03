@@ -10,6 +10,7 @@ const defaultColor = '#305099'
 
 const SearchInput = styled(Input)<SearchInputProps>`
   height: 40px;
+  margin-right: 3rem;
   border-color: ${props =>  props.backgroundColor ?? defaultColor};
   background-color: ${props =>  props.backgroundColor ?? defaultColor};
   border-radius: 10px;

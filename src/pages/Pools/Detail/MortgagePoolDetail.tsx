@@ -115,26 +115,21 @@ const StatisticsTitle = styled.div`
 
 const NFTMortgagesLiquidation = styled.div`
   width: 100%;
-  height: 48rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-bottom: 1.4rem;
 `
 
 const NFTLiquidationMortgagesMain = styled.div`
-  width: 135.6rem;
-  display: flex;
   padding: 3rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
 
   .mortgages-item {
     width: 16.2rem;
-    height: 37rem;
     border-radius: 1rem;
     background: #3658A7;
-    margin-left: 3.3rem;
 
     .mortgages-item-image {
       height: 17rem;
@@ -204,14 +199,14 @@ const IndexValueStatistics:React.FC = () => {
         <StatisticsTitle>Collateral rate</StatisticsTitle>
         <Line />
         <div className="statistics-container">
-          <DepositAPY />
+          <VariableAPY />
         </div>
       </div>
       <div className="indexValueStatistics-item">
         <StatisticsTitle>Borrow Rate</StatisticsTitle>
         <Line />
         <div className="statistics-container">
-          <UtilisationRate />
+          <VariableAPY />
         </div>
       </div>
     </IndexValueStatisticsMain>
@@ -244,6 +239,12 @@ const NFTSeriesList:React.FC = () => {
             </div>
           ))
         }
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
       </NFTLiquidationMortgagesMain>
     </NFTMortgagesLiquidation>
   )

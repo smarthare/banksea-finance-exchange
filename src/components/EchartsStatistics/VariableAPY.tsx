@@ -5,183 +5,115 @@ const VariableAPY: React.FC = () => {
   const data =  [
     [
       'Jun 17',
-      1649
+      130
     ],
     [
       'Jun 18',
-      6826
+      150
     ],
     [
       'Jun 19',
-      2921
+      180
     ],
     [
       'Jun 20',
-      142
+      210
     ],
     [
       'Jun 21',
-      371
+      230
     ],
     [
       'Jun 22',
-      2645
+      255
     ],
     [
       'Jun 23',
-      5393
+      365
     ],
     [
       'Jun 24',
-      577
+      412
     ],
     [
       'Jun 25',
-      3526
+      475
     ],
     [
       'Jun 26',
-      5528
+      500
     ],
     [
       'Jun 27',
-      1627
+      528
     ],
     [
       'Jun 28',
-      5275
+      559
     ],
     [
       'Jun 29',
-      182
+      601
     ],
     [
       'Jun 30',
-      4987
+      621
     ],
     [
       'Jul 01',
-      2902
+      688
     ],
     [
       'Jul 02',
-      5417
+      700
     ],
     [
       'Jul 03',
-      592
+      728
     ],
     [
       'Jul 04',
-      4709
+      749
     ],
     [
       'Jul 05',
-      3927
+      750
     ],
     [
       'Jul 06',
-      1146
+      759
     ],
     [
       'Jul 07',
-      1033
+      802
     ],
     [
       'Jul 08',
-      552
+      822
     ],
     [
       'Jul 09',
-      696
+      830
     ],
     [
       'Jul 10',
-      91
+      837
     ],
     [
       'Jul 11',
-      7510
+      849
     ],
     [
       'Jul 12',
-      6768
+      862
     ],
     [
       'Jul 13',
-      3258
+      893
     ],
     [
       'Jul 14',
-      424
-    ],
-    [
-      'Jul 15',
-      1728
-    ],
-    [
-      'Jul 16',
-      3150
-    ],
-    [
-      'Jul 17',
-      5037
-    ],
-    [
-      'Jul 18',
-      1230
-    ],
-    [
-      'Jul 19',
-      3033
-    ],
-    [
-      'Jul 20',
-      813
-    ],
-    [
-      'Jul 21',
-      4557
-    ],
-    [
-      'Jul 22',
-      1934
-    ],
-    [
-      'Jul 23',
-      1040
-    ],
-    [
-      'Jul 24',
-      381
-    ],
-    [
-      'Jul 25',
-      3256
-    ],
-    [
-      'Jul 26',
-      2469
-    ],
-    [
-      'Jul 27',
-      2203
-    ],
-    [
-      'Jul 28',
-      427
-    ],
-    [
-      'Jul 29',
-      3124
-    ],
-    [
-      'Jul 30',
-      2066
-    ],
-    [
-      'Jul 31',
-      4017
+      933
     ]
   ]
 
@@ -208,17 +140,30 @@ const VariableAPY: React.FC = () => {
       tooltip: {
         trigger: 'axis'
       },
-      xAxis: [/*{
-        data: dateList
-      }, */
-        {
-          data: dateList,
-          gridIndex: 1
+      xAxis: {
+        data: dateList,
+        gridIndex: 1,
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: '#ffffff'
+          }
+        },
+        axisLine:{
+          lineStyle:{
+            color:'#ffffff'
+          }
         }
-      ],
-      yAxis: [{
-        gridIndex: 1
-      }],
+      },
+      yAxis: {
+        gridIndex: 1,
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: '#ffffff'
+          }
+        }
+      },
       grid: [{}, {}],
       series: [{
         type: 'line',
@@ -228,7 +173,7 @@ const VariableAPY: React.FC = () => {
     })
   }, [])
 
-  return ops ? <ReactECharts option={ops} style={{ width: '100%', height: 200, }} /> : <div />
+  return ops ? <ReactECharts option={ops} style={{ width: '100%', height: 210, }} /> : <div />
 }
 
 export default VariableAPY

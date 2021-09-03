@@ -72,30 +72,6 @@ const Line = styled.div`
   background: linear-gradient(to right, #00FFFF, #5D00B3);
 `
 
-/*const CoinTabsArea = styled.div`
-  width: 20.6rem;
-  height: 2.7rem;
-  background: #080F26;
-  border-radius: 0.5rem;
-  color: #fff;
-  display: flex;
-  margin-left: 2.9rem;
-  margin-top: 3.5rem;
-
-  .coin-tab-item {
-    width: 10.3rem;
-    height: 2.7rem;
-    line-height: 2.7rem;
-    text-align: center;
-    border-radius: 0.5rem;
-    cursor: pointer;
-  }
-
-  .tabs__link {
-    background: #6C48FF;
-  }
-`*/
-
 const AllCoinTable = styled.div`
   width: 72.4rem;
   margin: 2.9rem auto;
@@ -193,18 +169,6 @@ const AllCoinTableMain = styled.div`
   }
 `
 
-/*const DepositButton = styled.div`
-  width: 7rem;
-  height: 2rem;
-  font-size: 1.2rem;
-  color: #fff;
-  text-align: center;
-  background: #234890;
-  border-radius: 0.5rem;
-  margin-right: 1rem;
-  cursor: pointer;
-`*/
-
 const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
   const history = useHistory()
 
@@ -221,7 +185,7 @@ const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
             <div key={index} className="allCoin-table-item" onClick={() => history.push(`/pools/deposit/detail/${item.id}`)}>
               <div className="assets">
                 <img
-                  src={item?.assetsImage}
+                  src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
                   alt=""
                   style={{ width: '2.2rem', marginRight: '0.8rem' }}
                 />
@@ -232,8 +196,7 @@ const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
                 <p>$11.3445</p>
               </div>
               <div className="apy">
-                <p>12.000</p>
-                <p>$11.3445</p>
+                <p>13.21%</p>
               </div>
             </div>
           ))

@@ -273,6 +273,7 @@ const NFTMortgagesMain = styled.div`
         position: relative;
         z-index: 0;
         width: 8rem;
+        height: 3rem;
         position: absolute;
         bottom: 0;
         right: 0;
@@ -313,6 +314,10 @@ const NFTMortgagesMain = styled.div`
           font-size: 1.4rem;
           font-weight: bolder;
           color: #5D00B3;
+        }
+
+        .ant-statistic-content {
+          font-size: 0;
         }
       }
 
@@ -555,7 +560,7 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
                   <p className="message-name">Values:</p>
                   <p className="message-number">$ {item?.price}</p>
                 </MortgagesItemText>
-                <WithdrawButton onClick={() => history.push(`available/detail/${item?.valueUri}`)}>Collateral</WithdrawButton>
+                <WithdrawButton onClick={() => history.push(`dashboard/available/detail/${item?.valueUri}`)}>Collateral</WithdrawButton>
               </div>
             </div>
           ))

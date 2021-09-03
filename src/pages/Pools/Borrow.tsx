@@ -198,7 +198,7 @@ const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
             >
               <div className="assets">
                 <img
-                  src={item?.assetsImage}
+                  src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
                   alt=""
                   style={{ width: '2.2rem', marginRight: '0.8rem' }}
                 />

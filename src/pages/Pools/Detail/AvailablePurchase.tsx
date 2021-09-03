@@ -6,24 +6,39 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
 import { mortgageConfirm } from '../../../apis/pool'
-import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import neuralNetworks from '../../../assets/images/Pools/neuralNetworksImg.png'
 import { useMortgageConfirmModal } from '../../../hooks/modals/useNFTMortgageConfirmModal'
 import { useNftDetailQuery } from '../../../hooks/queries/useNftDetailQuery'
+import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
-  padding: 8rem 10rem;
+  width: 130rem;
+  margin-left: calc((100% - 130rem) / 2);
+  padding: 8rem 0 3rem 0;
 `
 
 const Row = styled.div`
   display: flex;
-  justify-content: center;
 
   .statistics {
     width: 50rem;
-    margin-left: 2rem;
     position: relative;
+    background: #305099;
+    margin-top: 2rem;
+    border-radius: 0.8rem;
+
+    .statistics-title {
+      width: 100%;
+      height: 5rem;
+      background: #18284C;
+      font-size: 2.2rem;
+      color: #99BDF9;
+      line-height: 5rem;
+      padding-left: 2rem;
+      border-top-left-radius: 0.8rem;
+      border-top-right-radius: 0.8rem;
+    }
 
     .ant-statistic-content-value {
       position: absolute;
@@ -45,16 +60,17 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 22.2rem;
-  height: 28.4rem;
-  border-radius: 2rem;
+  width: 27.2rem;
+  height: 36rem;
+  padding: 0.5rem;
   justify-content: center;
   position: relative;
   border: 1px solid #98BDF9;
 
   img {
-    max-height: 34.4rem;
-    border-radius: 2rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `
 
@@ -63,37 +79,6 @@ const RightArea = styled.div`
   margin-left: 1.3rem;
   position: relative;
 `
-
-/*const PriceContainer = styled.div`
-  .item {
-    display: flex;
-    flex-direction: row;
-    margin-top: 1.2rem;
-
-    .info-label {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #A196EF;
-      line-height: 2.2rem;
-      padding-right: 1.4rem;
-    }
-
-    .price {
-      font-size: 3.2rem;
-      font-weight: 400;
-      color: #7C6DEB;
-      line-height: 2.5rem;
-    }
-
-    .price-in-usd {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #A196EF;
-      line-height: 2.2rem;
-      margin-left: 1rem;
-    }
-  }
-`*/
 
 const NFTBaseInfoContainer = styled.div`
   .nft-name {
@@ -209,15 +194,19 @@ const NFTBaseInfoContainer = styled.div`
 `
 
 const NeuralNetworks = styled.div`
+  width: 34rem;
+  height: 24rem;
   position: absolute;
-  top: 10rem;
-  right: 12rem;
+  top: 7rem;
+  right: 3rem;
 
   .NeuralNetworksMain {
+    text-align: center;
+    margin: 3rem;
 
     .networksValue-name {
       color: #98BAF2;
-      font-size: 2rem;
+      font-size: 2.7rem;
       margin-top: 1rem;
     }
 
@@ -359,7 +348,8 @@ const AvailablePurchasePage: React.FC = () => {
         <RightArea>
           <NFTBaseInfo data={data} />
           <div className="statistics">
-            <DepositAPY />
+            <div className="statistics-title">Historical price</div>
+            <VariableAPY />
           </div>
         </RightArea>
       </Row>

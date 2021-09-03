@@ -50,14 +50,19 @@ const Line = styled.div`
 `
 
 const SerialsTop = styled.div`
+  width: 100%;
+  height: 6rem;
   display: flex;
   align-items: center;
-  padding: 4rem 3rem 0 3rem;
+  padding-right: 3rem;
+  margin-top: 4rem;
   position: relative;
 
   .search {
-    width: 35rem;
+    width: 38rem;
+    height: 100%;
     display: flex;
+    justify-content: space-between;
     position: absolute;
     right: 3rem;
   }
@@ -67,7 +72,6 @@ const NFTMortgagesContainer = styled.div`
   width: 100%;
   background: #101D44;
   border-radius: 1.5rem;
-  margin-top: 2rem;
   padding-bottom: 3rem;
 `
 
@@ -141,6 +145,10 @@ const NFTMortgagesMain = styled.div`
           font-size: 1.4rem;
           font-weight: bolder;
           color: #5D00B3;
+        }
+
+        .ant-statistic-content {
+          font-size: 0;
         }
       }
 

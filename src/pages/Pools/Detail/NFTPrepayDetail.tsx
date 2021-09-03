@@ -10,7 +10,9 @@ import { useRequestingModal } from '../../../hooks/modals/stateModals/useRequest
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
-  padding: 8rem 30rem;
+  width: 120rem;
+  margin-left: calc((100% - 120rem) / 2);
+  padding: 8rem 0 3rem 0;
 `
 
 const Row = styled.div`
@@ -53,13 +55,13 @@ const ImageContainer = styled.div`
 `
 
 const RightArea = styled.div`
-  width: 30.9rem;
   margin-left: 1.3rem;
   position: relative;
 `
 
 const NFTBaseInfoContainer = styled.div`
   .nft-name {
+    width: 40rem;
     font-size: 4.5rem;
     font-weight: 550;
     color: #98BDF9;
@@ -192,7 +194,7 @@ const NeuralNetworks = styled.div`
 
 const StatisticsContainer = styled.div`
   width: 100%;
-  height: 26rem;
+  height: 35rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-bottom: 1.4rem;
@@ -265,7 +267,7 @@ const Statistics:React.FC = () => {
 
   return (
     <StatisticsContainer>
-      <AreaTitle>??????</AreaTitle>
+      <AreaTitle>Historical price</AreaTitle>
       <Line />
       <StatisticsMain>
         <DepositAPY />
@@ -300,7 +302,7 @@ const NFTBaseInfo:React.FC = () => {
   return (
     <NFTBaseInfoContainer>
       <div className="nft-name">
-        Scottlin
+        CryptoPunk #8756
       </div>
       <div className="info-row">
         <div className="info-row-item">
@@ -315,7 +317,7 @@ const NFTBaseInfo:React.FC = () => {
         <div className="NeuralNetworksMain">
           <div className="networksValue-name">Evaluation Value</div>
           <div className="networksValue-value">$ 78,983</div>
-          <div className="networksValue-name">Mortgage Rate</div>
+          <div className="networksValue-name">Collateral Rate</div>
           <div className="networksValue-value">43.7%</div>
         </div>
       </NeuralNetworks>

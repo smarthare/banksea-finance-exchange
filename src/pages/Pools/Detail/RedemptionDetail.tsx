@@ -208,7 +208,7 @@ const NeuralNetworks = styled.div`
 
 const StatisticsContainer = styled.div`
   width: 100%;
-  height: 26rem;
+  height: 35rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-bottom: 1.4rem;
@@ -274,7 +274,7 @@ const ConfirmButton = styled(Button)`
 const Statistics:React.FC = () => {
   return (
     <StatisticsContainer>
-      <AreaTitle>??????</AreaTitle>
+      <AreaTitle>Historical price</AreaTitle>
       <Line />
       <StatisticsMain>
         <DepositAPY />
@@ -308,7 +308,7 @@ const NFTBaseInfo:React.FC = () => {
   return (
     <NFTBaseInfoContainer>
       <div className="nft-name">
-        Scottlin
+        CryptoPunk #9027
       </div>
       <div className="info-row">
         <div className="info-row-item">

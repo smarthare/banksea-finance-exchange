@@ -31,13 +31,13 @@ export type PoolPageKeys =
   | 'deposit'
   | 'borrow'
   | 'liquidation'
-  | 'stake'
+  // | 'stake'
   | 'deposit/detail/:id'
   | 'market/mortgage/detail'
   | 'market/deposit/pool/:id'
   | 'liquidation/detail/:id'
   | 'borrow/detail/:id'
-  | 'available/detail/:uri'
+  | 'dashboard/available/detail/:uri'
   | 'withdraw/detail/:id'
   | 'repay/detail/:id'
   | 'dashboard/redemption/detail/:id'
@@ -50,13 +50,13 @@ const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
   'deposit': <DepositPage />,
   'borrow': <BorrowPage />,
   'liquidation': <LiquidationListPage />,
-  'stake': <StakePage />,
+  // 'stake': <StakePage />,
   'deposit/detail/:id': <DepositItemDetailPage />,
   'market/mortgage/detail': <MortgagePoolDetailPage />,
   'market/deposit/pool/:id': <DepositPoolDetailPage />,
   'liquidation/detail/:id': <NFTMortgageDetailPage />,
   'borrow/detail/:id': <BorrowItemDetailPage />,
-  'available/detail/:uri': <AvailablePurchasePage />,
+  'dashboard/available/detail/:uri': <AvailablePurchasePage />,
   'withdraw/detail/:id': <WithdrawDetailPage />,
   'repay/detail/:id': <RepayDetailPage />,
   'dashboard/redemption/detail/:id': <RedemptionDetailPage />,
@@ -70,7 +70,7 @@ const MENU_BY_PAGE_KEYS: { [key in PoolPageKeys]?: string } = {
   'deposit': 'DEPOSIT',
   'borrow': 'BORROW',
   'liquidation': 'LIQUIDATION',
-  'stake': 'STAKE'
+  // 'stake': 'STAKE'
 }
 
 const DEFAULT_ACTIVE_PAGE_KEY = 'market'
@@ -97,6 +97,7 @@ const PoolsContainerMenu = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
+  left: 0;
   z-index: 9;
 
   .container-menu-main {
