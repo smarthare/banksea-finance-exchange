@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import ReactECharts from 'echarts-for-react'
 import FeatureAddedWhitelistCollections from './components/FeatureAddedWhitelistCollections'
 import AllWhitelistCollections from './components/AllWhitelistCollections'
 import { useValuationOverviewData } from '../../hooks/data/useValuationOverviewData'
+import { CollectionsHearTrendChart } from './components/charts/CollectionsHeatTrendChart'
+import { AllNFTValuationChart, AllNFTValuationChartData } from './components/charts/AllNFTValuationChart'
 
 type ValuationPageProps = {
   //
@@ -73,98 +74,66 @@ const ChartTextContainer = styled.div`
   justify-content: space-between;
   margin-top: 25px;
   align-items: center;
+  user-select: none;
 
   div {
     display: inline-block;
   }
 
-  .changes {
-    font-size: 25px;
+  .label {
+    font-size: 14px;
+    color: #b2b2b2;
+    margin-right: 10px;
   }
 
-  .update-time {
-    font-size: 18px;
+  .value {
+    font-size: 20px;
+    color: white;
+    font-weight: 600;
+    margin-right: 20px;
   }
+
 `
 
-const ValuationChart: React.FC = () => {
-  const options = {
-    darkMode: true,
-    grid: { top: 32, right: 48, bottom: 24, left: 48 },
-    legend: {
-      data: ['USD', 'ETH'],
-      textStyle: {
-        color: '#fff'
-      }
-    },
-    xAxis: {
-      type: 'category',
-      data: ['24 Aug 2021', '25 Aug 2021', '26 Aug 2021', '27 Aug 2021', '28 Aug 2021', '29 Aug 2021', '30 Aug 2021']
-    },
-    yAxis: [
-      {
-        type: 'value',
-        show: true,
-        name: 'USD($)',
-        axisLabel: {
-          formatter: '${value}'
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            color: '#666',
-            type: 'dotted'
-          }
-        }
-      },
-      {
-        type: 'value',
-        show: true,
-        name: 'ETH(Ξ)',
-        axisLabel: {
-          formatter: 'Ξ{value}'
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            color: '#666',
-            type: 'dotted'
-          }
-        }
-      }
-    ],
-    series: [
-      {
-        name: 'USD',
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: 'line'
-      },
-      {
-        name: 'ETH',
-        data: [1791, 1965, 1885, 1966, 2390, 2430, 2520],
-        type: 'line',
-        yAxisIndex: 1
-      }
-    ],
-    tooltip: {
-      trigger: 'axis'
-    }
-  }
-
+const AllNFTValuation: React.FC<{ data?: AllNFTValuationChartData }> = ({ data }) => {
   return (
-    <div>
-      <div style={{ textAlign:'center', fontSize: '42px', marginBottom: '20px' }}>
+    <div style={{ marginBottom: '80px' }}>
+      <div style={{ textAlign: 'center', fontSize: '32px', marginBottom: '20px' }}>
         Valuation of All NFT
       </div>
-      <ReactECharts option={options} />
+      {
+        data && <AllNFTValuationChart {...data} />
+      }
       <ChartTextContainer>
-        <div className="changes">
-          +68.45% last 7 days +202.07% last 30 days
+        <div>
+          <div className="label">last 7 days</div>
+          <div className="value">+68.45%</div>
+          <div className="label">last 30 days</div>
+          <div className="value"> +202.07%</div>
         </div>
-        <div className="update-time">
-          Data was last updated 8 hours ago
+        <div>
+          <div className="label">Data was last updated</div>
+          <div className="value">8 hours ago</div>
         </div>
       </ChartTextContainer>
+    </div>
+  )
+}
+
+const CollectionsHeatTrend: React.FC<{ data: any }> = ({ data }) => {
+  return (
+    <div>
+      <div style={{ textAlign: 'center', fontSize: '32px', marginBottom: '20px' }}>
+        Heat Trend of Collections
+      </div>
+      {
+        data && (
+          <CollectionsHearTrendChart
+            chartData={data}
+            collections={['CryptoPunks', 'Animetas', 'Meebits', 'Bored Ape Yacht Club']}
+          />
+        )
+      }
     </div>
   )
 }
@@ -206,7 +175,12 @@ const Summary: React.FC = () => {
 }
 
 const ValuationPage: React.FC<ValuationPageProps> = () => {
-  const { allWhitelistCollections, featureAddedWhitelistCollections } = useValuationOverviewData()
+  const {
+    allWhitelistCollections,
+    featureAddedWhitelistCollections,
+    collectionsHeatTrendData,
+    allNftValuationData
+  } = useValuationOverviewData()
 
   return (
     <ValuationPageContainer>
@@ -214,7 +188,8 @@ const ValuationPage: React.FC<ValuationPageProps> = () => {
         <PageTitle />
         <TitleDivider />
         <Summary />
-        <ValuationChart />
+        <AllNFTValuation data={allNftValuationData} />
+        <CollectionsHeatTrend data={collectionsHeatTrendData} />
         <FeatureAddedWhitelistCollections collections={featureAddedWhitelistCollections} />
         <AllWhitelistCollections collections={allWhitelistCollections} />
       </Wrapper>

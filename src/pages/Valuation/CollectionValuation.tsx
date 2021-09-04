@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
-import * as echarts from 'echarts/core'
 import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useCollectionValuationData } from '../../hooks/data/useCollectionValuationData'
-import ReactECharts from 'echarts-for-react'
 import ThemeTable from '../../styles/ThemeTable'
 import { DropdownSelector } from '../../styles/DropdownSelector'
 import { Button, Tooltip } from 'antd'
@@ -17,7 +15,10 @@ import {
   CollectionValuationChartData,
   CollectionValuationStatisticItem
 } from '../../types/CollectionValuation'
-import { useMediaQuery } from 'react-responsive'
+import { CollectionHeatCompositionChart } from './components/charts/CollectionHeatCompositionChart'
+import { PriceScatterChart } from './components/charts/PriceScatterChart'
+import { TotalMarketValueChart } from './components/charts/TotalMarketValueChart'
+import { TradeFlowChart } from './components/charts/TradeFlowChart'
 
 type CollectionValuationPageProps = {
   //
@@ -334,201 +335,15 @@ const Statistic: React.FC<{ statistic: CollectionValuationStatisticItem[] }> = (
   )
 }
 
-const TradeFlowChart: React.FC<{ tradeFlowData: any }> = ({ tradeFlowData }) => {
-  const { nodes, links } = tradeFlowData
-
-  const options = {
-    darkMode: true,
-    tooltip: {
-      trigger: 'item',
-      triggerOn: 'mousemove'
-    },
-    series: [
-      {
-        type: 'sankey',
-        data: nodes,
-        links: links,
-        emphasis: {
-          focus: 'adjacency'
-        },
-        lineStyle: {
-          color: 'gradient',
-          curveness: 0.5
-        },
-        label: {
-          textStyle: {
-            color: '#fff'
-          }
-        }
-      }
-    ]
-  }
-
-  return <ReactECharts option={options} />
-}
-
-const HeatTrendChart: React.FC<{ heatTrendData: any }> = ({ heatTrendData }) => {
-  const countries = ['Finland', 'France', 'Germany', 'Iceland', 'Norway', 'Poland', 'Russia', 'United Kingdom']
-  const datasetWithFilters: any = []
-  const seriesList: any = []
-
-  const isMobile = useMediaQuery({ query: '(max-width:1000px)' })
-
-  countries.forEach(country => {
-    const datasetId = 'dataset_' + country
-    datasetWithFilters.push({
-      id: datasetId,
-      fromDatasetId: 'dataset_raw',
-      transform: {
-        type: 'filter',
-        config: {
-          and: [
-            { dimension: 'Year', gte: 1950 },
-            { dimension: 'Country', '=': country }
-          ]
-        }
-      }
-    })
-    seriesList.push({
-      type: 'line',
-      datasetId: datasetId,
-      showSymbol: false,
-      name: country,
-      endLabel: {
-        show: true,
-        formatter: function(params: any) {
-          return params.value[3] + ': ' + params.value[0]
-        }
-      },
-      labelLayout: {
-        moveOverlap: 'shiftY'
-      },
-      emphasis: {
-        focus: 'series'
-      },
-      encode: {
-        x: 'Year',
-        y: 'Income',
-        label: ['Country', 'Income'],
-        itemName: 'Year',
-        tooltip: ['Income']
-      }
-    })
-  })
-
-  const option = {
-    darkMode: true,
-    grid: {
-      top: 30,
-      bottom: 20,
-      right: isMobile ? 4 : 100,
-      left: 48
-    },
-    animationDuration: 6000,
-    dataset: [{
-      id: 'dataset_raw',
-      source: heatTrendData
-    }].concat(datasetWithFilters),
-    tooltip: {
-      order: 'valueDesc',
-      trigger: 'axis'
-    },
-    xAxis: {
-      type: 'category',
-      nameLocation: 'middle'
-    },
-    yAxis: {
-      name: 'Heat'
-    },
-    series: seriesList
-  }
-
-  return <ReactECharts option={option} />
-}
-
-const PriceScatterChart: React.FC<{ priceData: any }> = ({ priceData }) => {
-  const option = {
-    darkMode: true,
-    grid: {
-      top: 20, bottom: 20, left: 66, right: 20
-    },
-    xAxis: {
-      type: 'time'
-    },
-    yAxis: {},
-    series: [{
-      data: priceData,
-      type: 'scatter'
-    }],
-    tooltip: {
-      formatter: '{b0}: {c0}'
-    }
-  }
-
-  return <ReactECharts option={option} />
-}
-
-const TotalMarketValueChart: React.FC<{ heatTrendData: any }> = ({ heatTrendData }) => {
-  const option = {
-    darkMode: true,
-    grid: {
-      top: 20, bottom: 20, left: 40, right: 20
-    },
-    tooltip: {
-      trigger: 'axis',
-      position: function(pt: any) {
-        return [pt[0], '10%']
-      }
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: heatTrendData.date
-    },
-    yAxis: {
-      type: 'value',
-      boundaryGap: [0, '100%']
-    },
-    dataZoom: [{
-      type: 'inside',
-      start: 0,
-      end: 10
-    }],
-    series: [
-      {
-        name: 'Market Value',
-        type: 'line',
-        symbol: 'none',
-        sampling: 'lttb',
-        itemStyle: {
-          color: 'rgb(255, 70, 131)'
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-            offset: 0,
-            color: 'rgb(255, 158, 68)'
-          }, {
-            offset: 1,
-            color: 'rgb(255, 70, 131)'
-          }])
-        },
-        data: heatTrendData.data
-      }
-    ]
-  }
-
-  return <ReactECharts option={option} />
-}
-
 const Charts: React.FC<{ chartData: CollectionValuationChartData }> = ({ chartData }) => {
-  const { totalMarketValue, tradeFlow, heatTrend, priceScatter } = chartData
+  const { totalMarketValue, tradeFlow, heatComposition, priceScatter } = chartData
 
   const items: { title: string, description: string, component: JSX.Element, show: boolean }[] = [
     {
-      title: 'Trend of Heat',
+      title: 'Composition of Collection Heat',
       description: 'Here is description',
-      component: <HeatTrendChart heatTrendData={heatTrend} />,
-      show: !!heatTrend
+      component: <CollectionHeatCompositionChart data={heatComposition} />,
+      show: !!heatComposition
     },
     {
       title: 'Price Scatter',
@@ -539,7 +354,7 @@ const Charts: React.FC<{ chartData: CollectionValuationChartData }> = ({ chartDa
     {
       title: 'Total Market Value',
       description: 'Here is heat of trend',
-      component: <TotalMarketValueChart heatTrendData={totalMarketValue} />,
+      component: <TotalMarketValueChart data={totalMarketValue} />,
       show: !!totalMarketValue
     },
     {

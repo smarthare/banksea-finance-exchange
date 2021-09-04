@@ -6,7 +6,7 @@ export type CollectionExternalLink = {
 }
 
 export type CollectionValuationChartData = {
-  heatTrend?: any
+  heatComposition?: any
   priceScatter?: any
   totalMarketValue?: any
   tradeFlow?: any

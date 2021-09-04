@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import Energy from '../../assets/mock/energy.json'
-import LifeExpectancyTable from '../../assets/mock/life-expectancy-table.json'
+import Energy from '../../assets/mock/transaction-flow.json'
 import {
   CollectionInfo,
   CollectionToken,
@@ -26,20 +25,20 @@ const useCollectionValuationData = (name: string): CollectionValuationData => {
     for (let i = 0; i < 300; i++) {
       const fromDay = new Date(2021, 8 - 1, 1)  // 2021/8/1
       priceScatter.push(
-        [new Date(fromDay.setDate(fromDay.getDate() + i / 15)), Math.random() * i * 10000]
+        [new Date(fromDay.setDate(fromDay.getDate() + i / 15)).toLocaleDateString(), Math.random() * i * 10000]
       )
     }
 
     const totalMarketValue = {
-      date: [''],
-      data: [0.0]
+      time: [''],
+      value: [0.0]
     }
     let base = +new Date(2021, 1 - 1, 1)
     const oneDay = 24 * 3600 * 1000
     for (let i = 1; i < 365; i++) {
       const now = new Date(base += oneDay)
-      totalMarketValue.date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'))
-      totalMarketValue.data.push(Math.random() * 20)
+      totalMarketValue.time.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'))
+      totalMarketValue.value.push(Math.random() * 20)
     }
 
     const collectionInfo: CollectionInfo = (require('../../assets/mock/valuation-collections') as CollectionInfo[]).filter(o => o.seriesName === name)[0]
@@ -80,7 +79,7 @@ const useCollectionValuationData = (name: string): CollectionValuationData => {
       ],
       chartData: {
         tradeFlow: Energy,
-        heatTrend: LifeExpectancyTable,
+        heatComposition: require('../../assets/mock/collection-heat-composition.json'),
         totalMarketValue,
         priceScatter
       },
@@ -92,7 +91,6 @@ const useCollectionValuationData = (name: string): CollectionValuationData => {
       })
     })
   }, [name])
-
 
   return data
 }
