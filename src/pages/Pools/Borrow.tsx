@@ -137,13 +137,14 @@ const AllCoinTableMain = styled.div`
     .walletBalance {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.6rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.4rem;
       }
@@ -152,13 +153,14 @@ const AllCoinTableMain = styled.div`
     .apy {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.6rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.4rem;
       }
@@ -179,7 +181,7 @@ const MyNFTMortgage = styled.div`
   margin-left: 1.4rem;
 `
 
-const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
+const AllCoinContainer: React.FC<{ data: any }> = ({ data }) => {
   const history = useHistory()
 
   return (
@@ -198,7 +200,7 @@ const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
             >
               <div className="assets">
                 <img
-                  src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
+                  src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
                   alt=""
                   style={{ width: '2.2rem', marginRight: '0.8rem' }}
                 />
@@ -218,8 +220,7 @@ const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
   )
 }
 
-const BorrowPage:React.FC = () => {
-
+const BorrowPage: React.FC = () => {
   const [data, setData] = useState<any>()
 
   const [isLoading, setLoading] = useState<boolean>(true)
@@ -232,11 +233,11 @@ const BorrowPage:React.FC = () => {
       setData(res.data.data)
     })
     setLoading(false)
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
   return (
     <BorrowMain className={clsx('active')}>

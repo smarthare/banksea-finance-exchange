@@ -154,7 +154,7 @@ const NFTMortgagesMain = styled.div`
 
       @keyframes opacityChange {
         50% {
-          opacity:.5;
+          opacity: .5;
         }
         100% {
           opacity: 1;
@@ -214,7 +214,7 @@ const WithdrawButton = styled(Button)`
   }
 `
 
-const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
+const NFTMortgages: React.FC<{ data: any }> = ({ data }) => {
 
   const history = useHistory()
 
@@ -246,7 +246,10 @@ const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
                   <p className="message-number">{item?.mortgageRate * 100}%</p>
                 </MortgagesItemText>
               </div>
-              <WithdrawButton onClick={() => history.push(`/pools/liquidation/detail/${item.id}`)}>Prepay</WithdrawButton>
+              <WithdrawButton
+                onClick={() => history.push(`/pools/liquidation/detail/${item.id}`)}
+              >Prepay
+              </WithdrawButton>
             </div>
           ))
         }
@@ -261,7 +264,6 @@ const NFTMortgages:React.FC<{ data: any }> = ({ data }) => {
 }
 
 const LiquidationListPage: React.FC = () => {
-
   const account = useSelector(getAccount)
 
   const [data, setData] = useState<any>()
@@ -273,11 +275,11 @@ const LiquidationListPage: React.FC = () => {
       setData(res.data.data)
     })
     setLoading(false)
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
   return (
     <MortgageMain className={clsx('active')}>

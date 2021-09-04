@@ -323,7 +323,7 @@ const NFTMortgagesMain = styled.div`
 
       @keyframes opacityChange {
         50% {
-          opacity:.5;
+          opacity: .5;
         }
         100% {
           opacity: 1;
@@ -404,7 +404,7 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
               <div className="left-text-column">
                 <div className="left-text-line-item">
                   <p>Approximate balance</p>
-                  <p>$ { userInfo?.approximateBalance } USD</p>
+                  <p>$ {userInfo?.approximateBalance} USD</p>
                 </div>
                 <div className="left-text-line-item">
                   <p>Deposit Interest</p>
@@ -434,7 +434,7 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
               <div key={index} className="allCoin-table-item">
                 <div className="assets">
                   <img
-                    src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
+                    src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
                     alt=""
                     style={{ width: '2.2rem', marginRight: '0.8rem' }}
                   />
@@ -448,7 +448,10 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
                   <p>{item?.depositApy}</p>
                 </div>
                 <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>deposit</DepositButton>
-                <DepositButton onClick={() => history.push(`/pools/withdraw/detail/${item?.id}`)}>Withdraw</DepositButton>
+                <DepositButton
+                  onClick={() => history.push(`/pools/withdraw/detail/${item?.id}`)}
+                >Withdraw
+                </DepositButton>
               </div>
             ))
           }
@@ -516,7 +519,7 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
               <div key={index} className="allCoin-table-item">
                 <div className="assets">
                   <img
-                    src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
+                    src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
                     alt=""
                     style={{ width: '2.4rem', height: '2.4rem', marginRight: '0.8rem' }}
                   />
@@ -540,7 +543,7 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
   )
 }
 
-const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAvailable }) => {
+const NFTAvailableMortgages: React.FC<{ mortgageAvailable: any }> = ({ mortgageAvailable }) => {
   const history = useHistory()
 
   return (
@@ -560,7 +563,10 @@ const NFTAvailableMortgages:React.FC<{ mortgageAvailable: any }> = ({ mortgageAv
                   <p className="message-name">Values:</p>
                   <p className="message-number">$ {item?.price}</p>
                 </MortgagesItemText>
-                <WithdrawButton onClick={() => history.push(`dashboard/available/detail/${item?.valueUri}`)}>Collateral</WithdrawButton>
+                <WithdrawButton
+                  onClick={() => history.push(`dashboard/available/detail/${item?.valueUri}`)}
+                >Collateral
+                </WithdrawButton>
               </div>
             </div>
           ))
@@ -595,7 +601,10 @@ const NFTYourMortgage: React.FC<{ mortgageMortgaged: any }> = ({ mortgageMortgag
                   <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">{item?.mortgageRate * 100}%</p>
                 </MortgagesItemText>
-                <WithdrawButton onClick={() => history.push(`dashboard/redemption/detail/${item?.valueUri}`)}>redemption</WithdrawButton>
+                <WithdrawButton
+                  onClick={() => history.push(`dashboard/redemption/detail/${item?.valueUri}`)}
+                >redemption
+                </WithdrawButton>
               </div>
             </div>
           ))
@@ -657,7 +666,10 @@ const NFTLiquidation: React.FC = () => {
                   <p className="message-name">Collateral Rate:</p>
                   <p className="message-number">10%</p>
                 </MortgagesItemText>
-                <WithdrawButton onClick={() => history.push('dashboard/liquidation/cancel/detail/11')}>Cancel</WithdrawButton>
+                <WithdrawButton
+                  onClick={() => history.push('dashboard/liquidation/cancel/detail/11')}
+                >Cancel
+                </WithdrawButton>
               </div>
             </div>
           ))
@@ -677,7 +689,7 @@ const MyDashboardPage: React.FC = () => {
 
   const [mortgageMortgaged, setMortgageMortgaged] = useState()
 
-  const [mortgagePreorder, setMortgagePreorder] = useState()
+  const [, setMortgagePreorder] = useState()
 
   const [depositList, setDepositList] = useState<any>()
 
@@ -685,37 +697,38 @@ const MyDashboardPage: React.FC = () => {
 
   const [isLoading, setLoading] = useState<boolean>(true)
 
-
   const init = useCallback(async () => {
-    await dashboardUser({ walletAddress: account }).then(res => {
-      setUserInfo(res.data.data.userInfo)
-      setDepositList(res.data.data.userDepositList)
-      setBorrowList(res.data.data.userBorrowList)
-    })
+    await Promise.all([
+      dashboardUser({ walletAddress: account }).then(res => {
+        setUserInfo(res.data.data.userInfo)
+        setDepositList(res.data.data.userDepositList)
+        setBorrowList(res.data.data.userBorrowList)
+      }),
 
-    await dashboardMortgageAvailable({ walletAddress: account }).then(res => {
-      setMortgageAvailable(res.data.data)
-    })
+      dashboardMortgageAvailable({ walletAddress: account }).then(res => {
+        setMortgageAvailable(res.data.data)
+      }),
 
-    await dashboardMortgageMortgaged({ walletAddress: account }).then(res => {
-      setMortgageMortgaged(res.data.data)
-    })
+      dashboardMortgageMortgaged({ walletAddress: account }).then(res => {
+        setMortgageMortgaged(res.data.data)
+      }),
 
-    await dashboardMortgagePreorder({ walletAddress: account }).then(res => {
-      setMortgagePreorder(res.data.data)
-    })
+      dashboardMortgagePreorder({ walletAddress: account }).then(res => {
+        setMortgagePreorder(res.data.data)
+      })
+    ])
 
     setLoading(false)
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
   return (
     <MyDashboardContainer className={clsx('active')}>
       {
-        providerInitialized &&(
+        providerInitialized && (
           <div>
             {
               !isLoading ?

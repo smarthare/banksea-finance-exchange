@@ -169,7 +169,7 @@ const AllCoinTableMain = styled.div`
   }
 `
 
-const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
+const AllCoinContainer: React.FC<{ depositList: any }> = ({ depositList }) => {
   const history = useHistory()
 
   return (
@@ -182,10 +182,13 @@ const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
       <AllCoinTableMain>
         {
           depositList?.map((item: any, index: number) => (
-            <div key={index} className="allCoin-table-item" onClick={() => history.push(`/pools/deposit/detail/${item.id}`)}>
+            <div key={index}
+              className="allCoin-table-item"
+              onClick={() => history.push(`/pools/deposit/detail/${item.id}`)}
+            >
               <div className="assets">
                 <img
-                  src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
+                  src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
                   alt=""
                   style={{ width: '2.2rem', marginRight: '0.8rem' }}
                 />
@@ -220,11 +223,11 @@ const DepositPage: React.FC = () => {
       setDepositList(res.data.data)
     })
     setLoading(false)
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
   return (
     <DepositContainer className={clsx('active')}>

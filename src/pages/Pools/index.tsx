@@ -6,7 +6,6 @@ import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import MyDashboardPage from './MyDashboard'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import DepositPage from './Deposit'
-import StakePage from './Stake'
 import BorrowPage from './Borrow'
 import coding from '../../assets/images/mockImg/coding.png'
 import LiquidationListPage from './Liquidation'
@@ -24,6 +23,7 @@ import WithdrawDetailPage from './Detail/WithdrawDetail'
 import RepayDetailPage from './Detail/RepayDetail'
 import RedemptionDetailPage from './Detail/RedemptionDetail'
 import LiquidationCancelDetailPage from './Detail/LiquidationCancelDetail'
+import { RouteComponentProps } from 'react-router'
 
 export type PoolPageKeys =
   | 'market'
@@ -31,7 +31,6 @@ export type PoolPageKeys =
   | 'deposit'
   | 'borrow'
   | 'liquidation'
-  // | 'stake'
   | 'deposit/detail/:id'
   | 'market/mortgage/detail'
   | 'market/deposit/pool/:id'
@@ -43,24 +42,24 @@ export type PoolPageKeys =
   | 'dashboard/redemption/detail/:id'
   | 'dashboard/liquidation/cancel/detail/:id'
 
+
 // eslint-disable-next-line no-unused-vars
-const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
-  'market': <MarketPage />,
-  'dashboard': <MyDashboardPage />,
-  'deposit': <DepositPage />,
-  'borrow': <BorrowPage />,
-  'liquidation': <LiquidationListPage />,
-  // 'stake': <StakePage />,
-  'deposit/detail/:id': <DepositItemDetailPage />,
-  'market/mortgage/detail': <MortgagePoolDetailPage />,
-  'market/deposit/pool/:id': <DepositPoolDetailPage />,
-  'liquidation/detail/:id': <NFTMortgageDetailPage />,
-  'borrow/detail/:id': <BorrowItemDetailPage />,
-  'dashboard/available/detail/:uri': <AvailablePurchasePage />,
-  'withdraw/detail/:id': <WithdrawDetailPage />,
-  'repay/detail/:id': <RepayDetailPage />,
-  'dashboard/redemption/detail/:id': <RedemptionDetailPage />,
-  'dashboard/liquidation/cancel/detail/:id': <LiquidationCancelDetailPage />
+const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any> } = {
+  'market': MarketPage,
+  'dashboard': MyDashboardPage,
+  'deposit': DepositPage,
+  'borrow': BorrowPage,
+  'liquidation': LiquidationListPage,
+  'deposit/detail/:id': DepositItemDetailPage,
+  'market/mortgage/detail': MortgagePoolDetailPage,
+  'market/deposit/pool/:id': DepositPoolDetailPage,
+  'liquidation/detail/:id': NFTMortgageDetailPage,
+  'borrow/detail/:id': BorrowItemDetailPage,
+  'dashboard/available/detail/:uri': AvailablePurchasePage,
+  'withdraw/detail/:id': WithdrawDetailPage,
+  'repay/detail/:id': RepayDetailPage,
+  'dashboard/redemption/detail/:id': RedemptionDetailPage,
+  'dashboard/liquidation/cancel/detail/:id': LiquidationCancelDetailPage
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -70,7 +69,6 @@ const MENU_BY_PAGE_KEYS: { [key in PoolPageKeys]?: string } = {
   'deposit': 'DEPOSIT',
   'borrow': 'BORROW',
   'liquidation': 'LIQUIDATION',
-  // 'stake': 'STAKE'
 }
 
 const DEFAULT_ACTIVE_PAGE_KEY = 'market'
@@ -173,9 +171,7 @@ const PoolsPage: React.FC = () => {
       <Switch>
         {
           Object.entries(PAGE_BY_PAGE_KEYS).map(([key, page]) => (
-            <Route path={`/pools/${key}`} exact key={key}>
-              {page}
-            </Route>
+            <Route path={`/pools/${key}`} exact key={key} component={page} />
           ))
         }
       </Switch>

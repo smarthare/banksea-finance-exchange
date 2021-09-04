@@ -24,7 +24,7 @@ const MarketContainer = styled.div`
   }
 `
 
-const MarkeTotal = styled.div`
+const MarketTotal = styled.div`
   width: 130rem;
   margin-left: calc((100% - 130rem) / 2);
   padding-top: 3.3rem;
@@ -32,7 +32,7 @@ const MarkeTotal = styled.div`
   justify-content: space-between;
 `
 
-const Tatistics = styled.div`
+const Statistics = styled.div`
   width: 64.3rem;
   height: 33rem;
   background: #000c17;
@@ -103,6 +103,7 @@ const TableMain = styled.div`
       display: flex;
       align-items: center;
     }
+
     div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4) {
       height: 100%;
       line-height: 5.7rem;
@@ -225,7 +226,7 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
                 onClick={() => history.push('/pools/market/mortgage/detail')}
               >
                 <div>
-                  <img src={'https://banksy.finance/api'+item?.nftImage.slice(30)} alt="" />
+                  <img src={'https://banksy.finance/api' + item?.nftImage.slice(30)} alt="" />
                 </div>
                 <div>{item?.nftName}</div>
                 <div>{item?.mortgageValue}</div>
@@ -267,7 +268,7 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
               >
                 <div>
                   <img
-                    src={'https://banksy.finance/api'+item?.assetsImage.slice(30)}
+                    src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
                     alt=""
                     style={{ width: '2.5rem', marginRight: '0.8rem' }}
                     onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}
@@ -277,7 +278,10 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
                 <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.marketSize}</div>
                 <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.totalBorrowed}</div>
                 <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.depositApy}</div>
-                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.variableBorrowApy}</div>
+                <div
+                  onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}
+                >{item?.variableBorrowApy}
+                </div>
                 <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>deposit</DepositButton>
                 <DepositButton onClick={() => history.push(`/pools/borrow/detail/${item?.id}`)}>Borrow</DepositButton>
               </div>
@@ -290,7 +294,6 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
 }
 
 const MarketPage: React.FC = () => {
-
   const [depositList, setDepositList] = useState<any>()
 
   const [depositSizeNum, setDepositSizeNum] = useState<number>()
@@ -303,25 +306,23 @@ const MarketPage: React.FC = () => {
 
   const [isLoading, setLoading] = useState<boolean>(true)
 
-  const init = useCallback(async () => {
-    await depositPoolsList(
-      {
-        orderKey: 'deposit_apy',
-        orderDesc: ''
-      }
-    ).then(res => {
-      setDepositList(res.data.data)
+  const fetchBasicData = () => {
+    depositSize().then((res: any) => {
+      setDepositSizeNum(res.data.data.toLocaleString())
     })
 
-    const t = setInterval(() => {
-      depositSize().then((res: any) => {
-        setDepositSizeNum(res.data.data.toLocaleString())
-      })
+    mortgageSize().then(res => {
+      setMortgageSizeNum(res.data.data.toLocaleString())
+    })
+  }
 
-      mortgageSize().then(res => {
-        setMortgageSizeNum(res.data.data.toLocaleString())
-      })
-    }, 2000)
+  const init = useCallback(async () => {
+    await depositPoolsList({
+      orderKey: 'deposit_apy',
+      orderDesc: ''
+    }).then(res => {
+      setDepositList(res.data.data)
+    })
 
     depositSizeStatistics().then(res => {
       setDepositStatistics(res.data.data.depositSize)
@@ -331,15 +332,19 @@ const MarketPage: React.FC = () => {
       setMortgageList(res.data.data)
     })
 
-    setLoading(false)
+    fetchBasicData()
 
-    return () => {
-      clearInterval(t)
-    }
+    setLoading(false)
   }, [])
 
   useEffect(() => {
     init()
+
+    const interval = setInterval(fetchBasicData, 5000)
+
+    return () => {
+      clearInterval(interval)
+    }
   }, [init])
 
   return (
@@ -347,24 +352,24 @@ const MarketPage: React.FC = () => {
       {
         !isLoading ?
           <div className={clsx('market', 'active')}>
-            <MarkeTotal>
-              <Tatistics>
+            <MarketTotal>
+              <Statistics>
                 <AreaTitle>Deposit size</AreaTitle>
                 <Line />
                 <MarketSizeStatistics>
                   <div className="market-size">${depositSizeNum}</div>
                   <DepositSize depositStatistics={depositStatistics} />
                 </MarketSizeStatistics>
-              </Tatistics>
-              <Tatistics>
+              </Statistics>
+              <Statistics>
                 <AreaTitle>Collateral NFT value</AreaTitle>
                 <Line />
                 <MarketSizeStatistics>
                   <div className="market-size">${mortgageSizeNum}</div>
                   <DepositSize depositStatistics={depositStatistics} />
                 </MarketSizeStatistics>
-              </Tatistics>
-            </MarkeTotal>
+              </Statistics>
+            </MarketTotal>
             <USDPool depositList={depositList} />
             <MortgagePools mortgageList={mortgageList} />
           </div> :
