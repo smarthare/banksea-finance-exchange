@@ -24,6 +24,9 @@ import RepayDetailPage from './Detail/RepayDetail'
 import RedemptionDetailPage from './Detail/RedemptionDetail'
 import LiquidationCancelDetailPage from './Detail/LiquidationCancelDetail'
 import { RouteComponentProps } from 'react-router'
+import { Property } from 'csstype'
+import { useMediaQuery } from 'react-responsive'
+import { useSideBarCollapsed } from '../../store/app'
 
 export type PoolPageKeys =
   | 'market'
@@ -75,6 +78,7 @@ const DEFAULT_ACTIVE_PAGE_KEY = 'market'
 
 const PoolsContainer = styled.div`
   min-height: calc(100vh - 6.2rem);
+  width: 100%;
   position: relative;
 
   .coding {
@@ -86,8 +90,8 @@ const PoolsContainer = styled.div`
   }
 `
 
-const PoolsContainerMenu = styled.div`
-  width: 100%;
+const PoolsContainerMenu = styled.div<{ width: Property.Width, left: Property.Left }>`
+  width: ${props => props.width};
   height: 6rem;
   background: #0D1B34;
   border-bottom: 1px solid #4D4E52;
@@ -95,7 +99,7 @@ const PoolsContainerMenu = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  left: 0;
+  left: ${props => props.left};
   z-index: 9;
 
   .container-menu-main {
@@ -147,10 +151,16 @@ const PoolsPage: React.FC = () => {
     }
   }, [history])
 
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+  const sideBarCollapsed = useSideBarCollapsed()
+
   return (
     <PoolsContainer>
       <img className="coding" src={coding} alt="" />
-      <PoolsContainerMenu>
+      <PoolsContainerMenu
+        width={isMobile ? '100vw': (sideBarCollapsed ? 'calc(100vw - 80px)': 'calc(100vw - 200px)')}
+        left={isMobile ? '0': (sideBarCollapsed ? '80px': '200px')}
+      >
         <div className="container-menu-main">
           {
             Object.entries(MENU_BY_PAGE_KEYS).map(([key, value]) => (

@@ -8,6 +8,8 @@ import routes from './routes'
 import styled from 'styled-components'
 import { useMediaQuery } from 'react-responsive'
 import { Route } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setSideBarCollapsed, useSideBarCollapsed } from './store/app'
 
 const Header = styled(Layout.Header)`
   padding: 0;
@@ -41,10 +43,11 @@ const Presentation = styled.div`
 const App: React.FC = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
-  const [collapsed, setCollapsed] = useState(isMobile)
+  const dispatch = useDispatch()
+  const sideBarCollapsed = useSideBarCollapsed()
 
   const toggleCollapsed = () => {
-    setCollapsed(!collapsed)
+    dispatch(setSideBarCollapsed(!sideBarCollapsed))
   }
 
   return (
@@ -58,18 +61,18 @@ const App: React.FC = () => {
             position: 'fixed',
             zIndex: 99,
             top: '6.2rem',
-            left: collapsed ? '-20rem' : 0,
+            left: sideBarCollapsed ? '-20rem' : 0,
           } :
             {
               position: 'fixed',
               zIndex: 99,
               top: '6.2rem',
             }}
-          collapsed={collapsed}
+          collapsed={sideBarCollapsed}
         >
           <AppSideBar />
           {
-            isMobile && !collapsed && <Presentation onClick={toggleCollapsed} />
+            isMobile && !sideBarCollapsed && <Presentation onClick={toggleCollapsed} />
           }
         </Layout.Sider>
         <Layout.Content
@@ -78,12 +81,12 @@ const App: React.FC = () => {
             backgroundColor: '#0B111E',
             position: 'relative',
             overflowY: 'scroll',
-            left: isMobile ? '0' : (collapsed ? '82px' : '200px'),
+            left: isMobile ? '0' : (sideBarCollapsed ? '82px' : '200px'),
           }}
         >
           <div
             style={{
-              width: isMobile ? '100vw' : (collapsed ? 'calc(100vw - 82px)' : 'calc(100vw - 200px)'),
+              width: isMobile ? '100vw' : (sideBarCollapsed ? 'calc(100vw - 82px)' : 'calc(100vw - 200px)'),
             }}
           >
             {
