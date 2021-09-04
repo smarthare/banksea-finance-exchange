@@ -220,7 +220,7 @@ const DepositAPYStatistics:React.FC = () => {
   return (
     <DepositAPYCenter>
       <div className="statistics-price">
-        <AreaTitle>Deposit APY</AreaTitle>
+        <AreaTitle>Fund Pools</AreaTitle>
         <Line />
         <StatisticsMain>
           <InsuranceChart />
@@ -283,10 +283,7 @@ const DepositPool: React.FC<{ depositList: any }> = ({ depositList }) => {
           <div>Market size</div>
           <div>Total borrowed</div>
           <div>Deposit APY</div>
-          <div>
-            <p className="variable">Stable</p>
-            <p>Borrow APY</p>
-          </div>
+          <div>Borrow APY</div>
         </TableTop>
         <TableMain>
           {

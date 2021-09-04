@@ -180,7 +180,7 @@ const AllCoinContainer: React.FC<{ depositList: any }> = ({ depositList }) => {
         <div>Assets</div>
         <div>Your wallet balance</div>
         <div>APY</div>
-        <div>Insurance APY</div>
+        <div>Insured APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
         {

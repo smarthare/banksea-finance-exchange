@@ -3,7 +3,7 @@ import React from 'react'
 
 const InsuranceChart:React.FC = () => {
 
-  const legends = ['Total deposit interest rate', 'Insured deposit rate']
+  const legends = ['Fund Pools', 'Insured Fund Pools']
 
   const options = {
     tooltip: {
@@ -72,7 +72,7 @@ const InsuranceChart:React.FC = () => {
     ],
     series: [
       {
-        name: 'Total deposit interest rate',
+        name: 'Fund Pools',
         type: 'line',
         stack: 'Heat',
         areaStyle: {},
@@ -82,7 +82,7 @@ const InsuranceChart:React.FC = () => {
         data: [120, 132, 101, 134, 90, 230, 210, 218, 220, 234, 250, 260, 120, 132, 101, 134, 90, 230, 210, 218, 220, 234, 250, 260, 120, 132, 101, 134, 90, 230, 210]
       },
       {
-        name: 'Insured deposit rate',
+        name: 'Insured Fund Pools',
         type: 'line',
         stack: 'Heat',
         areaStyle: {},

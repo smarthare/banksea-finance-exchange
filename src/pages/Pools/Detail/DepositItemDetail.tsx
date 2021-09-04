@@ -6,12 +6,14 @@ import { useHistory } from 'react-router-dom'
 import { Button, Form, Input } from 'antd'
 import { useDepositCheckoutModal } from '../../../hooks/modals/useDepositCheckoutModal'
 import { LeftOutlined } from '@ant-design/icons'
+import clsx from 'clsx'
 
 const ItemDetailMain = styled.div`
   min-height: 100vh;
   width: 130rem;
   margin-left: calc((100% - 130rem) / 2);
   padding-top: 8rem;
+  padding-bottom: 4rem;
 `
 
 const DetailTop = styled.div`
@@ -117,49 +119,56 @@ const ScheduleFirst = styled.div`
   width: 60rem;
   margin-left: calc((100% - 60rem) / 2);
 
-  .title {
-    color: #F172ED;
-    font-size: 2rem;
-    font-weight: bolder;
-    margin-bottom: 2rem;
-  }
+  .standardFund {
+    display: none;
 
-  .main-title {
-    font-weight: bolder;
-    font-size: 1.7rem;
-    color: #fff;
-    margin-bottom: 2rem;
-  }
+    .title {
+      color: #F172ED;
+      font-size: 2rem;
+      font-weight: bolder;
+      margin-bottom: 2rem;
+    }
 
-  .main-text {
-    font-size: 1.7rem;
-    color: #fff;
-    margin-bottom: 2rem;
-  }
+    .main-title {
+      font-weight: bolder;
+      font-size: 1.7rem;
+      color: #fff;
+      margin-bottom: 2rem;
+    }
 
-  .input-text {
-    width: 70%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #ffffff;
-  }
+    .main-text {
+      font-size: 1.7rem;
+      color: #fff;
+      margin-bottom: 2rem;
+    }
 
-  .ant-input-group.ant-input-group-compact > *:first-child, .ant-input-group.ant-input-group-compact > .ant-select:first-child > .ant-select-selector, .ant-input-group.ant-input-group-compact > .ant-select-auto-complete:first-child .ant-input, .ant-input-group.ant-input-group-compact > .ant-cascader-picker:first-child .ant-input {
-    border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-  }
+    .input-text {
+      width: 70%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ffffff;
+    }
 
-  .ant-input {
-    width: 70% !important;
-    height: 5rem;
-    color: white;
-    font-size: 1.6rem;
-    font-weight: 550;
-    background: #305099 !important;
-    border-radius: 1rem;
-    border: none;
+    .ant-input-group.ant-input-group-compact > *:first-child, .ant-input-group.ant-input-group-compact > .ant-select:first-child > .ant-select-selector, .ant-input-group.ant-input-group-compact > .ant-select-auto-complete:first-child .ant-input, .ant-input-group.ant-input-group-compact > .ant-cascader-picker:first-child .ant-input {
+      border-top-left-radius: 1rem;
+      border-bottom-left-radius: 1rem;
+    }
+
+    .ant-input {
+      width: 70% !important;
+      height: 5rem;
+      color: white;
+      font-size: 1.6rem;
+      font-weight: 550;
+      background: #305099 !important;
+      border-radius: 1rem;
+      border: none;
+    }
+  }
+  .standardFund.active {
+    display: block;
   }
 `
 
@@ -197,6 +206,30 @@ const BackIconButton = styled.div`
   }
 `
 
+const FundChoose = styled.div`
+  width: 29rem;
+  padding: 0.5rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  border: 0.3rem solid #3658A7;
+  border-radius: 10rem;
+
+  div {
+    padding: 1rem 1rem;
+    font-size: 1.7rem;
+    color: #6C48FF;
+    font-weight: bolder;
+    cursor: pointer;
+  }
+
+  .tabs__link {
+    background: #6C48FF;
+    color: #ffffff;
+    border-radius: 10rem;
+  }
+`
+
 const BackIcon:React.FC = () => {
   const history = useHistory()
   return (
@@ -214,6 +247,10 @@ const Schedule:React.FC = () => {
 
   const { depositCheckoutModal, openDepositCheckoutModal } = useDepositCheckoutModal()
 
+  const tabs = ['Standard Fund', 'Insured Fund']
+
+  const [current, setCurrent] = useState<number>(0)
+
   const [form] = Form.useForm<typeof formInitialValues>()
 
   const confirm = () => {
@@ -222,26 +259,63 @@ const Schedule:React.FC = () => {
 
   return (
     <ScheduleMain>
-      <ScheduleFirst>
-        <div className="title">Deposit overview</div>
-        <div className="main-title">
-          How much would you like to deposit ?
-        </div>
-        <div className="main-text">
-          Please enter an amount you would like to deposit.The maximum amount you can deposit is shown below.
-        </div>
-        <Form form={form} initialValues={formInitialValues}>
-          <div className="fixedPrice">
-            <div className="input-text">
-              <span>available to deposit</span>
-              <span>19.668322 MATIC</span>
+      <FundChoose>
+        {
+          tabs.map((item: string, index) => (
+            <div className={clsx(index === current && 'tabs__link')}
+              onClick={() => setCurrent(index)}
+              key={index}
+            >
+              {item}
             </div>
-            <Form.Item name="price">
-              <Input style={{ width: '50%' }} />
-            </Form.Item>
+          ))
+        }
+      </FundChoose>
+      <ScheduleFirst>
+        <div className={clsx('standardFund', current === 0 && 'active')}>
+          <div className="title">Deposit overview</div>
+          <div className="main-title">
+            How much would you like to deposit ?
           </div>
-        </Form>
-        <ConfirmButton onClick={confirm}>Continue</ConfirmButton>
+          <div className="main-text">
+            Please enter an amount you would like to deposit.The maximum amount you can deposit is shown below.
+          </div>
+          <Form form={form} initialValues={formInitialValues}>
+            <div className="fixedPrice">
+              <div className="input-text">
+                <span>available to deposit</span>
+                <span>19.668322 MATIC</span>
+              </div>
+              <Form.Item name="price">
+                <Input style={{ width: '50%' }} />
+              </Form.Item>
+            </div>
+          </Form>
+          <ConfirmButton onClick={confirm}>Continue</ConfirmButton>
+        </div>
+      </ScheduleFirst>
+      <ScheduleFirst>
+        <div className={clsx('standardFund', current === 1 && 'active')}>
+          <div className="title">Deposit overview</div>
+          <div className="main-title">
+            How much would you like to deposit ?
+          </div>
+          <div className="main-text">
+            Please enter an amount you would like to deposit.The maximum amount you can deposit is shown below.
+          </div>
+          <Form form={form} initialValues={formInitialValues}>
+            <div className="fixedPrice">
+              <div className="input-text">
+                <span>available to deposit</span>
+                <span>19.668322 MATIC</span>
+              </div>
+              <Form.Item name="price">
+                <Input style={{ width: '50%' }} />
+              </Form.Item>
+            </div>
+          </Form>
+          <ConfirmButton onClick={confirm}>Continue</ConfirmButton>
+        </div>
       </ScheduleFirst>
       {depositCheckoutModal}
     </ScheduleMain>
