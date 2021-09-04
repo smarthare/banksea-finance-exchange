@@ -143,7 +143,6 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
         onRow={onRow}
         scroll={{ x: 1500 }}
         rowCursor={'pointer'}
-        backgroundColor={'#0b111e'}
       />
     </AllWhitelistCollectionsContainer>
   )

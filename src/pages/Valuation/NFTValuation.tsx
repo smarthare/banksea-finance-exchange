@@ -621,7 +621,6 @@ const Transactions: React.FC<{ histories: NFTTransactionHistory[] }> = ({ histor
           pagination={false}
           columns={columns}
           dataSource={histories}
-          backgroundColor={'#305099'}
         />
       </TransactionsContainer>
     </CollapsibleBox>

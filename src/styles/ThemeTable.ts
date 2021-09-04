@@ -3,15 +3,11 @@ import { Table } from 'antd'
 import { Property } from 'csstype'
 
 export type ThemeTableProps = {
-  backgroundColor?: Property.Color
-
-  headerBackgroundColor?: Property.Color
   headerTextColor?: Property.Color
 
   rowBackgroundColor?: Property.Color
   rowTextColor?: Property.Color
 
-  rowHoveredBackgroundColor?: Property.Color
   rowCursor?: Property.Cursor
 }
 
@@ -30,11 +26,9 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
   }
 
   .ant-table-thead {
-
     th {
       background-color: transparent;
       border-bottom-width: 0;
-
     }
 
     .ant-table-cell {
@@ -65,6 +59,7 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
       background-color: ${props => props.rowBackgroundColor ?? '#18284C'};
       cursor: ${props => props.rowCursor} !important;
       margin-bottom: 4px !important;
+      transition: all 0.7s;
 
       .ant-table-cell {
         font-size: 1.4rem;
@@ -78,6 +73,7 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
 
       &:hover {
         filter: brightness(150%);
+        transform: scale(1.006);
 
         td {
           background-color: ${props => props.rowBackgroundColor ?? '#18284C'};
@@ -123,7 +119,6 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
 
 
   @media screen and (max-width: 1000px) {
-    //padding: 0 8vw;
     width: 100vw !important;
     overflow-x: scroll;
     position: relative;
