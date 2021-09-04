@@ -7,8 +7,11 @@ import { useHistory } from 'react-router-dom'
 import { depositPoolsList, depositSize, depositSizeStatistics, mortgagePoolsList, mortgageSize } from '../../apis/pool'
 import PageLoading from '../../components/PageLoding'
 import { Button } from 'antd'
+import InsuranceChart from '../../components/EchartsStatistics/InsuranceChart'
 
 const MarketContainer = styled.div`
+  width: 130rem;
+  margin-left: calc((100% - 130rem) / 2);
   padding-top: 4rem;
 
   .market {
@@ -25,8 +28,6 @@ const MarketContainer = styled.div`
 `
 
 const MarketTotal = styled.div`
-  width: 130rem;
-  margin-left: calc((100% - 130rem) / 2);
   padding-top: 3.3rem;
   display: flex;
   justify-content: space-between;
@@ -34,7 +35,6 @@ const MarketTotal = styled.div`
 
 const Statistics = styled.div`
   width: 64.3rem;
-  height: 33rem;
   background: #000c17;
   border-radius: 1.5rem;
 `
@@ -63,7 +63,7 @@ const TableTop = styled.div`
   }
 
   div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5), div:nth-of-type(6) {
-    width: 14%;
+    width: 16%;
     text-align: center;
 
     .variable {
@@ -111,7 +111,7 @@ const TableMain = styled.div`
 
 
     div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5) {
-      width: 14%;
+      width: 16%;
       color: #fff;
       font-size: 1.8rem;
       text-align: center;
@@ -149,7 +149,7 @@ const TableMain = styled.div`
     }
 
     div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5), div:nth-of-type(6) {
-      width: 14%;
+      width: 16%;
       color: #fff;
       font-size: 1.8rem;
       text-align: center;
@@ -196,10 +196,39 @@ const DepositButton = styled(Button)`
   border-radius: 0.5rem;
   margin-left: 2rem;
 
-  &:nth-of-type(1) {
-    margin-left: 15rem;
+  //&:nth-of-type(1) {
+  //  margin-left: 15rem;
+  //}
+`
+
+const DepositAPYCenter = styled.div`
+
+  .statistics-price {
+    width: 100%;
+    background: #000c17;
+    border-radius: 1.5rem;
+    margin-bottom: 1.4rem;
+    margin-top: 2rem;
   }
 `
+
+const StatisticsMain = styled.div`
+  padding: 3rem;
+`
+
+const DepositAPYStatistics:React.FC = () => {
+  return (
+    <DepositAPYCenter>
+      <div className="statistics-price">
+        <AreaTitle>Deposit APY</AreaTitle>
+        <Line />
+        <StatisticsMain>
+          <InsuranceChart />
+        </StatisticsMain>
+      </div>
+    </DepositAPYCenter>
+  )
+}
 
 const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
 
@@ -226,7 +255,7 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
                 onClick={() => history.push('/pools/market/mortgage/detail')}
               >
                 <div>
-                  <img src={'https://banksy.finance/api' + item?.nftImage.slice(30)} alt="" />
+                  <img src={item?.nftImage} alt="" />
                 </div>
                 <div>{item?.nftName}</div>
                 <div>{item?.mortgageValue}</div>
@@ -242,7 +271,7 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
   )
 }
 
-const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
+const DepositPool: React.FC<{ depositList: any }> = ({ depositList }) => {
   const history = useHistory()
 
   return (
@@ -268,7 +297,7 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
               >
                 <div>
                   <img
-                    src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
+                    src={item?.assetsImage}
                     alt=""
                     style={{ width: '2.5rem', marginRight: '0.8rem' }}
                     onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}
@@ -278,10 +307,7 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
                 <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.marketSize}</div>
                 <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.totalBorrowed}</div>
                 <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.depositApy}</div>
-                <div
-                  onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}
-                >{item?.variableBorrowApy}
-                </div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.variableBorrowApy}</div>
                 <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>deposit</DepositButton>
                 <DepositButton onClick={() => history.push(`/pools/borrow/detail/${item?.id}`)}>Borrow</DepositButton>
               </div>
@@ -370,7 +396,8 @@ const MarketPage: React.FC = () => {
                 </MarketSizeStatistics>
               </Statistics>
             </MarketTotal>
-            <USDPool depositList={depositList} />
+            <DepositAPYStatistics />
+            <DepositPool depositList={depositList} />
             <MortgagePools mortgageList={mortgageList} />
           </div> :
           <PageLoading />

@@ -140,6 +140,7 @@ const MyAccessTableYop = styled.div`
   div {
     color: #B3B3B3;
     font-size: 1.4rem;
+    font-weight: bolder;
   }
 
   div:nth-of-type(1) {
@@ -164,6 +165,7 @@ const MyAccessTableMain = styled.div`
     display: flex;
     align-items: center;
     margin-top: 1.5rem;
+    cursor: pointer;
 
     div {
       color: #ffffff;
@@ -233,6 +235,11 @@ const DepositButton = styled.div`
   text-align: center;
   background: #234890;
   border-radius: 0.5rem;
+  transition: all 0.5s;
+
+  &:hover {
+    background: rgba(35,72,144,0.8);
+  }
 `
 
 const NFTMortgagesContainer = styled.div`
@@ -434,7 +441,7 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
               <div key={index} className="allCoin-table-item">
                 <div className="assets">
                   <img
-                    src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
+                    src={item?.assetsImage}
                     alt=""
                     style={{ width: '2.2rem', marginRight: '0.8rem' }}
                   />
@@ -448,10 +455,7 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
                   <p>{item?.depositApy}</p>
                 </div>
                 <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>deposit</DepositButton>
-                <DepositButton
-                  onClick={() => history.push(`/pools/withdraw/detail/${item?.id}`)}
-                >Withdraw
-                </DepositButton>
+                <DepositButton onClick={() => history.push(`/pools/withdraw/detail/${item?.id}`)}>Withdraw</DepositButton>
               </div>
             ))
           }
@@ -519,7 +523,7 @@ const BorrowInformationArea: React.FC<{ userInfo: any, borrowList: any }> = ({ u
               <div key={index} className="allCoin-table-item">
                 <div className="assets">
                   <img
-                    src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
+                    src={item?.assetsImage}
                     alt=""
                     style={{ width: '2.4rem', height: '2.4rem', marginRight: '0.8rem' }}
                   />

@@ -35,6 +35,7 @@ const AreaTitle = styled.div`
   font-weight: bolder;
   display: flex;
   align-items: center;
+  position: relative;
 
   .configuration-top-title {
     margin-left: 3rem;
@@ -339,11 +340,10 @@ const IndexValueStatisticsMain = styled.div`
 
   .indexValueStatistics-item {
     width: 42rem;
-    height: 18rem;
     background: #101D44;
     border-radius: 1.5rem;
 
-    .tatistics-container {
+    .statistics-container {
       padding: 0 2rem;
       margin-top: -3rem;
     }
@@ -353,6 +353,7 @@ const IndexValueStatisticsMain = styled.div`
 const StatisticsTitle = styled.div`
   padding: 1rem 3.5rem;
   color: #fff;
+  font-weight: bolder;
   display: flex;
   align-items: center;
 `
@@ -491,22 +492,22 @@ const IndexValueStatistics:React.FC = () => {
       <div className="indexValueStatistics-item">
         <StatisticsTitle>Variable APY</StatisticsTitle>
         <Line />
-        <div className="tatistics-container">
+        <div className="statistics-container">
           <VariableAPY />
         </div>
       </div>
       <div className="indexValueStatistics-item">
         <StatisticsTitle>Deposit APY</StatisticsTitle>
         <Line />
-        <div className="tatistics-container">
-          <DepositAPY />
+        <div className="statistics-container">
+          <VariableAPY />
         </div>
       </div>
       <div className="indexValueStatistics-item">
         <StatisticsTitle>Utilisation Rate</StatisticsTitle>
         <Line />
-        <div className="tatistics-container">
-          <UtilisationRate />
+        <div className="statistics-container">
+          <VariableAPY />
         </div>
       </div>
     </IndexValueStatisticsMain>

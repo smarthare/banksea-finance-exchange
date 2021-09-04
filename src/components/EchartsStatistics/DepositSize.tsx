@@ -141,29 +141,13 @@ const DepositSize:React.FC<{ depositStatistics: any }> = ({ depositStatistics })
       tooltip: {
         trigger: 'axis'
       },
-      xAxis: [/*{
-        data: dateList
-      }, */
+      xAxis: [
         {
-          data: dateList,
-          gridIndex: 1
+          data: dateList
         }
       ],
-      yAxis: [
-        {
-          gridIndex: 1
-        }
-      ],
-      grid: [
-        {
-          top: '0',
-          bottom: '0'
-        },
-        {
-          width: 'auto',
-          height: 'auto'
-        }
-      ],
+      yAxis: [{}],
+      grid: { top: '44', bottom: '44', left: '44', right: '44'  },
       series: [{
         type: 'line',
         showSymbol: false,

@@ -193,12 +193,14 @@ const NeuralNetworks = styled.div`
 `
 
 const StatisticsContainer = styled.div`
-  width: 100%;
-  height: 35rem;
-  background: #101D44;
-  border-radius: 1.5rem;
-  margin-bottom: 1.4rem;
-  margin-top: 2rem;
+
+  .statistics-price {
+    width: 100%;
+    background: #101D44;
+    border-radius: 1.5rem;
+    margin-bottom: 1.4rem;
+    margin-top: 2rem;
+  }
 `
 
 const AreaTitle = styled.div`
@@ -215,10 +217,10 @@ const Line = styled.div`
 `
 
 const StatisticsMain = styled.div`
-
+  padding: 3rem;
 `
 
-const ScheduleFirst = styled.div`
+const ScheduleFirstCenter = styled.div`
   text-align: center;
   width: 60rem;
   margin-top: 2rem;
@@ -257,7 +259,7 @@ const ConfirmButton = styled(Button)`
   }
 `
 
-const Statistics:React.FC = () => {
+const ScheduleFirst:React.FC = () => {
 
   const { requestingModal, openRequestingModal } = useRequestingModal()
 
@@ -266,20 +268,28 @@ const Statistics:React.FC = () => {
   }
 
   return (
-    <StatisticsContainer>
-      <AreaTitle>Historical price</AreaTitle>
-      <Line />
-      <StatisticsMain>
-        <DepositAPY />
-      </StatisticsMain>
-      <ScheduleFirst>
-        <div className="title">Prepay overview</div>
-        <div className="main-title">
-          Are you sure you want to prepay this NFT ？
-        </div>
-        <ConfirmButton onClick={prepay}>Prepay</ConfirmButton>
-      </ScheduleFirst>
+    <ScheduleFirstCenter>
+      <div className="title">Prepay overview</div>
+      <div className="main-title">
+        Are you sure you want to prepay this NFT ？
+      </div>
+      <ConfirmButton onClick={prepay}>Prepay</ConfirmButton>
       {requestingModal}
+    </ScheduleFirstCenter>
+  )
+}
+
+const Statistics:React.FC = () => {
+  return (
+    <StatisticsContainer>
+      <div className="statistics-price">
+        <AreaTitle>Historical price</AreaTitle>
+        <Line />
+        <StatisticsMain>
+          <DepositAPY />
+        </StatisticsMain>
+      </div>
+      <ScheduleFirst />
     </StatisticsContainer>
   )
 }

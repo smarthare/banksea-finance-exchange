@@ -88,7 +88,6 @@ const IndexValueStatisticsMain = styled.div`
 
   .indexValueStatistics-item {
     width: 42rem;
-    height: 18rem;
     background: #101D44;
     border-radius: 1.5rem;
 

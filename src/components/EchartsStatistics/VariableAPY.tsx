@@ -142,7 +142,6 @@ const VariableAPY: React.FC = () => {
       },
       xAxis: {
         data: dateList,
-        gridIndex: 1,
         axisLabel: {
           show: true,
           textStyle: {
@@ -156,7 +155,6 @@ const VariableAPY: React.FC = () => {
         }
       },
       yAxis: {
-        gridIndex: 1,
         axisLabel: {
           show: true,
           textStyle: {
@@ -164,7 +162,7 @@ const VariableAPY: React.FC = () => {
           }
         }
       },
-      grid: [{}, {}],
+      grid: { top: '54', bottom: '40', left: '44', right: '44'  },
       series: [{
         type: 'line',
         showSymbol: false,
@@ -173,7 +171,7 @@ const VariableAPY: React.FC = () => {
     })
   }, [])
 
-  return ops ? <ReactECharts option={ops} style={{ width: '100%', height: 210, }} /> : <div />
+  return ops ? <ReactECharts option={ops} style={{ width: '100%', height: 180, }} /> : <div />
 }
 
 export default VariableAPY

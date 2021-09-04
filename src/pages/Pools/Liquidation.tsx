@@ -51,11 +51,11 @@ const Line = styled.div`
 
 const SerialsTop = styled.div`
   width: 100%;
-  height: 6rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   padding-right: 3rem;
-  margin-top: 4rem;
+  margin-top: 3rem;
   position: relative;
 
   .search {

@@ -88,12 +88,12 @@ const AllCoinTableTop = styled.div`
   }
 
   div:nth-of-type(1) {
-    width: 30%;
+    width: 28%;
     padding-left: 3rem;
   }
 
-  div:nth-of-type(2), div:nth-of-type(3) {
-    width: 30%;
+  div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4) {
+    width: 23%;
     text-align: center;
   }
 `
@@ -109,17 +109,18 @@ const AllCoinTableMain = styled.div`
     display: flex;
     align-items: center;
     margin-top: 1.5rem;
+    cursor: pointer;
 
     div {
       color: #ffffff;
     }
 
     div:nth-of-type(1) {
-      width: 30%;
+      width: 28%;
     }
 
-    div:nth-of-type(2), div:nth-of-type(3) {
-      width: 30%;
+    div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4) {
+      width: 23%;
       text-align: center;
     }
 
@@ -127,6 +128,7 @@ const AllCoinTableMain = styled.div`
       font-size: 1.8rem;
       padding-left: 3rem;
       display: flex;
+      align-items: center;
     }
 
     .walletBalance {
@@ -178,6 +180,7 @@ const AllCoinContainer: React.FC<{ depositList: any }> = ({ depositList }) => {
         <div>Assets</div>
         <div>Your wallet balance</div>
         <div>APY</div>
+        <div>Insurance APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
         {
@@ -188,15 +191,18 @@ const AllCoinContainer: React.FC<{ depositList: any }> = ({ depositList }) => {
             >
               <div className="assets">
                 <img
-                  src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
+                  src={item?.assetsImage}
                   alt=""
-                  style={{ width: '2.2rem', marginRight: '0.8rem' }}
+                  style={{ width: '2.4rem', height: '2.4rem', marginRight: '0.8rem' }}
                 />
                 <span>{item?.assetsName}</span>
               </div>
               <div className="walletBalance">
                 <p>12.000</p>
                 <p>$11.3445</p>
+              </div>
+              <div className="apy">
+                <p>13.21%</p>
               </div>
               <div className="apy">
                 <p>13.21%</p>
@@ -246,13 +252,13 @@ const DepositPage: React.FC = () => {
                 <div className="MyTotal-name">
                   <span>Total value</span>
                 </div>
-                <div className="MyTotalNum">12.000</div>
+                <div className="MyTotalNum">12</div>
               </div>
               <div className="MyTotal">
                 <div className="MyTotal-name">
                   <span>Number of currencies</span>
                 </div>
-                <div className="MyTotalNum">12.000</div>
+                <div className="MyTotalNum">12</div>
               </div>
             </DepositAreaRight>
           </div> :

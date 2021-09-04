@@ -144,14 +144,11 @@ const DepositAPY: React.FC = () => {
         data: dateList
       }, */
         {
-          data: dateList,
-          gridIndex: 1
+          data: dateList
         }
       ],
-      yAxis: [{
-        gridIndex: 1
-      }],
-      grid: [{}, {}],
+      yAxis: [{}],
+      grid: { top: '34', bottom: '34', left: '44', right: '44'  },
       series: [{
         type: 'line',
         showSymbol: false,

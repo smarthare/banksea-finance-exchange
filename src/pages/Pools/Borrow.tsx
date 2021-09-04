@@ -113,6 +113,7 @@ const AllCoinTableMain = styled.div`
     display: flex;
     align-items: center;
     margin-top: 1.5rem;
+    cursor: pointer;
 
     div {
       color: #ffffff;
@@ -200,7 +201,7 @@ const AllCoinContainer: React.FC<{ data: any }> = ({ data }) => {
             >
               <div className="assets">
                 <img
-                  src={'https://banksy.finance/api' + item?.assetsImage.slice(30)}
+                  src={item?.assetsImage}
                   alt=""
                   style={{ width: '2.2rem', marginRight: '0.8rem' }}
                 />
