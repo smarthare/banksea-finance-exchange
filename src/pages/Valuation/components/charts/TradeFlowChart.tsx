@@ -6,8 +6,8 @@ type TradeFlowChartData = {
   links: { source: string, target: string, value: number }[]
 }
 
-const TradeFlowChart: React.FC<{ tradeFlowData: TradeFlowChartData }> = ({ tradeFlowData }) => {
-  const { nodes, links } = tradeFlowData
+const TradeFlowChart: React.FC = () => {
+  const { nodes, links } = require('../../../../assets/mock/transaction-flow.json') as TradeFlowChartData
 
   const options = {
     darkMode: true,

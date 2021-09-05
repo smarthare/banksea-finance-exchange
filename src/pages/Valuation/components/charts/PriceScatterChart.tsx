@@ -1,25 +1,49 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
+import { useCollectionPriceScatterQuery } from '../../../../hooks/queries/insight/collection/useCollectionPriceScatterQuery'
 
-type PriceData = Array<[string, number]>
+const PriceScatterChart: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
+  const { data } = useCollectionPriceScatterQuery(contractAddress)
 
-const PriceScatterChart: React.FC<{ priceData: PriceData }> = ({ priceData }) => {
   const option = {
     darkMode: true,
     grid: {
-      top: 20, bottom: 20, left: 66, right: 20
+      top: 28, bottom: 70, left: 66, right: 60
     },
     xAxis: {
-      type: 'time'
+      type: 'time',
     },
-    yAxis: {},
+    yAxis: {
+      type: 'value',
+      name: 'Value(ETH)'
+    },
     series: [{
-      data: priceData,
-      type: 'scatter'
+      data: data?.price.map(([timestamp, price]) => ([timestamp * 1000, price])),
+      type: 'scatter',
+      symbolSize: 5
     }],
     tooltip: {
-      formatter: '{b0}: {c0}'
-    }
+      formatter: (params: any) => {
+        const [timestamp, value] = params.data
+        const date = new Date(timestamp)
+        return `Ξ${value}&nbsp;&nbsp;&nbsp;(${date.toLocaleString()})`
+      }
+    },
+    dataZoom: [
+      {
+        id: 'dataZoomX',
+        type: 'slider',
+        xAxisIndex: [0],
+        filterMode: 'filter'
+      },
+      {
+        id: 'dataZoomY',
+        type: 'slider',
+        yAxisIndex: [0],
+        filterMode: 'empty',
+        right: 0
+      }
+    ],
   }
 
   return <ReactECharts option={option} />

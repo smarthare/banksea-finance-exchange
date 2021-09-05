@@ -1,10 +1,11 @@
-import React, { SyntheticEvent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import ThemeTable from '../../../styles/ThemeTable'
+import { RankingCollection } from '../../../hooks/queries/insight/overview/useRankingCollectionsQuery'
 
 type AllWhitelistCollectionsProps = {
-  collections: WhitelistCollection[]
+  collections: RankingCollection[]
 }
 
 export type WhitelistCollection = {
@@ -38,16 +39,23 @@ const AllWhitelistCollectionsContainer = styled.div`
   }
 `
 
+
 const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ collections }) => {
   const history = useHistory()
 
-  const CollectionIconAndName: React.FC<{ iconUrl: string, name: string }> = ({ iconUrl, name }) => (
+  const query = (id: string, name: string) => new URLSearchParams([
+    ['id', id],
+    ['name', name]
+  ]).toString()
+
+  const CollectionIconAndName: React.FC<{ seriesLogo: string, seriesName: string }> = ({ seriesLogo, seriesName }) => (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <img src={iconUrl}
-        alt={name}
+      <img
+        src={seriesLogo}
+        alt={seriesName}
         style={{ width: '30px', height: '30px', borderRadius: '15px', marginRight: '10px' }}
       />
-      <span>{name}</span>
+      <span>{seriesName}</span>
     </div>
   )
 
@@ -57,27 +65,33 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
     //   key: 'index',
     //   dataIndex: 'index',
     // },
+    // {
+    //   title: 'Owner%',
+    //   dataIndex: 'ownerProportion',
+    //   key: 'ownerProportion'
+    // },
     {
       title: 'Collection',
-      key: 'name',
       // eslint-disable-next-line react/display-name
-      render: (text: any, record: any) => <CollectionIconAndName {...record} />,
+      render: (text: string, record: any) => <CollectionIconAndName {...record} />,
       width: '220px'
     },
     {
       title: 'Volume(7d)',
-      dataIndex: 'volumeIn7Days',
-      key: 'volumeIn7Days'
+      dataIndex: 'sevenDayVolume',
+      key: 'sevenDayVolume',
+      width: '120px'
     },
     {
-      title: 'Sales(7d)',
-      dataIndex: 'salesIn7Days',
-      key: 'salesIn7Days'
+      title: 'Transactions(7d)',
+      dataIndex: 'sevenDayTransaction',
+      key: 'sevenDayTransaction',
+      width: '120px'
     },
     {
       title: 'Avg Price(7d)',
-      dataIndex: 'avgPriceIn7Days',
-      key: 'avgPriceIn7Days',
+      dataIndex: 'sevenDayAvgPrice',
+      key: 'sevenDayAvgPrice',
       width: '120px'
     },
     {
@@ -88,46 +102,35 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
     },
     {
       title: 'Owners',
-      dataIndex: 'owners',
-      key: 'owners',
+      dataIndex: 'numOwners',
+      key: 'numOwners',
       width: '110px'
     },
-    // {
-    //   title: 'Owner%',
-    //   dataIndex: 'ownerProportion',
-    //   key: 'ownerProportion'
-    // },
     {
       title: 'Estimated Market Cap',
-      dataIndex: 'estimatedMarketCap',
-      key: 'estimatedMarketCap',
+      dataIndex: 'marketCap',
+      key: 'marketCap',
       width: '180px'
     },
     {
       title: 'Volume(All Time)',
-      dataIndex: 'volumeAllTime',
-      key: 'volumeAllTime',
+      dataIndex: 'totalVolume',
+      key: 'totalVolume',
       width: '150px'
     },
     {
-      title: 'Sales(All Time)',
-      dataIndex: 'salesAllTime',
-      key: 'salesAllTime',
-      width: '140px'
+      title: 'Transactions(All Time)',
+      dataIndex: 'allTransaction',
+      key: 'allTransaction',
+      width: '180px'
     },
-    {
-      title: 'Added',
-      dataIndex: 'added',
-      key: 'added'
-    }
   ]
 
   const onRow = (record: any) => {
     return {
-      onClick: (event: SyntheticEvent) => {
-        const collection = record as WhitelistCollection
-        console.log(event, record)
-        history.push(`/valuation/${collection.name}`)
+      onClick: () => {
+        const collection = record as RankingCollection
+        history.push(`/valuation/collection?${query(collection.id, collection.seriesName)}`)
       }
     }
   }

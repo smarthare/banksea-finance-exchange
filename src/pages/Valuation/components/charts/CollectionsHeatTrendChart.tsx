@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
 
-type CollectionsHearTrendChartProps = {
+export type CollectionsHeatTrendChartProps = {
   collections: string[]
-  chartData: [][]
+  chartData: Array<any>
 }
 
-const CollectionsHearTrendChart: React.FC<CollectionsHearTrendChartProps> = ({ chartData, collections }) => {
+const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ chartData, collections }) => {
   const datasetWithFilters: any = []
   const seriesList: any = []
 
@@ -19,7 +19,7 @@ const CollectionsHearTrendChart: React.FC<CollectionsHearTrendChartProps> = ({ c
         type: 'filter',
         config: {
           and: [
-            { dimension: 'time', gte: 1950 },
+            // { dimension: 'time', gte: 1950 },
             { dimension: 'collection', '=': collection }
           ]
         }
@@ -56,7 +56,7 @@ const CollectionsHearTrendChart: React.FC<CollectionsHearTrendChartProps> = ({ c
     darkMode: true,
     grid: {
       top: 30,
-      bottom: 20,
+      bottom: 80,
       right: 48,
       left: 48
     },
@@ -69,18 +69,31 @@ const CollectionsHearTrendChart: React.FC<CollectionsHearTrendChartProps> = ({ c
       order: 'valueDesc',
       trigger: 'axis'
     },
+    dataZoom: [{
+      type: 'slider',
+      start: 50,
+      end: 100,
+      top: 350
+    }],
     xAxis: {
-      type: 'category',
+      type: 'time',
       name: 'Time',
       nameLocation: 'end'
     },
     yAxis: {
-      name: 'Heat'
+      name: 'Heat',
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: '#666',
+          type: 'dotted'
+        }
+      }
     },
     series: seriesList
   }
 
-  return <ReactECharts option={option} />
+  return <ReactECharts option={option} style={{ height: '400px' }} />
 }
 
 export { CollectionsHearTrendChart }

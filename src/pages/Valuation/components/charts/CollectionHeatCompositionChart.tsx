@@ -9,7 +9,9 @@ type CollectionHeatCompositionChartData = {
   averageTransactionPrice: number[]
 }
 
-const CollectionHeatCompositionChart:React.FC<{data: CollectionHeatCompositionChartData}> = ({ data }) => {
+const CollectionHeatCompositionChart: React.FC = ( ) => {
+  const data = require('../../../../assets/mock/collection-heat-composition.json')
+
   const { time, averageTransactionPrice, numberOfTransactions, volumes, owners } = data
 
   const legends = ['Average Transaction Price', 'Number of Transactions', 'Volumes', 'Owners']

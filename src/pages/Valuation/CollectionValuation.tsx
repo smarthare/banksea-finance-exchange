@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { useCollectionValuationData } from '../../hooks/data/useCollectionValuationData'
 import ThemeTable from '../../styles/ThemeTable'
 import { DropdownSelector } from '../../styles/DropdownSelector'
 import { Button, Tooltip } from 'antd'
@@ -12,12 +11,18 @@ import {
   CollectionExternalLink,
   CollectionToken,
   CollectionValuationByTypeAndAttribute,
-  CollectionValuationChartData,
   CollectionValuationStatisticItem
 } from '../../types/CollectionValuation'
 import { CollectionHeatCompositionChart } from './components/charts/CollectionHeatCompositionChart'
 import { PriceScatterChart } from './components/charts/PriceScatterChart'
 import { TotalMarketValueChart } from './components/charts/TotalMarketValueChart'
+import { useLocationQuery } from '../../hooks/useLocationQuery'
+import {
+  convertCollectionValuationDetailToCollectionExternalLinks,
+  convertCollectionValuationDetailToCollectionValuationStatisticItems
+} from '../../converters/insight'
+import { useCollectionNftsQuery } from '../../hooks/queries/insight/collection/useCollectionNftsQuery'
+import { useCollectionValuationDetailQuery } from '../../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
 import { TradeFlowChart } from './components/charts/TradeFlowChart'
 
 type CollectionValuationPageProps = {
@@ -289,7 +294,7 @@ const CollectionNFTListContainer = styled.div`
 `
 
 const Title: React.FC<{
-  name: string,
+  name?: string,
   externalLinks: CollectionExternalLink[]
 }> = ({ name, externalLinks }) => {
   return (
@@ -311,11 +316,11 @@ const Title: React.FC<{
   )
 }
 
-const Description: React.FC<{ description: string }> = ({ description }) => {
+const Description: React.FC<{ description?: string }> = ({ description }) => {
   return (
     <DescriptionContainer>
       <div className="title">Description</div>
-      <div className="content">{description}</div>
+      <div className="content">{description ?? 'No description yet.'}</div>
     </DescriptionContainer>
   )
 }
@@ -335,33 +340,27 @@ const Statistic: React.FC<{ statistic: CollectionValuationStatisticItem[] }> = (
   )
 }
 
-const Charts: React.FC<{ chartData: CollectionValuationChartData }> = ({ chartData }) => {
-  const { totalMarketValue, tradeFlow, heatComposition, priceScatter } = chartData
-
-  const items: { title: string, description: string, component: JSX.Element, show: boolean }[] = [
+const Charts: React.FC<{ seriesId: string, contractAddress: string }> = ({ seriesId, contractAddress }) => {
+  const items: { title: string, description: string, component: JSX.Element }[] = [
     {
       title: 'Composition of Collection Heat',
       description: 'Here is description',
-      component: <CollectionHeatCompositionChart data={heatComposition} />,
-      show: !!heatComposition
+      component: <CollectionHeatCompositionChart />
     },
     {
       title: 'Price Scatter',
       description: 'Here is description',
-      component: <PriceScatterChart priceData={priceScatter} />,
-      show: !!priceScatter
+      component: <PriceScatterChart contractAddress={contractAddress} />
     },
     {
       title: 'Total Market Value',
       description: 'Here is heat of trend',
-      component: <TotalMarketValueChart data={totalMarketValue} />,
-      show: !!totalMarketValue
+      component: <TotalMarketValueChart seriesId={seriesId} />
     },
     {
       title: 'Trade Flows',
       description: 'Here is heat of trend',
-      component: <TradeFlowChart tradeFlowData={tradeFlow} />,
-      show: !!tradeFlow
+      component: <TradeFlowChart />
     }
   ]
 
@@ -369,7 +368,7 @@ const Charts: React.FC<{ chartData: CollectionValuationChartData }> = ({ chartDa
     <ChartsContainer>
       <div className="row">
         {
-          items.map(({ title, show, component, description }) => (
+          items.map(({ title, component, description }) => (
             <div className="item" key={title}>
               <div className="title">
                 <div className="text">
@@ -380,9 +379,7 @@ const Charts: React.FC<{ chartData: CollectionValuationChartData }> = ({ chartDa
                 </Tooltip>
               </div>
               <div className="chart">
-                {
-                  show && component
-                }
+                {component}
               </div>
             </div>
           ))
@@ -426,23 +423,80 @@ const ValuationTable: React.FC<{ valuations: CollectionValuationByTypeAndAttribu
     }
   ]
 
+  /*const columns = [
+    {
+      title: 'Prevailing Trend',
+      key: 'prevailingTrend',
+      dataIndex: 'prevailingTrend',
+      width: '120px'
+    },
+    {
+      title: 'Accessory',
+      key: 'accessory',
+      dataIndex: 'accessory',
+      width: '150px'
+    },
+    {
+      title: 'Number',
+      key: 'numNft',
+      dataIndex: 'numNft',
+      width: '90px'
+    },
+
+    {
+      title: 'Valuation(ETH)',
+      key: 'volumeNftEth',
+      dataIndex: 'volumeNftEth',
+      width: '200px'
+    },
+    {
+      title: 'Valuation(USD)',
+      key: 'volumeNftUsd',
+      dataIndex: 'volumeNftUsd',
+      width: '200px'
+    },
+
+    {
+      title: 'Average(ETH)',
+      key: 'avgPriceNftEth',
+      dataIndex: 'avgPriceNftEth',
+      width: '200px'
+    },
+    {
+      title: 'Average(USD)',
+      key: 'avgPriceNftUsd',
+      dataIndex: 'avgPriceNftUsd',
+      width: '200px'
+    }
+  ]*/
+
   return (
     <ValuationTableContainer>
       <div className="title">Valuation by Type and Attribute</div>
-      <ThemeTable columns={columns} dataSource={valuations} pagination={false} scroll={{ x: 1000 }} />
+      <ThemeTable columns={columns} dataSource={valuations.slice(0, 10)} pagination={false} scroll={{ x: 1000 }} />
     </ValuationTableContainer>
   )
 }
 
-const CollectionNFTList: React.FC<{ tokens: CollectionToken[] }> = ({ tokens }) => {
+const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
   const history = useHistory()
-  const { collection } = useParams<{ collection: string }>()
+  const seriesId = useLocationQuery('id')
+  const collection = useLocationQuery('name')
 
+  const [current, setCurrent] = useState('1')
+
+  const pagedData = useCollectionNftsQuery({
+    nftSeriesId: seriesId!,
+    current: parseInt(current),
+    size: 36
+  })
+
+  const next = () => setCurrent(prev => parseInt(prev) + 1 + '')
 
   return (
     <CollectionNFTListContainer>
       <div className="header">
-        <div className="title">10,000 Total CryptoPunks</div>
+        <div className="title">{pagedData.data?.total ?? '-'} Total {collection}</div>
         <div className="operators">
           <div className="sort-by">
             <div className="text" style={{ marginRight: '15px' }}>Sort by</div>
@@ -462,26 +516,33 @@ const CollectionNFTList: React.FC<{ tokens: CollectionToken[] }> = ({ tokens }) 
           </div>
           <div className="pager">
             <div className="text">Page</div>
-            <SearchInput style={{ marginRight: '10px', marginLeft: '10px', width: '45px' }} />
-            <div className="text" style={{ marginRight: '10px' }}>of 209</div>
-            <Button className="next">Next<RightOutlined /></Button>
+            <SearchInput
+              style={{ marginRight: '10px', marginLeft: '10px', width: '45px' }}
+              value={current}
+              onChange={value => setCurrent(value.target.value)}
+            />
+            <div className="text" style={{ marginRight: '10px' }}>of {pagedData.data?.pages}</div>
+            <Button className="next" onClick={next} disabled={parseInt(current) >= (pagedData?.data?.pages ?? 0)}>
+              Next
+              <RightOutlined />
+            </Button>
           </div>
         </div>
       </div>
       <div className="list">
         {
-          tokens.map((token, index) => (
+          pagedData?.data?.records?.map((item, index) => (
             <div className="item"
               key={index}
-              onClick={() => history.push(`/valuation/${collection}/${token.tokenId}`)}
+              onClick={() => history.push(`/valuation/token/${item.id}`)}
             >
               <div className="item-header">
-                <div>#{index}</div>
-                <div>{token.owner}</div>
+                <div>#{item.nftNumber}</div>
+                <div>{item.nftOwner}</div>
               </div>
-              <img src={token.imageUrl} alt={token.tokenId.toString()} />
+              <img src={item.nftImageUrl} alt={item.id} />
               <div className="item-id">
-                CryptoPunks #{token.tokenId}
+                {item.nftName}
               </div>
             </div>
           ))
@@ -497,9 +558,25 @@ const CollectionNFTList: React.FC<{ tokens: CollectionToken[] }> = ({ tokens }) 
 }
 
 const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
-  const { collection } = useParams<{ collection: string }>()
+  const collection = useLocationQuery('name')
+  const seriesId = useLocationQuery('id')
+  const history = useHistory()
 
-  const data = useCollectionValuationData(collection)
+  if (!seriesId || !collection) {
+    history.push('/valuation')
+    return <></>
+  }
+
+  const { data: detail } = useCollectionValuationDetailQuery(seriesId)
+  // const { data: collectionValuationTableData } = useCollectionValuationAttributeQuery(seriesId)
+
+  const valuations: CollectionValuationByTypeAndAttribute[] = new Array<CollectionValuationByTypeAndAttribute>(4).fill({
+    accessory: 'Pilot Helmet',
+    average: '125.86 ETH ($408,645)',
+    number: 199,
+    prevailingTrend: 196,
+    valuation: '35,995.36 ETH ($116.87M)'
+  })
 
   useEffect(() => {
     document.getElementById('main')!.scrollTo(0, 0)
@@ -508,13 +585,15 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
   return (
     <CollectionValuationPageContainer>
       <Wrapper>
-        <Banner src={data.bannerImageUrl} />
-        <Title {...data} />
-        <Description {...data} />
-        <Statistic {...data} />
-        <Charts {...data} />
-        <ValuationTable {...data} />
-        <CollectionNFTList {...data} />
+        <Banner src={detail?.seriesPoster} />
+        <Title name={detail?.seriesName}
+          externalLinks={convertCollectionValuationDetailToCollectionExternalLinks(detail)}
+        />
+        <Description description={detail?.seriesDescription} />
+        <Statistic statistic={convertCollectionValuationDetailToCollectionValuationStatisticItems(detail)} />
+        <Charts seriesId={seriesId} contractAddress={detail?.assetContractAddress ?? ''} />
+        <ValuationTable valuations={valuations} />
+        <CollectionNFTList />
       </Wrapper>
     </CollectionValuationPageContainer>
   )

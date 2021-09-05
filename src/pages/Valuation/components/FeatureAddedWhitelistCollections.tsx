@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import React from 'react'
-import { CollectionInfo } from '../../../types/CollectionValuation'
 import { useHistory } from 'react-router-dom'
+import { WhitelistCollection } from 'hooks/queries/insight/overview/useWhitelistCollectionsQuery'
 
 type FeatureAddedWhitelistCollectionsProps = {
-  collections: CollectionInfo[]
+  collections: any[]
 }
 
 // export type FeatureAddedWhitelistCollection = {
@@ -118,19 +118,24 @@ const ItemContainer = styled.div`
   }
 `
 
-const SingleCollection: React.FC<{ collection: CollectionInfo }> = ({ collection }) => {
+const SingleCollection: React.FC<{ collection: WhitelistCollection }> = ({ collection }) => {
   const history = useHistory()
 
-  const { seriesPoster, seriesLogo, seriesDescription, seriesName, numOwners, totalVolume, added } = collection
+  const { seriesPoster, seriesLogo, seriesDescription, seriesName, numOwners, totalVolume, id } = collection
+
+  const query = new URLSearchParams([
+    ['id', id],
+    ['name', seriesName]
+  ]).toString()
 
   return (
-    <ItemContainer onClick={() => history.push(`/valuation/${seriesName}`)}>
+    <ItemContainer onClick={() => history.push(`/valuation/collection?${query}`)}>
       <img src={seriesPoster} alt={seriesName} className="cover" />
 
       <div className="main-area">
         <div className="column">
           <div className="name">{seriesName}</div>
-          <div className="info">Added: {added}</div>
+          {/*<div className="info">Added: {added}</div>*/}
           <div className="info">Owner(s): {numOwners}</div>
           <div className="info">Total Volume: {totalVolume}</div>
           <div className="description">{seriesDescription}</div>

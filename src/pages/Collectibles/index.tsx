@@ -12,7 +12,7 @@ import { BanksyNftTransactionStatus, ChainType } from '../../apis/nft'
 import { ChainSelector, OrderSelector, StatusSelector } from '../../components/NFTListSelectors'
 import { SearchInput } from '../../styles/SearchInput'
 import { useHistory } from 'react-router-dom'
-import { useLocationQuery } from '../../utils'
+import { useLocationQuery } from '../../hooks/useLocationQuery'
 import { NftListItem } from '../../types/NFTDetail'
 
 const PageContainer = styled.div`

@@ -3,8 +3,14 @@ import styled from 'styled-components'
 import FeatureAddedWhitelistCollections from './components/FeatureAddedWhitelistCollections'
 import AllWhitelistCollections from './components/AllWhitelistCollections'
 import { useValuationOverviewData } from '../../hooks/data/useValuationOverviewData'
-import { CollectionsHearTrendChart } from './components/charts/CollectionsHeatTrendChart'
-import { AllNFTValuationChart, AllNFTValuationChartData } from './components/charts/AllNFTValuationChart'
+import {
+  CollectionsHearTrendChart,
+  CollectionsHeatTrendChartProps
+} from './components/charts/CollectionsHeatTrendChart'
+import { AllNFTValuationChart } from './components/charts/AllNFTValuationChart'
+import { CurrencyMarketValue } from '../../hooks/queries/insight/overview/useCurrencyMarketValueQuery'
+import { formatTime, simplifyNumber } from '../../utils'
+import { NftMarketTotalValuation } from '../../hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
 
 type ValuationPageProps = {
   //
@@ -90,37 +96,40 @@ const ChartTextContainer = styled.div`
     font-size: 20px;
     color: white;
     font-weight: 600;
-    margin-right: 20px;
   }
 
 `
 
-const AllNFTValuation: React.FC<{ data?: AllNFTValuationChartData }> = ({ data }) => {
+const AllNFTValuation: React.FC<{ data?: NftMarketTotalValuation }> = ({ data }) => {
+  const percentString = (num: number) => {
+    return [num > 0 ? '+' : '', num * 100, '%'].concat()
+  }
+
+  console.log(data)
+
   return (
     <div style={{ marginBottom: '80px' }}>
       <div style={{ textAlign: 'center', fontSize: '32px', marginBottom: '20px' }}>
         Valuation of All NFT
       </div>
       {
-        data && <AllNFTValuationChart {...data} />
+        data?.nftMarketCapitalizationVoList && <AllNFTValuationChart list={data.nftMarketCapitalizationVoList} />
       }
       <ChartTextContainer>
         <div>
-          <div className="label">last 7 days</div>
-          <div className="value">+68.45%</div>
-          <div className="label">last 30 days</div>
-          <div className="value"> +202.07%</div>
+          <div className="label">Yesterday changed</div>
+          <div className="value">{data?.changeOneDay ? percentString(data.changeOneDay) : '-'}</div>
         </div>
         <div>
           <div className="label">Data was last updated</div>
-          <div className="value">8 hours ago</div>
+          <div className="value">{data?.createTime ? formatTime(new Date(data.createTime * 1000)) : '-'}</div>
         </div>
       </ChartTextContainer>
     </div>
   )
 }
 
-const CollectionsHeatTrend: React.FC<{ data: any }> = ({ data }) => {
+const CollectionsHeatTrend: React.FC<{ data?: CollectionsHeatTrendChartProps }> = ({ data }) => {
   return (
     <div>
       <div style={{ textAlign: 'center', fontSize: '32px', marginBottom: '20px' }}>
@@ -128,45 +137,54 @@ const CollectionsHeatTrend: React.FC<{ data: any }> = ({ data }) => {
       </div>
       {
         data && (
-          <CollectionsHearTrendChart
-            chartData={data}
-            collections={['CryptoPunks', 'Animetas', 'Meebits', 'Bored Ape Yacht Club']}
-          />
+          <CollectionsHearTrendChart {...data} />
         )
       }
+
     </div>
   )
 }
 
-const Summary: React.FC = () => {
+const Summary: React.FC<{
+  currencyMarketValue?: CurrencyMarketValue,
+  marketTotalValuation?: NftMarketTotalValuation
+}> = ({
+  currencyMarketValue, marketTotalValuation
+}) => {
+  const { marketCapBtc, marketCapEth } = currencyMarketValue ?? {}
+
   return (
     <SummaryContainer>
       <div className="row">
-
         <div className="item">
           <div className="key">Total Value:</div>
           <div className="value">
-            1,248,837,08 ETH ($4.04B)
+            {marketTotalValuation ? simplifyNumber(marketTotalValuation.marketCapitalizationEth) : '-'}
+            &nbsp;ETH
+            ($
+            {marketTotalValuation ? simplifyNumber(marketTotalValuation.marketCapitalizationUsd) : '-'}
+            )
           </div>
         </div>
+
         <div className="item">
           <div className="key">
             BTC:
           </div>
           <div className="value">
-            $49,017,99
+            ${marketCapBtc ? simplifyNumber(marketCapBtc) : '-'}
           </div>
         </div>
+
       </div>
       <div className="row">
         <div className="item" />
-
         <div className="item">
           <div className="key">
             Ethereum:
           </div>
           <div className="value">
-            $3,241.44
+            ${marketCapEth ? simplifyNumber(marketCapEth) : '-'}
           </div>
         </div>
       </div>
@@ -179,7 +197,8 @@ const ValuationPage: React.FC<ValuationPageProps> = () => {
     allWhitelistCollections,
     featureAddedWhitelistCollections,
     collectionsHeatTrendData,
-    allNftValuationData
+    currencyMarketValue,
+    nftMarketTotalValuation
   } = useValuationOverviewData()
 
   return (
@@ -187,8 +206,8 @@ const ValuationPage: React.FC<ValuationPageProps> = () => {
       <Wrapper>
         <PageTitle />
         <TitleDivider />
-        <Summary />
-        <AllNFTValuation data={allNftValuationData} />
+        <Summary currencyMarketValue={currencyMarketValue} marketTotalValuation={nftMarketTotalValuation} />
+        <AllNFTValuation data={nftMarketTotalValuation} />
         <CollectionsHeatTrend data={collectionsHeatTrendData} />
         <FeatureAddedWhitelistCollections collections={featureAddedWhitelistCollections} />
         <AllWhitelistCollections collections={allWhitelistCollections} />

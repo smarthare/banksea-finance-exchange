@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useLocationQuery } from '../../../utils'
+import { useLocationQuery } from '../../../hooks/useLocationQuery'
 import { CopyOutlined } from '@ant-design/icons'
 import { Button, Statistic } from 'antd'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'

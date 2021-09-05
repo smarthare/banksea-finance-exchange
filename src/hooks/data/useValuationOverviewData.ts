@@ -1,26 +1,63 @@
-import { WhitelistCollection } from '../../pages/Valuation/components/AllWhitelistCollections'
 import { useEffect, useState } from 'react'
-import { CollectionInfo } from '../../types/CollectionValuation'
-import LifeExpectancyTable from '../../assets/mock/collections-heat-trend.json'
-import { AllNFTValuationChartData } from '../../pages/Valuation/components/charts/AllNFTValuationChart'
+import { useCollectionsHeatTrendQuery } from '../queries/insight/overview/useCollectionsHeatTrendQuery'
+import {
+  useWhitelistCollectionsQuery,
+  WhitelistCollection
+} from '../queries/insight/overview/useWhitelistCollectionsQuery'
+import { RankingCollection, useRankingCollectionsQuery } from '../queries/insight/overview/useRankingCollectionsQuery'
+import {
+  CurrencyMarketValue,
+  useCurrencyMarketValueQuery
+} from '../queries/insight/overview/useCurrencyMarketValueQuery'
+import { CollectionsHeatTrendChartProps } from '../../pages/Valuation/components/charts/CollectionsHeatTrendChart'
+import {
+  NftMarketTotalValuation,
+  useNftMarketTotalValuationQuery
+} from '../queries/insight/overview/useNftMarketTotalValuationQuery'
 
 type ValuationPageData = {
-  allWhitelistCollections: WhitelistCollection[]
-  featureAddedWhitelistCollections: CollectionInfo[]
-  collectionsHeatTrendData: any
-  allNftValuationData?: AllNFTValuationChartData
+  nftMarketTotalValuation?: NftMarketTotalValuation
+  allWhitelistCollections: RankingCollection[]
+  featureAddedWhitelistCollections: WhitelistCollection[]
+  collectionsHeatTrendData?: CollectionsHeatTrendChartProps
+  currencyMarketValue?: CurrencyMarketValue
 }
 
 const useValuationOverviewData = (): ValuationPageData => {
-  const [allWhitelistCollections, setAllWhitelistCollections] = useState<WhitelistCollection[]>([])
-  const [featureAddedWhitelistCollections, setFeatureAddedWhitelistCollections] = useState<CollectionInfo[]>([])
-  const [collectionsHeatTrendData, setCollectionsHeatTrendData] = useState<any>()
-  const [allNftValuationData, setAllNftValuationData] = useState<AllNFTValuationChartData>()
+  const [collectionsHeatTrendData, setCollectionsHeatTrendData] = useState<CollectionsHeatTrendChartProps>()
+
+  const { data: heatDataList } = useCollectionsHeatTrendQuery()
+
+  const { data: whitelistCollections } = useWhitelistCollectionsQuery()
+
+  const { data: currencyMarketValue } = useCurrencyMarketValueQuery()
+
+  const rankingCollections = useRankingCollectionsQuery().data?.records
+
+  const { data: nftMarketTotalValuation } = useNftMarketTotalValuationQuery()
 
   useEffect(() => {
-    const collectionInfos: CollectionInfo[] = (require('../../assets/mock/valuation-collections') as CollectionInfo[])
+    if (heatDataList) {
+      const collections = heatDataList.map(o => o.seriesName)
 
-    setAllWhitelistCollections(collectionInfos.map(o => ({
+      const map = heatDataList.flatMap(heatData =>
+        heatData.heatScore.map((score, index) => ([heatData.seriesName, score, heatData.time[index]]))
+      )
+
+      setCollectionsHeatTrendData({
+        collections,
+        chartData: [
+          ['collection', 'heat', 'time'],
+          ...map
+        ]
+      })
+    }
+  }, [heatDataList])
+
+  useEffect(() => {
+    // const collectionInfos: CollectionInfo[] = (require('../../assets/mock/valuation-collections') as CollectionInfo[])
+
+    /*setAllWhitelistCollections(collectionInfos.map(o => ({
       added: '2021/04/30',
       avgPriceIn7Days: '90.20ETH',
       estimatedMarketCap: '901,890.68ETH',
@@ -35,22 +72,16 @@ const useValuationOverviewData = (): ValuationPageData => {
       iconUrl: o.seriesLogo
     })))
 
-    setFeatureAddedWhitelistCollections(collectionInfos)
+    setFeatureAddedWhitelistCollections(collectionInfos)*/
 
-    setCollectionsHeatTrendData(LifeExpectancyTable)
-
-    setAllNftValuationData({
-      eth: [1791, 1965, 1885, 1966, 2390, 2430, 2520],
-      time: ['24 Aug 2021', '25 Aug 2021', '26 Aug 2021', '27 Aug 2021', '28 Aug 2021', '29 Aug 2021', '30 Aug 2021'],
-      usd: [820, 932, 901, 934, 1290, 1330, 1320],
-    })
-  }, [])
+  }, [heatDataList])
 
   return {
-    allWhitelistCollections,
-    featureAddedWhitelistCollections,
+    allWhitelistCollections: rankingCollections ?? [],
+    featureAddedWhitelistCollections: whitelistCollections ?? [],
     collectionsHeatTrendData,
-    allNftValuationData
+    currencyMarketValue,
+    nftMarketTotalValuation
   }
 }
 

@@ -1,16 +1,18 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
+import { NftMarketCapitalization } from '../../../../hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
+import { simplifyNumber } from '../../../../utils'
 
-export type AllNFTValuationChartData = {
-  usd: number[]
-  eth: number[],
-  time: (Date | string)[]
-}
+const AllNFTValuationChart: React.FC<{
+  list: NftMarketCapitalization[]
+}> = ({ list }) => {
+  const usd = list.map(o => o.marketCapitalizationUsd)
+  const time = list.map(o => o.createTime)
+  const eth = list.map(o => o.marketCapitalizationEth)
 
-const AllNFTValuationChart: React.FC<AllNFTValuationChartData> = ({ usd, eth, time }) => {
   const options = {
     darkMode: true,
-    grid: { top: 32, right: 48, bottom: 24, left: 48 },
+    grid: { top: 32, right: 60, bottom: 24, left: 72 },
     legend: {
       data: ['USD', 'ETH'],
       textStyle: {
@@ -27,7 +29,7 @@ const AllNFTValuationChart: React.FC<AllNFTValuationChartData> = ({ usd, eth, ti
         show: true,
         name: 'USD($)',
         axisLabel: {
-          formatter: '${value}'
+          formatter: (params: any) => `$${simplifyNumber(params)}`
         },
         splitLine: {
           show: true,
@@ -35,14 +37,15 @@ const AllNFTValuationChart: React.FC<AllNFTValuationChartData> = ({ usd, eth, ti
             color: '#666',
             type: 'dotted'
           }
-        }
+        },
+        min: (value: any) => value.min * .99
       },
       {
         type: 'value',
         show: true,
         name: 'ETH(Ξ)',
         axisLabel: {
-          formatter: 'Ξ{value}'
+          formatter: (params: any) => `Ξ${simplifyNumber(params)}`
         },
         splitLine: {
           show: true,
@@ -50,7 +53,8 @@ const AllNFTValuationChart: React.FC<AllNFTValuationChartData> = ({ usd, eth, ti
             color: '#666',
             type: 'dotted'
           }
-        }
+        },
+        min: (value: any) => value.min * .99
       }
     ],
     series: [
@@ -66,6 +70,11 @@ const AllNFTValuationChart: React.FC<AllNFTValuationChartData> = ({ usd, eth, ti
         yAxisIndex: 1
       }
     ],
+    dataZoom: [{
+      type: 'inside',
+      start: 0,
+      end: 100,
+    }],
     tooltip: {
       trigger: 'axis'
     }
