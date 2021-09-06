@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Button } from 'antd'
 import { Link, useHistory } from 'react-router-dom'
-import { useLocationQuery } from '../../utils'
+import { useLocationQuery } from '../../hooks/useLocationQuery'
 import { getUriByIpfsHash } from '../../utils/ipfs'
 
 type NFTCreatedSuccessProps = {

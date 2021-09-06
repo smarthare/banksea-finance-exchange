@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAccount, getSelectedWallet, setAccount, setCurrentChain, setSelectedWallet } from '../../store/wallet'
-import { Button, Modal } from 'antd'
-// @ts-ignore
-import Jazzicon from 'jazzicon'
 import { getIconByWalletName, getWeb3ProviderByWallet, WalletNames } from '../../web3/wallets'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import styled from 'styled-components'
 import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import { banksyWeb3 } from '../../BanksyWeb3'
+import MetamaskAvatar from '../MetamaskAvatar'
+import { Button, Modal } from 'antd'
 
 type CurrentAccountProps = {
   account: string
@@ -33,7 +32,6 @@ const SCCurrentAccount = styled.div`
 `
 
 const WalletModal = styled(Modal)`
-
   .ant-modal-content {
     border-radius: 1rem;
     width: 62.3rem;
@@ -138,19 +136,7 @@ const WalletModalContent: React.FC<WalletModalContentProps> = ({ account }) => {
   )
 }
 
-const MetamaskIcon: React.FC = () => {
-  const ref = useRef<HTMLDivElement>()
-  const account = useSelector(getAccount)
 
-  useEffect(() => {
-    if (account && ref.current) {
-      ref.current.innerHTML = ''
-      ref.current.appendChild(Jazzicon(26, parseInt(account.slice(2, 10), 26)))
-    }
-  }, [account])
-
-  return <div ref={ref as any} style={{ width: '26px', height: '26px' }} />
-}
 
 const CurrentAccount: React.FC<CurrentAccountProps> = ({ account }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -165,7 +151,7 @@ const CurrentAccount: React.FC<CurrentAccountProps> = ({ account }) => {
       <div className="icon">
         {
           selectedWallet === 'Metamask'
-            ? <MetamaskIcon />
+            ? <MetamaskAvatar address={account} />
             : <img src={getIconByWalletName(selectedWallet)} alt="" />
         }
       </div>

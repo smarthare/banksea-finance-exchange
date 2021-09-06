@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Pagination } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
-import '../../styles/override-antd-select-dropdown.scss'
 import NFTListItem from '../../components/NFTListItem'
 import clsx from 'clsx'
 import ListPageLoading from '../../components/ListPageLoading'
@@ -13,7 +12,7 @@ import { BanksyNftTransactionStatus, ChainType } from '../../apis/nft'
 import { ChainSelector, OrderSelector, StatusSelector } from '../../components/NFTListSelectors'
 import { SearchInput } from '../../styles/SearchInput'
 import { useHistory } from 'react-router-dom'
-import { useLocationQuery } from '../../utils'
+import { useLocationQuery } from '../../hooks/useLocationQuery'
 import { NftListItem } from '../../types/NFTDetail'
 
 const PageContainer = styled.div`
@@ -343,7 +342,9 @@ const CollectiblesPage: React.FC = () => {
                 style={{ marginRight: '2.5rem' }}
               />
               <ChainSelector onChange={setSelectedChain} />
+              <div style={{ width: '30px' }} />
               <StatusSelector onChange={setSelectedStatus} />
+              <div style={{ width: '30px' }} />
               <OrderSelector />
             </div>
           </div>

@@ -40,7 +40,7 @@ const DepositAreaRight = styled.div`
 
   .MyTotal {
     width: 100%;
-    padding: 0 3.5rem;
+    padding: 0 2.5rem;
     position: relative;
     display: flex;
     align-items: center;
@@ -52,6 +52,7 @@ const DepositAreaRight = styled.div`
       align-items: center;
 
       span {
+        font-size: 1.7rem;
         margin-left: 1.4rem;
       }
     }
@@ -60,6 +61,7 @@ const DepositAreaRight = styled.div`
       position: absolute;
       right: 3.5rem;
       font-size: 2.5rem;
+      font-weight: bolder;
     }
   }
 `
@@ -69,30 +71,6 @@ const Line = styled.div`
   height: 0.1rem;
   background: linear-gradient(to right, #00FFFF, #5D00B3);
 `
-
-/*const CoinTabsArea = styled.div`
-  width: 20.6rem;
-  height: 2.7rem;
-  background: #080F26;
-  border-radius: 0.5rem;
-  color: #fff;
-  display: flex;
-  margin-left: 2.9rem;
-  margin-top: 3.5rem;
-
-  .coin-tab-item {
-    width: 10.3rem;
-    height: 2.7rem;
-    line-height: 2.7rem;
-    text-align: center;
-    border-radius: 0.5rem;
-    cursor: pointer;
-  }
-
-  .tabs__link {
-    background: #6C48FF;
-  }
-`*/
 
 const AllCoinTable = styled.div`
   width: 72.4rem;
@@ -110,12 +88,12 @@ const AllCoinTableTop = styled.div`
   }
 
   div:nth-of-type(1) {
-    width: 30%;
+    width: 28%;
     padding-left: 3rem;
   }
 
-  div:nth-of-type(2), div:nth-of-type(3) {
-    width: 30%;
+  div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4) {
+    width: 23%;
     text-align: center;
   }
 `
@@ -131,17 +109,18 @@ const AllCoinTableMain = styled.div`
     display: flex;
     align-items: center;
     margin-top: 1.5rem;
+    cursor: pointer;
 
     div {
       color: #ffffff;
     }
 
     div:nth-of-type(1) {
-      width: 30%;
+      width: 28%;
     }
 
-    div:nth-of-type(2), div:nth-of-type(3) {
-      width: 30%;
+    div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4) {
+      width: 23%;
       text-align: center;
     }
 
@@ -149,6 +128,7 @@ const AllCoinTableMain = styled.div`
       font-size: 1.8rem;
       padding-left: 3rem;
       display: flex;
+      align-items: center;
     }
 
     .walletBalance {
@@ -191,19 +171,7 @@ const AllCoinTableMain = styled.div`
   }
 `
 
-/*const DepositButton = styled.div`
-  width: 7rem;
-  height: 2rem;
-  font-size: 1.2rem;
-  color: #fff;
-  text-align: center;
-  background: #234890;
-  border-radius: 0.5rem;
-  margin-right: 1rem;
-  cursor: pointer;
-`*/
-
-const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
+const AllCoinContainer: React.FC<{ depositList: any }> = ({ depositList }) => {
   const history = useHistory()
 
   return (
@@ -212,16 +180,20 @@ const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
         <div>Assets</div>
         <div>Your wallet balance</div>
         <div>APY</div>
+        <div>Insured APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
         {
           depositList?.map((item: any, index: number) => (
-            <div key={index} className="allCoin-table-item" onClick={() => history.push(`/pools/deposit/detail/${item.id}`)}>
+            <div key={index}
+              className="allCoin-table-item"
+              onClick={() => history.push(`/pools/deposit/detail/${item.id}`)}
+            >
               <div className="assets">
                 <img
                   src={item?.assetsImage}
                   alt=""
-                  style={{ width: '2.2rem', marginRight: '0.8rem' }}
+                  style={{ width: '2.4rem', height: '2.4rem', marginRight: '0.8rem' }}
                 />
                 <span>{item?.assetsName}</span>
               </div>
@@ -230,8 +202,10 @@ const AllCoinContainer:React.FC<{ depositList: any }> = ({ depositList }) => {
                 <p>$11.3445</p>
               </div>
               <div className="apy">
-                <p>12.000</p>
-                <p>$11.3445</p>
+                <p>13.21%</p>
+              </div>
+              <div className="apy">
+                <p>13.21%</p>
               </div>
             </div>
           ))
@@ -255,11 +229,11 @@ const DepositPage: React.FC = () => {
       setDepositList(res.data.data)
     })
     setLoading(false)
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
   return (
     <DepositContainer className={clsx('active')}>
@@ -276,15 +250,15 @@ const DepositPage: React.FC = () => {
               <Line />
               <div className="MyTotal">
                 <div className="MyTotal-name">
-                  <span>Ethereum</span>
+                  <span>Total value</span>
                 </div>
-                <div className="MyTotalNum">12.000</div>
+                <div className="MyTotalNum">12</div>
               </div>
               <div className="MyTotal">
                 <div className="MyTotal-name">
-                  <span>Ethereum</span>
+                  <span>Number of currencies</span>
                 </div>
-                <div className="MyTotalNum">12.000</div>
+                <div className="MyTotalNum">12</div>
               </div>
             </DepositAreaRight>
           </div> :

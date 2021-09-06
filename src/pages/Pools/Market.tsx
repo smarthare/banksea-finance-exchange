@@ -6,8 +6,12 @@ import { useHistory } from 'react-router-dom'
 
 import { depositPoolsList, depositSize, depositSizeStatistics, mortgagePoolsList, mortgageSize } from '../../apis/pool'
 import PageLoading from '../../components/PageLoding'
+import { Button } from 'antd'
+import InsuranceChart from '../../components/EchartsStatistics/InsuranceChart'
 
 const MarketContainer = styled.div`
+  width: 130rem;
+  margin-left: calc((100% - 130rem) / 2);
   padding-top: 4rem;
 
   .market {
@@ -23,17 +27,14 @@ const MarketContainer = styled.div`
   }
 `
 
-const MarkeTotal = styled.div`
-  width: 130rem;
-  margin-left: calc((100% - 130rem) / 2);
+const MarketTotal = styled.div`
   padding-top: 3.3rem;
   display: flex;
   justify-content: space-between;
 `
 
-const Tatistics = styled.div`
+const Statistics = styled.div`
   width: 64.3rem;
-  height: 33rem;
   background: #000c17;
   border-radius: 1.5rem;
 `
@@ -62,7 +63,7 @@ const TableTop = styled.div`
   }
 
   div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5), div:nth-of-type(6) {
-    width: 14%;
+    width: 16%;
     text-align: center;
 
     .variable {
@@ -91,10 +92,11 @@ const TableMain = styled.div`
     transition: all 0.7s;
     border: none;
     cursor: pointer;
-    z-index: -1;
 
     div:nth-of-type(1) {
       width: 15%;
+      height: 100%;
+      line-height: 5.7rem;
       color: #fff;
       padding-left: 3rem;
       font-weight: bolder;
@@ -102,8 +104,14 @@ const TableMain = styled.div`
       align-items: center;
     }
 
-    div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5), div:nth-of-type(6) {
-      width: 14%;
+    div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4) {
+      height: 100%;
+      line-height: 5.7rem;
+    }
+
+
+    div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5) {
+      width: 16%;
       color: #fff;
       font-size: 1.8rem;
       text-align: center;
@@ -141,7 +149,7 @@ const TableMain = styled.div`
     }
 
     div:nth-of-type(2), div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5), div:nth-of-type(6) {
-      width: 14%;
+      width: 16%;
       color: #fff;
       font-size: 1.8rem;
       text-align: center;
@@ -179,17 +187,48 @@ const MarketSizeStatistics = styled.div`
   }
 `
 
-const DepositButton = styled.div`
-  width: 6rem;
-  height: 2rem;
+const DepositButton = styled(Button)`
+  width: 8rem;
+  height: 2.5rem;
   font-size: 1.2rem;
   color: #fff;
-  text-align: center;
   background: #234890;
   border-radius: 0.5rem;
   margin-left: 2rem;
-  z-index: 999;
+
+  //&:nth-of-type(1) {
+  //  margin-left: 15rem;
+  //}
 `
+
+const DepositAPYCenter = styled.div`
+
+  .statistics-price {
+    width: 100%;
+    background: #000c17;
+    border-radius: 1.5rem;
+    margin-bottom: 1.4rem;
+    margin-top: 2rem;
+  }
+`
+
+const StatisticsMain = styled.div`
+  padding: 3rem;
+`
+
+const DepositAPYStatistics:React.FC = () => {
+  return (
+    <DepositAPYCenter>
+      <div className="statistics-price">
+        <AreaTitle>Fund Pools</AreaTitle>
+        <Line />
+        <StatisticsMain>
+          <InsuranceChart />
+        </StatisticsMain>
+      </div>
+    </DepositAPYCenter>
+  )
+}
 
 const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
 
@@ -232,10 +271,8 @@ const MortgagePools: React.FC<{ mortgageList: any }> = ({ mortgageList }) => {
   )
 }
 
-const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
+const DepositPool: React.FC<{ depositList: any }> = ({ depositList }) => {
   const history = useHistory()
-
-  // const usdTableTop = ['Assets', 'Market size', 'Total borrowed', 'Deposit APY', 'Deposit APY', 'Borrow APY']
 
   return (
     <PoolContainer>
@@ -246,14 +283,7 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
           <div>Market size</div>
           <div>Total borrowed</div>
           <div>Deposit APY</div>
-          <div>
-            <p className="variable">Variable</p>
-            <p>Borrow APY</p>
-          </div>
-          <div>
-            <p className="stable">Stable</p>
-            <p>Borrow APY</p>
-          </div>
+          <div>Borrow APY</div>
         </TableTop>
         <TableMain>
           {
@@ -261,21 +291,20 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
               <div
                 key={index}
                 className="table-item"
-                onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}
               >
                 <div>
                   <img
                     src={item?.assetsImage}
                     alt=""
                     style={{ width: '2.5rem', marginRight: '0.8rem' }}
+                    onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}
                   />
                   {item?.assetsName}
                 </div>
-                <div>{item?.marketSize}</div>
-                <div>{item?.totalBorrowed}</div>
-                <div>{item?.depositApy}</div>
-                <div>{item?.variableBorrowApy}</div>
-                <div>{item?.stableBorrowApy}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.marketSize}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.totalBorrowed}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.depositApy}</div>
+                <div onClick={() => history.push(`/pools/market/deposit/pool/${item?.id}`)}>{item?.variableBorrowApy}</div>
                 <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>deposit</DepositButton>
                 <DepositButton onClick={() => history.push(`/pools/borrow/detail/${item?.id}`)}>Borrow</DepositButton>
               </div>
@@ -288,7 +317,6 @@ const USDPool: React.FC<{ depositList: any }> = ({ depositList }) => {
 }
 
 const MarketPage: React.FC = () => {
-
   const [depositList, setDepositList] = useState<any>()
 
   const [depositSizeNum, setDepositSizeNum] = useState<number>()
@@ -301,25 +329,23 @@ const MarketPage: React.FC = () => {
 
   const [isLoading, setLoading] = useState<boolean>(true)
 
-  const init = useCallback(async () => {
-    await depositPoolsList(
-      {
-        orderKey: 'deposit_apy',
-        orderDesc: ''
-      }
-    ).then(res => {
-      setDepositList(res.data.data)
+  const fetchBasicData = () => {
+    depositSize().then((res: any) => {
+      setDepositSizeNum(res.data.data.toLocaleString())
     })
 
-    const t = setInterval(() => {
-      depositSize().then((res: any) => {
-        setDepositSizeNum(res.data.data.toLocaleString())
-      })
+    mortgageSize().then(res => {
+      setMortgageSizeNum(res.data.data.toLocaleString())
+    })
+  }
 
-      mortgageSize().then(res => {
-        setMortgageSizeNum(res.data.data.toLocaleString())
-      })
-    }, 2000)
+  const init = useCallback(async () => {
+    await depositPoolsList({
+      orderKey: 'deposit_apy',
+      orderDesc: ''
+    }).then(res => {
+      setDepositList(res.data.data)
+    })
 
     depositSizeStatistics().then(res => {
       setDepositStatistics(res.data.data.depositSize)
@@ -329,15 +355,19 @@ const MarketPage: React.FC = () => {
       setMortgageList(res.data.data)
     })
 
-    setLoading(false)
+    fetchBasicData()
 
-    return () => {
-      clearInterval(t)
-    }
+    setLoading(false)
   }, [])
 
   useEffect(() => {
     init()
+
+    const interval = setInterval(fetchBasicData, 5000)
+
+    return () => {
+      clearInterval(interval)
+    }
   }, [init])
 
   return (
@@ -345,25 +375,26 @@ const MarketPage: React.FC = () => {
       {
         !isLoading ?
           <div className={clsx('market', 'active')}>
-            <MarkeTotal>
-              <Tatistics>
+            <MarketTotal>
+              <Statistics>
                 <AreaTitle>Deposit size</AreaTitle>
                 <Line />
                 <MarketSizeStatistics>
                   <div className="market-size">${depositSizeNum}</div>
                   <DepositSize depositStatistics={depositStatistics} />
                 </MarketSizeStatistics>
-              </Tatistics>
-              <Tatistics>
+              </Statistics>
+              <Statistics>
                 <AreaTitle>Collateral NFT value</AreaTitle>
                 <Line />
                 <MarketSizeStatistics>
                   <div className="market-size">${mortgageSizeNum}</div>
                   <DepositSize depositStatistics={depositStatistics} />
                 </MarketSizeStatistics>
-              </Tatistics>
-            </MarkeTotal>
-            <USDPool depositList={depositList} />
+              </Statistics>
+            </MarketTotal>
+            <DepositAPYStatistics />
+            <DepositPool depositList={depositList} />
             <MortgagePools mortgageList={mortgageList} />
           </div> :
           <PageLoading />

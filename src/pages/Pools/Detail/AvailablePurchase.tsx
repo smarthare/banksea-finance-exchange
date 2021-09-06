@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { CopyOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
@@ -6,24 +6,39 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
 import { mortgageConfirm } from '../../../apis/pool'
-import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import neuralNetworks from '../../../assets/images/Pools/neuralNetworksImg.png'
 import { useMortgageConfirmModal } from '../../../hooks/modals/useNFTMortgageConfirmModal'
 import { useNftDetailQuery } from '../../../hooks/queries/useNftDetailQuery'
+import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
-  padding: 8rem 10rem;
+  width: 130rem;
+  margin-left: calc((100% - 130rem) / 2);
+  padding: 8rem 0 3rem 0;
 `
 
 const Row = styled.div`
   display: flex;
-  justify-content: center;
 
   .statistics {
     width: 50rem;
-    margin-left: 2rem;
     position: relative;
+    background: #305099;
+    margin-top: 2rem;
+    border-radius: 0.8rem;
+
+    .statistics-title {
+      width: 100%;
+      height: 5rem;
+      background: #18284C;
+      font-size: 2.2rem;
+      color: #99BDF9;
+      line-height: 5rem;
+      padding-left: 2rem;
+      border-top-left-radius: 0.8rem;
+      border-top-right-radius: 0.8rem;
+    }
 
     .ant-statistic-content-value {
       position: absolute;
@@ -45,16 +60,17 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 22.2rem;
-  height: 28.4rem;
-  border-radius: 2rem;
+  width: 27.2rem;
+  height: 36rem;
+  padding: 0.5rem;
   justify-content: center;
   position: relative;
   border: 1px solid #98BDF9;
 
   img {
-    max-height: 34.4rem;
-    border-radius: 2rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `
 
@@ -64,40 +80,9 @@ const RightArea = styled.div`
   position: relative;
 `
 
-/*const PriceContainer = styled.div`
-  .item {
-    display: flex;
-    flex-direction: row;
-    margin-top: 1.2rem;
-
-    .info-label {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #A196EF;
-      line-height: 2.2rem;
-      padding-right: 1.4rem;
-    }
-
-    .price {
-      font-size: 3.2rem;
-      font-weight: 400;
-      color: #7C6DEB;
-      line-height: 2.5rem;
-    }
-
-    .price-in-usd {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #A196EF;
-      line-height: 2.2rem;
-      margin-left: 1rem;
-    }
-  }
-`*/
-
 const NFTBaseInfoContainer = styled.div`
   .nft-name {
-    font-size: 4.5rem;
+    font-size: 3rem;
     font-weight: 550;
     color: #98BDF9;
   }
@@ -209,15 +194,19 @@ const NFTBaseInfoContainer = styled.div`
 `
 
 const NeuralNetworks = styled.div`
+  width: 34rem;
+  height: 24rem;
   position: absolute;
-  top: 10rem;
-  right: 12rem;
+  top: 7rem;
+  right: 3rem;
 
   .NeuralNetworksMain {
+    text-align: center;
+    margin: 3rem;
 
     .networksValue-name {
       color: #98BAF2;
-      font-size: 2rem;
+      font-size: 2.7rem;
       margin-top: 1rem;
     }
 
@@ -237,6 +226,7 @@ const ScheduleFirst = styled.div`
   text-align: center;
   width: 80rem;
   margin-left: calc((100% - 80rem) / 2);
+
   .title {
     color: #F172ED;
     font-size: 2rem;
@@ -268,30 +258,12 @@ const ConfirmButton = styled(Button)`
   }
 `
 
-const EvaluateButton = styled(Button)`
-  width: 16.9rem;
-  height: 4.8rem;
-  margin-left: calc((100% - 16.9rem) / 2);
-  background: #554BFF;
-  border-radius: 1rem;
-  border: none;
-  color: #fff;
-  font-weight: bolder;
-  font-size: 1.7rem;
-  transition: all 0.7s;
-  margin-top: 5rem;
-
-  &:hover {
-    background: #7A7AFF;
-    color: #fff;
-  }
-`
 const Valuation = styled.div`
   margin-top: 2rem;
   position: relative;
 `
 
-const NFTBaseInfo:React.FC<{ data: any }> = ({ data }) => {
+const NFTBaseInfo: React.FC<{ data: any }> = ({ data }) => {
 
   return (
     <NFTBaseInfoContainer>
@@ -302,7 +274,7 @@ const NFTBaseInfo:React.FC<{ data: any }> = ({ data }) => {
         <div className="info-row-item">
           <div className="info-row-item-label">Artist</div>
           <div className="info-row-item-value">
-            {data?.addressCreate.substring(0,4)+'...'+data?.addressCreate.slice(-4)}
+            {data?.addressCreate.substring(0, 4) + '...' + data?.addressCreate.slice(-4)}
           </div>
           <CopyOutlined className="icon-copy" />
         </div>
@@ -314,19 +286,10 @@ const NFTBaseInfo:React.FC<{ data: any }> = ({ data }) => {
 type ScheduleAI = {
   data: any
   openMortgageConfirmModal: any
-  showAINetwork: () => void
-  isAINetwork: boolean
-  isConfirm: boolean
-  showConfirm: () => void
 }
 
-const Schedule:React.FC<ScheduleAI> = ({ data, openMortgageConfirmModal, showAINetwork, isAINetwork, isConfirm, showConfirm }) => {
+const Schedule: React.FC<ScheduleAI> = ({ data, openMortgageConfirmModal }) => {
   const account = useSelector(getAccount)
-
-  const showAIConfirm = () => {
-    showAINetwork()
-    showConfirm()
-  }
 
   const confirm = () => {
     openMortgageConfirmModal()
@@ -340,60 +303,39 @@ const Schedule:React.FC<ScheduleAI> = ({ data, openMortgageConfirmModal, showAIN
 
   return (
     <ScheduleMain>
-      <EvaluateButton onClick={showAIConfirm}>Evaluate</EvaluateButton>
-      {
-        isAINetwork ?
-          <Valuation>
-            <img src={neuralNetworks} alt="" />
-            <NeuralNetworks>
-              <div className="NeuralNetworksMain">
-                <div className="networksValue-name">Evaluation Value</div>
-                <div className="networksValue-value">{data?.evaluate} ETH</div>
-                <div className="networksValue-name">Mortgage Rate</div>
-                <div className="networksValue-value">{data?.mortgageRate * 100}%</div>
-              </div>
-            </NeuralNetworks>
-          </Valuation> :
-          <div />
-      }
-      {
-        isConfirm ?
-          <div>
-            <ScheduleFirst>
-              <div className="title">Mortgage overview</div>
-              <div className="main-text">
-                If you agree with the valuation of the NFT,you can make a
-                mortgage,,and the NFT will be locked in the smart contract during
-                the mortgage.During the mortgage period,AI Oracle will regularly
-                update the valuation of NFT,please pay attention to it regularly.
-              </div>
-            </ScheduleFirst>
-            <ConfirmButton onClick={confirm}>Confirm</ConfirmButton>
-          </div> :
-          <div />
-      }
+      <Valuation>
+        <img src={neuralNetworks} alt="" />
+        <NeuralNetworks>
+          <div className="NeuralNetworksMain">
+            <div className="networksValue-name">Evaluation Value</div>
+            <div className="networksValue-value">{data?.evaluate} ETH</div>
+            <div className="networksValue-name">Collateral Rate</div>
+            <div className="networksValue-value">{data?.mortgageRate * 100}%</div>
+          </div>
+        </NeuralNetworks>
+      </Valuation>
+      <div>
+        <ScheduleFirst>
+          <div className="title">Collateral overview</div>
+          <div className="main-text">
+            If you agree with the valuation of the NFT,you can make a
+            mortgage,,and the NFT will be locked in the smart contract during
+            the mortgage.During the mortgage period,AI Oracle will regularly
+            update the valuation of NFT,please pay attention to it regularly.
+          </div>
+        </ScheduleFirst>
+        <ConfirmButton onClick={confirm}>Confirm</ConfirmButton>
+      </div>
     </ScheduleMain>
   )
 }
 
-const AvailablePurchasePage:React.FC = () => {
+const AvailablePurchasePage: React.FC = () => {
   const { uri } = useParams<any>()
 
   const { data } = useNftDetailQuery({ uri })
 
   const { mortgageConfirmModal, openMortgageConfirmModal } = useMortgageConfirmModal()
-
-  const [isAINetwork, setAINetwork] = useState<boolean>(false)
-
-  const [isConfirm, setConfirm] = useState<boolean>(false)
-
-  const showAINetwork = () => {
-    setAINetwork(true)
-  }
-
-  const showConfirm = () => {
-    setConfirm(true)
-  }
 
   return (
     <NFTMortgageDetailContainer>
@@ -405,17 +347,15 @@ const AvailablePurchasePage:React.FC = () => {
         </LeftArea>
         <RightArea>
           <NFTBaseInfo data={data} />
+          <div className="statistics">
+            <div className="statistics-title">Historical price</div>
+            <VariableAPY />
+          </div>
         </RightArea>
-        <div className="statistics">
-          <DepositAPY />
-        </div>
       </Row>
-      <Schedule data={data}
+      <Schedule
+        data={data}
         openMortgageConfirmModal={openMortgageConfirmModal}
-        isAINetwork={isAINetwork}
-        showAINetwork={showAINetwork}
-        isConfirm={isConfirm}
-        showConfirm={showConfirm}
       />
 
       {mortgageConfirmModal}

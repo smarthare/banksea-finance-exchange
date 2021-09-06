@@ -1,23 +1,27 @@
 import styled from 'styled-components'
 import { Input } from 'antd'
+import { Property } from 'csstype'
 
-const SearchInput = styled(Input)`
-  height: 4rem;
-  border-color: #305099;
-  background-color: #305099;
+type SearchInputProps = {
+  backgroundColor?: Property.Color
+}
+
+const defaultColor = '#305099'
+
+const SearchInput = styled(Input)<SearchInputProps>`
+  height: 40px;
+  margin-right: 3rem;
+  border-color: ${props =>  props.backgroundColor ?? defaultColor};
+  background-color: ${props =>  props.backgroundColor ?? defaultColor};
   border-radius: 10px;
 
   .ant-input {
-    background-color: #305099;
+    background-color: ${props =>  props.backgroundColor ?? defaultColor};
     color: white;
     font-weight: bold;
     font-size: 1.4rem;
   }
 
-  @media screen and (max-width: 1000px) {
-    width: 68vw;
-    margin-bottom: 2vh;
-  }
 `
 
 export {

@@ -2,24 +2,28 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
 import { useHistory, useParams } from 'react-router-dom'
-import { borrowConfirm, depositPoolsDetail, mortgageOpinion } from '../../../apis/pool'
+import { depositPoolsDetail, mortgageOpinion } from '../../../apis/pool'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../../store/wallet'
-import { Button, Form, Input, message } from 'antd'
+import { Button, Form, Input } from 'antd'
+import { useBorrowCheckoutModal } from '../../../hooks/modals/useBorrowCheckoutModal'
+import { LeftOutlined } from '@ant-design/icons'
 
 const ItemDetailMain = styled.div`
   min-height: 100vh;
   width: 130rem;
   margin-left: calc((100% - 130rem) / 2);
-  padding-top: 2rem;
+  padding-top: 8rem;
 `
 
 const DetailTop = styled.div`
   height: 5rem;
-  background: #000D17;
+  background: #111C3A;
   border-radius: 1.5rem;
-  line-height: 5rem;
   padding-left: 3rem;
+  position: relative;
+  display: flex;
+  align-items: center;
 
   span {
     color: #fff;
@@ -59,7 +63,6 @@ const ItemDetailData = styled.div`
         width: 2rem;
         height: 2rem;
         border-radius: 3rem;
-        background: gray;
       }
 
       div {
@@ -86,20 +89,25 @@ const DetailDataMainItem = styled.div`
 
   .item-line {
     display: flex;
-    padding: 1rem 0;
+    padding: 2rem 0;
     justify-content: space-between;
     color: #fff;
 
+    div:nth-of-type(1) {
+      font-size: 1.8rem;
+    }
+
     div:nth-of-type(2) {
       font-weight: bolder;
-      font-size: 1.7rem;
+      font-size: 2rem;
     }
   }
 `
 
 const DetailDataMainStatistics = styled.div`
-  width: 45%;
+  width: 60%;
   padding: 1rem;
+  margin-left: 15rem;
 `
 
 const OptionMain = styled.div`
@@ -142,18 +150,35 @@ const ScheduleMain = styled.div`
 
 const ScheduleFirst = styled.div`
   text-align: center;
-  width: 80rem;
-  margin-left: calc((100% - 80rem) / 2);
+  width: 60rem;
+  margin-left: calc((100% - 60rem) / 2);
   .title {
     color: #F172ED;
     font-size: 2rem;
     font-weight: bolder;
+    margin-bottom: 2rem;
+  }
+
+  .main-title {
+    font-weight: bolder;
+    font-size: 1.7rem;
+    color: #fff;
+    margin-bottom: 2rem;
   }
 
   .main-text {
     font-size: 1.7rem;
     color: #fff;
     margin-bottom: 2rem;
+  }
+
+  .input-text {
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
   }
 
   .ant-input-group.ant-input-group-compact > *:first-child, .ant-input-group.ant-input-group-compact > .ant-select:first-child > .ant-select-selector, .ant-input-group.ant-input-group-compact > .ant-select-auto-complete:first-child .ant-input, .ant-input-group.ant-input-group-compact > .ant-cascader-picker:first-child .ant-input {
@@ -183,7 +208,7 @@ const ConfirmButton = styled(Button)`
   font-weight: bolder;
   font-size: 1.7rem;
   transition: all 0.7s;
-  margin-top: 5rem;
+  margin-top: 1rem;
 
   &:hover {
     background: #7A7AFF;
@@ -191,13 +216,39 @@ const ConfirmButton = styled(Button)`
   }
 `
 
+const BackIconButton = styled.div`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #284779;
+  transition: all 0.7s;
+  margin-right: 1rem;
+
+  &:hover {
+    background: #6C48FF;
+  }
+`
+
+const BackIcon:React.FC = () => {
+  const history = useHistory()
+  return (
+    <BackIconButton onClick={() => history.goBack()}>
+      <LeftOutlined style={{ fontSize: '1.6rem', color: '#fff' }} />
+    </BackIconButton>
+  )
+}
+
+
 const Option:React.FC = () => {
 
   const history = useHistory()
 
   return (
     <OptionMain>
-      <div className="title">No deposits yet</div>
+      <div className="title">No Borrow yet</div>
       <div className="main-text">You need to deposit some collateral first to unlock your borrowing power.</div>
       <DepositNowButton onClick={() => history.push('/pools/deposit/detail/${item.id}')}>Deposit now</DepositNowButton>
     </OptionMain>
@@ -207,16 +258,20 @@ const Option:React.FC = () => {
 const Schedule:React.FC<{ data: any }> = ({ data }) => {
   const account = useSelector(getAccount)
 
+  const [formData, setFormData] = useState<any>()
+
   const formInitialValues = {
     price: ''
   }
+
+  const { borrowCheckoutModal, openBorrowCheckoutModal } = useBorrowCheckoutModal(formData)
 
   const [form] = Form.useForm<typeof formInitialValues>()
 
   const confirm = () => {
     form.validateFields().then(values => {
 
-      const formData = {
+      setFormData({
         poolName: data?.assetsName,
         walletAddress: account,
         unit: data?.unit,
@@ -224,30 +279,35 @@ const Schedule:React.FC<{ data: any }> = ({ data }) => {
         variableBorrowApy: data?.variableBorrowApy.slice(0,-1) / 100,
         stableBorrowApy: data?.stableBorrowApy.slice(0,-1) / 100,
         borrowType: 'variable'
-      }
-      borrowConfirm(formData).then(() => {
-        message.success('You successfully borrowed！')
       })
     })
-
+    openBorrowCheckoutModal()
   }
 
   return (
     <ScheduleMain>
       <ScheduleFirst>
-        <div className="title">Mortgage overview</div>
+        <div className="title">Borrow overview</div>
+        <div className="main-title">
+          How much would you like to borrow ?
+        </div>
         <div className="main-text">
-          There are your transaction details. Make sure to check if this is correct before submiiting.
+          Please enter an amount you would like to borrow.The maximum amount you can borrow is shown below.
         </div>
         <Form form={form} initialValues={formInitialValues}>
           <div className="fixedPrice">
+            <div className="input-text">
+              <span>available to borrow</span>
+              <span>19.668322 MATIC</span>
+            </div>
             <Form.Item name="price">
-              <Input style={{ width: '50%' }} defaultValue="" />
+              <Input style={{ width: '50%' }} />
             </Form.Item>
           </div>
         </Form>
-        <ConfirmButton onClick={confirm}>Confirm</ConfirmButton>
+        <ConfirmButton onClick={confirm}>Continue</ConfirmButton>
       </ScheduleFirst>
+      {borrowCheckoutModal}
     </ScheduleMain>
   )
 }
@@ -280,6 +340,7 @@ const BorrowItemDetailPage:React.FC = () => {
   return (
     <ItemDetailMain>
       <DetailTop>
+        <BackIcon />
         <span>You borrowed -</span>
         <span>Total collateral -</span>
         <span>Loan to value</span>
@@ -306,16 +367,6 @@ const BorrowItemDetailPage:React.FC = () => {
             <div className="item-line">
               <div>Asset price</div>
               <div>64.71</div>
-            </div>
-          </DetailDataMainItem>
-          <DetailDataMainItem>
-            <div className="item-line">
-              <div>Stable borrow APY</div>
-              <div>{data?.stableBorrowApy}</div>
-            </div>
-            <div className="item-line">
-              <div>Variable borrow APY</div>
-              <div>{data?.variableBorrowApy}</div>
             </div>
           </DetailDataMainItem>
           <DetailDataMainStatistics>

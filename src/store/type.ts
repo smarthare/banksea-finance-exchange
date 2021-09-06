@@ -8,7 +8,7 @@ export type State = {
 }
 
 export type AppState = {
-
+  sideBarCollapsed: boolean
 }
 
 export type WalletState = {

@@ -6,7 +6,6 @@ import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
 import MyDashboardPage from './MyDashboard'
 import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
 import DepositPage from './Deposit'
-import StakePage from './Stake'
 import BorrowPage from './Borrow'
 import coding from '../../assets/images/mockImg/coding.png'
 import LiquidationListPage from './Liquidation'
@@ -17,9 +16,17 @@ import DepositPoolDetailPage from './Detail/DepositPoolDetail'
 import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import { poolsConnect } from '../../apis/pool'
-import NFTMortgageDetailPage from './Detail/NFTMortgageDetail'
+import NFTMortgageDetailPage from './Detail/NFTPrepayDetail'
 import AvailablePurchasePage from './Detail/AvailablePurchase'
 import BorrowItemDetailPage from './Detail/BorrowItemDetail'
+import WithdrawDetailPage from './Detail/WithdrawDetail'
+import RepayDetailPage from './Detail/RepayDetail'
+import RedemptionDetailPage from './Detail/RedemptionDetail'
+import LiquidationCancelDetailPage from './Detail/LiquidationCancelDetail'
+import { RouteComponentProps } from 'react-router'
+import { Property } from 'csstype'
+import { useMediaQuery } from 'react-responsive'
+import { useSideBarCollapsed } from '../../store/app'
 
 export type PoolPageKeys =
   | 'market'
@@ -27,28 +34,35 @@ export type PoolPageKeys =
   | 'deposit'
   | 'borrow'
   | 'liquidation'
-  | 'stake'
   | 'deposit/detail/:id'
   | 'market/mortgage/detail'
   | 'market/deposit/pool/:id'
   | 'liquidation/detail/:id'
   | 'borrow/detail/:id'
-  | 'available/detail/:uri'
+  | 'dashboard/available/detail/:uri'
+  | 'withdraw/detail/:id'
+  | 'repay/detail/:id'
+  | 'dashboard/redemption/detail/:id'
+  | 'dashboard/liquidation/cancel/detail/:id'
+
 
 // eslint-disable-next-line no-unused-vars
-const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: JSX.Element } = {
-  'market': <MarketPage />,
-  'dashboard': <MyDashboardPage />,
-  'deposit': <DepositPage />,
-  'borrow': <BorrowPage />,
-  'liquidation': <LiquidationListPage />,
-  'stake': <StakePage />,
-  'deposit/detail/:id': <DepositItemDetailPage />,
-  'market/mortgage/detail': <MortgagePoolDetailPage />,
-  'market/deposit/pool/:id': <DepositPoolDetailPage />,
-  'liquidation/detail/:id': <NFTMortgageDetailPage />,
-  'borrow/detail/:id': <BorrowItemDetailPage />,
-  'available/detail/:uri': <AvailablePurchasePage />
+const PAGE_BY_PAGE_KEYS: { [key in PoolPageKeys]?: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any> } = {
+  'market': MarketPage,
+  'dashboard': MyDashboardPage,
+  'deposit': DepositPage,
+  'borrow': BorrowPage,
+  'liquidation': LiquidationListPage,
+  'deposit/detail/:id': DepositItemDetailPage,
+  'market/mortgage/detail': MortgagePoolDetailPage,
+  'market/deposit/pool/:id': DepositPoolDetailPage,
+  'liquidation/detail/:id': NFTMortgageDetailPage,
+  'borrow/detail/:id': BorrowItemDetailPage,
+  'dashboard/available/detail/:uri': AvailablePurchasePage,
+  'withdraw/detail/:id': WithdrawDetailPage,
+  'repay/detail/:id': RepayDetailPage,
+  'dashboard/redemption/detail/:id': RedemptionDetailPage,
+  'dashboard/liquidation/cancel/detail/:id': LiquidationCancelDetailPage
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -58,13 +72,13 @@ const MENU_BY_PAGE_KEYS: { [key in PoolPageKeys]?: string } = {
   'deposit': 'DEPOSIT',
   'borrow': 'BORROW',
   'liquidation': 'LIQUIDATION',
-  'stake': 'STAKE'
 }
 
 const DEFAULT_ACTIVE_PAGE_KEY = 'market'
 
 const PoolsContainer = styled.div`
   min-height: calc(100vh - 6.2rem);
+  width: 100%;
   position: relative;
 
   .coding {
@@ -76,8 +90,8 @@ const PoolsContainer = styled.div`
   }
 `
 
-const PoolsContainerMenu = styled.div`
-  width: 100%;
+const PoolsContainerMenu = styled.div<{ width: Property.Width, left: Property.Left }>`
+  width: ${props => props.width};
   height: 6rem;
   background: #0D1B34;
   border-bottom: 1px solid #4D4E52;
@@ -85,6 +99,7 @@ const PoolsContainerMenu = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
+  left: ${props => props.left};
   z-index: 9;
 
   .container-menu-main {
@@ -136,10 +151,16 @@ const PoolsPage: React.FC = () => {
     }
   }, [history])
 
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+  const sideBarCollapsed = useSideBarCollapsed()
+
   return (
     <PoolsContainer>
       <img className="coding" src={coding} alt="" />
-      <PoolsContainerMenu>
+      <PoolsContainerMenu
+        width={isMobile ? '100vw': (sideBarCollapsed ? 'calc(100vw - 80px)': 'calc(100vw - 200px)')}
+        left={isMobile ? '0': (sideBarCollapsed ? '80px': '200px')}
+      >
         <div className="container-menu-main">
           {
             Object.entries(MENU_BY_PAGE_KEYS).map(([key, value]) => (
@@ -160,9 +181,7 @@ const PoolsPage: React.FC = () => {
       <Switch>
         {
           Object.entries(PAGE_BY_PAGE_KEYS).map(([key, page]) => (
-            <Route path={`/pools/${key}`} exact key={key}>
-              {page}
-            </Route>
+            <Route path={`/pools/${key}`} exact key={key} component={page} />
           ))
         }
       </Switch>

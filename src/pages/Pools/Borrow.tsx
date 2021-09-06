@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { depositPoolsList } from '../../apis/pool'
 import PageLoading from '../../components/PageLoding'
@@ -37,7 +36,7 @@ const DepositAreaRight = styled.div`
 
   .MyTotal {
     width: 100%;
-    padding: 0 3.5rem;
+    padding: 0 2.5rem;
     position: relative;
     display: flex;
     align-items: center;
@@ -49,6 +48,7 @@ const DepositAreaRight = styled.div`
       align-items: center;
 
       span {
+        font-size: 1.7rem;
         margin-left: 1.4rem;
       }
     }
@@ -57,6 +57,7 @@ const DepositAreaRight = styled.div`
       position: absolute;
       right: 3.5rem;
       font-size: 2.5rem;
+      font-weight: bolder;
     }
   }
 `
@@ -74,30 +75,6 @@ const Line = styled.div`
   height: 0.1rem;
   background: linear-gradient(to right, #00FFFF, #5D00B3);
 `
-
-// const CoinTabsArea = styled.div`
-//   width: 20.6rem;
-//   height: 2.7rem;
-//   background: #080F26;
-//   border-radius: 0.5rem;
-//   color: #fff;
-//   display: flex;
-//   margin-left: 2.9rem;
-//   margin-top: 3.5rem;
-//
-//   .coin-tab-item {
-//     width: 10.3rem;
-//     height: 2.7rem;
-//     line-height: 2.7rem;
-//     text-align: center;
-//     border-radius: 0.5rem;
-//     cursor: pointer;
-//   }
-//
-//   .tabs__link {
-//     background: #6C48FF;
-//   }
-// `
 
 const AllCoinTable = styled.div`
   width: 72.4rem;
@@ -136,6 +113,7 @@ const AllCoinTableMain = styled.div`
     display: flex;
     align-items: center;
     margin-top: 1.5rem;
+    cursor: pointer;
 
     div {
       color: #ffffff;
@@ -160,13 +138,14 @@ const AllCoinTableMain = styled.div`
     .walletBalance {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.6rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.4rem;
       }
@@ -175,13 +154,14 @@ const AllCoinTableMain = styled.div`
     .apy {
       text-align: center;
 
-      p{
+      p {
         margin: 0;
       }
 
       p:nth-of-type(1) {
         font-size: 1.6rem;
       }
+
       p:nth-of-type(2) {
         font-size: 1.4rem;
       }
@@ -196,51 +176,20 @@ const AllCoinTableMain = styled.div`
 `
 
 const MyNFTMortgage = styled.div`
-  height: 31rem;
+  height: 23rem;
   background: #101D44;
   border-radius: 1.5rem;
   margin-left: 1.4rem;
 `
 
-const MortgageButton = styled(Button)`
-  width: 16.9rem;
-  height: 4.8rem;
-  margin-left: calc((100% - 16.9rem) / 2);
-  background: #554BFF;
-  border-radius: 1rem;
-  border: none;
-  color: #fff;
-  font-weight: bolder;
-  font-size: 1.7rem;
-  transition: all 0.7s;
-  margin-top: 5rem;
-
-  &:hover {
-    background: #7A7AFF;
-    color: #fff;
-  }
-`
-
-/*const DepositButton = styled.div`
-  width: 7rem;
-  height: 2rem;
-  font-size: 1.2rem;
-  color: #fff;
-  text-align: center;
-  background: #234890;
-  border-radius: 0.5rem;
-  margin-right: 1rem;
-  cursor: pointer;
-`*/
-
-const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
+const AllCoinContainer: React.FC<{ data: any }> = ({ data }) => {
   const history = useHistory()
 
   return (
     <AllCoinTable>
       <AllCoinTableTop>
         <div>Assets</div>
-        <div>Variable APY</div>
+        <div>Available to borrow</div>
         <div>Stable APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
@@ -253,13 +202,13 @@ const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
               <div className="assets">
                 <img
                   src={item?.assetsImage}
-                  alt="ETH"
+                  alt=""
                   style={{ width: '2.2rem', marginRight: '0.8rem' }}
                 />
                 <span>{item?.assetsName}</span>
               </div>
               <div className="walletBalance">
-                <p>{item?.variableBorrowApy}</p>
+                <p>{item?.variableBorrowed}</p>
               </div>
               <div className="apy">
                 <p>{item?.stableBorrowApy}</p>
@@ -272,9 +221,7 @@ const AllCoinContainer:React.FC<{ data: any }> = ({ data }) => {
   )
 }
 
-const BorrowPage:React.FC = () => {
-  const history = useHistory()
-
+const BorrowPage: React.FC = () => {
   const [data, setData] = useState<any>()
 
   const [isLoading, setLoading] = useState<boolean>(true)
@@ -287,11 +234,11 @@ const BorrowPage:React.FC = () => {
       setData(res.data.data)
     })
     setLoading(false)
-  },[])
+  }, [])
 
   useEffect(() => {
     init()
-  },[init])
+  }, [init])
 
   return (
     <BorrowMain className={clsx('active')}>
@@ -305,21 +252,20 @@ const BorrowPage:React.FC = () => {
             </DepositAreaLeft>
             <DepositAreaRight>
               <MyNFTMortgage>
-                <AreaTitle>My NFT-Mortgage</AreaTitle>
+                <AreaTitle>My Borrow</AreaTitle>
                 <Line />
                 <div className="MyTotal">
                   <div className="MyTotal-name">
-                    <span>NFT-Mortgage Number</span>
+                    <span>Total value</span>
                   </div>
                   <div className="MyTotalNum">3</div>
                 </div>
                 <div className="MyTotal">
                   <div className="MyTotal-name">
-                    <span>Total Valuation</span>
+                    <span>Number of currencies</span>
                   </div>
-                  <div className="MyTotalNum">7.6 ETH</div>
+                  <div className="MyTotalNum">7</div>
                 </div>
-                <MortgageButton onClick={() => history.push('/pools/dashboard')}>Mortgage</MortgageButton>
               </MyNFTMortgage>
             </DepositAreaRight>
           </div> :

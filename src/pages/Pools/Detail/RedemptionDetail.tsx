@@ -1,28 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useLocationQuery } from '../../../utils'
+import { useLocationQuery } from '../../../hooks/useLocationQuery'
 import { CopyOutlined } from '@ant-design/icons'
-import { Statistic } from 'antd'
+import { Button, Statistic } from 'antd'
 import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
 import { getNftFavoriteCount } from '../../../apis/nft'
+import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
+import { useRequestingModal } from '../../../hooks/modals/stateModals/useRequestingModal'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;
-  padding: 8rem 10rem;
+  padding: 8rem 30rem;
 `
 
 const Row = styled.div`
   display: flex;
   justify-content: center;
 
-  .statistics {
-    width: 50rem;
+  .time {
+    width: 100%;
     position: relative;
 
     .ant-statistic-content-value {
       position: absolute;
-      right: 10rem;
+      right: 1rem ;
       color: #fff;
+      font-weight: bolder;
     }
   }
 `
@@ -36,19 +39,16 @@ const LeftArea = styled.div`
 `
 
 const ImageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 22.2rem;
   height: 28.4rem;
-  border-radius: 2rem;
-  justify-content: center;
   position: relative;
   border: 1px solid #98BDF9;
+  padding: 0.5rem;
 
   img {
-    max-height: 34.4rem;
-    border-radius: 2rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `
 
@@ -58,38 +58,9 @@ const RightArea = styled.div`
   position: relative;
 `
 
-/*const PriceContainer = styled.div`
-  .item {
-    display: flex;
-    flex-direction: row;
-    margin-top: 1.2rem;
-
-    .info-label {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #A196EF;
-      line-height: 2.2rem;
-      padding-right: 1.4rem;
-    }
-
-    .price {
-      font-size: 3.2rem;
-      font-weight: 400;
-      color: #7C6DEB;
-      line-height: 2.5rem;
-    }
-
-    .price-in-usd {
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: #A196EF;
-      line-height: 2.2rem;
-      margin-left: 1rem;
-    }
-  }
-`*/
-
 const NFTBaseInfoContainer = styled.div`
+  width: 40rem;
+
   .nft-name {
     font-size: 4.5rem;
     font-weight: 550;
@@ -203,25 +174,142 @@ const NFTBaseInfoContainer = styled.div`
 `
 
 const NeuralNetworks = styled.div`
+  display: flex;
   position: relative;
 
   .NeuralNetworksMain {
+    margin-top: 2rem;
+    padding: 1rem 0;
 
     .networksValue-name {
       color: #98BAF2;
       font-size: 2rem;
+      font-weight: bolder;
       margin-top: 1rem;
     }
 
     .networksValue-value {
+      width: 15rem;
       color: #fff;
       font-size: 2.4rem;
       font-weight: bolder;
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      span:nth-of-type(2) {
+        position: absolute;
+        right: 0;
+        font-size: 1.2rem;
+        margin-left: 2rem;
+      }
     }
   }
 `
 
-const NFTBaseInfo: React.FC = () => {
+const StatisticsContainer = styled.div`
+
+  .statistics-price {
+    width: 100%;
+    background: #101D44;
+    border-radius: 1.5rem;
+    margin-bottom: 1.4rem;
+    margin-top: 2rem;
+  }
+`
+
+const AreaTitle = styled.div`
+  padding: 1rem 3.5rem;
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: bolder;
+`
+
+const Line = styled.div`
+  width: 100%;
+  height: 0.1rem;
+  background: linear-gradient(to right, #00D4D7, #5D00B3);
+`
+
+const StatisticsMain = styled.div`
+  padding: 2rem;
+`
+
+const ScheduleFirstCenter = styled.div`
+  text-align: center;
+  width: 60rem;
+  margin-top: 2rem;
+  margin-left: calc((100% - 60rem) / 2);
+
+  .title {
+    color: #F172ED;
+    font-size: 2rem;
+    font-weight: bolder;
+    margin-bottom: 2rem;
+  }
+
+  .main-title {
+    font-weight: bolder;
+    font-size: 1.7rem;
+    color: #fff;
+    margin-bottom: 2rem;
+  }
+`
+
+const ConfirmButton = styled(Button)`
+  width: 16.9rem;
+  height: 4.8rem;
+  background: #554BFF;
+  border-radius: 1rem;
+  border: none;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 1.7rem;
+  transition: all 0.7s;
+  margin-top: 1rem;
+
+  &:hover {
+    background: #7A7AFF;
+    color: #fff;
+  }
+`
+
+const ScheduleFirst:React.FC = () => {
+
+  const { requestingModal, openRequestingModal } = useRequestingModal()
+
+  const confirm = () => {
+    openRequestingModal()
+  }
+
+  return (
+    <ScheduleFirstCenter>
+      <div className="title">Prepay overview</div>
+      <div className="main-title">
+        Are you sure you want to prepay this NFT ？
+      </div>
+      <ConfirmButton onClick={confirm}>Confirm</ConfirmButton>
+      {requestingModal}
+    </ScheduleFirstCenter>
+  )
+}
+
+const Statistics:React.FC = () => {
+  return (
+    <StatisticsContainer>
+      <div className="statistics-price">
+        <AreaTitle>Historical price</AreaTitle>
+        <Line />
+        <StatisticsMain>
+          <DepositAPY />
+        </StatisticsMain>
+      </div>
+      <ScheduleFirst />
+    </StatisticsContainer>
+  )
+}
+
+const NFTBaseInfo:React.FC = () => {
   const uri = useLocationQuery('uri')
 
   const [, setLikeNum] = useState<number>()
@@ -239,7 +327,7 @@ const NFTBaseInfo: React.FC = () => {
   return (
     <NFTBaseInfoContainer>
       <div className="nft-name">
-        Scottlin
+        CryptoPunk #9027
       </div>
       <div className="info-row">
         <div className="info-row-item">
@@ -257,12 +345,26 @@ const NFTBaseInfo: React.FC = () => {
           <div className="networksValue-name">Mortgage Rate</div>
           <div className="networksValue-value">43.7%</div>
         </div>
+        <div className="NeuralNetworksMain" style={{ marginLeft: '5rem' }}>
+          <div className="networksValue-name">My collateral</div>
+          <div className="networksValue-value">
+            <span>3.11</span>
+            <span style={{ color: '#2ec4b6' }}>↓2.1%</span>
+          </div>
+          <div className="networksValue-name">health factor</div>
+          <div className="networksValue-value">
+            <span>43.7%</span>
+            <span style={{ color: '#e71d36' }}>↑2.1%</span>
+          </div>
+        </div>
       </NeuralNetworks>
     </NFTBaseInfoContainer>
   )
 }
+
 const { Countdown } = Statistic
-const NFTMortgageDetailPage:React.FC = () => {
+
+const RedemptionDetailPage:React.FC = () => {
 
   const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
 
@@ -277,12 +379,13 @@ const NFTMortgageDetailPage:React.FC = () => {
         <RightArea>
           <NFTBaseInfo />
         </RightArea>
-        <div className="statistics">
+        <div className="time">
           <Countdown value={deadline} />
         </div>
       </Row>
+      <Statistics />
     </NFTMortgageDetailContainer>
   )
 }
 
-export default NFTMortgageDetailPage
+export default RedemptionDetailPage

@@ -1,0 +1,219 @@
+{
+  "nodes": [
+    {
+      "name": "Bio-conversion"
+    },
+    {
+      "name": "Liquid"
+    },
+    {
+      "name": "Losses"
+    },
+    {
+      "name": "Solid"
+    },
+    {
+      "name": "Biofuel imports"
+    },
+    {
+      "name": "District heating"
+    },
+    {
+      "name": "Industry"
+    },
+    {
+      "name": "Heating and cooling - commercial"
+    },
+    {
+      "name": "Heating and cooling - homes"
+    },
+    {
+      "name": "Electricity grid"
+    },
+    {
+      "name": "Over generation / exports"
+    },
+    {
+      "name": "Road transport"
+    },
+    {
+      "name": "Thermal generation"
+    },
+    {
+      "name": "Nuclear"
+    },
+    {
+      "name": "Oil imports"
+    },
+    {
+      "name": "Oil"
+    },
+    {
+      "name": "Oil reserves"
+    },
+    {
+      "name": "Other waste"
+    },
+    {
+      "name": "Pumped heat"
+    },
+    {
+      "name": "UK land based bioenergy"
+    },
+    {
+      "name": "Wind"
+    }
+  ],
+  "links": [
+    {
+      "source": "Bio-conversion",
+      "target": "Liquid",
+      "value": 0.597
+    },
+    {
+      "source": "Bio-conversion",
+      "target": "Losses",
+      "value": 26.862
+    },
+    {
+      "source": "Bio-conversion",
+      "target": "Solid",
+      "value": 280.322
+    },
+    {
+      "source": "Biofuel imports",
+      "target": "Liquid",
+      "value": 35
+    },
+    {
+      "source": "District heating",
+      "target": "Industry",
+      "value": 10.639
+    },
+    {
+      "source": "District heating",
+      "target": "Heating and cooling - commercial",
+      "value": 22.505
+    },
+    {
+      "source": "District heating",
+      "target": "Heating and cooling - homes",
+      "value": 46.184
+    },
+    {
+      "source": "Electricity grid",
+      "target": "Over generation / exports",
+      "value": 104.453
+    },
+    {
+      "source": "Electricity grid",
+      "target": "Heating and cooling - homes",
+      "value": 113.726
+    },
+    {
+      "source": "Electricity grid",
+      "target": "Industry",
+      "value": 342.165
+    },
+    {
+      "source": "Electricity grid",
+      "target": "Road transport",
+      "value": 37.797
+    },
+    {
+      "source": "Electricity grid",
+      "target": "Heating and cooling - commercial",
+      "value": 40.858
+    },
+    {
+      "source": "Electricity grid",
+      "target": "Losses",
+      "value": 56.691
+    },
+    {
+      "source": "Liquid",
+      "target": "Industry",
+      "value": 121.066
+    },
+    {
+      "source": "Liquid",
+      "target": "Road transport",
+      "value": 135.835
+    },
+    {
+      "source": "Nuclear",
+      "target": "Thermal generation",
+      "value": 839.978
+    },
+    {
+      "source": "Oil imports",
+      "target": "Oil",
+      "value": 504.287
+    },
+    {
+      "source": "Oil reserves",
+      "target": "Oil",
+      "value": 107.703
+    },
+    {
+      "source": "Oil",
+      "target": "Liquid",
+      "value": 611.99
+    },
+    {
+      "source": "Other waste",
+      "target": "Solid",
+      "value": 56.587
+    },
+    {
+      "source": "Other waste",
+      "target": "Bio-conversion",
+      "value": 77.81
+    },
+    {
+      "source": "Pumped heat",
+      "target": "Heating and cooling - homes",
+      "value": 193.026
+    },
+    {
+      "source": "Pumped heat",
+      "target": "Heating and cooling - commercial",
+      "value": 70.672
+    },
+    {
+      "source": "Solid",
+      "target": "Thermal generation",
+      "value": 400.12
+    },
+    {
+      "source": "Solid",
+      "target": "Industry",
+      "value": 46.477
+    },
+    {
+      "source": "Thermal generation",
+      "target": "Electricity grid",
+      "value": 525.531
+    },
+    {
+      "source": "Thermal generation",
+      "target": "Losses",
+      "value": 787.129
+    },
+    {
+      "source": "Thermal generation",
+      "target": "District heating",
+      "value": 79.329
+    },
+    {
+      "source": "UK land based bioenergy",
+      "target": "Bio-conversion",
+      "value": 182.01
+    },
+    {
+      "source": "Wind",
+      "target": "Electricity grid",
+      "value": 289.366
+    }
+  ]
+}

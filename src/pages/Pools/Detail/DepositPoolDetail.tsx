@@ -35,6 +35,7 @@ const AreaTitle = styled.div`
   font-weight: bolder;
   display: flex;
   align-items: center;
+  position: relative;
 
   .configuration-top-title {
     margin-left: 3rem;
@@ -63,13 +64,10 @@ const BackIconButton = styled.div`
 `
 
 const ConfigurationData = styled.div`
+  height: 15rem;
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
-`
-
-const ProgressMain = styled.div`
-  position: relative;
+  margin-top: 0;
 `
 
 const TotalBorrowed = styled.div`
@@ -118,10 +116,10 @@ const TotalBorrowed = styled.div`
 `
 
 const IconImg = styled.img`
-  width: 5.2rem;
+  width: 4.2rem;
   position: absolute;
-  left: calc((100% - 5.2rem) / 2);
-  top: calc((100% - 8.352rem) / 2);
+  right: 1rem;
+  top: calc((100% - 4.2rem) / 2);
 `
 
 const AvailableLiquidity = styled.div`
@@ -237,22 +235,6 @@ const DepositStableTextItem = styled.div`
   }
 `
 
-/*const Stable = styled.div`
-  width: 25rem;
-  height: 13rem;
-  border-radius: 1rem;
-  background: #182C58;
-  margin-left: 1.4rem;
-
-  .stable-top {
-    padding: 0.5rem 2rem;
-    background: #FFBB00;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-    color: #fff;
-  }
-`*/
-
 const Variable = styled.div`
   width: 25rem;
   height: 13rem;
@@ -358,11 +340,10 @@ const IndexValueStatisticsMain = styled.div`
 
   .indexValueStatistics-item {
     width: 42rem;
-    height: 18rem;
     background: #101D44;
     border-radius: 1.5rem;
 
-    .tatistics-container {
+    .statistics-container {
       padding: 0 2rem;
       margin-top: -3rem;
     }
@@ -372,6 +353,7 @@ const IndexValueStatisticsMain = styled.div`
 const StatisticsTitle = styled.div`
   padding: 1rem 3.5rem;
   color: #fff;
+  font-weight: bolder;
   display: flex;
   align-items: center;
 `
@@ -510,22 +492,22 @@ const IndexValueStatistics:React.FC = () => {
       <div className="indexValueStatistics-item">
         <StatisticsTitle>Variable APY</StatisticsTitle>
         <Line />
-        <div className="tatistics-container">
+        <div className="statistics-container">
           <VariableAPY />
         </div>
       </div>
       <div className="indexValueStatistics-item">
         <StatisticsTitle>Deposit APY</StatisticsTitle>
         <Line />
-        <div className="tatistics-container">
-          <DepositAPY />
+        <div className="statistics-container">
+          <VariableAPY />
         </div>
       </div>
       <div className="indexValueStatistics-item">
         <StatisticsTitle>Utilisation Rate</StatisticsTitle>
         <Line />
-        <div className="tatistics-container">
-          <UtilisationRate />
+        <div className="statistics-container">
+          <VariableAPY />
         </div>
       </div>
     </IndexValueStatisticsMain>
@@ -572,9 +554,20 @@ const DepositPoolDetailPage:React.FC = () => {
             <AreaTitle>
               <BackIcon />
               <span className="configuration-top-title">Availble to deposit</span>
+              <IconImg
+                src={poolDetailData?.assetsImage}
+                alt="ETH"
+              />
             </AreaTitle>
           </div>
           <Line />
+          <Progress
+            strokeColor={'#FFBB00'}
+            trailColor={'#6C48FF'}
+            percent={50}
+            format={() => ''}
+            style={{ marginLeft: '2rem' }}
+          />
           <ConfigurationData>
             <TotalBorrowed>
               <div className="totalBorrowed-title">
@@ -584,13 +577,6 @@ const DepositPoolDetailPage:React.FC = () => {
               <p className="totalBorrowed-number">{Number(poolDetailData?.totalBorrowed).toLocaleString()}</p>
               <p className="totalBorrowed-dollar">$874,993</p>
             </TotalBorrowed>
-            <ProgressMain>
-              <IconImg
-                src={poolDetailData?.assetsImage}
-                alt="ETH"
-              />
-              <Progress type="circle" strokeColor={'#6C48FF'} trailColor={'#FFBB00'} width={170} percent={30} format={() => ''} />
-            </ProgressMain>
             <AvailableLiquidity>
               <div className="availableLiquidity-title">
                 <span>Available Liquidity</span>

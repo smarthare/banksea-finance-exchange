@@ -5,7 +5,7 @@
   .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
     border-radius: 10px;
     background-color: #305099!important;
-    //background-color: red !important;
+    filter: brightness(85%);
 
     .ant-select-item-option-content {
       color: white;

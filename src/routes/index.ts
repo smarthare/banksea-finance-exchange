@@ -21,9 +21,13 @@ import FarmPage from '../pages/Farms'
 import TestPage from '../pages/Test'
 import VotePage from '../pages/Vote'
 import PoolsPage from '../pages/Pools/index'
-import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTMortgageDetail'
+import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTPrepayDetail'
 import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
 import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
+import ValuationPage from '../pages/Valuation'
+import CollectionValuationPage from '../pages/Valuation/CollectionValuation'
+import NFTValuationPage from '../pages/Valuation/NFTValuation'
+import { EyeOutlined } from '@ant-design/icons'
 
 export type Route = {
   path: string
@@ -44,6 +48,27 @@ const routes: Route[] = [
     icon: HomeIcon,
     component: HomePage
   },
+
+  {
+    path: '/valuation',
+    match: /^\/valuation/,
+    title: 'NFT Insight',
+    icon: EyeOutlined,
+    component: ValuationPage
+  },
+  {
+    path: '/valuation/collection',
+    hidden: true,
+    title: 'Collection Valuation',
+    component: CollectionValuationPage
+  },
+  {
+    path: '/valuation/token/:id',
+    hidden: true,
+    title: 'NFTValuation',
+    component: NFTValuationPage
+  },
+
   {
     path: '/collectibles',
     title: 'Marketplace',
@@ -52,10 +77,18 @@ const routes: Route[] = [
     component: CollectiblesPage
   },
   {
+    path: '/collectible/:id',
+    title: 'Collectible',
+    icon: CollectiblesIcon,
+    component: CollectibleDetailPage,
+    hidden: true
+  },
+
+  {
     path: '/ai-generators',
     title: 'Level Up',
     icon: LevelUpIcon,
-    component: AIGenerators,
+    component: AIGenerators
   },
   {
     path: '/nft/create',
@@ -76,13 +109,7 @@ const routes: Route[] = [
     icon: PoolsIcon,
     component: PoolsPage
   },
-  {
-    path: '/collectible/:id',
-    title: 'Collectible',
-    icon: CollectiblesIcon,
-    component: CollectibleDetailPage,
-    hidden: true
-  },
+
   {
     path: '/artists',
     title: 'Artists',

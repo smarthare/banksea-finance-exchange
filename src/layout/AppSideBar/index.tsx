@@ -79,7 +79,7 @@ const AppSideBar: React.FC = () => {
   const { pathname } = useLocation()
 
   const selectedKey: string = (() => {
-    return routes.filter(route => route.path === pathname || route.match?.test(pathname))[0].path
+    return routes.filter(route => route.path === pathname || route.match?.test(pathname))[0]?.path
   })()
 
   return (
