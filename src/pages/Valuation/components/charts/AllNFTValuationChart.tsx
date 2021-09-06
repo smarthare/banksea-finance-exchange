@@ -3,6 +3,7 @@ import ReactECharts from 'echarts-for-react'
 import { NftMarketCapitalization } from '../../../../hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
 import { simplifyNumber } from '../../../../utils'
 
+
 const AllNFTValuationChart: React.FC<{
   list: NftMarketCapitalization[]
 }> = ({ list }) => {
@@ -38,7 +39,7 @@ const AllNFTValuationChart: React.FC<{
             type: 'dotted'
           }
         },
-        min: (value: any) => value.min * .99
+        min: (value: any) => value.min * .97
       },
       {
         type: 'value',
@@ -54,7 +55,7 @@ const AllNFTValuationChart: React.FC<{
             type: 'dotted'
           }
         },
-        min: (value: any) => value.min * .99
+        min: (value: any) => value.min * .97
       }
     ],
     series: [
@@ -78,7 +79,26 @@ const AllNFTValuationChart: React.FC<{
       end: 100
     }],
     tooltip: {
-      trigger: 'axis'
+      trigger: 'axis',
+      formatter: (params: any) => {
+        const usd = simplifyNumber(params[0].data[1])
+        // const usdColor = params[0].color
+        const eth = simplifyNumber(params[1].data[1])
+        // const ethColor = params[1].color
+        const time = new Date(params[0].data[0]).toLocaleString()
+
+        return `
+        <div>
+          <div>${time}</div>
+          <div>
+            ETH: ${eth}
+          </div>
+          <div>
+            USD: ${usd}
+          </div>
+        <div/>
+      `
+      }
     }
   }
 

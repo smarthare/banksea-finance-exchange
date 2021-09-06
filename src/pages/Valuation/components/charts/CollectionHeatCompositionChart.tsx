@@ -26,7 +26,7 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
     emphasis: {
       focus: 'series'
     },
-    data: data?.map((o, i) => ([time?.[i], o]))
+    data: data?.map((o, i) => ([time?.[i], o.toFixed(3)]))
   })
 
   const seriesByLegend = [

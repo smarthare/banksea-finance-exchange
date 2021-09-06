@@ -3,6 +3,7 @@ import React, { CSSProperties, useState } from 'react'
 import { Property } from 'csstype'
 import { DownOutlined } from '@ant-design/icons'
 import { Collapse } from 'antd'
+import CodingImg from '../../../assets/images/mockImg/coding.png'
 
 
 interface ThemeCollapseProps  {
@@ -14,11 +15,13 @@ interface CollapsibleBoxProps extends ThemeCollapseProps {
   collapsible?: boolean
   contentPadding?: Property.Padding
   titleIcon?: JSX.Element
-  style?: CSSProperties
+  style?: CSSProperties,
+  coding?: boolean
 }
 
 
 const ThemeCollapse = styled(Collapse)<ThemeCollapseProps>`
+  position: relative;
   border: none;
   border-radius: 10px !important;
   background-color: transparent;
@@ -98,7 +101,14 @@ const CollapseHeader: React.FC<{ title: string, icon?: JSX.Element, collapsed?: 
 }
 
 const CollapsibleBox: React.FC<CollapsibleBoxProps> = ({
-  collapsible, contentPadding, titleIcon, title, children, style, contentBackground
+  collapsible,
+  contentPadding,
+  titleIcon,
+  title,
+  children,
+  style,
+  contentBackground,
+  coding
 }) => {
   const [collapsed, setCollapsed] = useState(false)
 
@@ -134,6 +144,10 @@ const CollapsibleBox: React.FC<CollapsibleBoxProps> = ({
           {children}
         </div>
       </Collapse.Panel>
+
+      {
+        coding && <img src={CodingImg} alt="" style={{ position: 'absolute', right: 0, top: 0, width: '180px' }} />
+      }
 
     </ThemeCollapse>
   )

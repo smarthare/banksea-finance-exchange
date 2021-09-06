@@ -44,8 +44,8 @@ export function convertCollectionValuationDetailToCollectionValuationStatisticIt
   return [
     { key: '7 Day Volume', value: `${numberWithCommas(detail.sevenDayVolume)} ETH` },
     { key: 'Total Volume', value: `${numberWithCommas(detail.totalVolume)} ETH` },
-    { key: 'Total Supply', value: `${numberWithCommas(detail.totalSupply)} ETH` },
-    { key: 'Owners', value: detail.numOwners },
+    { key: 'Total Supply', value: numberWithCommas(detail.totalSupply, 0) },
+    { key: 'Owners', value: numberWithCommas(detail.numOwners, 0) },
     { key: '7 Day Avg Price', value: `${numberWithCommas(detail.sevenDayAvgPrice)} ETH` },
     { key: 'Avg Price', value: `${numberWithCommas(detail.avgPrice)} ETH` },
     // { key: 'Turnover Rate', value: detail.turnoverRate }

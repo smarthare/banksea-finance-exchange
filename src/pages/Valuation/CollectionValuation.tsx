@@ -24,6 +24,7 @@ import { useCollectionNftsQuery } from '../../hooks/queries/insight/collection/u
 import { useCollectionValuationDetailQuery } from '../../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
 import { TradeFlowChart } from './components/charts/TradeFlowChart'
 import { useMediaQuery } from 'react-responsive'
+import coding from '../../assets/images/mockImg/coding.png'
 
 type CollectionValuationPageProps = {
   //
@@ -155,7 +156,7 @@ const ChartsContainer = styled.div`
         align-items: center;
 
         .text {
-          font-size: 42px;
+          font-size: 36px;
           margin-right: 10px;
         }
 
@@ -188,6 +189,7 @@ const ChartsContainer = styled.div`
 `
 
 const ValuationTableContainer = styled.div`
+  position: relative;
 
   .title {
     font-size: 30px;
@@ -474,6 +476,7 @@ const ValuationTable: React.FC<{ valuations: CollectionValuationByTypeAndAttribu
         pagination={false}
         scroll={{ x: 1000 }}
       />
+      <img src={coding} alt="" style={{ position: 'absolute', right: 0, top: 0, width: '180px' }} />
     </ValuationTableContainer>
   )
 }

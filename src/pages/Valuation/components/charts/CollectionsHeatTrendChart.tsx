@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
+import { simplifyNumber } from '../../../../utils'
 
 export type CollectionsHeatTrendChartProps = {
   collections: string[]
@@ -47,7 +48,7 @@ const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ c
         label: ['collection', 'heat'],
         itemName: 'time',
         tooltip: ['heat']
-      }
+      },
     })
   })
 
@@ -62,11 +63,31 @@ const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ c
     animationDuration: 6000,
     dataset: [{
       id: 'dataset_raw',
-      source: chartData
+      source: chartData.map((row, index) => {
+        if (index === 0) {
+          return row
+        } else {
+          return [row[0], row[1], row[2] * 1000]
+        }
+      })
     }].concat(datasetWithFilters),
     tooltip: {
       order: 'valueDesc',
-      trigger: 'axis'
+      trigger: 'axis',
+      formatter: (params: any) => {
+        params.map((item: any) => `
+          <div>${item.data[0]}: ${simplifyNumber(item.data[1])}</div>
+        `)
+
+        return `
+          <div>
+            <div>${new Date(params[0].data[2]).toLocaleString()}</div>
+            ${params.map((item: any) => `
+              <div>${item.data[0]}: ${simplifyNumber(item.data[1])}</div>
+            `).join('')}
+          <div/>
+        `
+      }
     },
     dataZoom: [{
       type: 'slider',
