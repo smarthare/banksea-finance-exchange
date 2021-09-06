@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useCollectionMarketValueQuery } from '../../../../hooks/queries/insight/collection/useCollectionMarketValueQuery'
+import { simplifyNumber } from '../../../../utils'
 
 const TotalMarketValueChart: React.FC<{ seriesId: string }> = ({ seriesId }) => {
   const { data } = useCollectionMarketValueQuery(seriesId)
@@ -16,14 +17,17 @@ const TotalMarketValueChart: React.FC<{ seriesId: string }> = ({ seriesId }) => 
     },
     yAxis: {
       type: 'value',
-      min: 'dataMin'
+      min: (value: any) => value.min * .97,
+      axisLabel: {
+        formatter: (params: any) => `Ξ${simplifyNumber(params)}`
+      },
     },
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
         const [timestamp, value] = params[0].data
         const date = new Date(timestamp)
-        return `Ξ${value}&nbsp;&nbsp;&nbsp;(${date.toLocaleString()})`
+        return `Ξ${simplifyNumber(value)}&nbsp;&nbsp;&nbsp;(${date.toLocaleString()})`
       }
     },
     dataZoom: [{

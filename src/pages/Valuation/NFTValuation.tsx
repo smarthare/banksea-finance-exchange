@@ -477,6 +477,7 @@ const ValuationChanges: React.FC<{ changes: NFTValuationChangeData[] }> = ({
       title="Valuation Change"
       titleIcon={<img src={ChangeIcon} alt="Valuation Change" />}
       style={{ marginBottom: '60px' }}
+      coding
     >
       <ValuationChangesContainer>
         {
@@ -561,6 +562,7 @@ const ValuationHistory: React.FC<{ history: NFTValuationHistory }> = ({ history 
       title="Valuation History"
       titleIcon={<img src={HistoryIcon} alt="market data" />}
       style={{ marginBottom: '60px' }}
+      coding
     >
       <ValuationHistoryContainer>
         <ReactECharts option={options} />

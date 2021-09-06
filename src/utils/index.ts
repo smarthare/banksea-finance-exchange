@@ -45,6 +45,9 @@ export function numberWithCommas(x?: string | number | BigNumber, decimalPlace =
     parts[1] = trimTrailingZero(parts[1])
   }
 
+  if (!decimalPlace) {
+    return parts[0]
+  }
   return parts.join('.')
 }
 

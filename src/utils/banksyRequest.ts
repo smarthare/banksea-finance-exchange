@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const banksyRequest = axios.create({
-  baseURL: process.env.REACT_APP_BANKSY_API_URL,
+  baseURL: 'https://banksy.finance/api/nft/web/v1',
+  // baseURL: process.env.REACT_APP_BANKSY_API_URL,
   timeout: 10000
 })
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
+import coding from '../../../../assets/images/mockImg/coding.png'
 
 type TradeFlowChartData = {
   nodes: { name: string }[]
@@ -36,7 +37,12 @@ const TradeFlowChart: React.FC = () => {
     ]
   }
 
-  return <ReactECharts option={options} />
+  return (
+    <div style={{ position: 'relative' }}>
+      <ReactECharts option={options} />
+      <img src={coding} alt="" style={{ position: 'absolute', right: 0, top: 0, width: '180px' }} />
+    </div>
+  )
 }
 
 export {
