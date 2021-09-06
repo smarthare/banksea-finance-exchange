@@ -18,17 +18,14 @@ export type OracleHeatChartData = {
   t180TurnoverRateScore: number[]
   t365TurnoverRate: number[]
   t365TurnoverRateScore: number[]
-  time: string[]
+  time: number[]
 }
 
-export const useCollectionsHeatTrendQuery = (): UseQueryResult<OracleHeatChartData[]> => {
+export const useCollectionsHeatTrendQuery = (seriesSlug?: string): UseQueryResult<OracleHeatChartData[]> => {
   return useQuery(
-    ['COLLECTIONS_HEAT_TREND'],
-    async () => {
-      return await banksyRequest.post<BanksyApiResponse<OracleHeatChartData[]>>(
-        '/oracle/chart/heat', {
-          'seriesSlug': 'cryptopunks'
-        })
+    ['COLLECTIONS_HEAT_TREND'], () => {
+      return banksyRequest
+        .post<BanksyApiResponse<OracleHeatChartData[]>>('/oracle/chart/heat', { seriesSlug })
         .then(r => r.data.data)
     }
   )

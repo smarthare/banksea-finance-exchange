@@ -36,7 +36,9 @@ export interface NftValuation {
   nftOwner?: string
   priceVolatility?: string
   ranking?: string
-  turnoverRate?: string
+  turnoverRate?: string,
+  tokenId: number
+  seriesName: string
 }
 
 export interface NftAttribute {
@@ -45,13 +47,13 @@ export interface NftAttribute {
   ratio: number
 }
 
-
-export const useNftValuationQuery = (id: string): UseQueryResult<NftValuation> => {
+export const useTokenValuationBaseInfoQuery = (id: string): UseQueryResult<NftValuation> => {
   return useQuery(
     ['NFT_VALUATION', id], async () => {
       return await banksyRequest.get<BanksyApiResponse<NftValuation>>(
         `/oracle/detail/sort/${id}`
-      ).then(r => r.data.data)
+      ).then(r => r.data.data
+      )
     }
   )
 }

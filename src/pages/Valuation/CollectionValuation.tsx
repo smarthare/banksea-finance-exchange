@@ -3,9 +3,8 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import ThemeTable from '../../styles/ThemeTable'
 import { DropdownSelector } from '../../styles/DropdownSelector'
-import { Button, Tooltip } from 'antd'
-import { QuestionCircleOutlined, RightOutlined } from '@ant-design/icons'
-import { SearchInput } from '../../styles/SearchInput'
+import { Pagination, Tooltip } from 'antd'
+import { QuestionCircleOutlined } from '@ant-design/icons'
 
 import {
   CollectionExternalLink,
@@ -24,6 +23,7 @@ import {
 import { useCollectionNftsQuery } from '../../hooks/queries/insight/collection/useCollectionNftsQuery'
 import { useCollectionValuationDetailQuery } from '../../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
 import { TradeFlowChart } from './components/charts/TradeFlowChart'
+import { useMediaQuery } from 'react-responsive'
 
 type CollectionValuationPageProps = {
   //
@@ -208,10 +208,16 @@ const ValuationTableContainer = styled.div`
 
 const CollectionNFTListContainer = styled.div`
   .header {
-    display: flex;
-    justify-content: space-between;
+    //display: flex;
+    //justify-content: space-between;
     margin-bottom: 25px;
-    flex-wrap: wrap;
+    //flex-wrap: wrap;
+
+    .sb-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
 
     .title {
       font-size: 22px;
@@ -222,37 +228,26 @@ const CollectionNFTListContainer = styled.div`
       font-weight: 600;
     }
 
-    .operators {
-      flex-wrap: wrap;
+    .sort-by, .buttons, .pager {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    button {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid #305099;
 
-      &, .sort-by, .buttons, .pager {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-      }
+      margin: 0 11px;
 
-      button {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        border: 1px solid #305099;
-
-        margin: 0 11px;
-
-        img {
-          width: 22px;
-          height: 22px;
-          margin: 0 auto;
-        }
-      }
-
-      .next {
-        width: 89px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      img {
+        width: 22px;
+        height: 22px;
+        margin: 0 auto;
       }
     }
+
   }
 
   .list {
@@ -340,12 +335,12 @@ const Statistic: React.FC<{ statistic: CollectionValuationStatisticItem[] }> = (
   )
 }
 
-const Charts: React.FC<{ seriesId: string, contractAddress: string }> = ({ seriesId, contractAddress }) => {
+const Charts: React.FC<{ seriesId: string, contractAddress: string, seriesSlug?: string }> = ({ seriesId, contractAddress, seriesSlug }) => {
   const items: { title: string, description: string, component: JSX.Element }[] = [
     {
       title: 'Composition of Collection Heat',
       description: 'Here is description',
-      component: <CollectionHeatCompositionChart />
+      component: <CollectionHeatCompositionChart seriesSlug={seriesSlug} />
     },
     {
       title: 'Price Scatter',
@@ -473,31 +468,47 @@ const ValuationTable: React.FC<{ valuations: CollectionValuationByTypeAndAttribu
   return (
     <ValuationTableContainer>
       <div className="title">Valuation by Type and Attribute</div>
-      <ThemeTable columns={columns} dataSource={valuations.slice(0, 10)} pagination={false} scroll={{ x: 1000 }} />
+      <ThemeTable
+        columns={columns}
+        dataSource={valuations.slice(0, 10)}
+        pagination={false}
+        scroll={{ x: 1000 }}
+      />
     </ValuationTableContainer>
   )
 }
 
 const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
-  const history = useHistory()
   const seriesId = useLocationQuery('id')
   const collection = useLocationQuery('name')
+  const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
-  const [current, setCurrent] = useState('1')
+  const [current, setCurrent] = useState(1)
+  const [size, setSize] = useState(24)
+  const [total, setTotal] = useState(0)
 
-  const pagedData = useCollectionNftsQuery({
+  const { data } = useCollectionNftsQuery({
     nftSeriesId: seriesId!,
-    current: parseInt(current),
-    size: 36
+    current,
+    size
   })
 
-  const next = () => setCurrent(prev => parseInt(prev) + 1 + '')
+  useEffect(() => {
+    if (data) {
+      setTotal(data.total)
+    }
+  }, [data])
+
+  const handlePaginationChange = (current: number, size?: number) => {
+    setCurrent(current)
+    size && setSize(size)
+  }
 
   return (
     <CollectionNFTListContainer>
       <div className="header">
-        <div className="title">{pagedData.data?.total ?? '-'} Total {collection}</div>
-        <div className="operators">
+        <div className="sb-row">
+          <div className="title">{data?.total ?? '-'} Total {collection}</div>
           <div className="sort-by">
             <div className="text" style={{ marginRight: '15px' }}>Sort by</div>
             <DropdownSelector style={{ width: '214px', marginRight: '24px' }} defaultValue="Rarity">
@@ -505,36 +516,35 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
               <DropdownSelector.Option value="Price">Price</DropdownSelector.Option>
             </DropdownSelector>
           </div>
-          <div className="buttons">
-            <button>IDs</button>
-            <button style={{ marginRight: '33px' }}>
-              <img
-                src={require('../../assets/images/commons/image.png').default}
-                alt="image"
-              />
-            </button>
-          </div>
-          <div className="pager">
-            <div className="text">Page</div>
-            <SearchInput
-              style={{ marginRight: '10px', marginLeft: '10px', width: '45px' }}
-              value={current}
-              onChange={value => setCurrent(value.target.value)}
-            />
-            <div className="text" style={{ marginRight: '10px' }}>of {pagedData.data?.pages}</div>
-            <Button className="next" onClick={next} disabled={parseInt(current) >= (pagedData?.data?.pages ?? 0)}>
-              Next
-              <RightOutlined />
-            </Button>
-          </div>
         </div>
+        {/*<div className="buttons">
+          <button>IDs</button>
+          <button style={{ marginRight: '33px' }}>
+            <img
+              src={require('../../assets/images/commons/image.png').default}
+              alt="image"
+            />
+          </button>
+        </div>*/}
+        <div className="sb-row" style={{ justifyContent: isMobile?'center':'flex-end' }}>
+          <Pagination
+            showQuickJumper
+            total={total}
+            onChange={handlePaginationChange}
+            pageSize={size}
+            current={current}
+            className={'pager'}
+            pageSizeOptions={['12', '24', '48', '60']}
+          />
+        </div>
+
       </div>
       <div className="list">
         {
-          pagedData?.data?.records?.map((item, index) => (
+          data?.records?.map((item, index) => (
             <div className="item"
               key={index}
-              onClick={() => history.push(`/valuation/token/${item.id}`)}
+              onClick={() => window.open(`#/valuation/token/${item.id}`)}
             >
               <div className="item-header">
                 <div>#{item.nftNumber}</div>
@@ -568,7 +578,6 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
   }
 
   const { data: detail } = useCollectionValuationDetailQuery(seriesId)
-  // const { data: collectionValuationTableData } = useCollectionValuationAttributeQuery(seriesId)
 
   const valuations: CollectionValuationByTypeAndAttribute[] = new Array<CollectionValuationByTypeAndAttribute>(4).fill({
     accessory: 'Pilot Helmet',
@@ -591,7 +600,7 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
         />
         <Description description={detail?.seriesDescription} />
         <Statistic statistic={convertCollectionValuationDetailToCollectionValuationStatisticItems(detail)} />
-        <Charts seriesId={seriesId} contractAddress={detail?.assetContractAddress ?? ''} />
+        <Charts seriesId={seriesId} contractAddress={detail?.assetContractAddress ?? ''} seriesSlug={detail?.seriesSlug} />
         <ValuationTable valuations={valuations} />
         <CollectionNFTList />
       </Wrapper>

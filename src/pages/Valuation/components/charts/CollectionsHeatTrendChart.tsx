@@ -19,7 +19,6 @@ const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ c
         type: 'filter',
         config: {
           and: [
-            // { dimension: 'time', gte: 1950 },
             { dimension: 'collection', '=': collection }
           ]
         }

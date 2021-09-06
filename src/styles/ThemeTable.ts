@@ -103,20 +103,15 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
 
   .ant-table-empty {
     background-color: transparent;
-  }
 
-  .ant-table-pagination {
-    li .ant-select-selector, li, li > button, li > a, li svg {
-      background: #354d86 !important;
-      color: white !important;
-    }
-
-    li button span svg {
-      position: relative;
-      bottom: 2.5px !important;
+    .ant-empty-description {
+      color: ${props => (props.rowTextColor ?? 'rgb(244, 244, 244)') + '!important;'}
     }
   }
 
+  .ant-table-placeholder:hover > td {
+    background-color: transparent !important;
+  }
 
   @media screen and (max-width: 1000px) {
     width: 100vw !important;

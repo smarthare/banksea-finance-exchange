@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Property } from 'csstype'
-import { NFTTransactionHistory, NFTValuationChangeData, NFTValuationHistory } from '../../types/NFTValuation'
+import { NFTValuationChangeData, NFTValuationHistory } from '../../types/NFTValuation'
 import CollapsibleBox from './components/CollasibleBox'
 
 import InfoIcon from '../../assets/images/commons/info.png'
@@ -20,13 +20,18 @@ import ThemeTable from '../../styles/ThemeTable'
 import { DropdownSelector } from '../../styles/DropdownSelector'
 import BigNumber from 'bignumber.js'
 import ReactECharts from 'echarts-for-react'
-import { SearchInput } from '../../styles/SearchInput'
 import {
   NftAttribute,
   NftValuation,
-  useNftValuationQuery
-} from '../../hooks/queries/insight/token/useNftValuationQuery'
-import { formatTime } from '../../utils'
+  useTokenValuationBaseInfoQuery
+} from '../../hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
+import { formatTime, numberWithCommas } from '../../utils'
+import {
+  NftTransactionType,
+  useTokenTransactionsQuery
+} from '../../hooks/queries/insight/token/useTokenTransactionsQuery'
+import MetamaskAvatar from '../../components/MetamaskAvatar'
+import { useTokenValuationPriceQuery } from '../../hooks/queries/insight/token/useTokenValuationPriceQuery'
 
 type NFTValuationPageProps = {
   //
@@ -68,13 +73,6 @@ const OwnerContainer = styled.div`
   display: flex;
   align-items: center;
 
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    margin-right: 15px;
-  }
-
   color: #ddd;
   font-size: 16px;
 `
@@ -95,17 +93,19 @@ const DetailsContainer = styled.div`
 
   .properties {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    justify-content: start;
 
     .property {
       display: flex;
       flex-direction: column;
       align-items: center;
       color: white;
-      width: 102px;
+      min-width: 102px;
       height: 78px;
       margin-bottom: 10px;
+      margin-right: 10px;
       padding-top: 8px;
       border-radius: 5px;
 
@@ -123,6 +123,7 @@ const DetailsContainer = styled.div`
     .property.empty {
       height: 0;
       padding: 0;
+      margin: 0;
     }
   }
 `
@@ -291,6 +292,7 @@ const TransactionsContainer = styled.div`
     color: white;
     font-size: 14px;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
 
     .text {
@@ -307,7 +309,6 @@ const TransactionsContainer = styled.div`
       margin-right: 10px;
     }
   }
-
 `
 
 const Details: React.FC<{ properties?: NftAttribute[] }> = ({
@@ -322,33 +323,28 @@ const Details: React.FC<{ properties?: NftAttribute[] }> = ({
     >
       <DetailsContainer>
         <div className="text">
-          1 of 4501 punks with 3 Properties
+          1 of 4501 punks with {properties?.length} Properties
         </div>
         <div className="label">
           Properties
         </div>
         <div className="properties">
           {
-            properties?.slice(0, 3).map(({ traitType, value }, index) => (
+            properties?.map(({ traitType, value, ratio }, index) => (
               <div className="property" key={index}>
                 <div className="key">{traitType}</div>
                 <div className="value">{value}</div>
-                <div className="rate">1 of 3840</div>
+                <div className="rate">{numberWithCommas(ratio * 100)}%</div>
               </div>
             ))
           }
-          {/*{*/}
-          {/*  new Array(2).fill({}).map((_, index) => (*/}
-          {/*    <div className="property empty" key={index} />*/}
-          {/*  ))*/}
-          {/*}*/}
         </div>
       </DetailsContainer>
     </CollapsibleBox>
   )
 }
 
-const Owner: React.FC = () => {
+const Owner: React.FC<{owner?: string}> = ({ owner }) => {
   return (
     <CollapsibleBox
       title="Owner"
@@ -358,42 +354,44 @@ const Owner: React.FC = () => {
       style={{ marginBottom: '40px' }}
     >
       <OwnerContainer>
-        <img src="https://storage.googleapis.com/opensea-static/opensea-profile/20.png" alt="" className="avatar" />
-        <div className="address">
-          0x7c00...0d5c
-        </div>
+        {
+          owner ? (
+            <>
+              <MetamaskAvatar address={owner} width={'40px'} height={'40px'} />
+              <div className="address">
+                {owner}
+              </div>
+            </>
+          ) : 'Unknown'
+        }
       </OwnerContainer>
     </CollapsibleBox>
   )
 }
 
-const Title: React.FC<{ tokenName?: string }> = ({ tokenName }) => {
-  const [, name, tokenId] = tokenName?.match('^(.+) #(\\d+)$') ?? []
-
+const Title: React.FC<{ seriesName?: string, tokenId?: number }> = ({ seriesName, tokenId }) => {
   return (
     <TitleContainer>
-      <div className="collection">{name}</div>
-      <div className="token-id">#{tokenId}</div>
+      <div className="collection">{seriesName}</div>
+      <div className="token-id">{tokenId && `#${tokenId}`}</div>
     </TitleContainer>
   )
 }
 
 const Valuation: React.FC<{ valuation?: string, valuationInUsd?: string }> = ({ valuation, valuationInUsd }) => {
   return (
-    valuation ?
-      <CollapsibleBox
-        collapsible={false}
-        title="NFT Valuation"
-        titleIcon={<img src={ETHColoredIcon} alt="NFT valuation" />}
-        style={{ marginBottom: '60px' }}
-      >
-        <ValuationContainer>
-          <img src={ETHColoredOutlinedIcon} alt="eth" className="icon" />
-          <div className="value">{valuation}</div>
-          <div className="value-in-usd">${valuationInUsd}</div>
-        </ValuationContainer>
-      </CollapsibleBox>
-      : <></>
+    <CollapsibleBox
+      collapsible={false}
+      title="NFT Valuation"
+      titleIcon={<img src={ETHColoredIcon} alt="NFT valuation" />}
+      style={{ marginBottom: '60px' }}
+    >
+      <ValuationContainer>
+        <img src={ETHColoredOutlinedIcon} alt="eth" className="icon" />
+        <div className="value">{valuation ?? '-'}</div>
+        <div className="value-in-usd">{valuationInUsd && `$${valuationInUsd}`}</div>
+      </ValuationContainer>
+    </CollapsibleBox>
   )
 }
 
@@ -411,7 +409,7 @@ const MarketData: React.FC<{ valuation?: NftValuation }> = ({ valuation }) => {
           </div>
           <div className="value-box">
             <img src={ETHColoredIcon} alt="eth" className="icon" />
-            <div className="value">{valuation?.askingPrice}</div>
+            <div className="value">{valuation?.askingPrice ?? '-'}</div>
             <div className="value-in-usd">{valuation?.askingPriceUsd}</div>
           </div>
           <span className="compare">
@@ -426,7 +424,7 @@ const MarketData: React.FC<{ valuation?: NftValuation }> = ({ valuation }) => {
           </div>
           <div className="value-box">
             <img src={ETHColoredIcon} alt="eth" className="icon" />
-            <div className="value">{valuation?.lastSalePrice}</div>
+            <div className="value">{valuation?.lastSalePrice ?? '-'}</div>
             <div className="value-in-usd">{valuation?.lastSalePriceUsd}</div>
           </div>
           <span className="compare">
@@ -439,7 +437,7 @@ const MarketData: React.FC<{ valuation?: NftValuation }> = ({ valuation }) => {
           </div>
           <div className="value-box">
             <img src={ETHColoredIcon} alt="eth" className="icon" />
-            <div className="value">{valuation?.bids}</div>
+            <div className="value">{valuation?.bids ?? '-'}</div>
             <div className="value-in-usd">{valuation?.bidsPriceUsd}</div>
           </div>
           <span className="compare">
@@ -580,27 +578,27 @@ const ValuationHistory: React.FC<{ history: NFTValuationHistory }> = ({ history 
   )
 }
 
-const Transactions: React.FC<{ histories: NFTTransactionHistory[] }> = ({ histories }) => {
+const Transactions: React.FC<{ assetContractAddress?: string, tokenId?: number }> = ({ assetContractAddress, tokenId }) => {
   const columns = [
     {
       title: 'Type',
-      key: 'type',
-      dataIndex: 'type'
+      key: 'eventType',
+      dataIndex: 'eventType'
     },
     {
       title: 'From Address',
-      key: 'fromAddr',
-      dataIndex: 'fromAddr'
+      key: 'transactionFromAccountAddress',
+      dataIndex: 'transactionFromAccountAddress'
     },
     {
       title: 'To Address',
-      key: 'toAddr',
-      dataIndex: 'toAddr'
+      key: 'transactionToAccountAddress',
+      dataIndex: 'transactionToAccountAddress'
     },
     {
       title: 'Values',
-      key: 'value',
-      dataIndex: 'value'
+      key: 'price',
+      dataIndex: 'price'
       // sorter: (a: any, b: any) => a.value - b.value
     },
     {
@@ -609,6 +607,30 @@ const Transactions: React.FC<{ histories: NFTTransactionHistory[] }> = ({ histor
       dataIndex: 'date'
     }
   ]
+
+  const filterOptions: NftTransactionType[] = ['Sales', 'Transfers', 'Bids', 'Listings']
+
+  const [selectedOptions, setSelectedOptions] = useState<NftTransactionType[]>([])
+
+  const handleChange = (value: any) => {
+    setSelectedOptions(value)
+  }
+
+  const [current, setCurrent] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+
+  const { data, isLoading } = useTokenTransactionsQuery({
+    tokenId: tokenId?.toString() ?? '',
+    assetContractAddress: assetContractAddress ?? '',
+    filter: selectedOptions,
+    current,
+    size: pageSize
+  })
+
+  const handlePaginationChange = (page: number, size?: number) => {
+    setCurrent(page)
+    size && setPageSize(size)
+  }
 
   return (
     <CollapsibleBox
@@ -619,18 +641,30 @@ const Transactions: React.FC<{ histories: NFTTransactionHistory[] }> = ({ histor
       <TransactionsContainer>
         <div className="operators">
           <div className="text">Filter by:</div>
-          <DropdownSelector backgroundColor={'rgba(69,98,163)'} className="selector" allowClear={true}>
-            <DropdownSelector.Option value={'Bid'}>Bid</DropdownSelector.Option>
-            <DropdownSelector.Option value={'Withdraw Bid'}>Withdraw Bid</DropdownSelector.Option>
+          <DropdownSelector
+            mode="multiple"
+            backgroundColor={'rgba(69,98,163)'}
+            // className="selector"
+            allowClear={true}
+            value={selectedOptions}
+            onChange={handleChange}
+          >
+            {
+              filterOptions.map(option => (
+                <DropdownSelector.Option value={option} key={option}>{option}</DropdownSelector.Option>
+              ))
+            }
           </DropdownSelector>
-          <div className="text">Page</div>
+          {/*<div className="text">Page</div>
           <SearchInput backgroundColor={'rgb(69,98,163)'} className="page-input" />
-          <div className="text"> of 42</div>
+          <div className="text"> of 42</div>*/}
         </div>
         <ThemeTable
-          pagination={false}
           columns={columns}
-          dataSource={histories}
+          dataSource={data?.records}
+          pagination={{ pageSize, current, total: data?.total, onChange: handlePaginationChange }}
+          loading={isLoading}
+
         />
       </TransactionsContainer>
     </CollapsibleBox>
@@ -638,11 +672,14 @@ const Transactions: React.FC<{ histories: NFTTransactionHistory[] }> = ({ histor
 }
 
 const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
-  const { tokenId } = useParams<{
-    tokenId: string
-  }>()
+  const { id } = useParams<{ id: string }>()
 
-  const { data } = useNftValuationQuery(tokenId)
+  const { data } = useTokenValuationBaseInfoQuery(id)
+
+  const { data: valuationPrice } = useTokenValuationPriceQuery({
+    tokenId: data?.tokenId ?? 0,
+    assetContractAddress: data?.assetContractAddress ?? ''
+  })
 
   // fixme: mock data
   const changesData = [
@@ -667,15 +704,6 @@ const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
       turnoverRatePercent: '49.55'
     }
   }
-  const transactionHistories: NFTTransactionHistory[] = new Array(10).fill({}).map((_, index) => ({
-    date: `${index} days ago`,
-    fromAddr: '0x4977...2355',
-    toAddr: '0x1855...ae86',
-    type: 'Bid',
-    value: (0.48 * index).toString(),
-    valueInUsd: '1,231',
-    valueUnit: 'ETH'
-  }))
 
   useEffect(() => {
     document.getElementById('main')!.scrollTo(0, 0)
@@ -688,18 +716,18 @@ const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
           <FlexColumn width="358px">
             <TokenImage src={data?.nftImageUrl} />
             <Details properties={data?.nftAttributes} />
-            <Owner />
+            <Owner owner={data?.nftOwner} />
           </FlexColumn>
           <FlexColumn width="660px">
-            <Title tokenName={data?.nftName} />
-            <Valuation valuation={data?.oracleValuationEth} valuationInUsd={data?.oracleValuationUsd} />
+            <Title tokenId={data?.tokenId} seriesName={data?.seriesName}  />
+            <Valuation valuation={valuationPrice} valuationInUsd={data?.oracleValuationUsd} />
             <MarketData valuation={data} />
             <ValuationChanges changes={changesData} />
           </FlexColumn>
         </FlexRow>
 
         <ValuationHistory history={valuationHistory} />
-        <Transactions histories={transactionHistories} />
+        <Transactions assetContractAddress={data?.assetContractAddress} tokenId={data?.tokenId} />
       </Wrapper>
     </NFTValuationPageContainer>
   )

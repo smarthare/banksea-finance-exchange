@@ -76,7 +76,8 @@ export function formatTime(time: Date) {
 
   const diff = (now - time.getTime()) / 1000
 
-  const onHour = 3600
+  const onMinute = 60
+  const onHour = onMinute * 60
   const onDay = onHour * 24
   const oneMonth = onDay * 30
   const oneYear = onDay * 365
@@ -84,13 +85,13 @@ export function formatTime(time: Date) {
   if (diff < 30) {
     return 'Just Now'
   } else if (diff < onHour) {
-    return Math.ceil(diff / 60) + ' minutes ago'
+    return [Math.ceil(diff / onMinute), ' minute', diff / onMinute > 1 ? 's': '', ' ago']
   } else if (diff < onDay) {
-    return Math.ceil(diff / 3600) + ' hours ago'
+    return [Math.ceil(diff / onHour), ' hour', diff / onHour > 1 ? 's': '', ' ago']
   } else if (diff < oneMonth) {
-    return `${Math.ceil(diff / onDay)} day ago`
+    return [Math.ceil(diff / onDay), ' day', diff / onDay > 1 ? 's': '', ' ago']
   } else if (diff < oneYear) {
-    return `${Math.ceil(diff / oneMonth)} months ago`
+    return [Math.ceil(diff / oneMonth), ' month', diff / oneMonth > 1 ? 's': '', ' ago']
   } else {
     return [Math.ceil(diff / oneYear), ' year', diff / oneYear > 1 ? 's': '', ' ago']
   }

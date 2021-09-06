@@ -2,11 +2,6 @@ import React from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useCollectionMarketValueQuery } from '../../../../hooks/queries/insight/collection/useCollectionMarketValueQuery'
 
-type TotalMarketValueChartData = {
-  value: number[]
-  time: string[]
-}
-
 const TotalMarketValueChart: React.FC<{ seriesId: string }> = ({ seriesId }) => {
   const { data } = useCollectionMarketValueQuery(seriesId)
 
@@ -43,7 +38,7 @@ const TotalMarketValueChart: React.FC<{ seriesId: string }> = ({ seriesId }) => 
         smooth: true,
         symbol: 'none',
         areaStyle: {},
-        data: data?.value.map((v, idx) => ([data.time[idx] * 1000, v]))
+        data: data?.value.map((v, idx) => ([data.time[idx] * 1000, v])).sort((a, b) => a[0] - b[0])
       }
     ]
   }

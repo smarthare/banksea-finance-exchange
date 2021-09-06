@@ -13,15 +13,15 @@ export interface NftMarketCapitalization {
   id: string
   marketCapitalizationEth: number
   marketCapitalizationUsd: number
-  createTime: string
+  createTime: number
 }
 
 export const useNftMarketTotalValuationQuery = (): UseQueryResult<NftMarketTotalValuation> => {
   return useQuery(
     ['NFT_MARKET_TOTAL_VALUATION_QUERY'],
-    async () => {
-      return await banksyRequest.get<BanksyApiResponse<NftMarketTotalValuation>>(
-        '/oracle/ticker/nft')
+    () => {
+      return banksyRequest
+        .get<BanksyApiResponse<NftMarketTotalValuation>>('/oracle/ticker/nft')
         .then(r => r.data.data)
     }
   )

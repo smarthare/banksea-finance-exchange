@@ -6,9 +6,9 @@ import { simplifyNumber } from '../../../../utils'
 const AllNFTValuationChart: React.FC<{
   list: NftMarketCapitalization[]
 }> = ({ list }) => {
-  const usd = list.map(o => o.marketCapitalizationUsd)
-  const time = list.map(o => o.createTime)
-  const eth = list.map(o => o.marketCapitalizationEth)
+  const time = list.map(o => o.createTime * 1000).sort((a, b) => a - b)
+  const usd = list.map((o, index) => ([time[index], o.marketCapitalizationUsd]))
+  const eth = list.map((o, index) => ([time[index], o.marketCapitalizationEth]))
 
   const options = {
     darkMode: true,
@@ -20,7 +20,7 @@ const AllNFTValuationChart: React.FC<{
       }
     },
     xAxis: {
-      type: 'category',
+      type: 'time',
       data: time
     },
     yAxis: [
@@ -61,19 +61,21 @@ const AllNFTValuationChart: React.FC<{
       {
         name: 'USD',
         data: usd,
-        type: 'line'
+        type: 'line',
+        smooth: true
       },
       {
         name: 'ETH',
         data: eth,
         type: 'line',
-        yAxisIndex: 1
+        yAxisIndex: 1,
+        smooth: true
       }
     ],
     dataZoom: [{
       type: 'inside',
       start: 0,
-      end: 100,
+      end: 100
     }],
     tooltip: {
       trigger: 'axis'

@@ -102,10 +102,12 @@ const ChartTextContainer = styled.div`
 
 const AllNFTValuation: React.FC<{ data?: NftMarketTotalValuation }> = ({ data }) => {
   const percentString = (num: number) => {
-    return [num > 0 ? '+' : '', num * 100, '%'].concat()
+    return [
+      num > 0 ? '+' : '',
+      (num * 100).toFixed(3),
+      '%'
+    ].concat()
   }
-
-  console.log(data)
 
   return (
     <div style={{ marginBottom: '80px' }}>

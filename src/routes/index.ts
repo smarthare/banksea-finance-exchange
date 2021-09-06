@@ -63,7 +63,7 @@ const routes: Route[] = [
     component: CollectionValuationPage
   },
   {
-    path: '/valuation/token/:tokenId',
+    path: '/valuation/token/:id',
     hidden: true,
     title: 'NFTValuation',
     component: NFTValuationPage
