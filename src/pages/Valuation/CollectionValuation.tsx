@@ -9,7 +9,6 @@ import { QuestionCircleOutlined } from '@ant-design/icons'
 import {
   CollectionExternalLink,
   CollectionToken,
-  CollectionValuationByTypeAndAttribute,
   CollectionValuationStatisticItem
 } from '../../types/CollectionValuation'
 import { CollectionHeatCompositionChart } from './components/charts/CollectionHeatCompositionChart'
@@ -24,7 +23,7 @@ import { useCollectionNftsQuery } from '../../hooks/queries/insight/collection/u
 import { useCollectionValuationDetailQuery } from '../../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
 import { TradeFlowChart } from './components/charts/TradeFlowChart'
 import { useMediaQuery } from 'react-responsive'
-import coding from '../../assets/images/mockImg/coding.png'
+import { useCollectionValuationAttributeQuery } from '../../hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
 
 type CollectionValuationPageProps = {
   //
@@ -256,6 +255,7 @@ const CollectionNFTListContainer = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-right: -10px;
 
     .item {
       cursor: pointer;
@@ -265,6 +265,7 @@ const CollectionNFTListContainer = styled.div`
       border-radius: 10px;
       margin-bottom: 20px;
       padding: 10px;
+      margin-right: 10px;
 
       &-header {
         display: flex;
@@ -283,10 +284,13 @@ const CollectionNFTListContainer = styled.div`
         font-size: 14px;
         font-weight: 500;
       }
-
-      &-id {
-      }
     }
+
+    .item.empty {
+      padding: 0;
+      height: 0;
+    }
+
   }
 `
 
@@ -386,51 +390,25 @@ const Charts: React.FC<{ seriesId: string, contractAddress: string, seriesSlug?:
   )
 }
 
-const ValuationTable: React.FC<{ valuations: CollectionValuationByTypeAndAttribute[] }> = ({ valuations }) => {
+const ValuationTable: React.FC<{ id: string }> = ({ id }) => {
+  const [current, setCurrent] = useState(1)
+
+  const { data } = useCollectionValuationAttributeQuery({
+    id,
+    current
+  })
+
   const columns = [
     {
-      title: 'Prevailing Trend',
-      key: 'prevailingTrend',
-      dataIndex: 'prevailingTrend',
+      title: 'Type',
+      key: 'attributeType',
+      dataIndex: 'attributeType',
       width: '120px'
     },
     {
-      title: 'Accessory',
-      key: 'accessory',
-      dataIndex: 'accessory',
-      width: '150px'
-    },
-    {
-      title: 'Number',
-      key: 'number',
-      dataIndex: 'number',
-      width: '90px'
-    },
-    {
-      title: 'Valuation',
-      key: 'valuation',
-      dataIndex: 'valuation',
-      width: '200px'
-    },
-    {
-      title: 'Average',
-      key: 'average',
-      dataIndex: 'average',
-      width: '180px'
-    }
-  ]
-
-  /*const columns = [
-    {
-      title: 'Prevailing Trend',
-      key: 'prevailingTrend',
-      dataIndex: 'prevailingTrend',
-      width: '120px'
-    },
-    {
-      title: 'Accessory',
-      key: 'accessory',
-      dataIndex: 'accessory',
+      title: 'Value',
+      key: 'attributeValue',
+      dataIndex: 'attributeValue',
       width: '150px'
     },
     {
@@ -439,44 +417,35 @@ const ValuationTable: React.FC<{ valuations: CollectionValuationByTypeAndAttribu
       dataIndex: 'numNft',
       width: '90px'
     },
+    {
+      title: 'Rarity',
+      key: 'rateAttribute',
+      render: (text: string, row: any) => `${(row.rateAttribute * 100).toFixed(3)}%`,
+      width: '200px'
+    },
+  ]
 
-    {
-      title: 'Valuation(ETH)',
-      key: 'volumeNftEth',
-      dataIndex: 'volumeNftEth',
-      width: '200px'
-    },
-    {
-      title: 'Valuation(USD)',
-      key: 'volumeNftUsd',
-      dataIndex: 'volumeNftUsd',
-      width: '200px'
-    },
-
-    {
-      title: 'Average(ETH)',
-      key: 'avgPriceNftEth',
-      dataIndex: 'avgPriceNftEth',
-      width: '200px'
-    },
-    {
-      title: 'Average(USD)',
-      key: 'avgPriceNftUsd',
-      dataIndex: 'avgPriceNftUsd',
-      width: '200px'
-    }
-  ]*/
+  const handlePaginationChange = (current: number) => {
+    setCurrent(current)
+  }
 
   return (
     <ValuationTableContainer>
       <div className="title">Valuation by Type and Attribute</div>
       <ThemeTable
         columns={columns}
-        dataSource={valuations.slice(0, 10)}
-        pagination={false}
+        dataSource={data?.records}
         scroll={{ x: 1000 }}
+        style={{ marginTop: '-40px' }}
+        pagination={{
+          total: data?.total,
+          pageSize: 10,
+          showSizeChanger: false,
+          onChange: handlePaginationChange,
+          showQuickJumper: true,
+          position: ['topRight']
+        }}
       />
-      <img src={coding} alt="" style={{ position: 'absolute', right: 0, top: 0, width: '180px' }} />
     </ValuationTableContainer>
   )
 }
@@ -487,7 +456,7 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
   const [current, setCurrent] = useState(1)
-  const [size, setSize] = useState(24)
+  const [size, setSize] = useState(60)
   const [total, setTotal] = useState(0)
 
   const { data } = useCollectionNftsQuery({
@@ -496,16 +465,16 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
     size
   })
 
+  const handlePaginationChange = (current: number, size?: number) => {
+    setCurrent(current)
+    size && setSize(size)
+  }
+
   useEffect(() => {
     if (data) {
       setTotal(data.total)
     }
   }, [data])
-
-  const handlePaginationChange = (current: number, size?: number) => {
-    setCurrent(current)
-    size && setSize(size)
-  }
 
   return (
     <CollectionNFTListContainer>
@@ -532,6 +501,7 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
         <div className="sb-row" style={{ justifyContent: isMobile?'center':'flex-end' }}>
           <Pagination
             showQuickJumper
+            showSizeChanger={false}
             total={total}
             onChange={handlePaginationChange}
             pageSize={size}
@@ -562,7 +532,7 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
         }
         {
           new Array(5).fill({}).map((_, index) => (
-            <div className="item" style={{ height: '0', padding: '0' }} key={index} />
+            <div className="item empty" key={index} />
           ))
         }
       </div>
@@ -582,14 +552,6 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
 
   const { data: detail } = useCollectionValuationDetailQuery(seriesId)
 
-  const valuations: CollectionValuationByTypeAndAttribute[] = new Array<CollectionValuationByTypeAndAttribute>(4).fill({
-    accessory: 'Pilot Helmet',
-    average: '125.86 ETH ($408,645)',
-    number: 199,
-    prevailingTrend: 196,
-    valuation: '35,995.36 ETH ($116.87M)'
-  })
-
   useEffect(() => {
     document.getElementById('main')!.scrollTo(0, 0)
   }, [])
@@ -604,7 +566,7 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
         <Description description={detail?.seriesDescription} />
         <Statistic statistic={convertCollectionValuationDetailToCollectionValuationStatisticItems(detail)} />
         <Charts seriesId={seriesId} contractAddress={detail?.assetContractAddress ?? ''} seriesSlug={detail?.seriesSlug} />
-        <ValuationTable valuations={valuations} />
+        <ValuationTable id={seriesId} />
         <CollectionNFTList />
       </Wrapper>
     </CollectionValuationPageContainer>

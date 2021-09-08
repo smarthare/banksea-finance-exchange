@@ -4,11 +4,12 @@ import banksyRequest, { BanksyApiResponse } from '../../../../utils/banksyReques
 export interface NftValuation {
   id: string
   assetContractAddress: string
-  bids: any
-  askingPrice: string
+  seriesName: string
+  bids: number
+  askingPrice?: string
   lastSalePrice?: string
   nftSeriesId: string
-  nftNumber: number
+  tokenId: number
   nftName: string
   oracleValuationEth?: string
   oracleValuationUsd?: string
@@ -35,10 +36,9 @@ export interface NftValuation {
   nftAttributes: NftAttribute[]
   nftOwner?: string
   priceVolatility?: string
-  ranking?: string
-  turnoverRate?: string,
-  tokenId: number
-  seriesName: string
+  ranking?: number
+  turnoverRate?: string
+  numbWithAttributesCount: number
 }
 
 export interface NftAttribute {

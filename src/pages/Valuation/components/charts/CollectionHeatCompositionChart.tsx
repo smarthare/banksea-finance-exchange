@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useCollectionsHeatTrendQuery } from '../../../../hooks/queries/insight/overview/useCollectionsHeatTrendQuery'
+import { EChartsOption } from 'echarts-for-react/src/types'
 
 
 const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ seriesSlug }) => {
@@ -15,7 +16,7 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
   const t365TurnoverRateScore = row?.t365TurnoverRateScore
   const time = row?.time.map(o => o * 1000)
 
-  const legends = ['1 Days Turnover Rate', '3 Days Turnover Rate', '7 Days Turnover Rate',
+  const legends = ['1 Day Turnover Rate', '3 Days Turnover Rate', '7 Days Turnover Rate',
     '30 Days Turnover Rate', '90 Days Turnover Rate', '180 Days Turnover Rate', '365 Days Turnover Rate']
 
   const buildSeries = (name: string, data?: any[]) => ({
@@ -26,11 +27,11 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
     emphasis: {
       focus: 'series'
     },
-    data: data?.map((o, i) => ([time?.[i], o.toFixed(3)]))
+    data: data?.map((o, i) => ([time?.[i], (o * 100).toFixed(2)])).sort((a, b) => (a[0] as number) - (b[0] as number))
   })
 
   const seriesByLegend = [
-    { legend: '1 Days Turnover Rate', seriesData: t1TurnoverRateScore },
+    { legend: '1 Day Turnover Rate', seriesData: t1TurnoverRateScore },
     { legend: '3 Days Turnover Rate', seriesData: t3TurnoverRateScore },
     { legend: '7 Days Turnover Rate', seriesData: t7TurnoverRateScore },
     { legend: '30 Days Turnover Rate', seriesData: t30TurnoverRateScore },
@@ -39,8 +40,7 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
     { legend: '365 Days Turnover Rate', seriesData: t365TurnoverRateScore }
   ]
 
-
-  const options = {
+  const options: EChartsOption = {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -66,13 +66,11 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
     xAxis: [{
       type: 'time',
     }],
-    yAxis: [
-      {
-        type: 'value'
-      }
-    ],
+    yAxis: [{
+      type: 'value'
+    }],
     dataZoom: [
-      { type: 'inside' }
+      { type: 'inside', start: 80, end: 100 }
     ],
     series: seriesByLegend.map(({ legend, seriesData }) => buildSeries(legend, seriesData))
   }

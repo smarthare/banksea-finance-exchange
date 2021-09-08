@@ -1,27 +1,33 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '../../../../utils/banksyRequest'
+import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '../../../../utils/banksyRequest'
 
 
 export interface CollectionValuationAttribute {
   id: string
   nftSeriesId: string
-  prevailingTrend: any
+  prevailingTrend?: string
   attributeType: string
   attributeValue: string
-  volumeNftEth: any
-  volumeNftUsd: any
-  avgPriceNftEth: any
-  avgPriceNftUsd: any
+  volumeNftEth?: string
+  volumeNftUsd?: string
+  avgPriceNftEth?: string
+  avgPriceNftUsd?: string
   numNft: string
   rateAttribute: number
 }
 
-export const useCollectionValuationAttributeQuery = (id: string): UseQueryResult<CollectionValuationAttribute[]> => {
+type CollectionValuationAttributeQueryParams = {
+  id: string
+  current: number
+  size?: number
+}
+
+export const useCollectionValuationAttributeQuery = (data: CollectionValuationAttributeQueryParams): UseQueryResult<BanksyApiPagingData<CollectionValuationAttribute>> => {
   return useQuery(
-    ['COLLECTION_VALUATION_ATTR'],
+    ['COLLECTION_VALUATION_ATTR', data],
     async () => {
-      return await banksyRequest.get<BanksyApiResponse<CollectionValuationAttribute[]>>(
-        `/oracle/detail/${id}/attributes`)
+      return await banksyRequest
+        .post<BanksyApiResponse<BanksyApiPagingData<CollectionValuationAttribute>>>('/oracle/detail/attributes', data)
         .then(r => r.data.data)
     }
   )
