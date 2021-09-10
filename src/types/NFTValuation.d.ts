@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js'
-
 export type NFTValuationUnit = 'ETH' | 'BTC'
 
 export type NFTValuationProperties = {
@@ -27,9 +25,9 @@ export type NFTValuationMarketData = {
 
 export type NFTValuationChangeData = {
   type: string
-  fromYesterdayPercent: BigNumber
-  last7DaysPercent: BigNumber
-  last30DaysPercent: BigNumber
+  fromYesterdayPercent?: number
+  last7DaysPercent?: number
+  last30DaysPercent?: number
 }
 
 export type NFTTransactionHistory = {

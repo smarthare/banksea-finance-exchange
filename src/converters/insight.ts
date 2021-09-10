@@ -1,6 +1,8 @@
 import { CollectionValuationDetail } from '../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
 import { CollectionExternalLink, CollectionValuationStatisticItem } from '../types/CollectionValuation'
 import { numberWithCommas } from '../utils'
+import { NFTValuationChangeData } from '../types/NFTValuation'
+import { NftValuation } from '../hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
 
 export function convertCollectionValuationDetailToCollectionExternalLinks(detail?: CollectionValuationDetail): CollectionExternalLink[] {
   if (!detail) {
@@ -47,7 +49,32 @@ export function convertCollectionValuationDetailToCollectionValuationStatisticIt
     { key: 'Total Supply', value: numberWithCommas(detail.totalSupply, 0) },
     { key: 'Owners', value: numberWithCommas(detail.numOwners, 0) },
     { key: '7 Day Avg Price', value: `${numberWithCommas(detail.sevenDayAvgPrice)} ETH` },
-    { key: 'Avg Price', value: `${numberWithCommas(detail.avgPrice)} ETH` },
+    { key: 'Avg Price', value: `${numberWithCommas(detail.avgPrice)} ETH` }
     // { key: 'Turnover Rate', value: detail.turnoverRate }
   ]
+}
+
+export function convertNftValuationToValuationChanges(v?: NftValuation): NFTValuationChangeData[] {
+  if (!v) {
+    return [
+      { type: 'Ethereum' },
+      { type: 'USD' }
+    ]
+  }
+
+  return [
+    {
+      type: 'Ethereum',
+      fromYesterdayPercent: v.valuationChange?.changeOneDayEth,
+      last7DaysPercent: v.valuationChange?.changeSevenDayEth,
+      last30DaysPercent: v.valuationChange?.changeThirtyDayEth
+    },
+    {
+      type: 'USD',
+      fromYesterdayPercent: v.valuationChange?.changeOneDayUsd,
+      last7DaysPercent: v.valuationChange?.changeSevenDayUsd,
+      last30DaysPercent: v.valuationChange?.changeThirtyDayUsd
+    }
+  ]
+
 }

@@ -6,12 +6,16 @@ type TokenValuationPriceQueryParams = {
   assetContractAddress: string
 }
 
-export const useTokenValuationPriceQuery = (params: TokenValuationPriceQueryParams): UseQueryResult<string> => {
+export const useTokenValuationPriceQuery = (params: TokenValuationPriceQueryParams): UseQueryResult<string | undefined> => {
   return useQuery(
     ['TOKEN_VALUATION_PRICE', params], () => {
+      if (!params.assetContractAddress) {
+        return undefined
+      }
+
       return banksyRequest
-        .post<BanksyApiResponse<{ price: string }>>('/oracle/ai/price', params)
-        .then(r => r.data.data.price)
+        .post<BanksyApiResponse<{ price?: string }>>('/oracle/ai/price', params)
+        .then(r => r.data?.data?.price)
     }
   )
 }

@@ -25,6 +25,7 @@ const ThemeCollapse = styled(Collapse)<ThemeCollapseProps>`
   border: none;
   border-radius: 10px !important;
   background-color: transparent;
+  overflow-y: hidden;
 
   .ant-collapse-header {
     height: 70px;

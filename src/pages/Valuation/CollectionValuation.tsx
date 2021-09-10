@@ -147,7 +147,7 @@ const ChartsContainer = styled.div`
 
     .item {
       height: 500px;
-      width: calc(50% - 50px);
+      width: 100%;
 
       .title {
         margin-bottom: 47px;

@@ -67,7 +67,14 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
       type: 'time',
     }],
     yAxis: [{
-      type: 'value'
+      type: 'value',
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: '#666',
+          type: 'dotted'
+        }
+      }
     }],
     dataZoom: [
       { type: 'inside', start: 80, end: 100 }
