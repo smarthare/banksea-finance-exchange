@@ -149,7 +149,7 @@ const PoolsPage: React.FC = () => {
     if (history.location.pathname === '/pools/*') {
       history.push(`/pools/${DEFAULT_ACTIVE_PAGE_KEY}`)
     }
-  }, [history])
+  }, [history.location.pathname])
 
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
   const sideBarCollapsed = useSideBarCollapsed()
