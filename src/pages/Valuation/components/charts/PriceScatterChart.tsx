@@ -25,7 +25,7 @@ const PriceScatterChart: React.FC<{ contractAddress: string }> = ({ contractAddr
       }
     },
     series: [{
-      data: data?.price.map(([timestamp, price]) => ([timestamp * 1000, price])),
+      data: data?.price.map(([timestamp, price]) => ([timestamp * 1000, price])).filter(([, price]) => price !== 0),
       type: 'scatter',
       symbolSize: 5
     }],
