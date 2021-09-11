@@ -30,12 +30,6 @@ const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ c
       datasetId: datasetId,
       showSymbol: false,
       name: collection,
-      // endLabel: {
-      //   show: true,
-      //   formatter: function(params: any) {
-      //     return params.value[3] + ': ' + params.value[0]
-      //   }
-      // },
       labelLayout: {
         moveOverlap: 'shiftY'
       },
@@ -67,7 +61,7 @@ const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ c
         if (index === 0) {
           return row
         } else {
-          return [row[0], row[1], row[2] * 1000]
+          return [row[0], (row[1] * 100).toFixed(2), row[2] * 1000]
         }
       })
     }].concat(datasetWithFilters),

@@ -15,7 +15,14 @@ const PriceScatterChart: React.FC<{ contractAddress: string }> = ({ contractAddr
     },
     yAxis: {
       type: 'value',
-      name: 'Value(ETH)'
+      name: 'Value(ETH)',
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: '#666',
+          type: 'dotted'
+        }
+      }
     },
     series: [{
       data: data?.price.map(([timestamp, price]) => ([timestamp * 1000, price])),

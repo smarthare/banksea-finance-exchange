@@ -4,11 +4,12 @@ import banksyRequest, { BanksyApiResponse } from '../../../../utils/banksyReques
 export interface NftValuation {
   id: string
   assetContractAddress: string
-  bids: any
-  askingPrice: string
+  seriesName: string
+  bids: number
+  askingPrice?: string
   lastSalePrice?: string
   nftSeriesId: string
-  nftNumber: number
+  tokenId: number
   nftName: string
   oracleValuationEth?: string
   oracleValuationUsd?: string
@@ -35,10 +36,57 @@ export interface NftValuation {
   nftAttributes: NftAttribute[]
   nftOwner?: string
   priceVolatility?: string
-  ranking?: string
-  turnoverRate?: string,
-  tokenId: number
-  seriesName: string
+  ranking?: number
+  turnoverRate?: string
+  numbWithAttributesCount: number
+  valuationChange?: {
+    changeOneDayEth: number
+    changeSevenDayEth: number
+    changeThirtyDayEth: number
+    changeOneDayUsd: number
+    changeSevenDayUsd: number
+    changeThirtyDayUsd: number
+  }
+  oracleNftValuationVo: OracleNftValuation
+  oracleNftValuationVoList: OracleNftValuation[]
+  aiPrice?: string
+}
+
+export interface OracleNftValuation {
+  id: string
+  nftId: string
+  assetId: string
+  nftSeriesId: string
+  nftTokenId: number
+  assetContractAddress: string
+  nftName: string
+  btcMarketIndex: number
+  nftMarketIndex: number
+  seriesMarketIndex: number
+  communityHeatIndex: number
+  fansLoyaltyIndex: number
+  typeHeat: number
+  attributeHeats: AttributeHeat[]
+  oracleValuationEth: number
+  oracleValuationUsd: number
+  valuationUpdateTime: number
+  createTime: number
+  actualPriceEth: number
+  actualPriceUsd: number
+  btcMarketIndexChange?: number
+  nftMarketIndexChange?: number
+  seriesMarketIndexChange?: number
+  communityHeatIndexChange?: number
+  fansLoyaltyIndexChange?: number
+  typeHeatChange?: number
+}
+
+export interface AttributeHeat {
+  traitType: string
+  value: string
+  ratio: number
+  heat: number
+  change: any
 }
 
 export interface NftAttribute {

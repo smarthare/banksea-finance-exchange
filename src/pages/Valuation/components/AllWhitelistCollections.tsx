@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import ThemeTable from '../../../styles/ThemeTable'
 import { RankingCollection } from '../../../hooks/queries/insight/overview/useRankingCollectionsQuery'
+import { numberWithCommas } from '../../../utils'
 
 type AllWhitelistCollectionsProps = {
   collections: RankingCollection[]
@@ -60,16 +61,6 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
   )
 
   const columns = [
-    // {
-    //   title: '#',
-    //   key: 'index',
-    //   dataIndex: 'index',
-    // },
-    // {
-    //   title: 'Owner%',
-    //   dataIndex: 'ownerProportion',
-    //   key: 'ownerProportion'
-    // },
     {
       title: 'Collection',
       // eslint-disable-next-line react/display-name
@@ -78,50 +69,50 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
     },
     {
       title: 'Volume(7d)',
-      dataIndex: 'sevenDayVolume',
       key: 'sevenDayVolume',
-      width: '120px'
+      render: (_: string, record: any) => `Ξ${numberWithCommas(record.sevenDayVolume)}`,
+      width: '120px',
     },
     {
       title: 'Transactions(7d)',
-      dataIndex: 'sevenDayTransaction',
       key: 'sevenDayTransaction',
+      render: (_: string, record: any) => `${numberWithCommas(record.sevenDayTransaction, 0)}`,
       width: '120px'
     },
     {
       title: 'Avg Price(7d)',
-      dataIndex: 'sevenDayAvgPrice',
       key: 'sevenDayAvgPrice',
+      render: (_: string, record: any) => `Ξ${numberWithCommas(record.sevenDayAvgPrice)}`,
       width: '120px'
     },
     {
       title: 'Total supply',
-      dataIndex: 'totalSupply',
       key: 'totalSupply',
+      render: (_: string, record: any) => `${numberWithCommas(record.totalSupply, 0)}`,
       width: '120px'
     },
     {
       title: 'Owners',
-      dataIndex: 'numOwners',
       key: 'numOwners',
+      render: (_: string, record: any) => `${numberWithCommas(record.numOwners, 0)}`,
       width: '110px'
     },
     {
       title: 'Estimated Market Cap',
-      dataIndex: 'marketCap',
       key: 'marketCap',
+      render: (_: string, record: any) => `Ξ${numberWithCommas(record.marketCap)}`,
       width: '180px'
     },
     {
       title: 'Volume(All Time)',
-      dataIndex: 'totalVolume',
       key: 'totalVolume',
+      render: (_: string, record: any) => `Ξ${numberWithCommas(record.totalVolume)}`,
       width: '150px'
     },
     {
       title: 'Transactions(All Time)',
-      dataIndex: 'allTransaction',
       key: 'allTransaction',
+      render: (_: string, record: any) => `${numberWithCommas(record.allTransaction, 0)}`,
       width: '180px'
     },
   ]
@@ -141,8 +132,8 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
         All Whitelist Collections
       </div>
       <ThemeTable
-        columns={columns}
         dataSource={collections}
+        columns={columns}
         onRow={onRow}
         scroll={{ x: 1500 }}
         rowCursor={'pointer'}

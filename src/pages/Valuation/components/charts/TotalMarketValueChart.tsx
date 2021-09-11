@@ -21,6 +21,13 @@ const TotalMarketValueChart: React.FC<{ seriesId: string }> = ({ seriesId }) => 
       axisLabel: {
         formatter: (params: any) => `Ξ${simplifyNumber(params)}`
       },
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: '#666',
+          type: 'dotted'
+        }
+      }
     },
     tooltip: {
       trigger: 'axis',

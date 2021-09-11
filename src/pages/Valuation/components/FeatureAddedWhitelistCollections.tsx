@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { WhitelistCollection } from 'hooks/queries/insight/overview/useWhitelistCollectionsQuery'
+import { numberWithCommas } from '../../../utils'
 
 type FeatureAddedWhitelistCollectionsProps = {
   collections: any[]
@@ -136,8 +137,8 @@ const SingleCollection: React.FC<{ collection: WhitelistCollection }> = ({ colle
         <div className="column">
           <div className="name">{seriesName}</div>
           {/*<div className="info">Added: {added}</div>*/}
-          <div className="info">Owner(s): {numOwners}</div>
-          <div className="info">Total Volume: {totalVolume}</div>
+          <div className="info">Owner(s): {numberWithCommas(numOwners, 0)}</div>
+          <div className="info">Total Volume: Ξ{numberWithCommas(totalVolume)}</div>
           <div className="description">{seriesDescription}</div>
         </div>
 

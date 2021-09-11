@@ -54,28 +54,6 @@ const useValuationOverviewData = (): ValuationPageData => {
     }
   }, [heatDataList])
 
-  useEffect(() => {
-    // const collectionInfos: CollectionInfo[] = (require('../../assets/mock/valuation-collections') as CollectionInfo[])
-
-    /*setAllWhitelistCollections(collectionInfos.map(o => ({
-      added: '2021/04/30',
-      avgPriceIn7Days: '90.20ETH',
-      estimatedMarketCap: '901,890.68ETH',
-      name: o.seriesName,
-      ownerProportion: 30.01,
-      owners: 3001,
-      salesAllTime: 16245,
-      salesIn7Days: 823,
-      totalSupply: 9999,
-      volumeAllTime: '466,215.12 ETH',
-      volumeIn7Days: '85,233.03ETH',
-      iconUrl: o.seriesLogo
-    })))
-
-    setFeatureAddedWhitelistCollections(collectionInfos)*/
-
-  }, [heatDataList])
-
   return {
     allWhitelistCollections: rankingCollections ?? [],
     featureAddedWhitelistCollections: whitelistCollections ?? [],
