@@ -400,7 +400,7 @@ const ValuationTable: React.FC<{ id: string }> = ({ id }) => {
 
   const columns = [
     {
-      title: 'Type',
+      title: 'Trait Type',
       key: 'attributeType',
       dataIndex: 'attributeType',
       width: '120px'

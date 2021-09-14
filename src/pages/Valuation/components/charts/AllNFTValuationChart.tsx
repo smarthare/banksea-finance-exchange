@@ -7,9 +7,11 @@ import { simplifyNumber } from '../../../../utils'
 const AllNFTValuationChart: React.FC<{
   list: NftMarketCapitalization[]
 }> = ({ list }) => {
-  const time = list.map(o => o.createTime * 1000).sort((a, b) => a - b)
-  const usd = list.map((o, index) => ([time[index], o.marketCapitalizationUsd]))
-  const eth = list.map((o, index) => ([time[index], o.marketCapitalizationEth]))
+  const sortedList = list.sort((a, b) => a.createTime - b.createTime)
+
+  const time = sortedList.map(o => o.createTime * 1000)
+  const usd = sortedList.map((o, index) => ([time[index], o.marketCapitalizationUsd]))
+  const eth = sortedList.map((o, index) => ([time[index], o.marketCapitalizationEth]))
 
   const options = {
     darkMode: true,

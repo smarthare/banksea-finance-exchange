@@ -22,9 +22,9 @@ export function generateNftMetadata(form: NFTCreateForm): NFTMetadata {
   }
 }
 
-export function numberWithCommas(x?: string | number | BigNumber, decimalPlace = 2): string {
+export function numberWithCommas(x?: string | number | BigNumber, decimalPlace = 2, showSign?: boolean): string {
   if (!x?.toString().length) {
-    return numberWithCommas('0')
+    return numberWithCommas('0', decimalPlace, showSign)
   }
 
   const trimTrailingZero = (x: string): string => {
@@ -48,7 +48,10 @@ export function numberWithCommas(x?: string | number | BigNumber, decimalPlace =
   if (!decimalPlace) {
     return parts[0]
   }
-  return parts.join('.')
+  return [
+    showSign && new BigNumber(x).gte(0) ? '+' : '',
+    parts.join('.')
+  ].join('')
 }
 
 export function simplifyNumber(x?: string | number | BigNumber, decimalPlace = 2): string {
@@ -58,16 +61,19 @@ export function simplifyNumber(x?: string | number | BigNumber, decimalPlace = 2
 
   const num = new BigNumber(x.toString())
 
-  const kilo = new BigNumber('1000')
-  const million = new BigNumber('1000000')
-  const billion = new BigNumber('1000000000')
+  const KILO = new BigNumber('1000')
+  const MILLION = new BigNumber('1000000')
+  const BILLION = new BigNumber('1000000000')
+  const TRILLION = new BigNumber('1000000000000')
 
-  if (num.gte(billion)) {
-    return num.div(billion).toFixed(decimalPlace) + 'B'
-  } else if (num.gte(million)) {
-    return num.div(million).toFixed(decimalPlace) + 'M'
-  } else if (num.gte(kilo)) {
-    return num.div(kilo).toFixed(decimalPlace) + 'K'
+  if (num.gte(TRILLION)) {
+    return num.div(TRILLION).toFixed(decimalPlace) + 't'
+  } else if (num.gte(BILLION)) {
+    return num.div(BILLION).toFixed(decimalPlace) + 'B'
+  } else if (num.gte(MILLION)) {
+    return num.div(MILLION).toFixed(decimalPlace) + 'M'
+  } else if (num.gte(KILO)) {
+    return num.div(KILO).toFixed(decimalPlace) + 'K'
   } else {
     return num.toFixed(decimalPlace)
   }

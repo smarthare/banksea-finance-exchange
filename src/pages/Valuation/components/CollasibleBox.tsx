@@ -8,6 +8,7 @@ import CodingImg from '../../../assets/images/mockImg/coding.png'
 
 interface ThemeCollapseProps  {
   contentBackground?: Property.Background
+  overflow?: Property.Overflow
 }
 
 interface CollapsibleBoxProps extends ThemeCollapseProps {
@@ -25,7 +26,10 @@ const ThemeCollapse = styled(Collapse)<ThemeCollapseProps>`
   border: none;
   border-radius: 10px !important;
   background-color: transparent;
-  overflow-y: hidden;
+
+  &, .ant-collapse-item {
+    overflow: visible !important;
+  }
 
   .ant-collapse-header {
     height: 70px;
@@ -109,7 +113,8 @@ const CollapsibleBox: React.FC<CollapsibleBoxProps> = ({
   children,
   style,
   contentBackground,
-  coding
+  coding,
+  overflow,
 }) => {
   const [collapsed, setCollapsed] = useState(false)
 
@@ -126,6 +131,7 @@ const CollapsibleBox: React.FC<CollapsibleBoxProps> = ({
       onChange={handleCollapse}
       defaultActiveKey={1}
       contentBackground={contentBackground}
+      overflow={overflow}
     >
       <Collapse.Panel
         showArrow={false}

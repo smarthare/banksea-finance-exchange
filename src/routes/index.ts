@@ -26,7 +26,7 @@ import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
 import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
 import ValuationPage from '../pages/Valuation'
 import CollectionValuationPage from '../pages/Valuation/CollectionValuation'
-import NFTValuationPage from '../pages/Valuation/NFTValuation'
+import NFTValuationPage from '../pages/Valuation/TokenValuation'
 import { EyeOutlined } from '@ant-design/icons'
 
 export type Route = {
