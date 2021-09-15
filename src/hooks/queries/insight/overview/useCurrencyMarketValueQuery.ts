@@ -10,8 +10,8 @@ export const useCurrencyMarketValueQuery = (): UseQueryResult<CurrencyMarketValu
   return useQuery(
     ['CURRENCY_MARKET_VALUE'],
     async () => {
-      return await banksyRequest.get<BanksyApiResponse<CurrencyMarketValue>>(
-        '/oracle/ticker/coin')
+      return await banksyRequest
+        .get<BanksyApiResponse<CurrencyMarketValue>>('/oracle/ticker/coin')
         .then(r => r.data.data)
     }
   )

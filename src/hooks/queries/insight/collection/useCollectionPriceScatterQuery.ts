@@ -7,8 +7,8 @@ export const useCollectionPriceScatterQuery = (contractAddress: string): UseQuer
   return useQuery(
     ['COLLECTIONS_PRICE_SCATTER', contractAddress],
     async () => {
-      return await banksyRequest.post<BanksyApiResponse<Array<[number, number]>>>(
-        '/oracle/chart/price', {
+      return await banksyRequest
+        .post<BanksyApiResponse<Array<[number, number]>>>('/oracle/chart/price', {
           contractAddress
         })
         .then(r => r.data.data)

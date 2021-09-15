@@ -41,10 +41,8 @@ export const useRankingCollectionsQuery = (size?: number, current?: number): Use
   return useQuery(
     ['RANKING_COLLECTION', size, current],
     async () => {
-      return await banksyRequest.post<BanksyApiResponse<BanksyApiPagingData<RankingCollection>>>(
-        '/oracle/whitelist/rankings',
-        { size, current }
-      )
+      return await banksyRequest
+        .post<BanksyApiResponse<BanksyApiPagingData<RankingCollection>>>('/oracle/whitelist/rankings', { size, current })
         .then(r => r.data.data)
     }
   )

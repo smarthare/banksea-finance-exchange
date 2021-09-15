@@ -23,8 +23,8 @@ export const useWhitelistCollectionsQuery = (): UseQueryResult<WhitelistCollecti
   return useQuery(
     ['WHITELIST_COLLECTIONS'],
     async () => {
-      return await banksyRequest.get<BanksyApiResponse<WhitelistCollection[]>>(
-        '/oracle/whitelist/posters')
+      return await banksyRequest
+        .get<BanksyApiResponse<WhitelistCollection[]>>('/oracle/whitelist/posters')
         .then(r => r.data.data)
     }
   )

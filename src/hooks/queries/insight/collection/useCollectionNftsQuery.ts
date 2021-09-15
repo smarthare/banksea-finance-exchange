@@ -36,8 +36,8 @@ export const useCollectionNftsQuery = (data: CollectionNftsQueryParams): UseQuer
         return
       }
 
-      return await banksyRequest.post<BanksyApiResponse<BanksyApiPagingData<CollectionNft>>>(
-        '/oracle/detail/search', data)
+      return await banksyRequest
+        .post<BanksyApiResponse<BanksyApiPagingData<CollectionNft>>>('/oracle/detail/search', data)
         .then(r => r.data.data)
     }
   )
