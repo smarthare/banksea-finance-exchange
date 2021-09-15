@@ -107,7 +107,7 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
       ),
       key: 'marketCap',
       render: (_: string, record: any) => `Ξ${numberWithCommas(record.marketCap)}`,
-      width: '180px'
+      width: '190px'
     },
     {
       title: (
@@ -118,7 +118,7 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
       ),
       key: 'totalVolume',
       render: (_: string, record: any) => `Ξ${numberWithCommas(record.totalVolume)}`,
-      width: '150px'
+      width: '160px'
     },
     {
       title: 'Transactions(All Time)',
