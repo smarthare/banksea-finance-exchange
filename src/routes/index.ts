@@ -23,9 +23,9 @@ import PoolsPage from '../pages/Pools/index'
 import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTPrepayDetail'
 import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
 import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
-import InsightPage from '../pages/Valuation'
-import CollectionValuationPage from '../pages/Valuation/CollectionValuation'
-import NFTValuationPage from '../pages/Valuation/TokenValuation'
+import InsightPage from '../pages/Insight'
+import CollectionValuationPage from '../pages/Insight/CollectionInsight'
+import NFTValuationPage from '../pages/Insight/TokenInsight'
 import { EyeOutlined } from '@ant-design/icons'
 
 export type Route = {
