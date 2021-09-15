@@ -19,11 +19,17 @@ import {
   convertCollectionValuationDetailToCollectionExternalLinks,
   convertCollectionValuationDetailToCollectionValuationStatisticItems
 } from '../../converters/insight'
-import { useCollectionNftsQuery } from '../../hooks/queries/insight/collection/useCollectionNftsQuery'
+import {
+  AVAILABLE_SORT_KEYS,
+  CollectionNftsQuerySortByKey,
+  useCollectionNftsQuery
+} from '../../hooks/queries/insight/collection/useCollectionNftsQuery'
 import { useCollectionValuationDetailQuery } from '../../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
 import { TradeFlowChart } from './components/charts/TradeFlowChart'
 import { useMediaQuery } from 'react-responsive'
 import { useCollectionValuationAttributeQuery } from '../../hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
+import { SearchInput } from '../../styles/SearchInput'
+import { numberWithCommas } from '../../utils'
 
 type CollectionValuationPageProps = {
   //
@@ -209,15 +215,13 @@ const ValuationTableContainer = styled.div`
 
 const CollectionNFTListContainer = styled.div`
   .header {
-    //display: flex;
-    //justify-content: space-between;
     margin-bottom: 25px;
-    //flex-wrap: wrap;
 
     .sb-row {
       display: flex;
       justify-content: space-between;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      margin-bottom: 10px;
     }
 
     .title {
@@ -234,6 +238,7 @@ const CollectionNFTListContainer = styled.div`
       align-items: center;
       margin-bottom: 10px;
     }
+
     button {
       width: 40px;
       height: 40px;
@@ -341,7 +346,11 @@ const Statistic: React.FC<{ statistic: CollectionValuationStatisticItem[] }> = (
   )
 }
 
-const Charts: React.FC<{ seriesId: string, contractAddress: string, seriesSlug?: string }> = ({ seriesId, contractAddress, seriesSlug }) => {
+const Charts: React.FC<{ seriesId: string, contractAddress: string, seriesSlug?: string }> = ({
+  seriesId,
+  contractAddress,
+  seriesSlug
+}) => {
   const items: { title: string, description: string, component: JSX.Element }[] = [
     {
       title: 'Composition of Collection Heat',
@@ -418,17 +427,23 @@ const ValuationTable: React.FC<{ id: string }> = ({ id }) => {
       width: '90px'
     },
     {
-      title: 'Rarity',
+      title: 'Attr Rate',
       key: 'rateAttribute',
-      render: (text: string, row: any) => `${(row.rateAttribute * 100).toFixed(3)}%`,
+      render: (text: string, row: any) => `${numberWithCommas(row.rateAttribute * 100)}%`,
+      width: '200px'
+    },
+    {
+      title: 'Rarity',
+      key: 'rarity',
+      render: (text: string, row: any) => `${numberWithCommas(row.rarity)}`,
       width: '200px'
     },
     {
       title: 'Popularity',
       key: 'popularity',
-      render: (text: string, row: any) => row.popularity,
+      render: (text: string, row: any) => numberWithCommas(row.popularity),
       width: '200px'
-    },
+    }
   ]
 
   const handlePaginationChange = (current: number) => {
@@ -442,7 +457,6 @@ const ValuationTable: React.FC<{ id: string }> = ({ id }) => {
         columns={columns}
         dataSource={data?.records}
         scroll={{ x: 1000 }}
-        style={{ marginTop: '-40px' }}
         pagination={{
           total: data?.total,
           pageSize: 10,
@@ -461,14 +475,18 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
   const collection = useLocationQuery('name')
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
+  const [searchKey, setSearchKey] = useState<string | undefined>()
   const [current, setCurrent] = useState(1)
   const [size, setSize] = useState(60)
   const [total, setTotal] = useState(0)
+  const [sortByKey, setSortByKey] = useState<CollectionNftsQuerySortByKey>()
 
   const { data } = useCollectionNftsQuery({
     nftSeriesId: seriesId!,
     current,
-    size
+    size,
+    searchKey,
+    sortByKey
   })
 
   const handlePaginationChange = (current: number, size?: number) => {
@@ -489,25 +507,38 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
           <div className="title">{data?.total ?? '-'} Total {collection}</div>
           <div className="sort-by">
             <div className="text" style={{ marginRight: '15px' }}>Sort by</div>
-            <DropdownSelector style={{ width: '214px', marginRight: '24px' }} defaultValue="Rarity">
-              <DropdownSelector.Option value="Rarity">Rarity</DropdownSelector.Option>
-              <DropdownSelector.Option value="Price">Price</DropdownSelector.Option>
+            <DropdownSelector
+              allowClear
+              style={{ maxWidth: '214px', minWidth: '120px' }}
+              value={sortByKey}
+              onChange={e => {
+                console.log(e)
+                setSortByKey(e as CollectionNftsQuerySortByKey)
+              }}
+            >
+              {
+                AVAILABLE_SORT_KEYS.map(key => (
+                  <DropdownSelector.Option
+                    key={key}
+                    value={key}
+                  >
+                    {key}
+                  </DropdownSelector.Option>
+                ))
+              }
             </DropdownSelector>
           </div>
         </div>
-        {/*<div className="buttons">
-          <button>IDs</button>
-          <button style={{ marginRight: '33px' }}>
-            <img
-              src={require('../../assets/images/commons/image.png').default}
-              alt="image"
-            />
-          </button>
-        </div>*/}
-        <div className="sb-row" style={{ justifyContent: isMobile?'center':'flex-end' }}>
+        <div className="sb-row" style={{ justifyContent: isMobile ? 'center' : 'space-between' }}>
+          <SearchInput
+            style={{ maxWidth: '300px', marginRight: '20px', height: '32px' }}
+            onPressEnter={e => setSearchKey((e.target as any).defaultValue)}
+          />
+
           <Pagination
             showQuickJumper
             showSizeChanger={false}
+            showLessItems={isMobile}
             total={total}
             onChange={handlePaginationChange}
             pageSize={size}

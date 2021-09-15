@@ -45,7 +45,7 @@ export const useCollectionValuationDetailQuery = (id: string): UseQueryResult<Co
     ['COLLECTION_VALUATION_DETAIL'],
     async () => {
       return await banksyRequest.get<BanksyApiResponse<CollectionValuationDetail>>(
-        `/oracle/detail/${id}`)
+        `/oracle/detail/id/${id}`)
         .then(r => r.data.data)
     }
   )

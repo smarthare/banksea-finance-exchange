@@ -11,7 +11,7 @@ export const useCollectionTradingFlowQuery = (id: string): UseQueryResult<Tradin
     ['COLLECTIONS_TRADING_FLOW', id],
     async () => {
       return await banksyRequest.get<BanksyApiResponse<TradingFlowData>>(
-        `/oracle/flow/${id}`)
+        `/oracle/flow/id/${id}`)
         .then(r => r.data.data)
     }
   )

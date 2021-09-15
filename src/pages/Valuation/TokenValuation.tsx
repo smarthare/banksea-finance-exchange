@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Property } from 'csstype'
-import { NFTValuationChangeData, NFTValuationHistory } from '../../types/NFTValuation'
 import CollapsibleBox from './components/CollasibleBox'
 
 import InfoIcon from '../../assets/images/commons/info.png'
-import UserIcon from '../../assets/images/commons/user.png'
 
 import ETHColoredOutlinedIcon from '../../assets/images/commons/eth-colored-outlined.png'
 import ETHColoredIcon from '../../assets/images/commons/eth-colored.png'
 import MarketDataIcon from '../../assets/images/valuation/market-data.png'
-import ChangeIcon from '../../assets/images/valuation/changes.png'
 import UpIcon from '../../assets/images/valuation/up.png'
 import DownIcon from '../../assets/images/valuation/down.png'
 import HistoryIcon from '../../assets/images/valuation/history.png'
@@ -30,7 +27,6 @@ import {
   NftTransactionType,
   useTokenTransactionsQuery
 } from '../../hooks/queries/insight/token/useTokenTransactionsQuery'
-import MetamaskAvatar from '../../components/MetamaskAvatar'
 import { ValuationHistoriesChart } from './components/charts/ValuationHistoriesChart'
 
 type NFTValuationPageProps = {
@@ -68,13 +64,13 @@ const TokenImage = styled.img`
   margin-bottom: 54px;
 `
 
-const OwnerContainer = styled.div`
+/*const OwnerContainer = styled.div`
   display: flex;
   align-items: center;
 
   color: #ddd;
   font-size: 16px;
-`
+`*/
 
 const PropertiesContainer = styled.div`
 
@@ -273,7 +269,7 @@ const MarketDataContainer = styled.div`
   }
 `
 
-const ValuationChangesContainer = styled.div`
+/*const ValuationChangesContainer = styled.div`
   display: flex;
   justify-content: space-between;
 
@@ -315,7 +311,7 @@ const ValuationChangesContainer = styled.div`
       }
     }
   }
-`
+`*/
 
 const ValuationHistoryContainer = styled.div`
   .analyze {
@@ -482,7 +478,7 @@ const Properties: React.FC<{ properties?: NftAttribute[], collectionName?: strin
   )
 }
 
-const Owner: React.FC<{ owner?: string }> = ({ owner }) => {
+/*const Owner: React.FC<{ owner?: string }> = ({ owner }) => {
   return (
     <CollapsibleBox
       title="Owner"
@@ -505,7 +501,7 @@ const Owner: React.FC<{ owner?: string }> = ({ owner }) => {
       </OwnerContainer>
     </CollapsibleBox>
   )
-}
+}*/
 
 const Title: React.FC<{ seriesName?: string, tokenId?: number, owner?: string }> = ({ seriesName, tokenId, owner }) => {
   return (
@@ -629,7 +625,7 @@ const MarketData: React.FC<{ valuation?: TokenValuation }> = ({ valuation }) => 
   )
 }
 
-const ValuationChanges: React.FC<{ changes: NFTValuationChangeData[] }> = ({
+/*const ValuationChanges: React.FC<{ changes: NFTValuationChangeData[] }> = ({
   changes
 }) => {
   const Item: React.FC<{ label: string, value?: number }> = ({ label, value }) => (
@@ -678,10 +674,9 @@ const ValuationChanges: React.FC<{ changes: NFTValuationChangeData[] }> = ({
       </ValuationChangesContainer>
     </CollapsibleBox>
   )
-}
+}*/
 
-const ValuationHistory: React.FC<{ history: NFTValuationHistory, valuations?: AiValuation[] }> = ({
-  history,
+const ValuationHistory: React.FC<{ valuations?: AiValuation[] }> = ({
   valuations
 }) => {
   return (
@@ -694,13 +689,13 @@ const ValuationHistory: React.FC<{ history: NFTValuationHistory, valuations?: Ai
       <ValuationHistoryContainer>
         <div className="analyze">
           <ValuationHistoriesChart valuations={valuations} />
-          <div className="title">Price Analyze</div>
-          <div className="divider" />
-          <div className="items">
-            <div>Price volatility: {history.analyze.priceVolatilityPercent}%</div>
-            <div>Heat rank: {history.analyze.heatRank}</div>
-            <div>Turnover rate: {history.analyze.turnoverRatePercent}%</div>
-          </div>
+          {/*<div className="title">Price Analyze</div>*/}
+          {/*<div className="divider" />*/}
+          {/*<div className="items">*/}
+          {/*  <div>Price volatility: {history.analyze.priceVolatilityPercent}%</div>*/}
+          {/*  <div>Heat rank: {history.analyze.heatRank}</div>*/}
+          {/*  <div>Turnover rate: {history.analyze.turnoverRatePercent}%</div>*/}
+          {/*</div>*/}
         </div>
       </ValuationHistoryContainer>
     </CollapsibleBox>
@@ -901,16 +896,6 @@ const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
 
   const { data } = useTokenValuationBaseInfoQuery(id)
 
-  // fixme: mock data
-  const valuationHistory = {
-    data: [],
-    analyze: {
-      priceVolatilityPercent: '25.11',
-      heatRank: 2,
-      turnoverRatePercent: '49.55'
-    }
-  }
-
   useEffect(() => {
     document.getElementById('main')!.scrollTo(0, 0)
   }, [])
@@ -939,7 +924,7 @@ const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
         </FlexRow>
 
         <ValuationAnalyze valuation={data?.aiValuationVo} />
-        <ValuationHistory valuations={data?.aiValuationVoList} history={valuationHistory} />
+        <ValuationHistory valuations={data?.aiValuationVoList} />
         <Transactions assetContractAddress={data?.assetContractAddress} tokenId={data?.tokenId} />
       </Wrapper>
     </NFTValuationPageContainer>

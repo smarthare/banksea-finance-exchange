@@ -29,7 +29,7 @@ export const useCollectionValuationAttributeQuery = (data: CollectionValuationAt
     ['COLLECTION_VALUATION_ATTR', data],
     async () => {
       return await banksyRequest
-        .post<BanksyApiResponse<BanksyApiPagingData<CollectionValuationAttribute>>>('/oracle/detail/attributes', data)
+        .post<BanksyApiResponse<BanksyApiPagingData<CollectionValuationAttribute>>>('/oracle/detail/attribute', data)
         .then(r => r.data.data)
     }
   )

@@ -58,7 +58,7 @@ export interface AiValuation {
   assetTokenId: number
   assetContractAddress: string
   collectionSlug: string
-  realPrice: number
+  lastPrice: number
   valuation: number
   valuationTime: number
   idTotalCount: number
@@ -137,7 +137,7 @@ export interface AiValuation {
   t90BtcMarketCapUsdMin: number
   t90BtcMarketCapUsdStd: number
   t90BtcMarketCapUsdSum: number
-  realPriceChangeRate: number
+  lastPriceChangeRate: number
   valuationChangeRate?: number
   salesCountChangeRate?: number
   salesAveragePriceChangeRate?: number

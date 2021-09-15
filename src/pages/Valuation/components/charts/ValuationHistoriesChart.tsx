@@ -3,13 +3,12 @@ import ReactECharts from 'echarts-for-react'
 import { AiValuation } from '../../../../hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
 import { numberWithCommas, simplifyNumber } from '../../../../utils'
 
-
 const ValuationHistoriesChart: React.FC<{ valuations?: AiValuation[] }> = ({ valuations }) => {
   const options = {
     darkMode: true,
     grid: { top: 32, right: 48, bottom: 24, left: 48 },
     legend: {
-      data: ['Real Price', 'AI Valuation'],
+      data: ['Transaction Price', 'AI Valuation'],
       textStyle: {
         color: '#fff'
       }
@@ -49,11 +48,11 @@ const ValuationHistoriesChart: React.FC<{ valuations?: AiValuation[] }> = ({ val
             <div style='margin-bottom: 10px'>Time: ${v[0].axisValueLabel}</div>
 
             <div style='display: flex; justify-content: space-between;'>
-              <span>${v[0].marker}Last Transaction Price</span>
+              <span>${v[0].marker}Transaction Price</span>
               <span>
-                 <span>Ξ${simplifyNumber(valuation.realPrice)}</span>
-                  <span style='color: ${valuation.realPriceChangeRate && valuation.realPriceChangeRate < 0 ? 'rgb(227,76,69)' : 'rgb(40,167,69)'}'>
-                    ${numberWithCommas((valuation.realPriceChangeRate ?? 0) * 100, 2, true)}%
+                 <span>Ξ${simplifyNumber(valuation.lastPrice)}</span>
+                  <span style='color: ${valuation.lastPriceChangeRate && valuation.lastPriceChangeRate < 0 ? 'rgb(227,76,69)' : 'rgb(40,167,69)'}'>
+                    ${numberWithCommas((valuation.lastPriceChangeRate ?? 0) * 100, 2, true)}%
                 </span>
               </span>
              </div>
@@ -115,13 +114,14 @@ const ValuationHistoriesChart: React.FC<{ valuations?: AiValuation[] }> = ({ val
     }],
     series: [
       {
-        name: 'Real Price',
-        type: 'line',
+        name: 'Transaction Price',
+        type: 'scatter',
         smooth: true,
         encode: {
           x: 'time',
-          y: 'realPrice'
-        }
+          y: 'lastPrice'
+        },
+        symbolSize: 15
       },
       {
         name: 'AI Valuation',

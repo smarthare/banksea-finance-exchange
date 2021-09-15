@@ -16,17 +16,24 @@ export interface CollectionNft {
 
 interface CollectionNftsQueryParams {
   nftSeriesId: string
-  sortByKey?: string
-  current: number,
+  sortByKey?: CollectionNftsQuerySortByKey
+  current: number
   size?: number
+  searchKey?: string
 }
+
+export type CollectionNftsQuerySortByKey = 'Last Price' | 'Valuation' | 'Rarity' | 'Popularity' | 'Sales Number'
+
+export const AVAILABLE_SORT_KEYS: CollectionNftsQuerySortByKey[] = [
+  'Last Price', 'Valuation', 'Rarity', 'Popularity', 'Sales Number'
+]
 
 export const useCollectionNftsQuery = (data: CollectionNftsQueryParams): UseQueryResult<BanksyApiPagingData<CollectionNft>> => {
   return useQuery(
     ['CURRENCY_MARKET_VALUE', data],
     async () => {
       return await banksyRequest.post<BanksyApiResponse<BanksyApiPagingData<CollectionNft>>>(
-        '/oracle/detail/sort', data)
+        '/oracle/detail/search', data)
         .then(r => r.data.data)
     }
   )

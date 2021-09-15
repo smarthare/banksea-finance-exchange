@@ -27,7 +27,7 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
             <div>${new Date(time).toLocaleDateString()}</div>
             <div style='display: flex; justify-content: space-between;'>
               <span>${params[0].marker}Heat Score: </span>
-              <span>${numberWithCommas(score * 100)}</span>
+              <span>${numberWithCommas(score)}</span>
             </div>
 
             <div style='margin: 10px 0'>
@@ -78,7 +78,8 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
       dimensions: ['time', 'heatScore', 't1TurnoverRate', 't7TurnoverRate', 't30TurnoverRate', 't180TurnoverRate', ],
       source: {
         ...row,
-        time
+        time,
+        heatScore: row?.heatScore.map(o => o * 100)
       }
     },
     dataZoom: [
