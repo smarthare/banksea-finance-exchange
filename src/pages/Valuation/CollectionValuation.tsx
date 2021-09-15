@@ -16,10 +16,6 @@ import { PriceScatterChart } from './components/charts/PriceScatterChart'
 import { TotalMarketValueChart } from './components/charts/TotalMarketValueChart'
 import { useLocationQuery } from '../../hooks/useLocationQuery'
 import {
-  convertCollectionValuationDetailToCollectionExternalLinks,
-  convertCollectionValuationDetailToCollectionValuationStatisticItems
-} from '../../converters/insight'
-import {
   AVAILABLE_SORT_KEYS,
   CollectionNftsQuerySortByKey,
   useCollectionNftsQuery
@@ -28,8 +24,12 @@ import { useCollectionValuationDetailQuery } from '../../hooks/queries/insight/c
 import { TradeFlowChart } from './components/charts/TradeFlowChart'
 import { useMediaQuery } from 'react-responsive'
 import { useCollectionValuationAttributeQuery } from '../../hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
-import { ThemeInput } from '../../styles/ThemeInput'
 import { numberWithCommas } from '../../utils'
+import { ThemeSearchInput } from '../../styles/ThemeSearchInput'
+import {
+  convertCollectionValuationDetailToCollectionExternalLinks,
+  convertCollectionValuationDetailToCollectionValuationStatisticItems
+} from '../../converters/insight'
 
 type CollectionValuationPageProps = {
   //
@@ -510,11 +510,11 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
         <div className="sb-row">
           <div className="title">{data?.total ?? '-'} Total {collection}</div>
         </div>
-        <div className="sb-row" style={{ justifyContent: isMobile ? 'center' : 'space-between' }}>
+        <div className="sb-row">
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <ThemeInput
+            <ThemeSearchInput
               style={{ maxWidth: '300px', marginRight: '20px', height: '32px' }}
-              onPressEnter={e => setSearchKey((e.target as any).defaultValue)}
+              onSearch={e => setSearchKey(e)}
             />
             <div className="sort-by">
               <div className="text">Sort by</div>
@@ -540,7 +540,6 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
               </DropdownSelector>
             </div>
           </div>
-
 
           <Pagination
             showQuickJumper
