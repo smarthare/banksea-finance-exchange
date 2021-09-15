@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import { getAccount } from '../../store/wallet'
 import PageLoading from '../../components/PageLoding'
 import { SearchOutlined } from '@ant-design/icons'
-import { SearchInput } from '../../styles/SearchInput'
+import { ThemeInput } from '../../styles/ThemeInput'
 import { LiquidationSelector } from '../../components/NFTListSelectors'
 
 const MortgageMain = styled.div`
@@ -290,7 +290,7 @@ const LiquidationListPage: React.FC = () => {
             <Line />
             <SerialsTop>
               <div className="search">
-                <SearchInput
+                <ThemeInput
                   prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
                 />
                 <LiquidationSelector />

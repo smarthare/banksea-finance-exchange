@@ -17,7 +17,7 @@ import ListPageLoading from '../../components/ListPageLoading'
 import { usePersonalNFTsQuery } from '../../hooks/queries/usePersonalNFTsQuery'
 import { ChainSelector, OrderSelector, StatusSelector } from '../../components/NFTListSelectors'
 import { BanksyNftTransactionStatus, ChainType } from '../../apis/nft'
-import { SearchInput } from '../../styles/SearchInput'
+import { ThemeInput } from '../../styles/ThemeInput'
 
 const PersonalContainer = styled.div`
   width: 120.2rem;
@@ -224,7 +224,7 @@ const PersonalHomepage: React.FC = () => {
       </UserOptions>
       <div style={{ width: '100%', height: '15rem', position: 'relative' }}>
         <SelectorsContainer>
-          <SearchInput onPressEnter={onPressEnter}
+          <ThemeInput onPressEnter={onPressEnter}
             prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
           />
           <div className="gutter" />

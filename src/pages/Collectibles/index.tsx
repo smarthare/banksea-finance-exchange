@@ -10,7 +10,7 @@ import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
 import { useMediaQuery } from 'react-responsive'
 import { BanksyNftTransactionStatus, ChainType } from '../../apis/nft'
 import { ChainSelector, OrderSelector, StatusSelector } from '../../components/NFTListSelectors'
-import { SearchInput } from '../../styles/SearchInput'
+import { ThemeInput } from '../../styles/ThemeInput'
 import { useHistory } from 'react-router-dom'
 import { useLocationQuery } from '../../hooks/useLocationQuery'
 import { NftListItem } from '../../types/NFTDetail'
@@ -321,7 +321,7 @@ const CollectiblesPage: React.FC = () => {
         isMobile ? (
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '5.5rem', flexDirection: 'column' }}>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <SearchInput
+              <ThemeInput
                 onPressEnter={onPressEnter}
                 prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
               />
@@ -336,7 +336,7 @@ const CollectiblesPage: React.FC = () => {
         ) : (
           <div style={{ width: '120.2rem', display: 'flex', justifyContent: 'flex-end', marginBottom: '5.5rem' }}>
             <div style={{ display: 'flex' }}>
-              <SearchInput
+              <ThemeInput
                 onPressEnter={onPressEnter}
                 prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
                 style={{ marginRight: '2.5rem' }}

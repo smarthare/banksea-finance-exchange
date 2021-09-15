@@ -8,7 +8,7 @@ type SearchInputProps = {
 
 const defaultColor = '#305099'
 
-const SearchInput = styled(Input)<SearchInputProps>`
+const ThemeInput = styled(Input)<SearchInputProps>`
   height: 40px;
   border-color: ${props =>  props.backgroundColor ?? defaultColor};
   background-color: ${props =>  props.backgroundColor ?? defaultColor};
@@ -20,5 +20,5 @@ const SearchInput = styled(Input)<SearchInputProps>`
 `
 
 export {
-  SearchInput
+  ThemeInput
 }

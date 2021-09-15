@@ -28,7 +28,7 @@ import { useCollectionValuationDetailQuery } from '../../hooks/queries/insight/c
 import { TradeFlowChart } from './components/charts/TradeFlowChart'
 import { useMediaQuery } from 'react-responsive'
 import { useCollectionValuationAttributeQuery } from '../../hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
-import { SearchInput } from '../../styles/SearchInput'
+import { ThemeInput } from '../../styles/ThemeInput'
 import { numberWithCommas } from '../../utils'
 
 type CollectionValuationPageProps = {
@@ -512,7 +512,7 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
         </div>
         <div className="sb-row" style={{ justifyContent: isMobile ? 'center' : 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <SearchInput
+            <ThemeInput
               style={{ maxWidth: '300px', marginRight: '20px', height: '32px' }}
               onPressEnter={e => setSearchKey((e.target as any).defaultValue)}
             />
