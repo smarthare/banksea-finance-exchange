@@ -12,7 +12,7 @@ import { CurrencyMarketValue } from '../../hooks/queries/insight/overview/useCur
 import { formatTime, simplifyNumber } from '../../utils'
 import { NftMarketTotalValuation } from '../../hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
 
-type ValuationPageProps = {
+type InsightPageProps = {
   //
 }
 
@@ -194,7 +194,7 @@ const Summary: React.FC<{
   )
 }
 
-const ValuationPage: React.FC<ValuationPageProps> = () => {
+const InsightPage: React.FC<InsightPageProps> = () => {
   const {
     allWhitelistCollections,
     featureAddedWhitelistCollections,
@@ -218,4 +218,4 @@ const ValuationPage: React.FC<ValuationPageProps> = () => {
   )
 }
 
-export default ValuationPage
+export default InsightPage

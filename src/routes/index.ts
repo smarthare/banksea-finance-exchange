@@ -10,7 +10,6 @@ import { ReactComponent as PoolsIcon } from '../assets/images/menu-icons/pools.s
 import { ReactComponent as MarketplaceIcon } from '../assets/images/menu-icons/marketplace.svg'
 import { ReactComponent as PriceAirDropIcon } from '../assets/images/menu-icons/priceAirDrop.svg'
 
-
 import { CollectibleDetailPage } from '../pages/Collectibles/CollectibleDetail'
 import NFTCreatePage from '../pages/Home/NFTCreate'
 import PersonalHomepage from '../pages/PersonalHome/index'
@@ -24,7 +23,7 @@ import PoolsPage from '../pages/Pools/index'
 import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTPrepayDetail'
 import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
 import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
-import ValuationPage from '../pages/Valuation'
+import InsightPage from '../pages/Valuation'
 import CollectionValuationPage from '../pages/Valuation/CollectionValuation'
 import NFTValuationPage from '../pages/Valuation/TokenValuation'
 import { EyeOutlined } from '@ant-design/icons'
@@ -50,20 +49,20 @@ const routes: Route[] = [
   },
 
   {
-    path: '/valuation',
-    match: /^\/valuation/,
+    path: '/insight',
+    match: /^\/insight/,
     title: 'NFT Insight',
     icon: EyeOutlined,
-    component: ValuationPage
+    component: InsightPage
   },
   {
-    path: '/valuation/collection',
+    path: '/insight/:collectionSlug',
     hidden: true,
-    title: 'Collection Valuation',
+    title: 'Collection Insight',
     component: CollectionValuationPage
   },
   {
-    path: '/valuation/token/:id',
+    path: '/insight/:collectionSlug/:tokenId',
     hidden: true,
     title: 'NFTValuation',
     component: NFTValuationPage

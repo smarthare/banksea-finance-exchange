@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import ThemeTable from '../../styles/ThemeTable'
 import { DropdownSelector } from '../../styles/DropdownSelector'
 import { Pagination, Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
-import {
-  CollectionExternalLink,
-  CollectionToken,
-  CollectionValuationStatisticItem
-} from '../../types/CollectionValuation'
+import { CollectionExternalLink, CollectionValuationStatisticItem } from '../../types/CollectionValuation'
 import { CollectionHeatCompositionChart } from './components/charts/CollectionHeatCompositionChart'
 import { PriceScatterChart } from './components/charts/PriceScatterChart'
 import { TotalMarketValueChart } from './components/charts/TotalMarketValueChart'
-import { useLocationQuery } from '../../hooks/useLocationQuery'
 import {
   AVAILABLE_SORT_KEYS,
   CollectionNftsQuerySortByKey,
@@ -350,7 +345,7 @@ const Statistic: React.FC<{ statistic: CollectionValuationStatisticItem[] }> = (
   )
 }
 
-const Charts: React.FC<{ seriesId: string, contractAddress: string, seriesSlug?: string }> = ({
+const Charts: React.FC<{ seriesId?: string, contractAddress: string, seriesSlug?: string }> = ({
   seriesId,
   contractAddress,
   seriesSlug
@@ -403,7 +398,7 @@ const Charts: React.FC<{ seriesId: string, contractAddress: string, seriesSlug?:
   )
 }
 
-const ValuationTable: React.FC<{ id: string }> = ({ id }) => {
+const ValuationTable: React.FC<{ id?: string }> = ({ id }) => {
   const [current, setCurrent] = useState(1)
 
   const { data } = useCollectionValuationAttributeQuery({
@@ -474,9 +469,11 @@ const ValuationTable: React.FC<{ id: string }> = ({ id }) => {
   )
 }
 
-const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
-  const seriesId = useLocationQuery('id')
-  const collection = useLocationQuery('name')
+const CollectionNFTList: React.FC<{ collectionId?: string, collectionName?: string, collectionSlug: string }> = ({
+  collectionName,
+  collectionId,
+  collectionSlug
+}) => {
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
   const [searchKey, setSearchKey] = useState<string | undefined>()
@@ -486,7 +483,7 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
   const [sortByKey, setSortByKey] = useState<CollectionNftsQuerySortByKey>()
 
   const { data } = useCollectionNftsQuery({
-    nftSeriesId: seriesId!,
+    nftSeriesId: collectionId,
     current,
     size,
     searchKey,
@@ -508,7 +505,11 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
     <CollectionNFTListContainer>
       <div className="header">
         <div className="sb-row">
-          <div className="title">{data?.total ?? '-'} Total {collection}</div>
+          <div className="title">
+            {
+              collectionName && `${data?.total ?? '-'} Total ${collectionName}`
+            }
+          </div>
         </div>
         <div className="sb-row">
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -560,7 +561,7 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
           data?.records?.map((item, index) => (
             <div className="item"
               key={index}
-              onClick={() => window.open(`#/valuation/token/${item.id}`)}
+              onClick={() => window.open(`#/insight/${collectionSlug}/${item.nftNumber}`)}
             >
               <div className="item-header">
                 <div>#{item.nftNumber}</div>
@@ -584,16 +585,9 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
 }
 
 const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
-  const collection = useLocationQuery('name')
-  const seriesId = useLocationQuery('id')
-  const history = useHistory()
+  const { collectionSlug } = useParams<{ collectionSlug: string }>()
 
-  if (!seriesId || !collection) {
-    history.push('/valuation')
-    return <></>
-  }
-
-  const { data: detail } = useCollectionValuationDetailQuery(seriesId)
+  const { data: detail } = useCollectionValuationDetailQuery(collectionSlug)
 
   useEffect(() => {
     document.getElementById('main')!.scrollTo(0, 0)
@@ -603,14 +597,23 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
     <CollectionValuationPageContainer>
       <Wrapper>
         <Banner src={detail?.seriesPoster} />
-        <Title name={detail?.seriesName}
+        <Title
+          name={detail?.seriesName}
           externalLinks={convertCollectionValuationDetailToCollectionExternalLinks(detail)}
         />
         <Description description={detail?.seriesDescription} />
         <Statistic statistic={convertCollectionValuationDetailToCollectionValuationStatisticItems(detail)} />
-        <Charts seriesId={seriesId} contractAddress={detail?.assetContractAddress ?? ''} seriesSlug={detail?.seriesSlug} />
-        <ValuationTable id={seriesId} />
-        <CollectionNFTList />
+        <Charts
+          seriesId={detail?.id}
+          contractAddress={detail?.assetContractAddress ?? ''}
+          seriesSlug={detail?.seriesSlug}
+        />
+        <ValuationTable id={detail?.id} />
+        <CollectionNFTList
+          collectionName={detail?.seriesName}
+          collectionId={detail?.id}
+          collectionSlug={collectionSlug}
+        />
       </Wrapper>
     </CollectionValuationPageContainer>
   )

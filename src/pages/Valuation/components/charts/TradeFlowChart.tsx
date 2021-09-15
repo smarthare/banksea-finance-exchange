@@ -2,7 +2,7 @@ import React from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useCollectionTradingFlowQuery } from '../../../../hooks/queries/insight/collection/useCollectionTradingFlowQuery'
 
-const TradeFlowChart: React.FC<{id: string}> = ({ id }) => {
+const TradeFlowChart: React.FC<{ id?: string }> = ({ id }) => {
   const { data } = useCollectionTradingFlowQuery(id)
 
   const links = data?.linksList.sort((a, b) => b.value - a.value).slice(0, 20) ?? []

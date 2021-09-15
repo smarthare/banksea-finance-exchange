@@ -15,7 +15,7 @@ export interface CollectionNft {
 }
 
 interface CollectionNftsQueryParams {
-  nftSeriesId: string
+  nftSeriesId?: string
   sortByKey?: CollectionNftsQuerySortByKey
   current: number
   size?: number
@@ -32,6 +32,10 @@ export const useCollectionNftsQuery = (data: CollectionNftsQueryParams): UseQuer
   return useQuery(
     ['CURRENCY_MARKET_VALUE', data],
     async () => {
+      if (!data.nftSeriesId) {
+        return
+      }
+
       return await banksyRequest.post<BanksyApiResponse<BanksyApiPagingData<CollectionNft>>>(
         '/oracle/detail/search', data)
         .then(r => r.data.data)

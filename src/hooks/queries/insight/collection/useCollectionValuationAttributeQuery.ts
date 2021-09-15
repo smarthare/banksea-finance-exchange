@@ -19,7 +19,7 @@ export interface CollectionValuationAttribute {
 }
 
 type CollectionValuationAttributeQueryParams = {
-  id: string
+  id?: string
   current: number
   size?: number
 }
@@ -28,6 +28,10 @@ export const useCollectionValuationAttributeQuery = (data: CollectionValuationAt
   return useQuery(
     ['COLLECTION_VALUATION_ATTR', data],
     async () => {
+      if (!data.id) {
+        return undefined
+      }
+
       return await banksyRequest
         .post<BanksyApiResponse<BanksyApiPagingData<CollectionValuationAttribute>>>('/oracle/detail/attribute', data)
         .then(r => r.data.data)

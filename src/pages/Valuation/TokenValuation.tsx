@@ -892,9 +892,9 @@ const ValuationAnalyze: React.FC<{ valuation?: AiValuation }> = ({ valuation }) 
 }
 
 const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
-  const { id } = useParams<{ id: string }>()
+  const { tokenId, collectionSlug } = useParams<{ tokenId: string, collectionSlug: string }>()
 
-  const { data } = useTokenValuationBaseInfoQuery(id)
+  const { data } = useTokenValuationBaseInfoQuery(collectionSlug, tokenId)
 
   useEffect(() => {
     document.getElementById('main')!.scrollTo(0, 0)

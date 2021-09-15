@@ -40,12 +40,12 @@ export interface CollectionValuationDetail {
   convertToCollectionExternalLinks: () => CollectionExternalLink[]
 }
 
-export const useCollectionValuationDetailQuery = (id: string): UseQueryResult<CollectionValuationDetail> => {
+export const useCollectionValuationDetailQuery = (slug: string): UseQueryResult<CollectionValuationDetail> => {
   return useQuery(
-    ['COLLECTION_VALUATION_DETAIL'],
+    ['COLLECTION_VALUATION_DETAIL', slug],
     async () => {
       return await banksyRequest.get<BanksyApiResponse<CollectionValuationDetail>>(
-        `/oracle/detail/id/${id}`)
+        `/oracle/detail/slug/${slug}`)
         .then(r => r.data.data)
     }
   )

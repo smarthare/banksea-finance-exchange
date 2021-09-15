@@ -6,10 +6,14 @@ export type TradingFlowData = {
   linksList: { source: string, target: string, value: number }[]
 }
 
-export const useCollectionTradingFlowQuery = (id: string): UseQueryResult<TradingFlowData> => {
+export const useCollectionTradingFlowQuery = (id?: string): UseQueryResult<TradingFlowData> => {
   return useQuery(
     ['COLLECTIONS_TRADING_FLOW', id],
     async () => {
+      if (!id) {
+        return undefined
+      }
+
       return await banksyRequest.get<BanksyApiResponse<TradingFlowData>>(
         `/oracle/flow/id/${id}`)
         .then(r => r.data.data)

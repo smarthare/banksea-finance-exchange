@@ -230,11 +230,11 @@ export interface NftAttribute {
   ratio: number
 }
 
-export const useTokenValuationBaseInfoQuery = (id: string): UseQueryResult<TokenValuation> => {
+export const useTokenValuationBaseInfoQuery = (collectionSlug: string, tokenId: string): UseQueryResult<TokenValuation> => {
   return useQuery(
-    ['NFT_VALUATION', id], async () => {
+    ['NFT_VALUATION', collectionSlug, tokenId], async () => {
       return await banksyRequest.get<BanksyApiResponse<TokenValuation>>(
-        `/oracle/detail/asset/${id}`
+        `/oracle/detail/${collectionSlug}/${tokenId}`
       ).then(r => r.data.data
       )
     }

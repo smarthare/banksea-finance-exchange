@@ -6,7 +6,7 @@ export type CollectionMarketValue = {
   value: number[]
 }
 
-export const useCollectionMarketValueQuery = (nftSeriesId: string): UseQueryResult<CollectionMarketValue> => {
+export const useCollectionMarketValueQuery = (nftSeriesId?: string): UseQueryResult<CollectionMarketValue> => {
   return useQuery(
     ['COLLECTION_MARKET_VALUE', nftSeriesId],
     async () => {

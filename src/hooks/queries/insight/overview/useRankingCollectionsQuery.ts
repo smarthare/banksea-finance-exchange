@@ -39,7 +39,7 @@ export type RankingCollection = {
 
 export const useRankingCollectionsQuery = (size?: number, current?: number): UseQueryResult<BanksyApiPagingData<RankingCollection>> => {
   return useQuery(
-    ['RANKING_COLLECTION'],
+    ['RANKING_COLLECTION', size, current],
     async () => {
       return await banksyRequest.post<BanksyApiResponse<BanksyApiPagingData<RankingCollection>>>(
         '/oracle/whitelist/rankings',

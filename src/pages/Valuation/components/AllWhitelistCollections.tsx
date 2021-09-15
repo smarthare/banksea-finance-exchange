@@ -45,11 +45,6 @@ const AllWhitelistCollectionsContainer = styled.div`
 const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ collections }) => {
   const history = useHistory()
 
-  const query = (id: string, name: string) => new URLSearchParams([
-    ['id', id],
-    ['name', name]
-  ]).toString()
-
   const CollectionIconAndName: React.FC<{ seriesLogo: string, seriesName: string }> = ({ seriesLogo, seriesName }) => (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <img
@@ -132,7 +127,7 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
     return {
       onClick: () => {
         const collection = record as RankingCollection
-        history.push(`/valuation/collection?${query(collection.id, collection.seriesName)}`)
+        history.push(`/insight/${collection.seriesSlug}`)
       }
     }
   }
