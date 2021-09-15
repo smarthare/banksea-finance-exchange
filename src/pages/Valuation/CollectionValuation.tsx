@@ -361,7 +361,7 @@ const Charts: React.FC<{ seriesId: string, contractAddress: string, seriesSlug?:
     {
       title: 'Trade Flows',
       description: 'Here is heat of trend',
-      component: <TradeFlowChart />
+      component: <TradeFlowChart id={seriesId} />
     }
   ]
 

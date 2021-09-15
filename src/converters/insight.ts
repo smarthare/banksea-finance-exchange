@@ -2,7 +2,7 @@ import { CollectionValuationDetail } from '../hooks/queries/insight/collection/u
 import { CollectionExternalLink, CollectionValuationStatisticItem } from '../types/CollectionValuation'
 import { numberWithCommas } from '../utils'
 import { NFTValuationChangeData } from '../types/NFTValuation'
-import { NftValuation } from '../hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
+import { TokenValuation } from '../hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
 
 export function convertCollectionValuationDetailToCollectionExternalLinks(detail?: CollectionValuationDetail): CollectionExternalLink[] {
   if (!detail) {
@@ -54,11 +54,11 @@ export function convertCollectionValuationDetailToCollectionValuationStatisticIt
   ]
 }
 
-export function convertNftValuationToValuationChanges(v?: NftValuation): NFTValuationChangeData[] {
+export function convertNftValuationToValuationChanges(v?: TokenValuation): NFTValuationChangeData[] {
   if (!v) {
     return [
       { type: 'Ethereum' },
-      { type: 'USD' }
+      // { type: 'USD' }
     ]
   }
 
@@ -69,12 +69,12 @@ export function convertNftValuationToValuationChanges(v?: NftValuation): NFTValu
       last7DaysPercent: v.valuationChange?.changeSevenDayEth,
       last30DaysPercent: v.valuationChange?.changeThirtyDayEth
     },
-    {
-      type: 'USD',
-      fromYesterdayPercent: v.valuationChange?.changeOneDayUsd,
-      last7DaysPercent: v.valuationChange?.changeSevenDayUsd,
-      last30DaysPercent: v.valuationChange?.changeThirtyDayUsd
-    }
+    // {
+    //   type: 'USD',
+    //   fromYesterdayPercent: v.valuationChange?.changeOneDayUsd,
+    //   last7DaysPercent: v.valuationChange?.changeSevenDayUsd,
+    //   last30DaysPercent: v.valuationChange?.changeThirtyDayUsd
+    // }
   ]
 
 }

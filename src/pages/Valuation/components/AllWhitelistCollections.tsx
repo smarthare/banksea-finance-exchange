@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import ThemeTable from '../../../styles/ThemeTable'
 import { RankingCollection } from '../../../hooks/queries/insight/overview/useRankingCollectionsQuery'
 import { numberWithCommas } from '../../../utils'
+import TableTitleWithTooltip from '../../../components/TableTitleWithTooltip'
 
 type AllWhitelistCollectionsProps = {
   collections: RankingCollection[]
@@ -98,13 +99,23 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
       width: '110px'
     },
     {
-      title: 'Estimated Market Cap',
+      title:(
+        <TableTitleWithTooltip
+          title="Estimated Market Cap"
+          tooltip="Estimated market cap is calculated by using 7 day average price * total supply"
+        />
+      ),
       key: 'marketCap',
       render: (_: string, record: any) => `Ξ${numberWithCommas(record.marketCap)}`,
       width: '180px'
     },
     {
-      title: 'Volume(All Time)',
+      title: (
+        <TableTitleWithTooltip
+          title="Volume(All Time)"
+          tooltip="Volume is the sum of the transaction price"
+        />
+      ),
       key: 'totalVolume',
       render: (_: string, record: any) => `Ξ${numberWithCommas(record.totalVolume)}`,
       width: '150px'

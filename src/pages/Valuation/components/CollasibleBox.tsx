@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import React, { CSSProperties, useState } from 'react'
 import { Property } from 'csstype'
-import { DownOutlined } from '@ant-design/icons'
-import { Collapse } from 'antd'
+import { DownOutlined, QuestionCircleOutlined } from '@ant-design/icons'
+import { Collapse, Tooltip } from 'antd'
 import CodingImg from '../../../assets/images/mockImg/coding.png'
 
 
@@ -18,6 +18,15 @@ interface CollapsibleBoxProps extends ThemeCollapseProps {
   titleIcon?: JSX.Element
   style?: CSSProperties,
   coding?: boolean
+  description?: string
+}
+
+interface CollapsibleBoxHeaderProps {
+  title: string
+  icon?: JSX.Element
+  collapsed?: boolean
+  collapsible?: boolean
+  description?: string
 }
 
 
@@ -84,11 +93,12 @@ const CollapseHeaderContainer = styled.div<{collapsed?: boolean, collapsible?: b
   }
 `
 
-const CollapseHeader: React.FC<{ title: string, icon?: JSX.Element, collapsed?: boolean,collapsible?: boolean }> = ({
+const CollapsibleBoxHeader: React.FC<CollapsibleBoxHeaderProps> = ({
   title,
   icon,
   collapsed,
-  collapsible
+  collapsible,
+  description
 }) => {
   return (
     <CollapseHeaderContainer collapsed={collapsed}>
@@ -98,6 +108,13 @@ const CollapseHeader: React.FC<{ title: string, icon?: JSX.Element, collapsed?: 
       <div className="title">
         {title}
       </div>
+      {
+        description && (
+          <Tooltip title={description}>
+            <QuestionCircleOutlined className="icon" />
+          </Tooltip>
+        )
+      }
       <div className="arrow">
         { collapsible && <DownOutlined />}
       </div>
@@ -115,6 +132,7 @@ const CollapsibleBox: React.FC<CollapsibleBoxProps> = ({
   contentBackground,
   coding,
   overflow,
+  description
 }) => {
   const [collapsed, setCollapsed] = useState(false)
 
@@ -136,11 +154,12 @@ const CollapsibleBox: React.FC<CollapsibleBoxProps> = ({
       <Collapse.Panel
         showArrow={false}
         header={
-          <CollapseHeader
+          <CollapsibleBoxHeader
             title={title}
             icon={titleIcon}
             collapsed={collapsed}
             collapsible={collapsible}
+            description={description}
           />
         }
         key="1"

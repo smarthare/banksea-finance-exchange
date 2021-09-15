@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from 'react-query'
 import banksyRequest, { BanksyApiResponse } from '../../../../utils/banksyRequest'
 
-export interface NftValuation {
+export interface TokenValuation {
   id: string
   assetContractAddress: string
   seriesName: string
@@ -39,17 +39,19 @@ export interface NftValuation {
   ranking?: number
   turnoverRate?: string
   numbWithAttributesCount: number
-  valuationChange?: {
-    changeOneDayEth: number
-    changeSevenDayEth: number
-    changeThirtyDayEth: number
-    changeOneDayUsd: number
-    changeSevenDayUsd: number
-    changeThirtyDayUsd: number
-  }
+  valuationChange: TokenValuationChange
   aiValuationVo: AiValuation
   aiValuationVoList: AiValuation[]
   aiPrice?: string
+}
+
+export interface TokenValuationChange {
+  changeOneDayEth: number
+  changeSevenDayEth: number
+  changeThirtyDayEth: number
+  changeOneDayUsd: number
+  changeSevenDayUsd: number
+  changeThirtyDayUsd: number
 }
 
 export interface AiValuation {
@@ -228,10 +230,10 @@ export interface NftAttribute {
   ratio: number
 }
 
-export const useTokenValuationBaseInfoQuery = (id: string): UseQueryResult<NftValuation> => {
+export const useTokenValuationBaseInfoQuery = (id: string): UseQueryResult<TokenValuation> => {
   return useQuery(
     ['NFT_VALUATION', id], async () => {
-      return await banksyRequest.get<BanksyApiResponse<NftValuation>>(
+      return await banksyRequest.get<BanksyApiResponse<TokenValuation>>(
         `/oracle/detail/asset/${id}`
       ).then(r => r.data.data
       )

@@ -21,7 +21,8 @@ import { DropdownSelector } from '../../styles/DropdownSelector'
 import {
   AiValuation,
   NftAttribute,
-  NftValuation,
+  TokenValuation,
+  TokenValuationChange,
   useTokenValuationBaseInfoQuery
 } from '../../hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
 import { formatTime, numberWithCommas, simplifyNumber } from '../../utils'
@@ -31,7 +32,6 @@ import {
 } from '../../hooks/queries/insight/token/useTokenTransactionsQuery'
 import MetamaskAvatar from '../../components/MetamaskAvatar'
 import { ValuationHistoriesChart } from './components/charts/ValuationHistoriesChart'
-import { convertNftValuationToValuationChanges } from '../../converters/insight'
 
 type NFTValuationPageProps = {
   //
@@ -65,7 +65,7 @@ const TokenImage = styled.img`
   border-radius: 10px;
   border: 1px solid #99BDF9;
   padding: 10px;
-  margin-bottom: 50px;
+  margin-bottom: 54px;
 `
 
 const OwnerContainer = styled.div`
@@ -127,45 +127,101 @@ const PropertiesContainer = styled.div`
 
 const TitleContainer = styled.div`
   color: #99BDF9;
-  display: flex;
-  align-items: flex-end;
   margin-bottom: 54px;
 
-  .collection {
-    font-size: 50px;
-    font-weight: 600;
+  .name {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 10px;
+
+    .collection {
+      font-size: 50px;
+      font-weight: 600;
+    }
+
+    .token-id {
+      font-size: 24px;
+      margin-left: 10px;
+      margin-bottom: 6px;
+    }
   }
 
-  .token-id {
-    font-size: 24px;
-    margin-left: 10px;
-    margin-bottom: 6px;
+  .owner {
+    font-size: 14px;
+    display: flex;
+
+    .key {
+      color: #b2b2b3;
+      margin-right: 5px;
+    }
   }
+
 `
 
 const ValuationContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
-  .icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    margin-right: 18px;
+  .price {
+    display: flex;
+    align-items: center;
+
+    .icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+      margin-right: 18px;
+    }
+
+    .value {
+      font-size: 30px;
+      color: white;
+      font-weight: 500;
+      margin-right: 18px;
+    }
+
+    .value-in-usd {
+      font-size: 18px;
+      color: #b2b2b2;
+    }
   }
 
-  .value {
-    font-size: 30px;
+  .change {
+    width: 300px;
+    height: 128px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     color: white;
+    padding-top: 15px;
+    font-size: 14px;
     font-weight: 500;
-    margin-right: 18px;
-  }
 
-  .value-in-usd {
-    font-size: 18px;
-    color: #b2b2b2;
-  }
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 80%;
+      margin-bottom: 12px;
 
+      .icon > img {
+        width: 17px;
+        margin-right: 7px;
+      }
+
+      .value {
+        margin-right: 23px;
+      }
+
+      .key {
+        text-align: end;
+      }
+    }
+  }
 `
 
 const MarketDataContainer = styled.div`
@@ -313,7 +369,7 @@ const TransactionsContainer = styled.div`
 
 const ValuationAnalyzeContainer = styled.div`
   .area {
-    background-color: rgba(69,98,163);
+    background-color: rgba(69, 98, 163);
     border-radius: 10px;
     padding: 10px 20px;
     width: 100%;
@@ -325,7 +381,7 @@ const ValuationAnalyzeContainer = styled.div`
 
     .title {
       font-size: 24px;
-      color: rgba(153,189,249);
+      color: rgba(153, 189, 249);
       text-align: center;
       margin-bottom: 20px;
     }
@@ -451,33 +507,79 @@ const Owner: React.FC<{ owner?: string }> = ({ owner }) => {
   )
 }
 
-const Title: React.FC<{ seriesName?: string, tokenId?: number }> = ({ seriesName, tokenId }) => {
+const Title: React.FC<{ seriesName?: string, tokenId?: number, owner?: string }> = ({ seriesName, tokenId, owner }) => {
   return (
     <TitleContainer>
-      <div className="collection">{seriesName}</div>
-      <div className="token-id">{tokenId && `#${tokenId}`}</div>
+      <div className="name">
+        <div className="collection">{seriesName}</div>
+        <div className="token-id">{tokenId && `#${tokenId}`}</div>
+      </div>
+      <div className="owner">
+        <div className="key">Owned by </div>
+        <div className="value">
+          {owner ?? 'Unknown'}
+        </div>
+      </div>
     </TitleContainer>
   )
 }
 
-const Valuation: React.FC<{ valuation?: string, valuationInUsd?: string }> = ({ valuation, valuationInUsd }) => {
+const Valuation: React.FC<{ valuation?: string, valuationInUsd?: string, change?: TokenValuationChange }> = ({
+  valuation,
+  valuationInUsd,
+  change
+}) => {
+  const ChangeItem: React.FC<{ label: string, value?: number }> = ({ label, value }) => (
+    <div className="item" key={label}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="icon">
+          {
+            !!value && value > 0 && <img src={UpIcon} alt="up" />
+          }
+          {
+            !!value && value < 0 && <img src={DownIcon} alt="down" />
+          }
+          {
+            value === undefined && '-'
+          }
+        </div>
+        <div className="value">
+          {
+            value
+              ? `${numberWithCommas(value.toString(), 2, true)}%`
+              : 'No data'
+          }
+        </div>
+      </div>
+      <div className="key">{label}</div>
+    </div>
+  )
+
   return (
     <CollapsibleBox
       collapsible={false}
       title="NFT Valuation"
       titleIcon={<img src={ETHColoredIcon} alt="NFT valuation" />}
       style={{ marginBottom: '60px' }}
+      description="Provided by Banksy Oracle"
     >
       <ValuationContainer>
-        <img src={ETHColoredOutlinedIcon} alt="eth" className="icon" />
-        <div className="value">{valuation ? numberWithCommas(valuation, 6): '-'}</div>
-        <div className="value-in-usd">{valuationInUsd && `$${valuationInUsd}`}</div>
+        <div className="price">
+          <img src={ETHColoredOutlinedIcon} alt="eth" className="icon" />
+          <div className="value">{valuation ? numberWithCommas(valuation, 6) : '-'}</div>
+          <div className="value-in-usd">{valuationInUsd && `$${valuationInUsd}`}</div>
+        </div>
+        <div className="change">
+          <ChangeItem label={'from yesterday'} value={change?.changeOneDayEth} />
+          <ChangeItem label={'last 7 days'} value={change?.changeSevenDayEth} />
+          <ChangeItem label={'last 30 days'} value={change?.changeThirtyDayEth} />
+        </div>
       </ValuationContainer>
     </CollapsibleBox>
   )
 }
 
-const MarketData: React.FC<{ valuation?: NftValuation }> = ({ valuation }) => {
+const MarketData: React.FC<{ valuation?: TokenValuation }> = ({ valuation }) => {
   return (
     <CollapsibleBox
       title="Market Data"
@@ -823,13 +925,16 @@ const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
               collectionName={data?.seriesName}
               numbWithAttributesCount={data?.numbWithAttributesCount}
             />
-            <Owner owner={data?.nftOwner} />
+            {/*<Owner owner={data?.nftOwner} />*/}
           </FlexColumn>
           <FlexColumn width="660px">
-            <Title tokenId={data?.tokenId} seriesName={data?.seriesName} />
-            <Valuation valuation={data?.aiPrice} valuationInUsd={data?.oracleValuationUsd} />
+            <Title tokenId={data?.tokenId} seriesName={data?.seriesName} owner={data?.nftOwner} />
+            <Valuation valuation={data?.aiPrice}
+              valuationInUsd={data?.oracleValuationUsd}
+              change={data?.valuationChange}
+            />
             <MarketData valuation={data} />
-            <ValuationChanges changes={convertNftValuationToValuationChanges(data)} />
+            {/*<ValuationChanges changes={convertNftValuationToValuationChanges(data)} />*/}
           </FlexColumn>
         </FlexRow>
 

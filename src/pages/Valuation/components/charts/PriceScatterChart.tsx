@@ -41,14 +41,16 @@ const PriceScatterChart: React.FC<{ contractAddress: string }> = ({ contractAddr
         id: 'dataZoomX',
         type: 'slider',
         xAxisIndex: [0],
-        filterMode: 'filter'
+        filterMode: 'filter',
+        start: 85,
       },
       {
         id: 'dataZoomY',
         type: 'slider',
         yAxisIndex: [0],
         filterMode: 'empty',
-        right: 0
+        right: 0,
+        end: 10,
       }
     ],
   }
