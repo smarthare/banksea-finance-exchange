@@ -229,14 +229,18 @@ const CollectionNFTListContainer = styled.div`
       margin-bottom: 10px;
     }
 
-    .text {
-      font-weight: 600;
+    .sort-by {
+      .text {
+        font-weight: 600;
+        width: 50px;
+        margin-right: 5px;
+
+      }
     }
 
     .sort-by, .buttons, .pager {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
     }
 
     button {
@@ -354,22 +358,22 @@ const Charts: React.FC<{ seriesId: string, contractAddress: string, seriesSlug?:
   const items: { title: string, description: string, component: JSX.Element }[] = [
     {
       title: 'Composition of Collection Heat',
-      description: 'Here is description',
+      description: 'Turnover rate indicates heat rate',
       component: <CollectionHeatCompositionChart seriesSlug={seriesSlug} />
     },
     {
       title: 'Price Scatter',
-      description: 'Here is description',
+      description: 'Scatter diagram of NFT trading price',
       component: <PriceScatterChart contractAddress={contractAddress} />
     },
     {
       title: 'Total Market Value',
-      description: 'Here is heat of trend',
+      description: 'Market value analysis of all NFTs',
       component: <TotalMarketValueChart seriesId={seriesId} />
     },
     {
       title: 'Trade Flows',
-      description: 'Here is heat of trend',
+      description: 'NFTs trading flows among addresses',
       component: <TradeFlowChart id={seriesId} />
     }
   ]
@@ -505,35 +509,38 @@ const CollectionNFTList: React.FC<{ tokens?: CollectionToken[] }> = () => {
       <div className="header">
         <div className="sb-row">
           <div className="title">{data?.total ?? '-'} Total {collection}</div>
-          <div className="sort-by">
-            <div className="text" style={{ marginRight: '15px' }}>Sort by</div>
-            <DropdownSelector
-              allowClear
-              style={{ maxWidth: '214px', minWidth: '120px' }}
-              value={sortByKey}
-              onChange={e => {
-                console.log(e)
-                setSortByKey(e as CollectionNftsQuerySortByKey)
-              }}
-            >
-              {
-                AVAILABLE_SORT_KEYS.map(key => (
-                  <DropdownSelector.Option
-                    key={key}
-                    value={key}
-                  >
-                    {key}
-                  </DropdownSelector.Option>
-                ))
-              }
-            </DropdownSelector>
-          </div>
         </div>
         <div className="sb-row" style={{ justifyContent: isMobile ? 'center' : 'space-between' }}>
-          <SearchInput
-            style={{ maxWidth: '300px', marginRight: '20px', height: '32px' }}
-            onPressEnter={e => setSearchKey((e.target as any).defaultValue)}
-          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <SearchInput
+              style={{ maxWidth: '300px', marginRight: '20px', height: '32px' }}
+              onPressEnter={e => setSearchKey((e.target as any).defaultValue)}
+            />
+            <div className="sort-by">
+              <div className="text">Sort by</div>
+              <DropdownSelector
+                allowClear
+                style={{ maxWidth: '214px', minWidth: '120px' }}
+                value={sortByKey}
+                onChange={e => {
+                  console.log(e)
+                  setSortByKey(e as CollectionNftsQuerySortByKey)
+                }}
+              >
+                {
+                  AVAILABLE_SORT_KEYS.map(key => (
+                    <DropdownSelector.Option
+                      key={key}
+                      value={key}
+                    >
+                      {key}
+                    </DropdownSelector.Option>
+                  ))
+                }
+              </DropdownSelector>
+            </div>
+          </div>
+
 
           <Pagination
             showQuickJumper
