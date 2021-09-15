@@ -2,43 +2,13 @@ import React from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useCollectionsHeatTrendQuery } from '../../../../hooks/queries/insight/overview/useCollectionsHeatTrendQuery'
 import { EChartsOption } from 'echarts-for-react/src/types'
+import { numberWithCommas } from '../../../../utils'
 
 
 const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ seriesSlug }) => {
   const { data } = useCollectionsHeatTrendQuery(seriesSlug)
   const row = data?.[0]
-  const t1TurnoverRateScore = row?.t1TurnoverRateScore
-  const t3TurnoverRateScore = row?.t3TurnoverRateScore
-  const t7TurnoverRateScore = row?.t7TurnoverRateScore
-  const t30TurnoverRateScore = row?.t30TurnoverRateScore
-  const t90TurnoverRateScore = row?.t90TurnoverRateScore
-  const t180TurnoverRateScore = row?.t180TurnoverRateScore
-  const t365TurnoverRateScore = row?.t365TurnoverRateScore
-  const time = row?.time.map(o => o * 1000)
-
-  const legends = ['1 Day Turnover Rate', '3 Days Turnover Rate', '7 Days Turnover Rate',
-    '30 Days Turnover Rate', '90 Days Turnover Rate', '180 Days Turnover Rate', '365 Days Turnover Rate']
-
-  const buildSeries = (name: string, data?: any[]) => ({
-    name,
-    type: 'line',
-    stack: 'Heat',
-    areaStyle: {},
-    emphasis: {
-      focus: 'series'
-    },
-    data: data?.map((o, i) => ([time?.[i], (o * 100).toFixed(2)])).sort((a, b) => (a[0] as number) - (b[0] as number))
-  })
-
-  const seriesByLegend = [
-    { legend: '1 Day Turnover Rate', seriesData: t1TurnoverRateScore },
-    { legend: '3 Days Turnover Rate', seriesData: t3TurnoverRateScore },
-    { legend: '7 Days Turnover Rate', seriesData: t7TurnoverRateScore },
-    { legend: '30 Days Turnover Rate', seriesData: t30TurnoverRateScore },
-    { legend: '90 Days Turnover Rate', seriesData: t90TurnoverRateScore },
-    { legend: '180 Days Turnover Rate', seriesData: t180TurnoverRateScore },
-    { legend: '365 Days Turnover Rate', seriesData: t365TurnoverRateScore }
-  ]
+  const time = row?.time.map(o => o * 1000) ?? []
 
   const options: EChartsOption = {
     tooltip: {
@@ -48,12 +18,40 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
         label: {
           backgroundColor: '#6a7985'
         }
-      }
-    },
-    legend: {
-      data: legends,
-      textStyle: {
-        color: '#ccc'
+      },
+      formatter: (params: any) => {
+        const [time, score, t1, t7, t30, t180] = params[0].data
+
+        return `
+          <div style='display: flex; flex-direction: column; align-content: flex-start; width: 250px'>
+            <div>${new Date(time).toLocaleDateString()}</div>
+            <div style='display: flex; justify-content: space-between;'>
+              <span>${params[0].marker}Heat Score: </span>
+              <span>${numberWithCommas(score * 100)}</span>
+            </div>
+
+            <div style='margin: 10px 0'>
+              <div style='border: 1px gray dashed; height: 0'></div>
+            </div>
+
+             <div style='display: flex; justify-content: space-between;'>
+                <span>1 Day Turnover Rate:</span>
+                <span>${(t1 * 100).toFixed(2)}%</span>
+             </div>
+             <div style='display: flex; justify-content: space-between;'>
+                <span>7 Days Turnover Rate:</span>
+                <span>${(t7 * 100).toFixed(2)}%</span>
+             </div>
+             <div style='display: flex; justify-content: space-between;'>
+                <span>30 Days Turnover Rate:</span>
+                <span>${(t30 * 100).toFixed(2)}%</span>
+             </div>
+             <div style='display: flex; justify-content: space-between;'>
+                <span>180 Days Turnover Rate:</span>
+                <span>${(t180 * 100).toFixed(2)}%</span>
+             </div>
+          <div/>
+        `
       }
     },
     grid: {
@@ -74,12 +72,29 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
           color: '#666',
           type: 'dotted'
         }
-      }
+      },
     }],
+    dataset: {
+      dimensions: ['time', 'heatScore', 't1TurnoverRate', 't7TurnoverRate', 't30TurnoverRate', 't180TurnoverRate', ],
+      source: {
+        ...row,
+        time
+      }
+    },
     dataZoom: [
       { type: 'inside', start: 80, end: 100 }
     ],
-    series: seriesByLegend.map(({ legend, seriesData }) => buildSeries(legend, seriesData))
+    series: [
+      {
+        name: 'Heat Score',
+        type: 'line',
+        smooth: true,
+        encode: {
+          x: 'time',
+          y: 'heatScore'
+        }
+      }
+    ],
   }
 
   return <ReactECharts option={options} />

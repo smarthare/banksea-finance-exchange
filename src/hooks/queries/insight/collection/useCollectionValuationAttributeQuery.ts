@@ -14,6 +14,8 @@ export interface CollectionValuationAttribute {
   avgPriceNftUsd?: string
   numNft: string
   rateAttribute: number
+  rarity?: number
+  popularity?: number
 }
 
 type CollectionValuationAttributeQueryParams = {

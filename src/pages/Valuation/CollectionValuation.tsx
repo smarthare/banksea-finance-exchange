@@ -423,6 +423,12 @@ const ValuationTable: React.FC<{ id: string }> = ({ id }) => {
       render: (text: string, row: any) => `${(row.rateAttribute * 100).toFixed(3)}%`,
       width: '200px'
     },
+    {
+      title: 'Popularity',
+      key: 'popularity',
+      render: (text: string, row: any) => row.popularity,
+      width: '200px'
+    },
   ]
 
   const handlePaginationChange = (current: number) => {
