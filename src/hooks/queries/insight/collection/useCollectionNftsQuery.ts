@@ -12,6 +12,12 @@ export interface CollectionNft {
   priceVolatility?: string
   ranking?: number
   turnoverRate?: number
+
+  lastPrice: string
+  valuation: string
+  rarity: string
+  popularity: string
+  salesNumber: string
 }
 
 interface CollectionNftsQueryParams {

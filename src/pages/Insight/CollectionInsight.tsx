@@ -12,19 +12,24 @@ import { PriceScatterChart } from './components/charts/PriceScatterChart'
 import { TotalMarketValueChart } from './components/charts/TotalMarketValueChart'
 import {
   AVAILABLE_SORT_KEYS,
+  CollectionNft,
   CollectionNftsQuerySortByKey,
   useCollectionNftsQuery
 } from '../../hooks/queries/insight/collection/useCollectionNftsQuery'
 import { useCollectionValuationDetailQuery } from '../../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
 import { TradeFlowChart } from './components/charts/TradeFlowChart'
 import { useMediaQuery } from 'react-responsive'
-import { useCollectionValuationAttributeQuery } from '../../hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
+import {
+  CollectionValuationAttributeQuerySortKey,
+  useCollectionValuationAttributeQuery
+} from '../../hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
 import { numberWithCommas } from '../../utils'
 import { ThemeSearchInput } from '../../styles/ThemeSearchInput'
 import {
   convertCollectionValuationDetailToCollectionExternalLinks,
   convertCollectionValuationDetailToCollectionValuationStatisticItems
 } from '../../converters/insight'
+import { SortOrder } from 'antd/es/table/interface'
 
 type CollectionValuationPageProps = {
   //
@@ -260,41 +265,86 @@ const CollectionNFTListContainer = styled.div`
     justify-content: space-between;
     flex-wrap: wrap;
     margin-right: -10px;
+  }
+`
+
+const CollectionTokenContainer = styled.div`
+  cursor: pointer;
+  width: 210px;
+  height: 278px;
+  background-color: #101C3A;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  margin-right: 10px;
+  overflow-y: hidden;
+
+  &:hover {
+    .first-page, .second-page {
+      position: relative;
+      bottom: calc(100% + 30px);
+    }
+  }
+
+  .first-page, .second-page {
+    position: relative;
+    bottom: 0;
+    transition: bottom .25s;
+  }
+
+  .first-page {
+    margin-bottom: 30px;
+
+    .token-number {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    img {
+      width: 190px;
+      height: 190px;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+    .token-number, .id {
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  .second-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 
     .item {
-      cursor: pointer;
-      width: 210px;
-      height: 278px;
-      background-color: #101C3A;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      padding: 10px;
-      margin-right: 10px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 80%;
 
-      &-header {
-        display: flex;
-        justify-content: space-between;
+      .key {
+        color: #b2b2b2;
+
+        &::after {
+          content: ':';
+          margin-right: 5px;
+        }
       }
 
-      img {
-        width: 190px;
-        height: 190px;
-        border-radius: 10px;
-        margin: 10px 0;
-      }
-
-      &-header, &-id {
-        color: white;
-        font-size: 14px;
-        font-weight: 500;
+      .value {
+        font-size: 120%;
       }
     }
+  }
 
-    .item.empty {
-      padding: 0;
-      height: 0;
-    }
-
+  &.empty {
+    padding: 0;
+    height: 0;
   }
 `
 
@@ -400,10 +450,12 @@ const Charts: React.FC<{ seriesId?: string, contractAddress: string, seriesSlug?
 
 const ValuationTable: React.FC<{ id?: string }> = ({ id }) => {
   const [current, setCurrent] = useState(1)
+  const [sortKey, setSortKey] = useState<CollectionValuationAttributeQuerySortKey>()
 
-  const { data } = useCollectionValuationAttributeQuery({
+  const { data, isLoading } = useCollectionValuationAttributeQuery({
     id,
-    current
+    current,
+    sortKey
   })
 
   const columns = [
@@ -420,28 +472,26 @@ const ValuationTable: React.FC<{ id?: string }> = ({ id }) => {
       width: '150px'
     },
     {
-      title: 'Number',
-      key: 'numNft',
-      dataIndex: 'numNft',
-      width: '90px'
-    },
-    {
-      title: 'Attr Rate',
-      key: 'rateAttribute',
-      render: (text: string, row: any) => `${numberWithCommas(row.rateAttribute * 100)}%`,
-      width: '200px'
-    },
-    {
       title: 'Rarity',
       key: 'rarity',
       render: (text: string, row: any) => `${numberWithCommas(row.rarity)}`,
-      width: '200px'
+      width: '200px',
+      sortDirections: ['descend' as SortOrder, null],
+      sorter: (_a: any, _b: any, sortOrder?: SortOrder) => {
+        setSortKey(sortOrder ? 'rarity' : undefined)
+        return 0
+      }
     },
     {
       title: 'Popularity',
       key: 'popularity',
       render: (text: string, row: any) => numberWithCommas(row.popularity),
-      width: '200px'
+      width: '200px',
+      sortDirections: ['descend' as SortOrder],
+      sorter: (_a: any, _b: any, sortOrder?: SortOrder) => {
+        setSortKey(sortOrder ? 'popularity' : undefined)
+        return 0
+      }
     }
   ]
 
@@ -455,6 +505,7 @@ const ValuationTable: React.FC<{ id?: string }> = ({ id }) => {
       <ThemeTable
         columns={columns}
         dataSource={data?.records}
+        loading={isLoading}
         scroll={{ x: 1000 }}
         pagination={{
           total: data?.total,
@@ -469,10 +520,51 @@ const ValuationTable: React.FC<{ id?: string }> = ({ id }) => {
   )
 }
 
-const CollectionNFTList: React.FC<{ collectionId?: string, collectionName?: string, collectionSlug: string }> = ({
+const CollectionToken: React.FC<{ token: CollectionNft }> = ({ token }) => {
+  const { collectionSlug } = useParams<{ collectionSlug: string }>()
+
+  return (
+    <CollectionTokenContainer
+      onClick={() => window.open(`#/insight/${collectionSlug}/${token.nftNumber}`)}
+    >
+      <div className="first-page">
+        <div className="token-number">
+          <div>#{token.nftNumber}</div>
+        </div>
+        <img src={token.nftImageUrl} alt={token.id} />
+        <div className="id">
+          {token.nftName}
+        </div>
+      </div>
+      <div className="second-page">
+        <div className="item">
+          <div className="key">Last Price</div>
+          <div className="value">{token.lastPrice === '-1' ? '-' : token.lastPrice}</div>
+        </div>
+        <div className="item">
+          <div className="key">Valuation</div>
+          <div className="value">Ξ{numberWithCommas(token.valuation)}</div>
+        </div>
+        <div className="item">
+          <div className="key">Rarity</div>
+          <div className="value">{numberWithCommas(token.rarity)}</div>
+        </div>
+        <div className="item">
+          <div className="key">Popularity</div>
+          <div className="value">{token.popularity}</div>
+        </div>
+        <div className="item">
+          <div className="key">Sales Number</div>
+          <div className="value">{token.salesNumber}</div>
+        </div>
+      </div>
+    </CollectionTokenContainer>
+  )
+}
+
+const CollectionTokenList: React.FC<{ collectionId?: string, collectionName?: string }> = ({
   collectionName,
   collectionId,
-  collectionSlug
 }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
@@ -523,10 +615,7 @@ const CollectionNFTList: React.FC<{ collectionId?: string, collectionName?: stri
                 allowClear
                 style={{ maxWidth: '214px', minWidth: '120px' }}
                 value={sortByKey}
-                onChange={e => {
-                  console.log(e)
-                  setSortByKey(e as CollectionNftsQuerySortByKey)
-                }}
+                onChange={e => setSortByKey(e as CollectionNftsQuerySortByKey)}
               >
                 {
                   AVAILABLE_SORT_KEYS.map(key => (
@@ -558,25 +647,16 @@ const CollectionNFTList: React.FC<{ collectionId?: string, collectionName?: stri
       </div>
       <div className="list">
         {
-          data?.records?.map((item, index) => (
-            <div className="item"
-              key={index}
-              onClick={() => window.open(`#/insight/${collectionSlug}/${item.nftNumber}`)}
-            >
-              <div className="item-header">
-                <div>#{item.nftNumber}</div>
-                <div>{item.nftOwner}</div>
-              </div>
-              <img src={item.nftImageUrl} alt={item.id} />
-              <div className="item-id">
-                {item.nftName}
-              </div>
-            </div>
+          data?.records?.map(item => (
+            <CollectionToken
+              token={item}
+              key={item.id}
+            />
           ))
         }
         {
           new Array(5).fill({}).map((_, index) => (
-            <div className="item empty" key={index} />
+            <CollectionTokenContainer className="empty" key={index} />
           ))
         }
       </div>
@@ -609,10 +689,9 @@ const CollectionValuationPage: React.FC<CollectionValuationPageProps> = () => {
           seriesSlug={detail?.seriesSlug}
         />
         <ValuationTable id={detail?.id} />
-        <CollectionNFTList
+        <CollectionTokenList
           collectionName={detail?.seriesName}
           collectionId={detail?.id}
-          collectionSlug={collectionSlug}
         />
       </Wrapper>
     </CollectionValuationPageContainer>

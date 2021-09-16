@@ -1,20 +1,13 @@
 import { useQuery, UseQueryResult } from 'react-query'
 import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '../../../../utils/banksyRequest'
 
-
 export interface CollectionValuationAttribute {
   id: string
   nftSeriesId: string
-  prevailingTrend?: string
   attributeType: string
   attributeValue: string
-  volumeNftEth?: string
-  volumeNftUsd?: string
-  avgPriceNftEth?: string
-  avgPriceNftUsd?: string
-  numNft: string
-  rateAttribute: number
-  rarity?: number
+  assetContractAddress: string
+  rarity: number
   popularity?: number
 }
 
@@ -22,7 +15,12 @@ type CollectionValuationAttributeQueryParams = {
   id?: string
   current: number
   size?: number
+  sortKey?: CollectionValuationAttributeQuerySortKey
 }
+
+export type CollectionValuationAttributeQuerySortKey = 'rarity' | 'popularity'
+
+export const AVAILABLE_SORT_KEYS: CollectionValuationAttributeQuerySortKey[] = ['rarity', 'popularity']
 
 export const useCollectionValuationAttributeQuery = (data: CollectionValuationAttributeQueryParams): UseQueryResult<BanksyApiPagingData<CollectionValuationAttribute>> => {
   return useQuery(
