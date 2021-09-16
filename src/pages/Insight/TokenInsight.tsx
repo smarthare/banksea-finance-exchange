@@ -28,6 +28,7 @@ import {
   useTokenTransactionsQuery
 } from '../../hooks/queries/insight/token/useTokenTransactionsQuery'
 import { ValuationHistoriesChart } from './components/charts/ValuationHistoriesChart'
+import { useTokenCountWithPropertiesQuery } from '../../hooks/queries/insight/token/useTokenCountWithPropertiesQuery'
 
 type NFTValuationPageProps = {
   //
@@ -63,14 +64,6 @@ const TokenImage = styled.img`
   padding: 10px;
   margin-bottom: 54px;
 `
-
-/*const OwnerContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  color: #ddd;
-  font-size: 16px;
-`*/
 
 const PropertiesContainer = styled.div`
 
@@ -162,6 +155,7 @@ const ValuationContainer = styled.div`
   .price {
     display: flex;
     align-items: center;
+    margin-left: 20px;
 
     .icon {
       width: 30px;
@@ -268,50 +262,6 @@ const MarketDataContainer = styled.div`
     }
   }
 `
-
-/*const ValuationChangesContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  .type {
-    width: 300px;
-    height: 158px;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-    padding-top: 15px;
-    font-size: 14px;
-    font-weight: 500;
-
-    &-name {
-      margin-bottom: 12px;
-    }
-
-    .item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 80%;
-      margin-bottom: 12px;
-
-      .icon > img {
-        width: 17px;
-        margin-right: 7px;
-      }
-
-      .value {
-        margin-right: 23px;
-      }
-
-      .key {
-        text-align: end;
-      }
-    }
-  }
-`*/
 
 const ValuationHistoryContainer = styled.div`
   .analyze {
@@ -442,9 +392,13 @@ const ValuationAnalyzeContainer = styled.div`
   }
 `
 
-const Properties: React.FC<{ properties?: NftAttribute[], collectionName?: string, numbWithAttributesCount?: number }> = ({
-  properties, collectionName, numbWithAttributesCount
+const Properties: React.FC<{ properties?: NftAttribute[], collectionName?: string }> = ({
+  properties, collectionName
 }) => {
+  const { tokenId, collectionSlug } = useParams<{ tokenId: string, collectionSlug: string }>()
+
+  const { data: tokenCountWithProperties } = useTokenCountWithPropertiesQuery(tokenId, collectionSlug)
+
   return (
     <CollapsibleBox
       title="Properties"
@@ -455,8 +409,8 @@ const Properties: React.FC<{ properties?: NftAttribute[], collectionName?: strin
       <PropertiesContainer>
         <div className="text">
           {
-            collectionName && properties && numbWithAttributesCount &&
-            `1 of ${numbWithAttributesCount} ${collectionName} with ${properties.length} Properties`
+            collectionName && properties && tokenCountWithProperties &&
+            `1 of ${tokenCountWithProperties} ${collectionName} with ${properties?.length} Properties`
           }
         </div>
         <div className="label">
@@ -906,9 +860,9 @@ const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
         <FlexRow>
           <FlexColumn width="358px">
             <TokenImage src={data?.nftImageUrl} />
-            <Properties properties={data?.nftAttributes}
+            <Properties
+              properties={data?.nftAttributes}
               collectionName={data?.seriesName}
-              numbWithAttributesCount={data?.numbWithAttributesCount}
             />
             {/*<Owner owner={data?.nftOwner} />*/}
           </FlexColumn>
