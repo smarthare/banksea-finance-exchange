@@ -153,9 +153,10 @@ const ValuationContainer = styled.div`
   justify-content: space-between;
 
   .price {
+    width: 50%;
     display: flex;
     align-items: center;
-    margin-left: 20px;
+    justify-content: center;
 
     .icon {
       width: 30px;
@@ -178,7 +179,7 @@ const ValuationContainer = styled.div`
   }
 
   .change {
-    width: 300px;
+    width: 50%;
     height: 128px;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);

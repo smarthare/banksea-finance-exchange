@@ -195,7 +195,7 @@ const ChartsContainer = styled.div`
 
 const ValuationTableContainer = styled.div`
   position: relative;
-
+  overflow: visible;
   .title {
     font-size: 30px;
   }
@@ -305,6 +305,7 @@ const CollectionTokenContainer = styled.div`
       height: 190px;
       border-radius: 10px;
       margin: 10px 0;
+      object-fit: cover;
     }
 
     .token-number, .id {
