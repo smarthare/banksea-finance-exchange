@@ -29,6 +29,7 @@ import {
 } from '../../hooks/queries/insight/token/useTokenTransactionsQuery'
 import { ValuationHistoriesChart } from './components/charts/ValuationHistoriesChart'
 import { useTokenCountWithPropertiesQuery } from '../../hooks/queries/insight/token/useTokenCountWithPropertiesQuery'
+import { MinusOutlined } from '@ant-design/icons'
 
 type NFTValuationPageProps = {
   //
@@ -199,9 +200,18 @@ const ValuationContainer = styled.div`
       width: 80%;
       margin-bottom: 12px;
 
-      .icon > img {
-        width: 17px;
+
+      .icon {
         margin-right: 7px;
+
+        img, .anticon {
+          width: 17px;
+        }
+
+        .anticon {
+          position: relative;
+          bottom: 3px;
+        }
       }
 
       .value {
@@ -379,12 +389,15 @@ const ValuationAnalyzeContainer = styled.div`
             align-items: center;
 
             .icon {
-              position: relative;
-              top: 4px;
-              width: 12px;
-              height: 12px;
               margin-bottom: 7px;
               margin-left: 3px;
+              position: relative;
+              top: 4px;
+            }
+
+            .icon, .icon>svg {
+              width: 15px;
+              height: 15px;
             }
           }
         }
@@ -466,7 +479,7 @@ const Title: React.FC<{ seriesName?: string, tokenId?: number, owner?: string }>
         <div className="token-id">{tokenId && `#${tokenId}`}</div>
       </div>
       <div className="owner">
-        <div className="key">Owned by </div>
+        <div className="key">Owned by</div>
         <div className="value">
           {owner ?? 'Unknown'}
         </div>
@@ -491,14 +504,14 @@ const Valuation: React.FC<{ valuation?: string, valuationInUsd?: string, change?
             !!value && value < 0 && <img src={DownIcon} alt="down" />
           }
           {
-            value === undefined && '-'
+            value !== undefined && value === 0 && <MinusOutlined />
           }
         </div>
         <div className="value">
           {
             value
-              ? `${numberWithCommas(value.toString(), 2, true)}%`
-              : 'No data'
+              ? `${numberWithCommas(Math.abs(value * 100), 2)}%`
+              : `${numberWithCommas(0, 2, false)}%`
           }
         </div>
       </div>
@@ -769,9 +782,13 @@ const ValuationAnalyze: React.FC<{ valuation?: AiValuation }> = ({ valuation }) 
             `${numberWithCommas(Math.abs((change ?? 0) * 100), 2)}%`
           }
           {
-            change >= 0
-              ? <img src={UpIcon} alt="up" className="icon" />
-              : <img src={DownIcon} alt="down" className="icon" />
+            change > 0 && <img src={UpIcon} alt="up" className="icon" />
+          }
+          {
+            change === 0 && <MinusOutlined className="icon" />
+          }
+          {
+            change < 0 && <img src={DownIcon} alt="down" className="icon" />
           }
         </div>
       </div>
@@ -808,7 +825,7 @@ const ValuationAnalyze: React.FC<{ valuation?: AiValuation }> = ({ valuation }) 
                     }
                     key={key}
                     value={Object.entries(valuation).find(([_key]) => _key === key)?.[1]}
-                    change={Object.entries(valuation).find(([_key]) => `${_key}` === `${key}ChangeRate`)?.[1]}
+                    change={Object.entries(valuation).find(([_key]) => `${_key}` === `${key}ChangeRate`)?.[1] ?? 0}
                   />
                 ))
             }
