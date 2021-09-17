@@ -79,6 +79,7 @@ const ValuationHistoriesChart: React.FC<{ valuations?: AiValuation[] }> = ({ val
     dataset: {
       source: valuations?.map(o => ({ ...o, time: o.valuationTime * 1000 })) ?? []
     },
+    color: ['#FFEDD3', '#FF5C58'],
     xAxis: {
       // type: 'category',
       type: 'time',
