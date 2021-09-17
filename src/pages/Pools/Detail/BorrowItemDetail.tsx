@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
+import DepositAPY from '@/components/EchartsStatistics/DepositAPY'
 import { useHistory, useParams } from 'react-router-dom'
-import { depositPoolsDetail, mortgageOpinion } from '../../../apis/pool'
+import { depositPoolsDetail, mortgageOpinion } from '@/apis/pool'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../../store/wallet'
+import { getAccount } from '@/store/wallet'
 import { Button, Form, Input } from 'antd'
-import { useBorrowCheckoutModal } from '../../../hooks/modals/useBorrowCheckoutModal'
+import { useBorrowCheckoutModal } from '@/hooks/modals/useBorrowCheckoutModal'
 import { LeftOutlined } from '@ant-design/icons'
 
 const ItemDetailMain = styled.div`

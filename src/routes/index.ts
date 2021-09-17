@@ -1,31 +1,30 @@
-import HomePage from '../pages/Home'
-import CollectiblesPage from '../pages/Collectibles'
-import { ReactComponent as HomeIcon } from '../assets/images/menu-icons/home.svg'
-import { ReactComponent as CollectiblesIcon } from '../assets/images/menu-icons/collectibles.svg'
-import { ReactComponent as ArtistsIcon } from '../assets/images/menu-icons/artists.svg'
-import { ReactComponent as FarmsIcon } from '../assets/images/menu-icons/farms.svg'
-import { ReactComponent as OracleIcon } from '../assets/images/menu-icons/oracle.svg'
-import { ReactComponent as LevelUpIcon } from '../assets/images/menu-icons/level-up.svg'
-import { ReactComponent as PoolsIcon } from '../assets/images/menu-icons/pools.svg'
-import { ReactComponent as MarketplaceIcon } from '../assets/images/menu-icons/marketplace.svg'
-import { ReactComponent as PriceAirDropIcon } from '../assets/images/menu-icons/priceAirDrop.svg'
+import HomePage from '@/pages/Home'
+import CollectiblesPage from '@/pages/Collectibles'
+import { ReactComponent as HomeIcon } from '@/assets/images/menu-icons/home.svg'
+import { ReactComponent as CollectiblesIcon } from '@/assets/images/menu-icons/collectibles.svg'
+import { ReactComponent as ArtistsIcon } from '@/assets/images/menu-icons/artists.svg'
+import { ReactComponent as FarmsIcon } from '@/assets/images/menu-icons/farms.svg'
+import { ReactComponent as OracleIcon } from '@/assets/images/menu-icons/oracle.svg'
+import { ReactComponent as LevelUpIcon } from '@/assets/images/menu-icons/level-up.svg'
+import { ReactComponent as PoolsIcon } from '@/assets/images/menu-icons/pools.svg'
+import { ReactComponent as MarketplaceIcon } from '@/assets/images/menu-icons/marketplace.svg'
+import { ReactComponent as PriceAirDropIcon } from '@/assets/images/menu-icons/priceAirDrop.svg'
 
-import { CollectibleDetailPage } from '../pages/Collectibles/CollectibleDetail'
-import NFTCreatePage from '../pages/Home/NFTCreate'
-import PersonalHomepage from '../pages/PersonalHome/index'
-import PleaseWaiting from '../pages/Home/PleaseWaiting'
-import NFTCreatedSuccess from '../pages/Home/NFTCreatedSuccess'
-import AIGenerators from '../pages/AIGenerators'
-import FarmPage from '../pages/Farms'
-import TestPage from '../pages/Test'
-import VotePage from '../pages/Vote'
-import PoolsPage from '../pages/Pools/index'
-import NFTMortgageDetailPage from '../pages/Pools/Detail/NFTPrepayDetail'
-import MortgagePoolDetailPage from '../pages/Pools/Detail/MortgagePoolDetail'
-import DepositItemDetailPage from '../pages/Pools/Detail/DepositItemDetail'
-import InsightPage from '../pages/Insight'
-import CollectionValuationPage from '../pages/Insight/CollectionInsight'
-import NFTValuationPage from '../pages/Insight/TokenInsight'
+import { CollectibleDetailPage } from '@/pages/Collectibles/CollectibleDetail'
+import NFTCreatePage from '@/pages/Home/NFTCreate'
+import PersonalHomepage from '@/pages/PersonalHome/index'
+import PleaseWaiting from '@/pages/Home/PleaseWaiting'
+import NFTCreatedSuccess from '@/pages/Home/NFTCreatedSuccess'
+import AIGenerators from '@/pages/AIGenerators'
+import FarmPage from '@/pages/Farms'
+import VotePage from '@/pages/Vote'
+import PoolsPage from '@/pages/Pools/index'
+import NFTMortgageDetailPage from '@/pages/Pools/Detail/NFTPrepayDetail'
+import MortgagePoolDetailPage from '@/pages/Pools/Detail/MortgagePoolDetail'
+import DepositItemDetailPage from '@/pages/Pools/Detail/DepositItemDetail'
+import InsightPage from '@/pages/Insight'
+import CollectionValuationPage from '@/pages/Insight/CollectionInsight'
+import NFTValuationPage from '@/pages/Insight/TokenInsight'
 import { EyeOutlined } from '@ant-design/icons'
 
 export type Route = {
@@ -142,12 +141,6 @@ const routes: Route[] = [
     title: 'PleaseWaiting',
     icon: FarmsIcon,
     component: PleaseWaiting,
-    hidden: true
-  },
-  {
-    path: '/test',
-    title: 'Test',
-    component: TestPage,
     hidden: true
   },
   {

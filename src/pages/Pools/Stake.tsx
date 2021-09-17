@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import stateKSY from '../../assets/images/Pools/stateKSY.png'
-import stateBPT from '../../assets/images/Pools/StateBPT.png'
-import { useStakeUnderstandModal } from '../../hooks/modals/useStakeUnderstandModal'
+import stateKSY from '@/assets/images/Pools/stateKSY.png'
+import stateBPT from '@/assets/images/Pools/StateBPT.png'
+import { useStakeUnderstandModal } from '@/hooks/modals/useStakeUnderstandModal'
 import { Button } from 'antd'
 
 const StakeMain = styled.div`

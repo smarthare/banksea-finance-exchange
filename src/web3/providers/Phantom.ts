@@ -1,4 +1,4 @@
-import { PhantomProvider } from '../../types/Phantom'
+import { PhantomProvider } from '@/types/Phantom'
 
 const sleep = (delay: number) => new Promise(resolve => setTimeout(resolve, delay))
 

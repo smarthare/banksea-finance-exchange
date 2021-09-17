@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
-import { AppState, State } from '../type'
+import { AppState, State } from '@/store/type'
 
 const initialState: AppState = {
   sideBarCollapsed: true

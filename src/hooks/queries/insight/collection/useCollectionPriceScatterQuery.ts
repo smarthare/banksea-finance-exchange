@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '../../../../utils/banksyRequest'
+import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
 
 export const useCollectionPriceScatterQuery = (contractAddress: string): UseQueryResult<{
   price: Array<[number, number]>

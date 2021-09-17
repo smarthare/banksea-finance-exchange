@@ -1,4 +1,4 @@
-import { WalletNames } from '../web3/wallets'
+import { WalletNames } from '@/web3/wallets'
 
 export type SupportedChain = 'Ethereum' | 'Solana'
 

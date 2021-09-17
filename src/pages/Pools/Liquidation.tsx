@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import clsx from 'clsx'
 import { Button, Statistic } from 'antd'
 import { useHistory } from 'react-router-dom'
-import { liquidationList } from '../../apis/pool'
+import { liquidationList } from '@/apis/pool'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../store/wallet'
-import PageLoading from '../../components/PageLoding'
+import { getAccount } from '@/store/wallet'
+import PageLoading from '@/components/PageLoding'
 import { SearchOutlined } from '@ant-design/icons'
-import { ThemeInput } from '../../styles/ThemeInput'
-import { LiquidationSelector } from '../../components/NFTListSelectors'
+import { ThemeInput } from '@/styles/ThemeInput'
+import { LiquidationSelector } from '@/components/NFTListSelectors'
 
 const MortgageMain = styled.div`
   display: none;

@@ -1,4 +1,4 @@
-import banksyRequest from '../../utils/banksyRequest'
+import banksyRequest from '@/utils/banksyRequest'
 
 type CreateExchangeRequest = {
   nftPubKey: string

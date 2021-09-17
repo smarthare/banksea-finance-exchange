@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { WhitelistCollection } from 'hooks/queries/insight/overview/useWhitelistCollectionsQuery'
-import { numberWithCommas } from '../../../utils'
+import { WhitelistCollection } from '@/hooks/queries/insight/overview/useWhitelistCollectionsQuery'
+import { numberWithCommas } from '@/utils'
 
 type FeatureAddedWhitelistCollectionsProps = {
   collections: any[]

@@ -3,18 +3,18 @@ import styled from 'styled-components'
 import clsx from 'clsx'
 import { Button, Progress, Statistic } from 'antd'
 import { useHistory } from 'react-router-dom'
-import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
+import { useWeb3EnvContext } from '@/contexts/Web3EnvProvider'
 import {
   dashboardMortgageAvailable,
   dashboardMortgageMortgaged,
   dashboardMortgagePreorder,
   dashboardUser
-} from '../../apis/pool'
+} from '@/apis/pool'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../store/wallet'
-import PageLoading from '../../components/PageLoding'
-import VariableAPY from '../../components/EchartsStatistics/VariableAPY'
-import myDashboard1 from '../../assets/images/mockImg/myDashboard1.png'
+import { getAccount } from '@/store/wallet'
+import PageLoading from '@/components/PageLoding'
+import VariableAPY from '@/components/EchartsStatistics/VariableAPY'
+import myDashboard1 from '@/assets/images/mockImg/myDashboard1.png'
 
 const MyDashboardContainer = styled.div`
   width: 135.6rem;

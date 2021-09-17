@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import ReactECharts from 'echarts-for-react'
-import { useCollectionTradingFlowQuery } from '../../../../hooks/queries/insight/collection/useCollectionTradingFlowQuery'
-import { numberWithCommas } from '../../../../utils'
-import { useCollectionTradingFlowCountQuery } from '../../../../hooks/queries/insight/collection/useCollectionTradingFlowCountQuery'
+import { useCollectionTradingFlowQuery } from '@/hooks/queries/insight/collection/useCollectionTradingFlowQuery'
+import { numberWithCommas } from '@/utils'
+import { useCollectionTradingFlowCountQuery } from '@/hooks/queries/insight/collection/useCollectionTradingFlowCountQuery'
 
 const TradeFlowChart: React.FC<{ id?: string, assetContractAddress: string }> = ({ id, assetContractAddress }) => {
   const { data } = useCollectionTradingFlowQuery(id)

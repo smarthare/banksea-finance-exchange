@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react'
-import { banksyWeb3 } from '../../BanksyWeb3'
+import { banksyWeb3 } from '@/BanksyWeb3'
 import { Button, Checkbox, Divider, message, Modal } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-import { useModal } from '../useModal'
-import ETHIcon from '../../components/ETHIcon'
+import { useModal } from '@/hooks/useModal'
+import ETHIcon from '@/components/ETHIcon'
 
 const PurchaseCheckoutModal = styled(Modal)`
 

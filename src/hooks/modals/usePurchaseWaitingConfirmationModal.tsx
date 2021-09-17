@@ -2,7 +2,7 @@ import React from 'react'
 import Authorizing from '@/assets/images/allModalImg/authorizing.svg'
 import styled from 'styled-components'
 import { Modal } from 'antd'
-import { useModal } from '../useModal'
+import { useModal } from '@/hooks/useModal'
 
 const AuthorizingModal = styled(Modal)`
   .ant-modal-close-icon {

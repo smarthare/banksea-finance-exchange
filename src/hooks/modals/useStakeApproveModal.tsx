@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Form, Input, Modal } from 'antd'
-import { useModal } from '../useModal'
-import stateKSY from '../../assets/images/Pools/stateKSY.png'
-import stateBPT from '../../assets/images/Pools/StateBPT.png'
+import { useModal } from '@/hooks/useModal'
+import stateKSY from '@/assets/images/Pools/stateKSY.png'
+import stateBPT from '@/assets/images/Pools/StateBPT.png'
 import { useRequestingModal } from './stateModals/useRequestingModal'
 
 const ApproveModal = styled(Modal)`

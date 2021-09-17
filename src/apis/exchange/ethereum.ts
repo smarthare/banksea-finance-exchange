@@ -1,4 +1,4 @@
-import { SellingOrder } from '../../BanksyWeb3/contracts/ethereum/services/exchange/types'
+import { SellingOrder } from '@/BanksyWeb3/contracts/ethereum/services/exchange/types'
 import banksyRequest, { BanksyApiResponse } from '../../utils/banksyRequest'
 
 export function sellOrder(data: SellingOrder) {

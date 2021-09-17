@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import ThemeTable from '../../../styles/ThemeTable'
-import { RankingCollection } from '../../../hooks/queries/insight/overview/useRankingCollectionsQuery'
-import { numberWithCommas } from '../../../utils'
+import { RankingCollection } from '@/hooks/queries/insight/overview/useRankingCollectionsQuery'
+import { numberWithCommas } from '@/utils'
 import TableTitleWithTooltip from '../../../components/TableTitleWithTooltip'
 
 type AllWhitelistCollectionsProps = {

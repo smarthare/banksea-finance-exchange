@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import { Modal } from 'antd'
-import { useModal } from '../../useModal'
+import { useModal } from '@/hooks/useModal'
 import { LoadingOutlined } from '@ant-design/icons'
 import { useSuccessModal } from './useSuccessModal'
 

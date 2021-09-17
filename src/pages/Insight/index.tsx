@@ -2,15 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import FeatureAddedWhitelistCollections from './components/FeatureAddedWhitelistCollections'
 import AllWhitelistCollections from './components/AllWhitelistCollections'
-import { useValuationOverviewData } from '../../hooks/data/useValuationOverviewData'
+import { useValuationOverviewData } from '@/hooks/data/useValuationOverviewData'
 import {
   CollectionsHearTrendChart,
   CollectionsHeatTrendChartProps
 } from './components/charts/CollectionsHeatTrendChart'
 import { AllNFTValuationChart } from './components/charts/AllNFTValuationChart'
-import { CurrencyMarketValue } from '../../hooks/queries/insight/overview/useCurrencyMarketValueQuery'
-import { formatTime, simplifyNumber } from '../../utils'
-import { NftMarketTotalValuation } from '../../hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
+import { CurrencyMarketValue } from '@/hooks/queries/insight/overview/useCurrencyMarketValueQuery'
+import { formatTime, simplifyNumber } from '@/utils'
+import { NftMarketTotalValuation } from '@/hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
 
 type InsightPageProps = {
   //

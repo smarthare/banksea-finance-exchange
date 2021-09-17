@@ -3,7 +3,7 @@ import { Keypair, PublicKey } from '@solana/web3.js'
 import { TokenInstructions } from '@project-serum/serum'
 import { banksyWeb3 } from '../../index'
 import { Wallet } from '@project-serum/anchor/dist/provider'
-import { cancelExchange } from '../../../apis/exchange/solana'
+import { cancelExchange } from '@/apis/exchange/solana'
 
 const getProvider = () => {
   if (!banksyWeb3) {

@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './app.scss'
 import { Layout } from 'antd'
 import AppHeader from './layout/AppHeader'
 import AppSideBar from './layout/AppSideBar'
-// @ts-ignore
 import routes from './routes'
 import styled from 'styled-components'
 import { useMediaQuery } from 'react-responsive'
@@ -57,16 +56,16 @@ const App: React.FC = () => {
       </Header>
       <Layout style={{ backgroundColor: '#101A2D' }}>
         <Layout.Sider
-          style={ isMobile ? {
+          style={isMobile ? {
             position: 'fixed',
             zIndex: 99,
             top: '6.2rem',
-            left: sideBarCollapsed ? '-20rem' : 0,
+            left: sideBarCollapsed ? '-20rem' : 0
           } :
             {
               position: 'fixed',
               zIndex: 99,
-              top: '6.2rem',
+              top: '6.2rem'
             }}
           collapsed={sideBarCollapsed}
         >
@@ -81,12 +80,12 @@ const App: React.FC = () => {
             backgroundColor: '#0B111E',
             position: 'relative',
             overflowY: 'scroll',
-            left: isMobile ? '0' : (sideBarCollapsed ? '82px' : '200px'),
+            left: isMobile ? '0' : (sideBarCollapsed ? '82px' : '200px')
           }}
         >
           <div
             style={{
-              width: isMobile ? '100vw' : (sideBarCollapsed ? 'calc(100vw - 82px)' : 'calc(100vw - 200px)'),
+              width: isMobile ? '100vw' : (sideBarCollapsed ? 'calc(100vw - 82px)' : 'calc(100vw - 200px)')
             }}
           >
             {

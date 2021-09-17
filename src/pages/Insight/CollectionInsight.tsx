@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import ThemeTable from '../../styles/ThemeTable'
-import { DropdownSelector } from '../../styles/DropdownSelector'
+import ThemeTable from '@/styles/ThemeTable'
+import { DropdownSelector } from '@/styles/DropdownSelector'
 import { Pagination, Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
-import { CollectionExternalLink, CollectionValuationStatisticItem } from '../../types/CollectionValuation'
+import { CollectionExternalLink, CollectionValuationStatisticItem } from '@/types/CollectionValuation'
 import { CollectionHeatCompositionChart } from './components/charts/CollectionHeatCompositionChart'
 import { PriceScatterChart } from './components/charts/PriceScatterChart'
 import { TotalMarketValueChart } from './components/charts/TotalMarketValueChart'
@@ -15,20 +15,20 @@ import {
   CollectionNft,
   CollectionNftsQuerySortByKey,
   useCollectionNftsQuery
-} from '../../hooks/queries/insight/collection/useCollectionNftsQuery'
-import { useCollectionValuationDetailQuery } from '../../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
+} from '@/hooks/queries/insight/collection/useCollectionNftsQuery'
+import { useCollectionValuationDetailQuery } from '@/hooks/queries/insight/collection/useCollectionValuationDetailQuery'
 import { TradeFlowChart } from './components/charts/TradeFlowChart'
 import { useMediaQuery } from 'react-responsive'
 import {
   CollectionValuationAttributeQuerySortKey,
   useCollectionValuationAttributeQuery
-} from '../../hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
-import { numberWithCommas } from '../../utils'
-import { ThemeSearchInput } from '../../styles/ThemeSearchInput'
+} from '@/hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
+import { numberWithCommas } from '@/utils'
+import { ThemeSearchInput } from '@/styles/ThemeSearchInput'
 import {
   convertCollectionValuationDetailToCollectionExternalLinks,
   convertCollectionValuationDetailToCollectionValuationStatisticItems
-} from '../../converters/insight'
+} from '@/converters/insight'
 import { SortOrder } from 'antd/es/table/interface'
 
 type CollectionValuationPageProps = {

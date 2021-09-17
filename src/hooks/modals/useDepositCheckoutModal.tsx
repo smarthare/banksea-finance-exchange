@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Modal } from 'antd'
-import { useModal } from '../useModal'
 import { useRequestingModal } from './stateModals/useRequestingModal'
+import { useModal } from '@/hooks/useModal'
 
 const BorrowCheckoutModal = styled(Modal)`
   .ant-modal-close-icon {

@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
-import { useCollectionsHeatTrendQuery } from '../../../../hooks/queries/insight/overview/useCollectionsHeatTrendQuery'
+import { useCollectionsHeatTrendQuery } from '@/hooks/queries/insight/overview/useCollectionsHeatTrendQuery'
 import { EChartsOption } from 'echarts-for-react/src/types'
-import { numberWithCommas } from '../../../../utils'
+import { numberWithCommas } from '@/utils'
 
 
 const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ seriesSlug }) => {

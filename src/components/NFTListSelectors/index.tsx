@@ -1,5 +1,5 @@
 import React from 'react'
-import { DropdownSelector } from '../../styles/DropdownSelector'
+import { DropdownSelector } from '@/styles/DropdownSelector'
 import { Select } from 'antd'
 
 const OrderSelector: React.FC = () => {

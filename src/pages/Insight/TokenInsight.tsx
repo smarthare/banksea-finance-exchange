@@ -4,31 +4,28 @@ import styled from 'styled-components'
 import { Property } from 'csstype'
 import CollapsibleBox from './components/CollasibleBox'
 
-import InfoIcon from '../../assets/images/commons/info.png'
+import InfoIcon from '@/assets/images/commons/info.png'
 
-import ETHColoredOutlinedIcon from '../../assets/images/commons/eth-colored-outlined.png'
-import ETHColoredIcon from '../../assets/images/commons/eth-colored.png'
-import MarketDataIcon from '../../assets/images/valuation/market-data.png'
-import UpIcon from '../../assets/images/valuation/up.png'
-import DownIcon from '../../assets/images/valuation/down.png'
-import HistoryIcon from '../../assets/images/valuation/history.png'
-import TransactionIcon from '../../assets/images/valuation/transaction.png'
-import ThemeTable from '../../styles/ThemeTable'
-import { DropdownSelector } from '../../styles/DropdownSelector'
+import ETHColoredOutlinedIcon from '@/assets/images/commons/eth-colored-outlined.png'
+import ETHColoredIcon from '@/assets/images/commons/eth-colored.png'
+import MarketDataIcon from '@/assets/images/valuation/market-data.png'
+import UpIcon from '@/assets/images/valuation/up.png'
+import DownIcon from '@/assets/images/valuation/down.png'
+import HistoryIcon from '@/assets/images/valuation/history.png'
+import TransactionIcon from '@/assets/images/valuation/transaction.png'
+import ThemeTable from '@/styles/ThemeTable'
+import { DropdownSelector } from '@/styles/DropdownSelector'
 import {
   AiValuation,
   NftAttribute,
   TokenValuation,
   TokenValuationChange,
   useTokenValuationBaseInfoQuery
-} from '../../hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
-import { formatTime, numberWithCommas, simplifyNumber } from '../../utils'
-import {
-  NftTransactionType,
-  useTokenTransactionsQuery
-} from '../../hooks/queries/insight/token/useTokenTransactionsQuery'
+} from '@/hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
+import { formatTime, numberWithCommas, simplifyNumber } from '@/utils'
+import { NftTransactionType, useTokenTransactionsQuery } from '@/hooks/queries/insight/token/useTokenTransactionsQuery'
 import { ValuationHistoriesChart } from './components/charts/ValuationHistoriesChart'
-import { useTokenCountWithPropertiesQuery } from '../../hooks/queries/insight/token/useTokenCountWithPropertiesQuery'
+import { useTokenCountWithPropertiesQuery } from '@/hooks/queries/insight/token/useTokenCountWithPropertiesQuery'
 import { MinusOutlined } from '@ant-design/icons'
 
 type NFTValuationPageProps = {

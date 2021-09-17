@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import styled from 'styled-components'
-import DepositSize from '../../components/EchartsStatistics/DepositSize'
+import DepositSize from '@/components/EchartsStatistics/DepositSize'
 import { useHistory } from 'react-router-dom'
 
-import { depositPoolsList, depositSize, depositSizeStatistics, mortgagePoolsList, mortgageSize } from '../../apis/pool'
-import PageLoading from '../../components/PageLoding'
+import { depositPoolsList, depositSize, depositSizeStatistics, mortgagePoolsList, mortgageSize } from '@/apis/pool'
+import PageLoading from '@/components/PageLoding'
 import { Button } from 'antd'
-import InsuranceChart from '../../components/EchartsStatistics/InsuranceChart'
+import InsuranceChart from '@/components/EchartsStatistics/InsuranceChart'
 
 const MarketContainer = styled.div`
   width: 130rem;

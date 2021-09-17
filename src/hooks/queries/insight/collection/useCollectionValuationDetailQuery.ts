@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '../../../../utils/banksyRequest'
-import { CollectionExternalLink } from '../../../../types/CollectionValuation'
+import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import { CollectionExternalLink } from '@/types/CollectionValuation'
 
 export interface CollectionValuationDetail {
   id: string

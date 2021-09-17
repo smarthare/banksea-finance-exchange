@@ -2,22 +2,22 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Button, Pagination } from 'antd'
 import CopyIcon from '@/assets/images/PersonalPageImg/copy.png'
-import { ReactComponent as WalletIcon } from '../../assets/images/PersonalPageImg/wallet.svg'
+import { ReactComponent as WalletIcon } from '@/assets/images/PersonalPageImg/wallet.svg'
 import {
   ReactComponent as ActivityIcon,
   ReactComponent as OfferIcon
-} from '../../assets/images/PersonalPageImg/activity.svg'
-import { ReactComponent as HeartIcon } from '../../assets/images/PersonalPageImg/heart.svg'
+} from '@/assets/images/PersonalPageImg/activity.svg'
+import { ReactComponent as HeartIcon } from '@/assets/images/PersonalPageImg/heart.svg'
 
 import { SearchOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../store/wallet'
-import NFTListItem from '../../components/NFTListItem'
-import ListPageLoading from '../../components/ListPageLoading'
-import { usePersonalNFTsQuery } from '../../hooks/queries/usePersonalNFTsQuery'
-import { ChainSelector, OrderSelector, StatusSelector } from '../../components/NFTListSelectors'
-import { BanksyNftTransactionStatus, ChainType } from '../../apis/nft'
-import { ThemeInput } from '../../styles/ThemeInput'
+import { getAccount } from '@/store/wallet'
+import NFTListItem from '@/components/NFTListItem'
+import ListPageLoading from '@/components/ListPageLoading'
+import { usePersonalNFTsQuery } from '@/hooks/queries/usePersonalNFTsQuery'
+import { ChainSelector, OrderSelector, StatusSelector } from '@/components/NFTListSelectors'
+import { BanksyNftTransactionStatus, ChainType } from '@/apis/nft'
+import { ThemeInput } from '@/styles/ThemeInput'
 
 const PersonalContainer = styled.div`
   width: 120.2rem;

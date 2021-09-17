@@ -1,16 +1,16 @@
-import { NFTCreateForm } from '../../../pages/Home/NFTCreate'
+import { NFTCreateForm } from '@/pages/Home/NFTCreate'
 import { BanksyWeb3Services, PurchaseByFixedPriceParams } from '../index'
-import SimpleEventEmitter from '../../../utils/SimpleEventEmitter'
+import SimpleEventEmitter from '@/utils/SimpleEventEmitter'
 import { CreateNftEvents } from '../events'
-import { generateNftMetadata } from '../../../utils'
-import { pinJsonToIPFS } from '../../../utils/ipfs'
-import { createNFT } from '../../../apis/nft'
+import { generateNftMetadata } from '@/utils'
+import { pinJsonToIPFS } from '@/utils/ipfs'
+import { createNFT } from '@/apis/nft'
 import { createNftAccount } from './create'
 import { createExchange, findUserAccount, processExchange } from './exchange'
 import { banksyWeb3 } from '../../index'
 import { PublicKey } from '@solana/web3.js'
-import { completeExchange, createExchangeInfo, getExchangeInfo } from '../../../apis/exchange/solana'
-import { NftDetail } from '../../../types/NFTDetail'
+import { completeExchange, createExchangeInfo, getExchangeInfo } from '@/apis/exchange/solana'
+import { NftDetail } from '@/types/NFTDetail'
 import {
   getTokenAccountWithMaximumBalance,
   getTokenSupply,
@@ -18,7 +18,7 @@ import {
   SupportedSolanaTokenName
 } from './utils'
 import BigNumber from 'bignumber.js'
-import { toBigNumber } from '../../../web3/utils'
+import { toBigNumber } from '@/web3/utils'
 
 
 /*type SolanaNftAccountInfo = {

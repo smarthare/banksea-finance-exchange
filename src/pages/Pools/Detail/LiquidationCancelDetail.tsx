@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { CopyOutlined } from '@ant-design/icons'
 import { Button, Statistic } from 'antd'
-import myDashboard1 from '../../../assets/images/mockImg/myDashboard1.png'
-import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
-import { useRequestingModal } from '../../../hooks/modals/stateModals/useRequestingModal'
+import myDashboard1 from '@/assets/images/mockImg/myDashboard1.png'
+import DepositAPY from '@/components/EchartsStatistics/DepositAPY'
+import { useRequestingModal } from '@/hooks/modals/stateModals/useRequestingModal'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;

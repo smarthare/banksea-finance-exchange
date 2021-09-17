@@ -1,6 +1,6 @@
 import { Program, Provider } from '@project-serum/anchor'
 import { Connection } from '@solana/web3.js'
-import { PhantomProvider } from '../../../types/Phantom'
+import { PhantomProvider } from '@/types/Phantom'
 
 export class BanksySolanaWeb3 {
 

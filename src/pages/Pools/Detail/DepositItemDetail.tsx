@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
-import { depositPoolsDetail } from '../../../apis/pool'
+import DepositAPY from '@/components/EchartsStatistics/DepositAPY'
+import { depositPoolsDetail } from '@/apis/pool'
 import { useHistory } from 'react-router-dom'
 import { Button, Form, Input } from 'antd'
-import { useDepositCheckoutModal } from '../../../hooks/modals/useDepositCheckoutModal'
+import { useDepositCheckoutModal } from '@/hooks/modals/useDepositCheckoutModal'
 import { LeftOutlined } from '@ant-design/icons'
 import clsx from 'clsx'
 

@@ -1,5 +1,5 @@
-import { CollectionValuationDetail } from '../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
-import { CollectionValuationAttribute } from '../hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
+import { CollectionValuationDetail } from '@/hooks/queries/insight/collection/useCollectionValuationDetailQuery'
+import { CollectionValuationAttribute } from '@/hooks/queries/insight/collection/useCollectionValuationAttributeQuery'
 
 export type CollectionExternalLink = {
   name: string

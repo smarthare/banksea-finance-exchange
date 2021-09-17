@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { SUPPORT_WALLETS, useConnectToWallet, Wallet } from '../web3/wallets'
+import { SUPPORT_WALLETS, useConnectToWallet, Wallet } from '@/web3/wallets'
 import { Modal } from 'antd'
 import { useWeb3EnvContext } from './Web3EnvProvider'
 import styled from 'styled-components'

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
-import { simplifyNumber } from '../../../../utils'
+import { simplifyNumber } from '@/utils'
 
 export type CollectionsHeatTrendChartProps = {
   collections: string[]

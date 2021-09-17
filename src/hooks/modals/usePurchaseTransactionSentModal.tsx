@@ -3,7 +3,7 @@ import { Button, Modal } from 'antd'
 import successExchange from '@/assets/images/allModalImg/successExchange.png'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { useModal } from '../useModal'
+import { useModal } from '@/hooks/useModal'
 
 const PurchaseTransactionSentModal = styled(Modal)`
   .ant-modal-close-icon {

@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
+import DepositAPY from '@/components/EchartsStatistics/DepositAPY'
 import { useHistory } from 'react-router-dom'
 import { Button, Form, Input } from 'antd'
-import { useSelector } from 'react-redux'
-import { getAccount } from '../../../store/wallet'
-import { useWithdrawCheckoutModal } from '../../../hooks/modals/useWithdrawCheckoutModal'
+import { useWithdrawCheckoutModal } from '@/hooks/modals/useWithdrawCheckoutModal'
 import { LeftOutlined } from '@ant-design/icons'
 
 const ItemDetailMain = styled.div`
@@ -198,7 +196,7 @@ const BackIconButton = styled.div`
   }
 `
 
-const BackIcon:React.FC = () => {
+const BackIcon: React.FC = () => {
   const history = useHistory()
   return (
     <BackIconButton onClick={() => history.goBack()}>
@@ -208,16 +206,12 @@ const BackIcon:React.FC = () => {
 }
 
 
-const Schedule:React.FC<{ data: any }> = ({ data }) => {
-  const account = useSelector(getAccount)
-
-  const [formData, setFormData] = useState<any>()
-
+const Schedule: React.FC<{ data: any }> = () => {
   const formInitialValues = {
     price: ''
   }
 
-  const { withdrawCheckoutModal, openWithdrawCheckoutModal, closeWithdrawCheckoutModal } = useWithdrawCheckoutModal()
+  const { withdrawCheckoutModal, openWithdrawCheckoutModal } = useWithdrawCheckoutModal()
 
   const [form] = Form.useForm<typeof formInitialValues>()
 
@@ -253,13 +247,8 @@ const Schedule:React.FC<{ data: any }> = ({ data }) => {
   )
 }
 
-const WithdrawDetailPage:React.FC = () => {
-
-  const history = useHistory()
-
-  const id = history.location.pathname.slice(22)
-
-  const [data, setData] = useState<any>()
+const WithdrawDetailPage: React.FC = () => {
+  const [data] = useState<any>()
 
   return (
     <ItemDetailMain>
@@ -280,7 +269,7 @@ const WithdrawDetailPage:React.FC = () => {
           <DetailDataMainItem>
             <div className="item-line">
               <div>Utilization rate</div>
-              <div>{data?.utilizationRate ? data?.utilizationRate : '- -' }</div>
+              <div>{data?.utilizationRate ? data?.utilizationRate : '- -'}</div>
             </div>
             <div className="item-line">
               <div>Available liquidity</div>
@@ -288,7 +277,7 @@ const WithdrawDetailPage:React.FC = () => {
             </div>
             <div className="item-line">
               <div>Deposit APY</div>
-              <div>{data?.depositApy ? data?.depositApy : '- -' }</div>
+              <div>{data?.depositApy ? data?.depositApy : '- -'}</div>
             </div>
             <div className="item-line">
               <div>Asset price</div>

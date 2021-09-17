@@ -1,8 +1,8 @@
-import { useModal } from '../useModal'
+import { useModal } from '@/hooks/useModal'
 import { Button, Modal } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
-import mortgageModalBac from '../../assets/images/allModalImg/mortgageModalBac.svg'
+import mortgageModalBac from '@/assets/images/allModalImg/mortgageModalBac.svg'
 
 const ConfirmModal = styled(Modal)`
   position: relative;

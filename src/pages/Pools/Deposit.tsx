@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
 import { useHistory } from 'react-router-dom'
-import { depositPoolsList } from '../../apis/pool'
-import PageLoading from '../../components/PageLoding'
+import { depositPoolsList } from '@/apis/pool'
+import PageLoading from '@/components/PageLoding'
 
 const DepositContainer = styled.div`
   width: 113.6rem;

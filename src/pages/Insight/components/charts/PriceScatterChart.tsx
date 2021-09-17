@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
-import { useCollectionPriceScatterQuery } from '../../../../hooks/queries/insight/collection/useCollectionPriceScatterQuery'
+import { useCollectionPriceScatterQuery } from '@/hooks/queries/insight/collection/useCollectionPriceScatterQuery'
 
 const PriceScatterChart: React.FC<{ contractAddress: string }> = ({ contractAddress }) => {
   const { data } = useCollectionPriceScatterQuery(contractAddress)

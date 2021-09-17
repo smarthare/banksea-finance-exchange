@@ -3,7 +3,7 @@ import React, { CSSProperties, useState } from 'react'
 import { Property } from 'csstype'
 import { DownOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { Collapse, Tooltip } from 'antd'
-import CodingImg from '../../../assets/images/mockImg/coding.png'
+import CodingImg from '@/assets/images/mockImg/coding.png'
 
 
 interface ThemeCollapseProps  {

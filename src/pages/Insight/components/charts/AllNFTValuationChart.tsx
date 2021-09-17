@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
-import { NftMarketCapitalization } from '../../../../hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
-import { simplifyNumber } from '../../../../utils'
+import { NftMarketCapitalization } from '@/hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
+import { simplifyNumber } from '@/utils'
 
 const AllNFTValuationChart: React.FC<{
   list: NftMarketCapitalization[]

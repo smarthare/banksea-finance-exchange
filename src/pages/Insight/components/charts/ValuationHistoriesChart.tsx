@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
-import { AiValuation } from '../../../../hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
+import { AiValuation } from '@/hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
 import { numberWithCommas, simplifyNumber } from '../../../../utils'
 
 const ValuationHistoriesChart: React.FC<{ valuations?: AiValuation[] }> = ({ valuations }) => {
