@@ -420,7 +420,7 @@ const Charts: React.FC<{ seriesId?: string, contractAddress: string, seriesSlug?
     {
       title: 'Trade Flows',
       description: 'NFTs trading flows among addresses',
-      component: <TradeFlowChart id={seriesId} />
+      component: <TradeFlowChart id={seriesId} assetContractAddress={contractAddress} />
     }
   ]
 
