@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '../../../../utils/banksyRequest'
-import { CollectionExternalLink } from '../../../../types/CollectionValuation'
+import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import { CollectionExternalLink } from '@/types/CollectionValuation'
 
 export interface CollectionValuationDetail {
   id: string
@@ -40,12 +40,12 @@ export interface CollectionValuationDetail {
   convertToCollectionExternalLinks: () => CollectionExternalLink[]
 }
 
-export const useCollectionValuationDetailQuery = (id: string): UseQueryResult<CollectionValuationDetail> => {
+export const useCollectionValuationDetailQuery = (slug: string): UseQueryResult<CollectionValuationDetail> => {
   return useQuery(
-    ['COLLECTION_VALUATION_DETAIL'],
+    ['COLLECTION_VALUATION_DETAIL', slug],
     async () => {
-      return await banksyRequest.get<BanksyApiResponse<CollectionValuationDetail>>(
-        `/oracle/detail/${id}`)
+      return await banksyRequest
+        .get<BanksyApiResponse<CollectionValuationDetail>>(`/oracle/detail/slug/${slug}`)
         .then(r => r.data.data)
     }
   )

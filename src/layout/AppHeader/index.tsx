@@ -4,21 +4,21 @@ import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.png'
 import BanksyLogoIcon from '@/assets/images/homePageImg/logo-icon.png'
 
 import { Button, Popover } from 'antd'
-import Wallet from '../../components/Wallet'
+import Wallet from '@/components/Wallet'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../store/wallet'
+import { getAccount } from '@/store/wallet'
 import { MenuFoldOutlined, QuestionCircleFilled } from '@ant-design/icons'
-import avatar1 from '../../assets/images/headAvatar/avatar1.png'
-import avatar2 from '../../assets/images/headAvatar/avatar2.png'
-import avatar3 from '../../assets/images/headAvatar/avatar3.png'
-import avatar4 from '../../assets/images/headAvatar/avatar4.png'
-import avatar5 from '../../assets/images/headAvatar/avatar5.png'
-import avatar6 from '../../assets/images/headAvatar/avatar6.png'
-import avatar7 from '../../assets/images/headAvatar/avatar7.png'
-import avatar8 from '../../assets/images/headAvatar/avatar8.png'
-import avatar9 from '../../assets/images/headAvatar/avatar9.png'
-import avatar10 from '../../assets/images/headAvatar/avatar10.png'
+import avatar1 from '@/assets/images/headAvatar/avatar1.png'
+import avatar2 from '@/assets/images/headAvatar/avatar2.png'
+import avatar3 from '@/assets/images/headAvatar/avatar3.png'
+import avatar4 from '@/assets/images/headAvatar/avatar4.png'
+import avatar5 from '@/assets/images/headAvatar/avatar5.png'
+import avatar6 from '@/assets/images/headAvatar/avatar6.png'
+import avatar7 from '@/assets/images/headAvatar/avatar7.png'
+import avatar8 from '@/assets/images/headAvatar/avatar8.png'
+import avatar9 from '@/assets/images/headAvatar/avatar9.png'
+import avatar10 from '@/assets/images/headAvatar/avatar10.png'
 import { useMediaQuery } from 'react-responsive'
 
 
@@ -94,7 +94,7 @@ const AvatarNone = styled.div`
   height: 3.5rem;
   border-radius: 100%;
   margin-left: 1.2rem;
-  background: url(${require('../../assets/images/headAvatar/user-avatar.svg').default}) no-repeat;
+  background: url(${require('@/assets/images/headAvatar/user-avatar.svg').default}) no-repeat;
 `
 
 const AppHeader: React.FC<{ onCollapseChanged: () => void }> = ({ onCollapseChanged }) => {

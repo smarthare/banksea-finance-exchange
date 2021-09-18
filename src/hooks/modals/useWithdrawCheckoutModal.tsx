@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Modal } from 'antd'
-import { useModal } from '../useModal'
+import { useModal } from '@/hooks/useModal'
 
 const WithdrawCheckoutModal = styled(Modal)`
   .ant-modal-close-icon {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import DepositAPY from '../../../components/EchartsStatistics/DepositAPY'
+import DepositAPY from '@/components/EchartsStatistics/DepositAPY'
 import { useHistory } from 'react-router-dom'
 import { Button, Form, Input } from 'antd'
-import { useRepayCheckoutModal } from '../../../hooks/modals/useRepayCheckout'
+import { useRepayCheckoutModal } from '@/hooks/modals/useRepayCheckout'
 import { LeftOutlined } from '@ant-design/icons'
 
 const ItemDetailMain = styled.div`
@@ -249,12 +249,7 @@ const Schedule:React.FC = () => {
 }
 
 const RepayDetailPage:React.FC = () => {
-
-  const history = useHistory()
-
-  const id = history.location.pathname.slice(22)
-
-  const [data, setData] = useState<any>()
+  const [data] = useState<any>()
 
   return (
     <ItemDetailMain>

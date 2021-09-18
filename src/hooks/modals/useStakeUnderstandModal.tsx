@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Modal, Checkbox } from 'antd'
-import { useModal } from '../useModal'
-import stateKSY from '../../assets/images/Pools/stateKSY.png'
-import stateBPT from '../../assets/images/Pools/StateBPT.png'
+import { Button, Checkbox, Modal } from 'antd'
+import { useModal } from '@/hooks/useModal'
+import stateKSY from '@/assets/images/Pools/stateKSY.png'
+import stateBPT from '@/assets/images/Pools/StateBPT.png'
 import { useStakeApproveModal } from './useStakeApproveModal'
 
 const StakeUnderstandModal = styled(Modal)`

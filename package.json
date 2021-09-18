@@ -61,7 +61,7 @@
     "test": "craco test",
     "lint": "npm exec eslint src/",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && echo opensea-surfer.gh.am > ./build/CNAME   && gh-pages -d build --repo git@github.com:modularcoder/opensea-surfer.git --branch gh-pages"
+    "deploy": "node ./script/deploy.js"
   },
   "eslintConfig": {
     "extends": [

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Modal } from 'antd'
-import { useModal } from '../../useModal'
+import { useModal } from '@/hooks/useModal'
 import { CheckCircleOutlined } from '@ant-design/icons'
 
 const SuccessModal = styled(Modal)`

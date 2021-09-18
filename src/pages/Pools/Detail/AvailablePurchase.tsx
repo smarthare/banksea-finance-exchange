@@ -4,12 +4,12 @@ import { CopyOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../../store/wallet'
-import { mortgageConfirm } from '../../../apis/pool'
-import neuralNetworks from '../../../assets/images/Pools/neuralNetworksImg.png'
-import { useMortgageConfirmModal } from '../../../hooks/modals/useNFTMortgageConfirmModal'
-import { useNftDetailQuery } from '../../../hooks/queries/useNftDetailQuery'
-import VariableAPY from '../../../components/EchartsStatistics/VariableAPY'
+import { getAccount } from '@/store/wallet'
+import { mortgageConfirm } from '@/apis/pool'
+import neuralNetworks from '@/assets/images/Pools/neuralNetworksImg.png'
+import { useMortgageConfirmModal } from '@/hooks/modals/useNFTMortgageConfirmModal'
+import { useNftDetailQuery } from '@/hooks/queries/useNftDetailQuery'
+import VariableAPY from '@/components/EchartsStatistics/VariableAPY'
 
 const NFTMortgageDetailContainer = styled.div`
   min-height: 100vh;

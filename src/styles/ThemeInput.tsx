@@ -8,22 +8,17 @@ type SearchInputProps = {
 
 const defaultColor = '#305099'
 
-const SearchInput = styled(Input)<SearchInputProps>`
+const ThemeInput = styled(Input)<SearchInputProps>`
   height: 40px;
-  margin-right: 3rem;
   border-color: ${props =>  props.backgroundColor ?? defaultColor};
   background-color: ${props =>  props.backgroundColor ?? defaultColor};
   border-radius: 10px;
+  color: white !important;
 
-  .ant-input {
-    background-color: ${props =>  props.backgroundColor ?? defaultColor};
-    color: white;
-    font-weight: bold;
-    font-size: 1.4rem;
-  }
-
+  font-weight: 500;
+  font-size: 1.4rem;
 `
 
 export {
-  SearchInput
+  ThemeInput
 }

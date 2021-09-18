@@ -2,7 +2,7 @@ import { Button, Divider, Modal } from 'antd'
 import React from 'react'
 import StepOne from '@/assets/images/allModalImg/number1.png'
 import styled from 'styled-components'
-import { useModal } from '../useModal'
+import { useModal } from '@/hooks/useModal'
 
 const PurchaseBlockedModal = styled(Modal)`
   .ant-modal-content {

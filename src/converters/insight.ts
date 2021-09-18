@@ -1,8 +1,8 @@
-import { CollectionValuationDetail } from '../hooks/queries/insight/collection/useCollectionValuationDetailQuery'
-import { CollectionExternalLink, CollectionValuationStatisticItem } from '../types/CollectionValuation'
-import { numberWithCommas } from '../utils'
-import { NFTValuationChangeData } from '../types/NFTValuation'
-import { NftValuation } from '../hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
+import { CollectionValuationDetail } from '@/hooks/queries/insight/collection/useCollectionValuationDetailQuery'
+import { CollectionExternalLink, CollectionValuationStatisticItem } from '@/types/CollectionValuation'
+import { numberWithCommas } from '@/utils'
+import { NFTValuationChangeData } from '@/types/NFTValuation'
+import { TokenValuation } from '@/hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
 
 export function convertCollectionValuationDetailToCollectionExternalLinks(detail?: CollectionValuationDetail): CollectionExternalLink[] {
   if (!detail) {
@@ -13,7 +13,7 @@ export function convertCollectionValuationDetailToCollectionExternalLinks(detail
 
   if (detail.seriesTwitter) {
     list.push({
-      iconUrl: require('../assets/images/commons/twitter.png').default,
+      iconUrl: require('@/assets/images/commons/twitter.png').default,
       name: 'Twitter',
       url: detail.seriesTwitter
     })
@@ -21,7 +21,7 @@ export function convertCollectionValuationDetailToCollectionExternalLinks(detail
 
   if (detail.seriesDiscord) {
     list.push({
-      iconUrl: require('../assets/images/commons/discord.png').default,
+      iconUrl: require('@/assets/images/commons/discord.png').default,
       name: 'Discord',
       url: detail.seriesDiscord
     })
@@ -29,7 +29,7 @@ export function convertCollectionValuationDetailToCollectionExternalLinks(detail
 
   if (detail.seriesWebsite) {
     list.push({
-      iconUrl: require('../assets/images/commons/website.png').default,
+      iconUrl: require('@/assets/images/commons/website.png').default,
       name: 'Website',
       url: detail.seriesWebsite
     })
@@ -54,11 +54,11 @@ export function convertCollectionValuationDetailToCollectionValuationStatisticIt
   ]
 }
 
-export function convertNftValuationToValuationChanges(v?: NftValuation): NFTValuationChangeData[] {
+export function convertNftValuationToValuationChanges(v?: TokenValuation): NFTValuationChangeData[] {
   if (!v) {
     return [
       { type: 'Ethereum' },
-      { type: 'USD' }
+      // { type: 'USD' }
     ]
   }
 
@@ -69,12 +69,12 @@ export function convertNftValuationToValuationChanges(v?: NftValuation): NFTValu
       last7DaysPercent: v.valuationChange?.changeSevenDayEth,
       last30DaysPercent: v.valuationChange?.changeThirtyDayEth
     },
-    {
-      type: 'USD',
-      fromYesterdayPercent: v.valuationChange?.changeOneDayUsd,
-      last7DaysPercent: v.valuationChange?.changeSevenDayUsd,
-      last30DaysPercent: v.valuationChange?.changeThirtyDayUsd
-    }
+    // {
+    //   type: 'USD',
+    //   fromYesterdayPercent: v.valuationChange?.changeOneDayUsd,
+    //   last7DaysPercent: v.valuationChange?.changeSevenDayUsd,
+    //   last30DaysPercent: v.valuationChange?.changeThirtyDayUsd
+    // }
   ]
 
 }

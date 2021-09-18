@@ -1,4 +1,4 @@
-import banksyRequest, { BanksyApiResponse } from '../utils/banksyRequest'
+import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
 
 export function depositPoolsList(data: any) {
   return banksyRequest.post<BanksyApiResponse<any>>('/pools/deposit/pool/list', data)

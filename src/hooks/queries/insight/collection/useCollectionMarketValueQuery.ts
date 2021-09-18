@@ -1,12 +1,12 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '../../../../utils/banksyRequest'
+import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
 
 export type CollectionMarketValue = {
   time: number[]
   value: number[]
 }
 
-export const useCollectionMarketValueQuery = (nftSeriesId: string): UseQueryResult<CollectionMarketValue> => {
+export const useCollectionMarketValueQuery = (nftSeriesId?: string): UseQueryResult<CollectionMarketValue> => {
   return useQuery(
     ['COLLECTION_MARKET_VALUE', nftSeriesId],
     async () => {

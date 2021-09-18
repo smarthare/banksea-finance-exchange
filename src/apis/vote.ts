@@ -1,4 +1,4 @@
-import banksyRequest, { BanksyApiResponse } from '../utils/banksyRequest'
+import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
 
 export function voteCreate(data: any) {
   return banksyRequest.post<BanksyApiResponse<any>>('/vote/form/filecoin', data)

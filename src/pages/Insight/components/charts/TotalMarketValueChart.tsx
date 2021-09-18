@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
-import { useCollectionMarketValueQuery } from '../../../../hooks/queries/insight/collection/useCollectionMarketValueQuery'
-import { simplifyNumber } from '../../../../utils'
+import { useCollectionMarketValueQuery } from '@/hooks/queries/insight/collection/useCollectionMarketValueQuery'
+import { simplifyNumber } from '@/utils'
 
-const TotalMarketValueChart: React.FC<{ seriesId: string }> = ({ seriesId }) => {
+const TotalMarketValueChart: React.FC<{ seriesId?: string }> = ({ seriesId }) => {
   const { data } = useCollectionMarketValueQuery(seriesId)
 
   const option = {

@@ -1,4 +1,4 @@
-import banksyRequest, { BanksyApiResponse } from '../utils/banksyRequest'
+import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
 
 export function aiGeneratorFastStyle(style: string, content: string) {
   const data = new FormData()

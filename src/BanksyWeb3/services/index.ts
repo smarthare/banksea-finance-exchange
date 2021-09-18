@@ -1,7 +1,7 @@
-import { NFTCreateForm } from '../../pages/Home/NFTCreate'
+import { NFTCreateForm } from '@/pages/Home/NFTCreate'
 import { CreateNftEvents } from './events'
 import SimpleEventEmitter from '../../utils/SimpleEventEmitter'
-import { NftDetail } from '../../types/NFTDetail'
+import { NftDetail } from '@/types/NFTDetail'
 
 export class NoImplementError extends Error {
   constructor() {

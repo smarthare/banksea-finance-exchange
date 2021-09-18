@@ -1,7 +1,7 @@
-import { banksyNftList, BanksyNftListQueryParams } from '../../apis/nft'
+import { banksyNftList, BanksyNftListQueryParams } from '@/apis/nft'
 import { useQuery, UseQueryResult } from 'react-query'
-import { BanksyApiPagingData } from '../../utils/banksyRequest'
-import { NftListItem } from '../../types/NFTDetail'
+import { BanksyApiPagingData } from '@/utils/banksyRequest'
+import { NftListItem } from '@/types/NFTDetail'
 
 export function useNFTsQuery(params: BanksyNftListQueryParams): UseQueryResult<BanksyApiPagingData<NftListItem>> {
   return useQuery(

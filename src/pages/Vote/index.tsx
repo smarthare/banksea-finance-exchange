@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Button, Form, Input, message } from 'antd'
 import clsx from 'clsx'
 import { SearchOutlined } from '@ant-design/icons'
-import { fileCoinList, retweetCreat, retweetList, solanaList, voteCreate } from '../../apis/unsorted'
+import { fileCoinList, retweetCreat, retweetList, solanaList, voteCreate } from '@/apis/vote'
 import VoteBanner from '@/assets/images/VoteImg/VoteBanner.png'
 import { useMediaQuery } from 'react-responsive'
 

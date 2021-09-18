@@ -52,6 +52,11 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
       background-color: ${props => props.rowBackgroundColor ?? '#18284C'};
       filter: brightness(85%);
     }
+
+    .ant-table-column-has-sorters:hover {
+      background: ${props => props.rowBackgroundColor ?? '#18284C'};
+      filter: brightness(100%);
+    }
   }
 
   .ant-table-tbody {
@@ -88,6 +93,10 @@ const ThemeTable = styled(Table)<ThemeTableProps>`
       .ant-table-cell:nth-last-of-type(1) {
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
+      }
+
+      .ant-table-column-sort {
+        background: ${props => props.rowBackgroundColor ?? '#18284C'};
       }
 
       &:hover {

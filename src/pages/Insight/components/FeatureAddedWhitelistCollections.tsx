@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { WhitelistCollection } from 'hooks/queries/insight/overview/useWhitelistCollectionsQuery'
-import { numberWithCommas } from '../../../utils'
+import { WhitelistCollection } from '@/hooks/queries/insight/overview/useWhitelistCollectionsQuery'
+import { numberWithCommas } from '@/utils'
 
 type FeatureAddedWhitelistCollectionsProps = {
   collections: any[]
@@ -122,21 +122,15 @@ const ItemContainer = styled.div`
 const SingleCollection: React.FC<{ collection: WhitelistCollection }> = ({ collection }) => {
   const history = useHistory()
 
-  const { seriesPoster, seriesLogo, seriesDescription, seriesName, numOwners, totalVolume, id } = collection
-
-  const query = new URLSearchParams([
-    ['id', id],
-    ['name', seriesName]
-  ]).toString()
+  const { seriesPoster, seriesLogo, seriesDescription, seriesName, numOwners, totalVolume, seriesSlug } = collection
 
   return (
-    <ItemContainer onClick={() => history.push(`/valuation/collection?${query}`)}>
+    <ItemContainer onClick={() => history.push(`/insight/${seriesSlug}`)}>
       <img src={seriesPoster} alt={seriesName} className="cover" />
 
       <div className="main-area">
         <div className="column">
           <div className="name">{seriesName}</div>
-          {/*<div className="info">Added: {added}</div>*/}
           <div className="info">Owner(s): {numberWithCommas(numOwners, 0)}</div>
           <div className="info">Total Volume: Ξ{numberWithCommas(totalVolume)}</div>
           <div className="description">{seriesDescription}</div>

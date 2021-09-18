@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import ThemeTable from '../../../styles/ThemeTable'
-import { RankingCollection } from '../../../hooks/queries/insight/overview/useRankingCollectionsQuery'
-import { numberWithCommas } from '../../../utils'
+import { RankingCollection } from '@/hooks/queries/insight/overview/useRankingCollectionsQuery'
+import { numberWithCommas } from '@/utils'
+import TableTitleWithTooltip from '../../../components/TableTitleWithTooltip'
 
 type AllWhitelistCollectionsProps = {
   collections: RankingCollection[]
@@ -43,11 +44,6 @@ const AllWhitelistCollectionsContainer = styled.div`
 
 const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ collections }) => {
   const history = useHistory()
-
-  const query = (id: string, name: string) => new URLSearchParams([
-    ['id', id],
-    ['name', name]
-  ]).toString()
 
   const CollectionIconAndName: React.FC<{ seriesLogo: string, seriesName: string }> = ({ seriesLogo, seriesName }) => (
     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -98,16 +94,26 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
       width: '110px'
     },
     {
-      title: 'Estimated Market Cap',
+      title:(
+        <TableTitleWithTooltip
+          title="Estimated Market Cap"
+          tooltip="Estimated market cap is calculated by using 7 day average price * total supply"
+        />
+      ),
       key: 'marketCap',
       render: (_: string, record: any) => `Ξ${numberWithCommas(record.marketCap)}`,
-      width: '180px'
+      width: '190px'
     },
     {
-      title: 'Volume(All Time)',
+      title: (
+        <TableTitleWithTooltip
+          title="Volume(All Time)"
+          tooltip="Volume is the sum of the transaction price"
+        />
+      ),
       key: 'totalVolume',
       render: (_: string, record: any) => `Ξ${numberWithCommas(record.totalVolume)}`,
-      width: '150px'
+      width: '160px'
     },
     {
       title: 'Transactions(All Time)',
@@ -121,7 +127,7 @@ const AllWhitelistCollections: React.FC<AllWhitelistCollectionsProps> = ({ colle
     return {
       onClick: () => {
         const collection = record as RankingCollection
-        history.push(`/valuation/collection?${query(collection.id, collection.seriesName)}`)
+        history.push(`/insight/${collection.seriesSlug}`)
       }
     }
   }

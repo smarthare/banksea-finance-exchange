@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../store/wallet'
+import { getAccount } from '@/store/wallet'
 import { useQuery, UseQueryResult } from 'react-query'
-import { ChainType, personalNftList } from '../../apis/nft'
+import { ChainType, personalNftList } from '@/apis/nft'
 
 type PersonalNFTsQueryParams = {
   current?: number

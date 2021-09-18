@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { State, SupportedChain, WalletState } from '../type'
-import { WalletNames } from '../../web3/wallets'
+import { WalletNames } from '@/web3/wallets'
 
 const initialState: WalletState = {
   selectedWallet: undefined,

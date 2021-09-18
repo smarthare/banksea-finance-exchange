@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
-import { simplifyNumber } from '../../../../utils'
+import { simplifyNumber } from '@/utils'
 
 export type CollectionsHeatTrendChartProps = {
   collections: string[]
@@ -48,13 +48,19 @@ const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ c
 
   const option = {
     darkMode: true,
+    legend: {
+      data: collections,
+      textStyle: {
+        color: '#fff'
+      }
+    },
     grid: {
       top: 30,
       bottom: 80,
       right: 48,
       left: 48
     },
-    animationDuration: 6000,
+    animationDuration: 1500,
     dataset: [{
       id: 'dataset_raw',
       source: chartData.map((row, index) => {
@@ -85,7 +91,7 @@ const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ c
     },
     dataZoom: [{
       type: 'slider',
-      start: 50,
+      start: 85,
       end: 100,
       top: 350
     }],

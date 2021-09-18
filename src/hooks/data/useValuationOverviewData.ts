@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react'
-import { useCollectionsHeatTrendQuery } from '../queries/insight/overview/useCollectionsHeatTrendQuery'
+import { useCollectionsHeatTrendQuery } from '@/hooks/queries/insight/overview/useCollectionsHeatTrendQuery'
 import {
   useWhitelistCollectionsQuery,
   WhitelistCollection
-} from '../queries/insight/overview/useWhitelistCollectionsQuery'
-import { RankingCollection, useRankingCollectionsQuery } from '../queries/insight/overview/useRankingCollectionsQuery'
+} from '@/hooks/queries/insight/overview/useWhitelistCollectionsQuery'
+import {
+  RankingCollection,
+  useRankingCollectionsQuery
+} from '@/hooks/queries/insight/overview/useRankingCollectionsQuery'
 import {
   CurrencyMarketValue,
   useCurrencyMarketValueQuery
-} from '../queries/insight/overview/useCurrencyMarketValueQuery'
-import { CollectionsHeatTrendChartProps } from '../../pages/Valuation/components/charts/CollectionsHeatTrendChart'
+} from '@/hooks/queries/insight/overview/useCurrencyMarketValueQuery'
+import { CollectionsHeatTrendChartProps } from '@/pages/Insight/components/charts/CollectionsHeatTrendChart'
 import {
   NftMarketTotalValuation,
   useNftMarketTotalValuationQuery
-} from '../queries/insight/overview/useNftMarketTotalValuationQuery'
+} from '@/hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
 
 type ValuationPageData = {
   nftMarketTotalValuation?: NftMarketTotalValuation

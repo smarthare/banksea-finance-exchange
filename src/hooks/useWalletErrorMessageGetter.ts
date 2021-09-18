@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
-import { getSelectedWallet } from '../store/wallet'
-import { WalletNames } from '../web3/wallets'
+import { getSelectedWallet } from '@/store/wallet'
+import { WalletNames } from '@/web3/wallets'
 import { useCallback } from 'react'
 
 function useWalletErrorMessageGetter(): { getWalletErrorMessage: (_e: any) => any } {

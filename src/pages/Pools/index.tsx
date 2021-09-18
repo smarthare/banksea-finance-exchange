@@ -2,20 +2,20 @@ import React, { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
 import MarketPage from './Market'
-import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
+import { useWalletSelectionModal } from '@/contexts/WalletSelectionModal'
 import MyDashboardPage from './MyDashboard'
-import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
+import { useWeb3EnvContext } from '@/contexts/Web3EnvProvider'
 import DepositPage from './Deposit'
 import BorrowPage from './Borrow'
-import coding from '../../assets/images/mockImg/coding.png'
+import coding from '@/assets/images/mockImg/coding.png'
 import LiquidationListPage from './Liquidation'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import DepositItemDetailPage from './Detail/DepositItemDetail'
 import MortgagePoolDetailPage from './Detail/MortgagePoolDetail'
 import DepositPoolDetailPage from './Detail/DepositPoolDetail'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../store/wallet'
-import { poolsConnect } from '../../apis/pool'
+import { getAccount } from '@/store/wallet'
+import { poolsConnect } from '@/apis/pool'
 import NFTMortgageDetailPage from './Detail/NFTPrepayDetail'
 import AvailablePurchasePage from './Detail/AvailablePurchase'
 import BorrowItemDetailPage from './Detail/BorrowItemDetail'
@@ -26,7 +26,7 @@ import LiquidationCancelDetailPage from './Detail/LiquidationCancelDetail'
 import { RouteComponentProps } from 'react-router'
 import { Property } from 'csstype'
 import { useMediaQuery } from 'react-responsive'
-import { useSideBarCollapsed } from '../../store/app'
+import { useSideBarCollapsed } from '@/store/app'
 
 export type PoolPageKeys =
   | 'market'
@@ -149,7 +149,7 @@ const PoolsPage: React.FC = () => {
     if (history.location.pathname === '/pools/*') {
       history.push(`/pools/${DEFAULT_ACTIVE_PAGE_KEY}`)
     }
-  }, [history])
+  }, [history.location.pathname])
 
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
   const sideBarCollapsed = useSideBarCollapsed()

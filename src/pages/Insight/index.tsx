@@ -2,17 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 import FeatureAddedWhitelistCollections from './components/FeatureAddedWhitelistCollections'
 import AllWhitelistCollections from './components/AllWhitelistCollections'
-import { useValuationOverviewData } from '../../hooks/data/useValuationOverviewData'
+import { useValuationOverviewData } from '@/hooks/data/useValuationOverviewData'
 import {
   CollectionsHearTrendChart,
   CollectionsHeatTrendChartProps
 } from './components/charts/CollectionsHeatTrendChart'
 import { AllNFTValuationChart } from './components/charts/AllNFTValuationChart'
-import { CurrencyMarketValue } from '../../hooks/queries/insight/overview/useCurrencyMarketValueQuery'
-import { formatTime, simplifyNumber } from '../../utils'
-import { NftMarketTotalValuation } from '../../hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
+import { CurrencyMarketValue } from '@/hooks/queries/insight/overview/useCurrencyMarketValueQuery'
+import { formatTime, simplifyNumber } from '@/utils'
+import { NftMarketTotalValuation } from '@/hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
 
-type ValuationPageProps = {
+type InsightPageProps = {
   //
 }
 
@@ -194,7 +194,7 @@ const Summary: React.FC<{
   )
 }
 
-const ValuationPage: React.FC<ValuationPageProps> = () => {
+const InsightPage: React.FC<InsightPageProps> = () => {
   const {
     allWhitelistCollections,
     featureAddedWhitelistCollections,
@@ -218,4 +218,4 @@ const ValuationPage: React.FC<ValuationPageProps> = () => {
   )
 }
 
-export default ValuationPage
+export default InsightPage

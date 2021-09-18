@@ -1,5 +1,5 @@
-import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '../utils/banksyRequest'
-import { NftDetail, NftListItem } from '../types/NFTDetail'
+import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '@/utils/banksyRequest'
+import { NftDetail, NftListItem } from '@/types/NFTDetail'
 
 export type ChainType = 'Ethereum' | 'Solana' | ''
 

@@ -2,9 +2,9 @@ import React from 'react'
 import { Menu } from 'antd'
 import styled from 'styled-components'
 import { Link, useLocation } from 'react-router-dom'
-import routes, { Route } from '../../routes'
-import twitterIcon from '../../assets/images/slidebarLink/twitter.svg'
-import telegramIcon from '../../assets/images/slidebarLink/telegram.svg'
+import routes, { Route } from '@/routes'
+import twitterIcon from '@/assets/images/slidebarLink/twitter.svg'
+import telegramIcon from '@/assets/images/slidebarLink/telegram.svg'
 
 const Container = styled.div`
   height: 100vh;

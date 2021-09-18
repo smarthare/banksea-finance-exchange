@@ -1,11 +1,11 @@
-import { useModal } from '../useModal'
+import { useModal } from '@/hooks/useModal'
 import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../store/wallet'
-import { banksyWeb3 } from '../../BanksyWeb3'
+import { getAccount } from '@/store/wallet'
+import { banksyWeb3 } from '@/BanksyWeb3'
 
 
 type MessageHintProps = {
