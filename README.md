@@ -1,4 +1,4 @@
-# Banksy Finance Dapp.
+# Banksea Finance Dapp.
 
 The first AI-driven NFT pool-based lending platform to lead a revolution of the NFT market
 
