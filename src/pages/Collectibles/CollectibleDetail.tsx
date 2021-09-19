@@ -12,28 +12,28 @@ import more1 from '@/assets/images/detailMoreImg/more1.jpg'
 import more2 from '@/assets/images/detailMoreImg/more2.png'
 import more3 from '@/assets/images/detailMoreImg/more3.jpg'
 import more4 from '@/assets/images/detailMoreImg/more4.png'
-import { thumbnailAddress } from '../../utils'
-import { useLocationQuery } from '../../hooks/useLocationQuery'
+import { thumbnailAddress } from '@/utils'
+import { useLocationQuery } from '@/hooks/useLocationQuery'
 import { useSelector } from 'react-redux'
-import { getAccount, getCurrentChain } from '../../store/wallet'
-import { banksyWeb3 } from '../../BanksyWeb3'
-import { usePurchaseCheckoutModal } from '../../hooks/modals/usePurchaseCheckoutModal'
-import { usePurchaseBlockedModal } from '../../hooks/modals/usePurchaseBlockedModal'
-import { useAuthorizingModal } from '../../hooks/modals/useAuthorizingModal'
-import { usePurchaseTransactionSentModal } from '../../hooks/modals/usePurchaseTransactionSentModal'
-import { useSellingModal } from '../../hooks/modals/useSellingModal'
-import ETHIcon from '../../components/ETHIcon'
-import { usePurchaseWaitingConfirmationModal } from '../../hooks/modals/usePurchaseWaitingConfirmationModal'
-import { getNftFavoriteCount } from '../../apis/nft'
+import { getAccount, getCurrentChain } from '@/store/wallet'
+import { bankseaWeb3 } from '@/BankseaWeb3'
+import { usePurchaseCheckoutModal } from '@/hooks/modals/usePurchaseCheckoutModal'
+import { usePurchaseBlockedModal } from '@/hooks/modals/usePurchaseBlockedModal'
+import { useAuthorizingModal } from '@/hooks/modals/useAuthorizingModal'
+import { usePurchaseTransactionSentModal } from '@/hooks/modals/usePurchaseTransactionSentModal'
+import { useSellingModal } from '@/hooks/modals/useSellingModal'
+import ETHIcon from '@/components/ETHIcon'
+import { usePurchaseWaitingConfirmationModal } from '@/hooks/modals/usePurchaseWaitingConfirmationModal'
+import { getNftFavoriteCount } from '@/apis/nft'
 import { useMediaQuery } from 'react-responsive'
-import { NftDetail } from '../../types/NFTDetail'
-import { closeExchange } from '../../BanksyWeb3/services/solana/exchange'
-import { getExchangeInfo } from '../../apis/exchange/solana'
-import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
-import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
-import { useNftDetailQuery } from '../../hooks/queries/useNftDetailQuery'
+import { NftDetail } from '@/types/NFTDetail'
+import { closeExchange } from '@/BankseaWeb3/services/solana/exchange'
+import { getExchangeInfo } from '@/apis/exchange/solana'
+import { useWeb3EnvContext } from '@/contexts/Web3EnvProvider'
+import { useWalletSelectionModal } from '@/contexts/WalletSelectionModal'
+import { useNftDetailQuery } from '@/hooks/queries/useNftDetailQuery'
 import { useHistory } from 'react-router-dom'
-import ThemeTable from '../../styles/ThemeTable'
+import ThemeTable from '@/styles/ThemeTable'
 
 const Row = styled.div`
   display: flex;
@@ -1205,7 +1205,7 @@ const CollectibleDetailPage: React.FC = () => {
   const checkoutPassed = () => {
     openAuthorizingModal()
 
-    banksyWeb3.services.purchaseByFixedPrice({
+    bankseaWeb3.services.purchaseByFixedPrice({
       account: account!,
       nftDetail,
       onAuthorized: () => {

@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 type TokenValuationPriceQueryParams = {
   tokenId: number
@@ -13,8 +13,8 @@ export const useTokenValuationPriceQuery = (params: TokenValuationPriceQueryPara
         return undefined
       }
 
-      return banksyRequest
-        .post<BanksyApiResponse<{ price?: string }>>('/oracle/ai/price', params)
+      return bankseaRequest
+        .post<BankseaApiResponse<{ price?: string }>>('/oracle/ai/price', params)
         .then(r => r.data?.data?.price)
     }
   )

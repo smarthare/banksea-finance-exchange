@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiPagingData, BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export type RankingCollection = {
   id: string
@@ -37,12 +37,12 @@ export type RankingCollection = {
   avgPrice: number
 }
 
-export const useRankingCollectionsQuery = (size?: number, current?: number): UseQueryResult<BanksyApiPagingData<RankingCollection>> => {
+export const useRankingCollectionsQuery = (size?: number, current?: number): UseQueryResult<BankseaApiPagingData<RankingCollection>> => {
   return useQuery(
     ['RANKING_COLLECTION', size, current],
     async () => {
-      return await banksyRequest
-        .post<BanksyApiResponse<BanksyApiPagingData<RankingCollection>>>('/oracle/whitelist/rankings', { size, current })
+      return await bankseaRequest
+        .post<BankseaApiResponse<BankseaApiPagingData<RankingCollection>>>('/oracle/whitelist/rankings', { size, current })
         .then(r => r.data.data)
     }
   )

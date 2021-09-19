@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import BanksyLogo from '@/assets/images/homePageImg/banksy-logo.png'
-import BanksyLogoIcon from '@/assets/images/homePageImg/logo-icon.png'
+import BankseaTextLogo from '@/assets/images/homePageImg/banksea.png'
+import BankseaIconLogo from '@/assets/images/homePageImg/logo-icon.png'
 
 import { Button, Popover } from 'antd'
 import Wallet from '@/components/Wallet'
@@ -140,8 +140,8 @@ const AppHeader: React.FC<{ onCollapseChanged: () => void }> = ({ onCollapseChan
           }}
         />
         <img
-          src={isMobile ? BanksyLogoIcon : BanksyLogo}
-          alt="banksy"
+          src={isMobile ? BankseaIconLogo : BankseaTextLogo}
+          alt="banksea"
           style={ isMobile ? { width: '3.5rem' } : { width: '15.6rem',cursor:'pointer' } }
           onClick={()=> history.push('')}
         />

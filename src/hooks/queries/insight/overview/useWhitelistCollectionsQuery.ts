@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export interface WhitelistCollection {
   id: string
@@ -23,8 +23,8 @@ export const useWhitelistCollectionsQuery = (): UseQueryResult<WhitelistCollecti
   return useQuery(
     ['WHITELIST_COLLECTIONS'],
     async () => {
-      return await banksyRequest
-        .get<BanksyApiResponse<WhitelistCollection[]>>('/oracle/whitelist/posters')
+      return await bankseaRequest
+        .get<BankseaApiResponse<WhitelistCollection[]>>('/oracle/whitelist/posters')
         .then(r => r.data.data)
     }
   )

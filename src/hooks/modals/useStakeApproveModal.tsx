@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Button, Form, Input, Modal } from 'antd'
 import { useModal } from '@/hooks/useModal'
-import stateKSY from '@/assets/images/Pools/stateKSY.png'
+import stateKSE from '@/assets/images/Pools/stateKSE.png'
 import stateBPT from '@/assets/images/Pools/StateBPT.png'
 import { useRequestingModal } from './stateModals/useRequestingModal'
 
@@ -10,9 +10,11 @@ const ApproveModal = styled(Modal)`
   .ant-modal-close-icon {
     color: white;
   }
+
   .ant-modal-content {
     width: 62.3rem;
-    background-color: #111C3A; !important;
+    background-color: #111C3A;
+  !important;
     border-radius: 1rem;
   }
 
@@ -34,7 +36,7 @@ const ApproveModal = styled(Modal)`
     &-text {
       color: #ffffff;
       text-align: center;
-  }
+    }
 
     &-main {
       width: 70%;
@@ -109,12 +111,12 @@ export const useStakeApproveModal = (stakeCurrency: any) => {
       <div className="approve-body">
         <div className="approve-body-title">Staking overview</div>
         <div className="approve-body-text">
-          There are your transaction details KSY
+          There are your transaction details KSE
           to the Safety Moule. Make sure to check if
           this is correct before submitting.
         </div>
         <div className="approve-body-main">
-          <img src={stakeCurrency==='KSY' ? stateKSY : stateBPT} alt="" />
+          <img src={stakeCurrency === 'KSE' ? stateKSE : stateBPT} alt="" />
           <Form.Item name="price">
             <Input style={{ width: '50%' }} />
           </Form.Item>

@@ -1,8 +1,8 @@
 import { getUriByIpfsHash, pinJsonToIPFS } from '@/utils/ipfs'
-import { banksyWeb3 } from '@/BanksyWeb3'
+import { bankseaWeb3 } from '@/BankseaWeb3'
 import { NFTCreateForm } from '@/pages/Home/NFTCreate'
 import { generateNftMetadata } from '@/utils'
-import { BanksyWeb3Services, PurchaseByFixedPriceParams } from '../index'
+import { BankseaWeb3Services, PurchaseByFixedPriceParams } from '../index'
 import SimpleEventEmitter from '@/utils/SimpleEventEmitter'
 import { CreateNftEvents } from '../events'
 import { createNFT, NftCreateForm } from '@/apis/nft'
@@ -13,7 +13,7 @@ import { chooseOrder, completeOrder, sellOrder } from '@/apis/exchange/ethereum'
 import { toBigNumber, toWei, weiToBigNumber } from '@/web3/utils'
 import { NftDetail } from '@/types/NFTDetail'
 
-export class BanksyWeb3EthereumServicesImpl implements BanksyWeb3Services {
+export class BankseaWeb3EthereumServicesImpl implements BankseaWeb3Services {
 
   createNft(nftCreateForm: NFTCreateForm, account: string): SimpleEventEmitter<CreateNftEvents> {
     const ee = new SimpleEventEmitter<CreateNftEvents>()
@@ -49,7 +49,7 @@ export class BanksyWeb3EthereumServicesImpl implements BanksyWeb3Services {
         typeChain: 'Ethereum'
       }
 
-      banksyWeb3.eth.Banksy.awardItem(account!, tokenUri)
+      bankseaWeb3.eth.Banksea.awardItem(account!, tokenUri)
         .then(async () => {
           ee.emit('submitted')
           await createNFT(createForm)
@@ -69,8 +69,8 @@ export class BanksyWeb3EthereumServicesImpl implements BanksyWeb3Services {
       throw new Error('Account must be not null!')
     }
 
-    if (!await banksyWeb3.eth.Banksy.isApprovedForAll(account, '0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A')) {
-      banksyWeb3.eth.Banksy.setApprovalForAll('0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A', true)
+    if (!await bankseaWeb3.eth.Banksea.isApprovedForAll(account, '0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A')) {
+      bankseaWeb3.eth.Banksea.setApprovalForAll('0x928Fd76a5C287D7A334fdfb7DbAE91422Dabd98A', true)
     }
 
     const salt = (Date.parse(new Date().toString())) / 1000
@@ -114,7 +114,7 @@ export class BanksyWeb3EthereumServicesImpl implements BanksyWeb3Services {
       salt
     }
 
-    const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(order)))
+    const signature = await bankseaWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(order)))
 
     const sellingOrder: SellingOrder = {
       dir: 'sell',
@@ -138,7 +138,7 @@ export class BanksyWeb3EthereumServicesImpl implements BanksyWeb3Services {
   }
 
   async checkBalance(nftDetail: any): Promise<void> {
-    const balance = weiToBigNumber((await banksyWeb3.signer?.getBalance())?.toString())
+    const balance = weiToBigNumber((await bankseaWeb3.signer?.getBalance())?.toString())
 
     if (balance.gte(toBigNumber(nftDetail.price))) {
       return Promise.resolve()
@@ -230,10 +230,10 @@ export class BanksyWeb3EthereumServicesImpl implements BanksyWeb3Services {
       salt: (Date.parse(new Date().toString())) / 1000
     }
 
-    const signature = await banksyWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(buyOrder)))
+    const signature = await bankseaWeb3.signer!.signMessage(ethers.utils.arrayify(hashExchangeOrder(buyOrder)))
     onAuthorized()
 
-    await banksyWeb3.eth.Exchange.matchSingle(sellOrder, buyData!.signature, buyOrder, signature, `${makerAsset!.baseAsset.value}`)
+    await bankseaWeb3.eth.Exchange.matchSingle(sellOrder, buyData!.signature, buyOrder, signature, `${makerAsset!.baseAsset.value}`)
 
     await completeOrder({
       valueUri: nftDetail?.valueUri,

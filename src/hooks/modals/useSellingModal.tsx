@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import clsx from 'clsx'
 import { useSelector } from 'react-redux'
 import { getAccount } from '@/store/wallet'
-import { banksyWeb3 } from '@/BanksyWeb3'
+import { bankseaWeb3 } from '@/BankseaWeb3'
 
 
 type MessageHintProps = {
@@ -360,7 +360,7 @@ export const useSellingModal = ({ nftDetail, onSellingConfirmed, onStart }: Sell
   const handleListing = async (values: typeof formInitialValues) => {
     onStart()
 
-    await banksyWeb3.services.listByFixedPrice(nftDetail, values.price, account)
+    await bankseaWeb3.services.listByFixedPrice(nftDetail, values.price, account)
 
     onSellingConfirmed()
   }

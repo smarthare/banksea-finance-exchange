@@ -254,7 +254,7 @@ const WithdrawDetailPage: React.FC = () => {
     <ItemDetailMain>
       <DetailTop>
         <BackIcon />
-        <span>Your balance in Banksy -</span>
+        <span>Your balance in Banksea -</span>
       </DetailTop>
       <ItemDetailData>
         <div className="detailData-top">

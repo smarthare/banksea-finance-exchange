@@ -1,12 +1,12 @@
 import ContractSettings from './ContractSettings'
-import Banksy from './contracts/Banksy'
+import Banksea from './contracts/Banksea'
 import Exchange from './contracts/Exchange'
 import LibAsset from './contracts/LibAsset'
 import LibOrder from './contracts/LibOrder'
 import TransferProxy from './contracts/TransferProxy'
 
-export class BanksyEthereumWeb3 {
-  Banksy: Banksy
+export class BankseaEthereumWeb3 {
+  Banksea: Banksea
   Exchange: Exchange
   LibAsset: LibAsset
   LibOrder: LibOrder
@@ -22,7 +22,7 @@ export class BanksyEthereumWeb3 {
     const signer = contractSettings?.signer
     const provider = contractSettings?.provider
 
-    this.Banksy = new Banksy(network, signer, provider)
+    this.Banksea = new Banksea(network, signer, provider)
     this.Exchange = new Exchange(network, signer, provider)
     this.LibAsset = new LibAsset(network , signer, provider)
     this.LibOrder = new LibOrder(network , signer, provider)

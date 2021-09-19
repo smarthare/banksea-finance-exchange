@@ -14,7 +14,7 @@ function configureStore(initialState = {}) {
     persistReducer(
       {
         storage,
-        key: 'banksy-finance-exchange',
+        key: 'banksea-finance-exchange',
         debug: true,
         blacklist: ['']
       },

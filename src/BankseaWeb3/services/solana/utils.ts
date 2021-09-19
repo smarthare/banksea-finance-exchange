@@ -1,5 +1,5 @@
 import { AccountInfo, PublicKey, TokenAmount } from '@solana/web3.js'
-import { banksyWeb3 } from '../../index'
+import { bankseaWeb3 } from '../../index'
 import BigNumber from 'bignumber.js'
 
 export type SupportedSolanaTokenName =
@@ -31,8 +31,8 @@ const getTokenAccounts = async (params: { name?: SupportedSolanaTokenName, mint?
     mint = MapSolanaTokenNameToMint[name]
   }
 
-  return (await banksyWeb3.sol.provider?.connection!.getTokenAccountsByOwner(
-    new PublicKey(banksyWeb3.sol.provider?.wallet.publicKey), {
+  return (await bankseaWeb3.sol.provider?.connection!.getTokenAccountsByOwner(
+    new PublicKey(bankseaWeb3.sol.provider?.wallet.publicKey), {
       mint
     }
   ))?.value
@@ -46,7 +46,7 @@ export const getTokenAccountWithMaximumBalance = async (name: SupportedSolanaTok
   }
 
   const tokenAmounts = await Promise.all(
-    accounts.map(account => banksyWeb3.sol.provider!.connection.getTokenAccountBalance(account.pubkey))
+    accounts.map(account => bankseaWeb3.sol.provider!.connection.getTokenAccountBalance(account.pubkey))
   ).then(result => {
     return result.map(({ value }) => value)
   })
@@ -77,5 +77,5 @@ export const getTokenSupply = async (params: { name?: SupportedSolanaTokenName, 
     mint = MapSolanaTokenNameToMint[name]
   }
 
-  return (await banksyWeb3.sol.provider!.connection.getTokenSupply(mint)).value
+  return (await bankseaWeb3.sol.provider!.connection.getTokenSupply(mint)).value
 }

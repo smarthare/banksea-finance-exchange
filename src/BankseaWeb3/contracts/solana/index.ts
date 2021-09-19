@@ -2,11 +2,11 @@ import { Program, Provider } from '@project-serum/anchor'
 import { Connection } from '@solana/web3.js'
 import { PhantomProvider } from '@/types/Phantom'
 
-export class BanksySolanaWeb3 {
+export class BankseaSolanaWeb3 {
 
   provider?: Provider
 
-  Banksy?: Program
+  Banksea?: Program
   Exchange?: Program
 
   constructor(phantomProvider?: PhantomProvider) {
@@ -14,7 +14,7 @@ export class BanksySolanaWeb3 {
       this.provider = new Provider(new Connection('https://api.devnet.solana.com'), phantomProvider, {})
 
       // https://explorer.solana.com/address/A5ws9phjEaNwrSjzGkRRxH53QDzmaJuQY1xompPpBwXf?cluster=devnet
-      this.Banksy = new Program(require('./idls/Banksy.json'), 'A5ws9phjEaNwrSjzGkRRxH53QDzmaJuQY1xompPpBwXf', this.provider)
+      this.Banksea = new Program(require('./idls/Banksea.json'), 'A5ws9phjEaNwrSjzGkRRxH53QDzmaJuQY1xompPpBwXf', this.provider)
       this.Exchange = new Program(require('./idls/Exchange.json'), '5nibWrtmkx1oUfsZpm24XbkJp1jRAe9do8K7MotuqWZo', this.provider)
     }
   }

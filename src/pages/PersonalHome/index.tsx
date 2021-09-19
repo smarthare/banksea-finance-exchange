@@ -16,7 +16,7 @@ import NFTListItem from '@/components/NFTListItem'
 import ListPageLoading from '@/components/ListPageLoading'
 import { usePersonalNFTsQuery } from '@/hooks/queries/usePersonalNFTsQuery'
 import { ChainSelector, OrderSelector, StatusSelector } from '@/components/NFTListSelectors'
-import { BanksyNftTransactionStatus, ChainType } from '@/apis/nft'
+import { BankseaNftTransactionStatus, ChainType } from '@/apis/nft'
 import { ThemeInput } from '@/styles/ThemeInput'
 
 const PersonalContainer = styled.div`
@@ -181,7 +181,7 @@ const PersonalHomepage: React.FC = () => {
   const account = useSelector(getAccount)
   const [current, setCurrent] = useState<number>(1)
   const [searchKey, setSearchKey] = useState<any>()
-  const [, setStatus] = useState<BanksyNftTransactionStatus>()
+  const [, setStatus] = useState<BankseaNftTransactionStatus>()
   const [typeChain, setTypeChain] = useState<ChainType>('')
 
   const { data: NFTs, isLoading } = usePersonalNFTsQuery({ current, searchKey, typeChain })

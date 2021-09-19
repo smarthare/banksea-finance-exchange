@@ -1,5 +1,5 @@
 import { BN, web3 as solanaWeb3 } from '@project-serum/anchor'
-import { banksyWeb3 } from '../../index'
+import { bankseaWeb3 } from '../../index'
 
 export type CreateNftAccountResult = {
   nftPubKey: string
@@ -16,7 +16,7 @@ export async function createNftAccount(ipfsHash: string): Promise<CreateNftAccou
   const uri = `ipfs://ipfs/${ipfsHash}`
   const supply = new BN(1)
 
-  const program = banksyWeb3.sol.Banksy!
+  const program = bankseaWeb3.sol.Banksea!
 
   const nftKeypair = solanaWeb3.Keypair.generate()
 

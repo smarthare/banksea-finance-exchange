@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export interface CurrencyMarketValue {
   marketCapBtc?: string
@@ -10,8 +10,8 @@ export const useCurrencyMarketValueQuery = (): UseQueryResult<CurrencyMarketValu
   return useQuery(
     ['CURRENCY_MARKET_VALUE'],
     async () => {
-      return await banksyRequest
-        .get<BanksyApiResponse<CurrencyMarketValue>>('/oracle/ticker/coin')
+      return await bankseaRequest
+        .get<BankseaApiResponse<CurrencyMarketValue>>('/oracle/ticker/coin')
         .then(r => r.data.data)
     }
   )

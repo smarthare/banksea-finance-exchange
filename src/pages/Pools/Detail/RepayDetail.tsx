@@ -255,7 +255,7 @@ const RepayDetailPage:React.FC = () => {
     <ItemDetailMain>
       <DetailTop>
         <BackIcon />
-        <span>Your balance in Banksy -</span>
+        <span>Your balance in Banksea -</span>
         <span>Your borrowed: 2.0 ETH</span>
       </DetailTop>
       <ItemDetailData>

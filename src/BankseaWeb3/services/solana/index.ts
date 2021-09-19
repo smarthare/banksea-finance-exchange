@@ -1,5 +1,5 @@
 import { NFTCreateForm } from '@/pages/Home/NFTCreate'
-import { BanksyWeb3Services, PurchaseByFixedPriceParams } from '../index'
+import { BankseaWeb3Services, PurchaseByFixedPriceParams } from '../index'
 import SimpleEventEmitter from '@/utils/SimpleEventEmitter'
 import { CreateNftEvents } from '../events'
 import { generateNftMetadata } from '@/utils'
@@ -7,7 +7,7 @@ import { pinJsonToIPFS } from '@/utils/ipfs'
 import { createNFT } from '@/apis/nft'
 import { createNftAccount } from './create'
 import { createExchange, findUserAccount, processExchange } from './exchange'
-import { banksyWeb3 } from '../../index'
+import { bankseaWeb3 } from '../../index'
 import { PublicKey } from '@solana/web3.js'
 import { completeExchange, createExchangeInfo, getExchangeInfo } from '@/apis/exchange/solana'
 import { NftDetail } from '@/types/NFTDetail'
@@ -20,19 +20,7 @@ import {
 import BigNumber from 'bignumber.js'
 import { toBigNumber } from '@/web3/utils'
 
-
-/*type SolanaNftAccountInfo = {
-  authority: PublicKey
-  uri: string
-  supply: BN
-}
-
-async function getNftAccountInfo(nftAccount: Address): Promise<SolanaNftAccountInfo>  {
-  const program = banksyWeb3.sol.Banksy!
-  return ( await program.account.nftAccount.fetch(nftAccount) as SolanaNftAccountInfo)
-}*/
-
-export class BanksyWeb3SolanaServicesImpl implements BanksyWeb3Services {
+export class BankseaWeb3SolanaServicesImpl implements BankseaWeb3Services {
 
   createNft(nftCreateForm: NFTCreateForm, account: string): SimpleEventEmitter<CreateNftEvents> {
     const ee = new SimpleEventEmitter<CreateNftEvents>()
@@ -99,8 +87,8 @@ export class BanksyWeb3SolanaServicesImpl implements BanksyWeb3Services {
     const { tokenAccount } = await getTokenAccountWithMaximumBalance('USDC')
 
     const exchange = await createExchange(
-      banksyWeb3.sol.Exchange!,
-      banksyWeb3.sol.Banksy!,
+      bankseaWeb3.sol.Exchange!,
+      bankseaWeb3.sol.Banksea!,
       new PublicKey(nftDetail.nftPubKey!),
       1,
       mint,
@@ -143,7 +131,7 @@ export class BanksyWeb3SolanaServicesImpl implements BanksyWeb3Services {
   async purchaseByFixedPrice({ nftDetail, account, onSuccess }: PurchaseByFixedPriceParams) {
     const exchangePubKey = (await getExchangeInfo(nftDetail.nftPubKey)).data.data.exchangePubKey
 
-    const exchangeAccount: any = await banksyWeb3.sol.Exchange!.account.exchange.fetch(exchangePubKey) // get exchange data
+    const exchangeAccount: any = await bankseaWeb3.sol.Exchange!.account.exchange.fetch(exchangePubKey) // get exchange data
 
     const {  currency } = exchangeAccount
     console.log('currency', currency.toBase58())
@@ -152,14 +140,14 @@ export class BanksyWeb3SolanaServicesImpl implements BanksyWeb3Services {
     const currencyHolder = tokenAccount!.pubkey
     console.log('currencyHolder', currencyHolder.toBase58())
 
-    const itemReceiver = await findUserAccount(banksyWeb3.sol.Banksy!, new PublicKey(account), exchangeAccount.item)
+    const itemReceiver = await findUserAccount(bankseaWeb3.sol.Banksea!, new PublicKey(account), exchangeAccount.item)
     console.log('itemReceiver', itemReceiver.toBase58())
 
     await processExchange(exchangePubKey, exchangeAccount, itemReceiver, currencyHolder)
 
     await completeExchange({
       accountTo: itemReceiver.toBase58(),
-      addressTo: banksyWeb3.sol.provider!.wallet.publicKey.toBase58(),
+      addressTo: bankseaWeb3.sol.provider!.wallet.publicKey.toBase58(),
       nftPubKey: nftDetail.nftPubKey
     })
 

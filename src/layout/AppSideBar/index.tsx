@@ -105,7 +105,7 @@ const AppSideBar: React.FC = () => {
       </CustomizedMenu>
       <CustomizedLink>
         <a
-          href={'https://twitter.com/banksy_finance'}
+          href={'https://twitter.com/banksea_finance'}
           rel="noreferrer"
           target="_blank"
         >

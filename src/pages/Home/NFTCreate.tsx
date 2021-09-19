@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, Checkbox, Form, Input, message, Select, Upload } from 'antd'
 import UploadBtn from '@/assets/images/upload-button.png'
-import { pinFileToIPFS } from '../../utils/ipfs'
+import { pinFileToIPFS } from '@/utils/ipfs'
 import { UploadProps } from 'antd/lib/upload/interface'
 import { RcFile } from 'antd/es/upload'
 import { LoadingOutlined } from '@ant-design/icons'
-import { banksyWeb3 } from '../../BanksyWeb3'
+import { bankseaWeb3 } from '@/BankseaWeb3'
 import { useSelector } from 'react-redux'
-import { getAccount } from '../../store/wallet'
-import { useWeb3EnvContext } from '../../contexts/Web3EnvProvider'
-import { useWalletSelectionModal } from '../../contexts/WalletSelectionModal'
+import { getAccount } from '@/store/wallet'
+import { useWeb3EnvContext } from '@/contexts/Web3EnvProvider'
+import { useWalletSelectionModal } from '@/contexts/WalletSelectionModal'
 import { useHistory } from 'react-router-dom'
 import LoadingModal from '../../components/PleaseWaitModal'
-import { useWalletErrorMessageGetter } from '../../hooks/useWalletErrorMessageGetter'
+import { useWalletErrorMessageGetter } from '@/hooks/useWalletErrorMessageGetter'
 
 const ArtistPageContainer = styled.div`
   padding-top: 5.6rem;
@@ -447,7 +447,7 @@ const NFTCreate: React.FC = () => {
       return
     }
 
-    banksyWeb3.services.createNft(formValues, account!)
+    bankseaWeb3.services.createNft(formValues, account!)
       .on('pinning_json', () => {
         setHintMessage({
           message: 'Pinning asset JSON to IPFS...',
@@ -503,7 +503,7 @@ const NFTCreate: React.FC = () => {
 
   return (
     <ArtistPageContainer>
-      <div className="title">Banksy Artwork</div>
+      <div className="title">Banksea Artwork</div>
       <ArtistForm form={form} colon={false} layout="vertical" initialValues={formInitialValues}>
         <h1>1. Artwork Information</h1>
 

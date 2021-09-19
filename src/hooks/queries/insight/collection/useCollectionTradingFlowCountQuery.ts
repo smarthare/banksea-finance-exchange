@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 type CollectionTradingFlowCountQueryParams = {
   source?: string
@@ -17,8 +17,8 @@ export const useCollectionTradingFlowCountQuery = (params: CollectionTradingFlow
         return undefined
       }
 
-      return banksyRequest
-        .post<BanksyApiResponse<number>>('/oracle/flow/count', params)
+      return bankseaRequest
+        .post<BankseaApiResponse<number>>('/oracle/flow/count', params)
         .then(r => r.data.data)
     }
   )

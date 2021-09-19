@@ -522,7 +522,7 @@ const Valuation: React.FC<{ valuation?: string, valuationInUsd?: string, change?
       title="NFT Valuation"
       titleIcon={<img src={ETHColoredIcon} alt="NFT valuation" />}
       style={{ marginBottom: '60px' }}
-      description="Provided by Banksy Oracle"
+      description="Provided by Banksea Oracle"
     >
       <ValuationContainer>
         <div className="price">

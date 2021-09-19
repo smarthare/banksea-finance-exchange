@@ -17,7 +17,7 @@ export type PurchaseByFixedPriceParams = {
   onFailed?: () => void
 }
 
-export interface BanksyWeb3Services {
+export interface BankseaWeb3Services {
 
   createNft: (_nftCreateForm: NFTCreateForm, _account: string) => SimpleEventEmitter<CreateNftEvents>
 
@@ -28,7 +28,7 @@ export interface BanksyWeb3Services {
   purchaseByFixedPrice: (_params: PurchaseByFixedPriceParams) => any
 }
 
-class BanksyWeb3ServicesEmptyImpl implements BanksyWeb3Services {
+class BankseaWeb3ServicesEmptyImpl implements BankseaWeb3Services {
 
   createNft(_nftCreateForm: NFTCreateForm, _account: string): SimpleEventEmitter<CreateNftEvents> {
     throw new NoImplementError()
@@ -47,4 +47,4 @@ class BanksyWeb3ServicesEmptyImpl implements BanksyWeb3Services {
   }
 }
 
-export { BanksyWeb3ServicesEmptyImpl }
+export { BankseaWeb3ServicesEmptyImpl }

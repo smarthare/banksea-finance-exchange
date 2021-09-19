@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import clsx from 'clsx'
-import stateKSY from '@/assets/images/Pools/stateKSY.png'
+import stateKSE from '@/assets/images/Pools/stateKSE.png'
 import stateBPT from '@/assets/images/Pools/StateBPT.png'
 import { useStakeUnderstandModal } from '@/hooks/modals/useStakeUnderstandModal'
 import { Button } from 'antd'
@@ -206,19 +206,19 @@ const StakePage: React.FC = () => {
         <AreaTitle>Safety pool</AreaTitle>
         <Line />
         <StakeMainText>
-          You can either stake KSY or BPT<br />
+          You can either stake KSE or BPT<br />
           to secure the protocol
         </StakeMainText>
         <StakeMainPledge>
-          <div className="StakeMainPledge-item" onClick={() => toStake('KSY')}>
-            <img src={stateKSY} alt="Stake KSY" />
-            <div>Stake <span>KSY</span></div>
+          <div className="StakeMainPledge-item" onClick={() => toStake('KSE')}>
+            <img src={stateKSE} alt="Stake KSE" />
+            <div>Stake <span>KSE</span></div>
           </div>
           <div className="StakeMainPledge-item" onClick={() => toStake('BPT')}>
-            <img src={stateBPT} alt="Stake KSY/ETH BPT" />
+            <img src={stateBPT} alt="Stake KSE/ETH BPT" />
             <div>
               Stake<br />
-              <span>KSY/ETH BPT</span>
+              <span>KSE/ETH BPT</span>
             </div>
           </div>
         </StakeMainPledge>
@@ -226,7 +226,7 @@ const StakePage: React.FC = () => {
       <StakeMainRight>
         <StakeMainPledge>
           <div className="stakeMain-item">
-            <div className="stakeMain-item-name">KSY Staked</div>
+            <div className="stakeMain-item-name">KSE Staked</div>
             <div className="stakeMain-item-number">20.000</div>
             <div className="stakeMain-item-value">$123 USD</div>
             <StakeMainItemButton disabled>Activate Cooldown</StakeMainItemButton>
@@ -240,7 +240,7 @@ const StakePage: React.FC = () => {
         </StakeMainPledge>
         <StakeMainRightContainer>
           <div className="container-item">
-            <div className="container-item-name">KSY per month</div>
+            <div className="container-item-name">KSE per month</div>
             <div className="container-item-value">
               <div>112</div>
               <div>$10</div>
