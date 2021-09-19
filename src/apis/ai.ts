@@ -1,11 +1,11 @@
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export function aiGeneratorFastStyle(style: string, content: string) {
   const data = new FormData()
   data.set('style', style)
   data.set('content', content)
 
-  return banksyRequest.post(
+  return bankseaRequest.post(
     '/aiGenerators/fastStyle/url', data, {
       headers: {
         contentType: 'multipart/form-data'
@@ -15,9 +15,9 @@ export function aiGeneratorFastStyle(style: string, content: string) {
 }
 
 export function aiStyleList() {
-  return banksyRequest.get<BanksyApiResponse<any>>('/aiGenerators/style/list')
+  return bankseaRequest.get<BankseaApiResponse<any>>('/aiGenerators/style/list')
 }
 
 export function aiSwiperList() {
-  return banksyRequest.get<BanksyApiResponse<any>>('/aiGenerators/slideshow')
+  return bankseaRequest.get<BankseaApiResponse<any>>('/aiGenerators/slideshow')
 }

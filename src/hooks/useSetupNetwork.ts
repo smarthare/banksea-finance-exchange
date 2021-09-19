@@ -3,7 +3,7 @@ import {
   setupBinanceWalletNetwork,
   setupMetamaskNetwork,
   setupWalletConnectNetwork
-} from '@/BanksyWeb3/contracts/ethereum/networkHelper'
+} from '@/BankseaWeb3/contracts/ethereum/networkHelper'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSelectedWallet, setAccount, setSelectedWallet } from '@/store/wallet'
 import { getWeb3ProviderByWallet, WalletNames } from '@/web3/wallets'

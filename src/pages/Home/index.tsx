@@ -9,7 +9,7 @@ import RightArrow from '@/assets/images/homePageImg/right-arrow.svg'
 import CornerFlag from '@/assets/images/homePageImg/corner-flag-ai.svg'
 import { useHistory } from 'react-router-dom'
 import NFTListItem from '../../components/NFTListItem'
-import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
+import { useNFTsQuery } from '@/hooks/queries/useNFTsQuery'
 import { useMediaQuery } from 'react-responsive'
 
 const HomePageContainer = styled.div`
@@ -545,9 +545,9 @@ const HomePage: React.FC = () => {
                 <div className="main-title2">Safety pool
                   <PanelIcon iconName={Auction} />
                 </div>
-                <div className="sub-title2">KSY pool : $89,294,879.98</div>
+                <div className="sub-title2">KSE pool : $89,294,879.98</div>
                 <div className="nft-values">
-                  <div className="sub-title2">BPT(KSY/ETH):</div>
+                  <div className="sub-title2">BPT(KSE/ETH):</div>
                   <div className="value">$982,987,374.93</div>
                 </div>
                 <GotoArrow />
@@ -580,7 +580,7 @@ const HomePage: React.FC = () => {
                 <PanelIcon iconName={Mortgage} />
               </div>
               <div className="nft-values">
-                <div className="sub-title2">KSY Address Number :</div>
+                <div className="sub-title2">KSE Address Number :</div>
                 <div className="value">3230</div>
               </div>
               <div className="nft-values">

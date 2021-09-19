@@ -8,8 +8,8 @@ import { PublicKey } from '@solana/web3.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { getWeb3ProviderByWallet, WalletNames } from '@/web3/wallets'
 import { providers } from 'ethers'
-import { banksyWeb3 } from '@/BanksyWeb3'
-import ContractSettings from '@/BanksyWeb3/contracts/ethereum/ContractSettings'
+import { bankseaWeb3 } from '@/BankseaWeb3'
+import ContractSettings from '@/BankseaWeb3/contracts/ethereum/ContractSettings'
 
 type InitAndDestroy = {
   init: (_?: PhantomProvider) => void,
@@ -127,14 +127,14 @@ function useInitializeProvider(chainId: number, RPCUrl?: string): boolean {
     const init = (phantomProvider?: PhantomProvider) => {
       if (selectedWallet !== 'Phantom') {
         dispatch(setCurrentChain('Ethereum'))
-        banksyWeb3.setEthereumWeb3(new ContractSettings(
+        bankseaWeb3.setEthereumWeb3(new ContractSettings(
           provider,
           provider?.getSigner ? provider.getSigner() : null,
           chainId
         ))
       } else {
         dispatch(setCurrentChain('Solana'))
-        banksyWeb3.setSolanaWeb3(phantomProvider!)
+        bankseaWeb3.setSolanaWeb3(phantomProvider!)
       }
       setInitialized(true)
     }

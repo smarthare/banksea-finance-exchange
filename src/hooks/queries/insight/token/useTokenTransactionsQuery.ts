@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiPagingData, BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export interface NftTransaction {
   eventType: string
@@ -19,11 +19,11 @@ export interface NftTransactionQueryParams {
   size?: number
 }
 
-export const useTokenTransactionsQuery = (params: NftTransactionQueryParams): UseQueryResult<BanksyApiPagingData<NftTransaction>> => {
+export const useTokenTransactionsQuery = (params: NftTransactionQueryParams): UseQueryResult<BankseaApiPagingData<NftTransaction>> => {
   return useQuery(
     ['TOKEN_TRANSACTIONS', params], async () => {
-      return banksyRequest
-        .post<BanksyApiResponse<BanksyApiPagingData<NftTransaction>>>('/oracle/transactions', params)
+      return bankseaRequest
+        .post<BankseaApiResponse<BankseaApiPagingData<NftTransaction>>>('/oracle/transactions', params)
         .then(r => r.data.data)
     }
   )

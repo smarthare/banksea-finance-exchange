@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiPagingData, BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export interface CollectionValuationAttribute {
   id: string
@@ -22,7 +22,7 @@ export type CollectionValuationAttributeQuerySortKey = 'rarity' | 'popularity'
 
 export const AVAILABLE_SORT_KEYS: CollectionValuationAttributeQuerySortKey[] = ['rarity', 'popularity']
 
-export const useCollectionValuationAttributeQuery = (data: CollectionValuationAttributeQueryParams): UseQueryResult<BanksyApiPagingData<CollectionValuationAttribute>> => {
+export const useCollectionValuationAttributeQuery = (data: CollectionValuationAttributeQueryParams): UseQueryResult<BankseaApiPagingData<CollectionValuationAttribute>> => {
   return useQuery(
     ['COLLECTION_VALUATION_ATTR', data],
     async () => {
@@ -30,8 +30,8 @@ export const useCollectionValuationAttributeQuery = (data: CollectionValuationAt
         return undefined
       }
 
-      return await banksyRequest
-        .post<BanksyApiResponse<BanksyApiPagingData<CollectionValuationAttribute>>>('/oracle/detail/attribute', data)
+      return await bankseaRequest
+        .post<BankseaApiResponse<BankseaApiPagingData<CollectionValuationAttribute>>>('/oracle/detail/attribute', data)
         .then(r => r.data.data)
     }
   )

@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export type CollectionMarketValue = {
   time: number[]
@@ -10,8 +10,8 @@ export const useCollectionMarketValueQuery = (nftSeriesId?: string): UseQueryRes
   return useQuery(
     ['COLLECTION_MARKET_VALUE', nftSeriesId],
     async () => {
-      return await banksyRequest
-        .post<BanksyApiResponse<CollectionMarketValue>>(
+      return await bankseaRequest
+        .post<BankseaApiResponse<CollectionMarketValue>>(
           '/oracle/chart/cap',
           { nftSeriesId }
         )

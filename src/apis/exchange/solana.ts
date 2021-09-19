@@ -1,4 +1,4 @@
-import banksyRequest from '@/utils/banksyRequest'
+import bankseaRequest from '@/utils/bankseaRequest'
 
 type CreateExchangeRequest = {
   nftPubKey: string
@@ -13,17 +13,17 @@ type CompleteExchangeRequest = {
 }
 
 export function createExchangeInfo(data: CreateExchangeRequest) {
-  return banksyRequest.post('/transfer/exchange/create', data)
+  return bankseaRequest.post('/transfer/exchange/create', data)
 }
 
 export function getExchangeInfo(nftPubKey: string) {
-  return banksyRequest.post('/transfer/exchange/select', { nftPubKey })
+  return bankseaRequest.post('/transfer/exchange/select', { nftPubKey })
 }
 
 export function cancelExchange(nftPubKey: string) {
-  return banksyRequest.post('/transfer/exchange/cancel', { nftPubKey })
+  return bankseaRequest.post('/transfer/exchange/cancel', { nftPubKey })
 }
 
 export function completeExchange(data: CompleteExchangeRequest) {
-  return banksyRequest.post('/transfer/exchange/complete', data)
+  return bankseaRequest.post('/transfer/exchange/complete', data)
 }

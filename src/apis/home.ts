@@ -1,5 +1,5 @@
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export function NftHomeCreateData() {
-  return banksyRequest.get<BanksyApiResponse<any>>('/home/count')
+  return bankseaRequest.get<BankseaApiResponse<any>>('/home/count')
 }

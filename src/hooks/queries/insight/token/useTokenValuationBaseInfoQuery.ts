@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export interface TokenValuation {
   id: string
@@ -233,8 +233,8 @@ export interface NftAttribute {
 export const useTokenValuationBaseInfoQuery = (collectionSlug: string, tokenId: string): UseQueryResult<TokenValuation> => {
   return useQuery(
     ['NFT_VALUATION', collectionSlug, tokenId], async () => {
-      return await banksyRequest
-        .get<BanksyApiResponse<TokenValuation>>(`/oracle/detail/${collectionSlug}/${tokenId}`)
+      return await bankseaRequest
+        .get<BankseaApiResponse<TokenValuation>>(`/oracle/detail/${collectionSlug}/${tokenId}`)
         .then(r => r.data.data)
     }
   )

@@ -1,14 +1,14 @@
-import { SellingOrder } from '@/BanksyWeb3/contracts/ethereum/services/exchange/types'
-import banksyRequest, { BanksyApiResponse } from '../../utils/banksyRequest'
+import { SellingOrder } from '@/BankseaWeb3/contracts/ethereum/services/exchange/types'
+import bankseaRequest, { BankseaApiResponse } from '../../utils/bankseaRequest'
 
 export function sellOrder(data: SellingOrder) {
-  return banksyRequest.post<BanksyApiResponse<any>>('/transfer/order/create', data)
+  return bankseaRequest.post<BankseaApiResponse<any>>('/transfer/order/create', data)
 }
 
 export function completeOrder(data: any) {
-  return banksyRequest.post<BanksyApiResponse<any>>('/transfer/order/complete', data)
+  return bankseaRequest.post<BankseaApiResponse<any>>('/transfer/order/complete', data)
 }
 
 export function chooseOrder(data: any) {
-  return banksyRequest.post<BanksyApiResponse<any>>('/transfer/order/select', data)
+  return bankseaRequest.post<BankseaApiResponse<any>>('/transfer/order/select', data)
 }

@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export type OracleHeatChartData = {
   seriesName: string
@@ -24,8 +24,8 @@ export type OracleHeatChartData = {
 export const useCollectionsHeatTrendQuery = (seriesSlug?: string): UseQueryResult<OracleHeatChartData[]> => {
   return useQuery(
     ['COLLECTIONS_HEAT_TREND', seriesSlug], () => {
-      return banksyRequest
-        .post<BanksyApiResponse<OracleHeatChartData[]>>('/oracle/chart/heat', { seriesSlug })
+      return bankseaRequest
+        .post<BankseaApiResponse<OracleHeatChartData[]>>('/oracle/chart/heat', { seriesSlug })
         .then(r => r.data.data)
     }
   )

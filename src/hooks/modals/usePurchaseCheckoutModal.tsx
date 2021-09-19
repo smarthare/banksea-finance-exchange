@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { banksyWeb3 } from '@/BanksyWeb3'
+import { bankseaWeb3 } from '@/BankseaWeb3'
 import { Button, Checkbox, Divider, message, Modal } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
@@ -234,8 +234,8 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
   const [checking, setChecking] = useState(false)
 
   const checkboxOptions = [
-    'By checking this box. I acknowledge that this item has not been reviewed or approved by Banksy',
-    'By checking this box. I agree to Banksy\'s Terms of Services'
+    'By checking this box. I acknowledge that this item has not been reviewed or approved by Banksea',
+    'By checking this box. I agree to Banksea\'s Terms of Services'
   ]
 
   const onChange = (e: any) => setAllChecked(e.length === checkboxOptions.length)
@@ -243,7 +243,7 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
   const handleCheckout = () => {
     setChecking(true)
 
-    banksyWeb3.services.checkBalance(nftDetail)
+    bankseaWeb3.services.checkBalance(nftDetail)
       .then(() => {
         setChecking(false)
         checkoutPassed()
@@ -263,24 +263,6 @@ export const usePurchaseCheckoutModal = (nftDetail: any, checkoutPassed: () => v
       footer={null}
     >
       <Line />
-      {/*<Caveat
-        onClick={() => setCaveatContentVisible(!isCaveatContentVisible)}
-      >
-        <img className="danger" src={danger} alt="" />
-        <span>This item has not been reviewed by Banksy</span>
-        <img className="dangerDownArrow" src={dangerDownArrow} alt="" />
-      </Caveat>
-      {
-        isCaveatContentVisible ?
-          <CaveatContent>
-            You should proceed with extra caution. Anyone can
-            create a digital item on a blockchain with any name.
-            Including fake versions of existing items. Please take
-            extra caution an do your research when interacting with
-            this item to ensure it&apos;s what it claims to be.
-          </CaveatContent> :
-          <div />
-      }*/}
       <div className="checkout-list">
         <p>Item</p>
         <p>Subtotal</p>

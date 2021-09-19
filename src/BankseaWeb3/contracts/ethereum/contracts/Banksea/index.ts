@@ -4,7 +4,7 @@ import { Contract } from 'ethers'
 const contractAddress = '0xb1e45866BF3298A9974a65577c067C477D38712a'
 
 
-class Banksy extends AbstractContractCaller {
+class Banksea extends AbstractContractCaller {
   constructor(network: string, signer: any, provider: any) {
     super()
     this.network = network
@@ -13,7 +13,7 @@ class Banksy extends AbstractContractCaller {
 
     this.contract = new Contract(
       contractAddress,
-      require('./Banksy.json').abi,
+      require('./Banksea.json').abi,
       signer || provider
     )
   }
@@ -31,4 +31,4 @@ class Banksy extends AbstractContractCaller {
   }
 }
 
-export default Banksy
+export default Banksea

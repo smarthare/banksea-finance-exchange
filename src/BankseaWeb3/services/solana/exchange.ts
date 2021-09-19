@@ -1,15 +1,15 @@
 import { BN, Program, web3 as solanaWeb3 } from '@project-serum/anchor'
 import { Keypair, PublicKey } from '@solana/web3.js'
 import { TokenInstructions } from '@project-serum/serum'
-import { banksyWeb3 } from '../../index'
+import { bankseaWeb3 } from '../../index'
 import { Wallet } from '@project-serum/anchor/dist/provider'
 import { cancelExchange } from '@/apis/exchange/solana'
 
 const getProvider = () => {
-  if (!banksyWeb3) {
+  if (!bankseaWeb3) {
     return undefined
   }
-  return banksyWeb3.sol.provider!
+  return bankseaWeb3.sol.provider!
 }
 
 const getUserPublicKey = () => {
@@ -96,7 +96,7 @@ export async function createExchange(
   amount: string,
   tokenReceiverAccount?: PublicKey
 ): Promise<PublicKey> {
-  const seller = banksyWeb3.sol.provider!.wallet
+  const seller = bankseaWeb3.sol.provider!.wallet
 
   const exchange = solanaWeb3.Keypair.generate()
 
@@ -169,10 +169,10 @@ export async function processExchange(
 ) {
   const [sellerPda] = await solanaWeb3.PublicKey.findProgramAddress(
     [exchangeAccount.item.toBuffer(), exchangeAccount.seller.toBuffer()],
-    banksyWeb3.sol.Exchange!.programId
+    bankseaWeb3.sol.Exchange!.programId
   )
 
-  await banksyWeb3.sol.Exchange!.rpc.processExchange({
+  await bankseaWeb3.sol.Exchange!.rpc.processExchange({
     accounts: {
       exchange,
       seller: exchangeAccount.seller,
@@ -184,7 +184,7 @@ export async function processExchange(
       itemReceiver: itemReceiver,
       currencyReceiver: exchangeAccount.currencyReceiver,
       tokenProgram: TokenInstructions.TOKEN_PROGRAM_ID,
-      nftProgram: banksyWeb3.sol.Banksy!.programId,
+      nftProgram: bankseaWeb3.sol.Banksea!.programId,
     },
   })
 }
@@ -195,8 +195,8 @@ export async function processExchange(
 export async function closeExchange(nftPubKeyStr: string, exchangePubKeyStr: string) {
   const exchange = new PublicKey(exchangePubKeyStr)
 
-  const exchangeProgram = banksyWeb3.sol.Exchange!
-  const nftProgram = banksyWeb3.sol.Banksy!
+  const exchangeProgram = bankseaWeb3.sol.Exchange!
+  const nftProgram = bankseaWeb3.sol.Banksea!
 
   const exchangeAccount: any = await exchangeProgram.account.exchange.fetch(exchange) // get exchange data
 

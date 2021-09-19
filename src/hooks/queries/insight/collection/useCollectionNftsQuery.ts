@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiPagingData, BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiPagingData, BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export interface CollectionNft {
   id: string
@@ -34,7 +34,7 @@ export const AVAILABLE_SORT_KEYS: CollectionNftsQuerySortByKey[] = [
   'Last Price', 'Valuation', 'Rarity', 'Popularity', 'Sales Number'
 ]
 
-export const useCollectionNftsQuery = (data: CollectionNftsQueryParams): UseQueryResult<BanksyApiPagingData<CollectionNft>> => {
+export const useCollectionNftsQuery = (data: CollectionNftsQueryParams): UseQueryResult<BankseaApiPagingData<CollectionNft>> => {
   return useQuery(
     ['CURRENCY_MARKET_VALUE', data],
     async () => {
@@ -42,8 +42,8 @@ export const useCollectionNftsQuery = (data: CollectionNftsQueryParams): UseQuer
         return
       }
 
-      return await banksyRequest
-        .post<BanksyApiResponse<BanksyApiPagingData<CollectionNft>>>('/oracle/detail/search', data)
+      return await bankseaRequest
+        .post<BankseaApiResponse<BankseaApiPagingData<CollectionNft>>>('/oracle/detail/search', data)
         .then(r => r.data.data)
     }
   )

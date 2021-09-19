@@ -5,7 +5,7 @@ import { getIconByWalletName, getWeb3ProviderByWallet, WalletNames } from '@/web
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import styled from 'styled-components'
 import { useWalletSelectionModal } from '@/contexts/WalletSelectionModal'
-import { banksyWeb3 } from '@/BanksyWeb3'
+import { bankseaWeb3 } from '@/BankseaWeb3'
 import MetamaskAvatar from '../MetamaskAvatar'
 import { Button, Modal } from 'antd'
 
@@ -106,7 +106,7 @@ const WalletModalContent: React.FC<WalletModalContentProps> = ({ account }) => {
   const selectedWallet = useSelector(getSelectedWallet) as WalletNames
 
   const disconnect = async () => {
-    banksyWeb3.destroy()
+    bankseaWeb3.destroy()
 
     dispatch(setSelectedWallet(undefined))
     dispatch(setAccount(null))

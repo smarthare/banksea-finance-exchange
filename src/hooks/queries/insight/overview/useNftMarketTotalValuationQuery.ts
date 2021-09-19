@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export interface NftMarketTotalValuation {
   nftMarketCapitalizationVoList: NftMarketCapitalization[]
@@ -20,8 +20,8 @@ export const useNftMarketTotalValuationQuery = (): UseQueryResult<NftMarketTotal
   return useQuery(
     ['NFT_MARKET_TOTAL_VALUATION_QUERY'],
     () => {
-      return banksyRequest
-        .get<BanksyApiResponse<NftMarketTotalValuation>>('/oracle/ticker/nft')
+      return bankseaRequest
+        .get<BankseaApiResponse<NftMarketTotalValuation>>('/oracle/ticker/nft')
         .then(r => r.data.data)
     }
   )

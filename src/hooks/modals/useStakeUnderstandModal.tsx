@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Button, Checkbox, Modal } from 'antd'
 import { useModal } from '@/hooks/useModal'
-import stateKSY from '@/assets/images/Pools/stateKSY.png'
+import stateKSE from '@/assets/images/Pools/stateKSE.png'
 import stateBPT from '@/assets/images/Pools/StateBPT.png'
 import { useStakeApproveModal } from './useStakeApproveModal'
 
@@ -10,9 +10,11 @@ const StakeUnderstandModal = styled(Modal)`
   .ant-modal-close-icon {
     color: white;
   }
+
   .ant-modal-content {
     width: 62.3rem;
-    background-color: #111C3A; !important;
+    background-color: #111C3A;
+  !important;
     border-radius: 1rem;
   }
 
@@ -93,10 +95,10 @@ export const useStakeUnderstandModal = (stakeCurrency: any) => {
     >
       <div className="stake-body">
         <div className="stake-body-title">Stake overview</div>
-        <img className="stake-body-image" src={stakeCurrency==='KSY' ? stateKSY : stateBPT} alt="" />
-        <div className="stake-body-name">Staking {stakeCurrency==='KSY' ? 'KSY' : 'BPT'}</div>
+        <img className="stake-body-image" src={stakeCurrency === 'KSE' ? stateKSE : stateBPT} alt="" />
+        <div className="stake-body-name">Staking {stakeCurrency === 'KSE' ? 'KSE' : 'BPT'}</div>
         <div className="stake-body-text">
-          KSY holder can stake their KSY in the Safety Module
+          KSE holder can stake their KSE in the Safety Module
           and earn Safety Incentives. In the case of a
           <span style={{ color: '#e63946' }}> shortfall event, up to 30% </span>
           of your stake can be slashed to cover the
@@ -104,7 +106,7 @@ export const useStakeUnderstandModal = (stakeCurrency: any) => {
           protocol.
         </div>
         <div className="stake-body-text">
-          Stakers receive Safety Incentives in the form of KSY tokens
+          Stakers receive Safety Incentives in the form of KSE tokens
           in exchange for taking this risk to secure the protocol. Your will need to activate a
           <i style={{ fontWeight: 'bolder', fontSize: '1.7rem' }}> 10 day cooling period </i>
           before you are able to withdraw your stake.

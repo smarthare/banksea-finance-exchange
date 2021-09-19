@@ -32,11 +32,6 @@ export type NFTMetadata = {
   image?: string
 
   /**
-   * External url to Banksy Finance
-   */
-  // external_url: string
-
-  /**
    * IPFS Hash just as image field, but it allows every type of multimedia files. Like mp3, mp4 etc
    */
   animation_url?: string

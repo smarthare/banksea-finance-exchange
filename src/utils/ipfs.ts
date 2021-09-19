@@ -56,7 +56,7 @@ async function pinJsonToIPFS(data: any): Promise<PinataResult> {
 }
 
 /**
- * Generate url which can directly access, with Banksy Pinata gateway.
+ * Generate url which can directly access, with Banksea Pinata gateway.
  * @param ipfsHash Ipfs hash (cid)
  */
 function getUriByIpfsHash(ipfsHash: string) {

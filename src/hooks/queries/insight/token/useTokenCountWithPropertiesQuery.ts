@@ -1,12 +1,12 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 
 export const useTokenCountWithPropertiesQuery = (tokenId: string, collectionSlug: string): UseQueryResult<number> => {
   return useQuery(
     ['TOKEN_PROPERTIES_COUNT', tokenId, collectionSlug], async () => {
-      return banksyRequest
-        .post<BanksyApiResponse<number>>('/oracle/detail/count', {
+      return bankseaRequest
+        .post<BankseaApiResponse<number>>('/oracle/detail/count', {
           collectionSlug,
           nftNumber: tokenId
         })

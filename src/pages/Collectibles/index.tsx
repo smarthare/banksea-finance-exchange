@@ -6,14 +6,14 @@ import { SearchOutlined } from '@ant-design/icons'
 import NFTListItem from '../../components/NFTListItem'
 import clsx from 'clsx'
 import ListPageLoading from '../../components/ListPageLoading'
-import { useNFTsQuery } from '../../hooks/queries/useNFTsQuery'
+import { useNFTsQuery } from '@/hooks/queries/useNFTsQuery'
 import { useMediaQuery } from 'react-responsive'
-import { BanksyNftTransactionStatus, ChainType } from '../../apis/nft'
-import { ChainSelector, OrderSelector, StatusSelector } from '../../components/NFTListSelectors'
-import { ThemeInput } from '../../styles/ThemeInput'
+import { BankseaNftTransactionStatus, ChainType } from '@/apis/nft'
+import { ChainSelector, OrderSelector, StatusSelector } from '@/components/NFTListSelectors'
+import { ThemeInput } from '@/styles/ThemeInput'
 import { useHistory } from 'react-router-dom'
-import { useLocationQuery } from '../../hooks/useLocationQuery'
-import { NftListItem } from '../../types/NFTDetail'
+import { useLocationQuery } from '@/hooks/useLocationQuery'
+import { NftListItem } from '@/types/NFTDetail'
 
 const PageContainer = styled.div`
   padding: 0 16rem;
@@ -190,15 +190,15 @@ const Filter: React.FC = () => {
   const filterItems = [
     {
       key: 'Cross-Platform',
-      banksyUnique: true,
+      bankseaUnique: true,
       values: [
-        'Banksy',
+        'Banksea',
         'OpenSea',
         'Rarible']
     },
     {
       key: 'Chinese-Style Artworks',
-      banksyUnique: true,
+      bankseaUnique: true,
       values: [
         'Calligraphy-NFT',
         'Landscape-Painting '
@@ -206,7 +206,7 @@ const Filter: React.FC = () => {
     },
     {
       key: 'Digital Artworks',
-      banksyUnique: true,
+      bankseaUnique: true,
       values: [
         'AI-NFT'
       ]
@@ -276,7 +276,7 @@ const NFTList: React.FC<{ list: Array<NftListItem> | undefined }> = ({ list }) =
 const CollectiblesPage: React.FC = () => {
   const history = useHistory()
 
-  const [selectedStatus, setSelectedStatus] = useState<BanksyNftTransactionStatus | undefined>()
+  const [selectedStatus, setSelectedStatus] = useState<BankseaNftTransactionStatus | undefined>()
   const [selectedChain, setSelectedChain] = useState<ChainType>('')
 
   const current = parseInt(useLocationQuery('page') ?? '1')

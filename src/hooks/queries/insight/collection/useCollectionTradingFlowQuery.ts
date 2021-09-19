@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import banksyRequest, { BanksyApiResponse } from '@/utils/banksyRequest'
+import bankseaRequest, { BankseaApiResponse } from '@/utils/bankseaRequest'
 
 export type TradingFlowData = {
   nodesList: { name: string }[]
@@ -14,8 +14,8 @@ export const useCollectionTradingFlowQuery = (id?: string): UseQueryResult<Tradi
         return undefined
       }
 
-      return await banksyRequest
-        .get<BanksyApiResponse<TradingFlowData>>(`/oracle/flow/id/${id}`)
+      return await bankseaRequest
+        .get<BankseaApiResponse<TradingFlowData>>(`/oracle/flow/id/${id}`)
         .then(r => r.data.data)
     }
   )
