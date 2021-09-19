@@ -24,7 +24,7 @@ jobs:
         env:
           CI: false
         with:
-          cmd: build # will run `yarn build` command
+          cmd: build --max-old-space-size=4096 # will run `yarn build` command
 
       - name: Deploy to Server
         uses: AEnterprise/rsync-deploy@v1.0
