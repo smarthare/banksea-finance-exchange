@@ -57,6 +57,7 @@ const StatusSelector: React.FC<{ onChange: (_value: any) => void }> = ({ onChang
 const LiquidationSelector: React.FC = () => {
   return (
     <DropdownSelector
+      height={'40px'}
       defaultValue=""
     >
       <Select.Option value="">All items</Select.Option>

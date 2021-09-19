@@ -12,6 +12,17 @@ const ThemeSearchInput = styled(Input.Search)<SearchInputProps>`
   .ant-input-wrapper.ant-input-group {
     height: 100% !important;
 
+    .ant-input-affix-wrapper {
+      background-color: ${props =>  props.backgroundColor ?? defaultColor};
+      border-color: ${props =>  props.backgroundColor ?? defaultColor};
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+
+    .ant-input-affix-wrapper-focused {
+      box-shadow: none;
+    }
+
     .ant-input {
       border-color: ${props =>  props.backgroundColor ?? defaultColor};
       background-color: ${props =>  props.backgroundColor ?? defaultColor};

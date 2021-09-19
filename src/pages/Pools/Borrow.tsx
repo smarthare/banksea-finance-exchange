@@ -189,8 +189,8 @@ const AllCoinContainer: React.FC<{ data: any }> = ({ data }) => {
     <AllCoinTable>
       <AllCoinTableTop>
         <div>Assets</div>
-        <div>Available to borrow</div>
-        <div>Stable APY</div>
+        <div>Available to Borrow</div>
+        <div>APY</div>
       </AllCoinTableTop>
       <AllCoinTableMain>
         {
