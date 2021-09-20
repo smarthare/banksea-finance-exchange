@@ -12,6 +12,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      GENERATE_SOURCEMAP: false
 
     steps:
       - uses: actions/checkout@v2
@@ -23,7 +25,6 @@ jobs:
       - uses: borales/actions-yarn@v2.3.0
         env:
           CI: false
-          max-old-space-size: 4096
         with:
           cmd: build # will run `yarn build` command
 

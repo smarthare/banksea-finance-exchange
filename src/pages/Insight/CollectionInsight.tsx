@@ -7,7 +7,7 @@ import { Pagination, Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
 import { CollectionExternalLink, CollectionValuationStatisticItem } from '@/types/CollectionValuation'
-import { CollectionHeatCompositionChart } from './components/charts/CollectionHeatCompositionChart'
+import { CollectionPopularityCompositionChart } from './components/charts/CollectionPopularityCompositionChart'
 import { PriceScatterChart } from './components/charts/PriceScatterChart'
 import { TotalMarketValueChart } from './components/charts/TotalMarketValueChart'
 import {
@@ -396,9 +396,9 @@ const Charts: React.FC<{ seriesId?: string, contractAddress: string, seriesSlug?
 }) => {
   const items: { title: string, description: string, component: JSX.Element }[] = [
     {
-      title: 'Composition of Collection Heat',
+      title: 'Composition of Collection Popularity',
       description: 'Turnover rate indicates heat rate',
-      component: <CollectionHeatCompositionChart seriesSlug={seriesSlug} />
+      component: <CollectionPopularityCompositionChart seriesSlug={seriesSlug} />
     },
     {
       title: 'Price Scatter',

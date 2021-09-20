@@ -12,7 +12,7 @@ import {
   CurrencyMarketValue,
   useCurrencyMarketValueQuery
 } from '@/hooks/queries/insight/overview/useCurrencyMarketValueQuery'
-import { CollectionsHeatTrendChartProps } from '@/pages/Insight/components/charts/CollectionsHeatTrendChart'
+import { CollectionsHeatTrendChartProps } from '@/pages/Insight/components/charts/CollectionsPopularityTrendChart'
 import {
   NftMarketTotalValuation,
   useNftMarketTotalValuationQuery

@@ -13,16 +13,4 @@ module.exports = {
       '@': resolve('src')
     }
   }
-  // plugins: [
-  //   {
-  //     plugin: CracoAlias,
-  //     options: {
-  //       source: 'options',
-  //       baseUrl: './',
-  //       aliases: {
-  //         '@': './src/'
-  //       }
-  //     }
-  //   }
-  // ]
 }

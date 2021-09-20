@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactECharts from 'echarts-for-react'
-import { simplifyNumber } from '@/utils'
 
 export type CollectionsHeatTrendChartProps = {
   collections: string[]
@@ -42,7 +41,7 @@ const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ c
         label: ['collection', 'heat'],
         itemName: 'time',
         tooltip: ['heat']
-      },
+      }
     })
   })
 
@@ -74,20 +73,6 @@ const CollectionsHearTrendChart: React.FC<CollectionsHeatTrendChartProps> = ({ c
     tooltip: {
       order: 'valueDesc',
       trigger: 'axis',
-      formatter: (params: any) => {
-        params.map((item: any) => `
-          <div>${item.data[0]}: ${simplifyNumber(item.data[1])}</div>
-        `)
-
-        return `
-          <div>
-            <div>${new Date(params[0].data[2]).toLocaleString()}</div>
-            ${params.map((item: any) => `
-              <div>${item.data[0]}: ${simplifyNumber(item.data[1])}</div>
-            `).join('')}
-          <div/>
-        `
-      }
     },
     dataZoom: [{
       type: 'slider',
