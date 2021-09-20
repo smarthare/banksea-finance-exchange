@@ -23,9 +23,9 @@ jobs:
       - uses: borales/actions-yarn@v2.3.0
         env:
           CI: false
+          max-old-space-size: 4096
         with:
           cmd: build # will run `yarn build` command
-          args: max-old-space-size=4096
 
       - name: Deploy to Server
         uses: AEnterprise/rsync-deploy@v1.0
