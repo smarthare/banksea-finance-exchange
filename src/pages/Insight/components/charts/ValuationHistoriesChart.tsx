@@ -83,6 +83,7 @@ const ValuationHistoriesChart: React.FC<{ valuations?: AiValuation[], salesTrans
               )
               .map(key => {
                 const change = Object.entries(valuation).find(([_key]) => _key === `${key}ChangeRate`)?.[1] * 100
+                const score = Object.entries(valuation).find(([_key]) => _key === key)?.[1] * 1000
 
                 return `
                   <div style='display: flex; justify-content: space-between;'>
@@ -90,9 +91,11 @@ const ValuationHistoriesChart: React.FC<{ valuations?: AiValuation[], salesTrans
                         ${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).replace(/T(\d+)/, (str, day) => `${day} Day${+day > 1 ? 's' : ''}`)}
                     </span>
                     <span>
-                      <span>${numberWithCommas(Object.entries(valuation).find(([_key]) => _key === key)?.[1])}</span>
+                      <span>
+                        ${numberWithCommas(score, key.includes('PopularityScore') ? 0 : 2)}
+                      </span>
                       <span style='color: ${change && change < 0 ? 'rgb(227,76,69)' : 'rgb(40,167,69)'}'>
-                        ${numberWithCommas(change ?? 0, 2, true)}%
+                        ${numberWithCommas(change, 2, true)}%
                       </span>
                     </span>
                   </div>

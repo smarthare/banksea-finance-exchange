@@ -22,7 +22,7 @@ import {
   TokenValuationChange,
   useTokenValuationBaseInfoQuery
 } from '@/hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
-import { formatTime, numberWithCommas, simplifyNumber } from '@/utils'
+import { formatTime, numberWithCommas, simplifyNumber, thumbnailAddress } from '@/utils'
 import {
   TokenTransaction,
   TokenTransactionType,
@@ -30,9 +30,11 @@ import {
 } from '@/hooks/queries/insight/token/useTokenTransactionsQuery'
 import { ValuationHistoriesChart } from './components/charts/ValuationHistoriesChart'
 import { useTokenCountWithPropertiesQuery } from '@/hooks/queries/insight/token/useTokenCountWithPropertiesQuery'
-import { MinusOutlined } from '@ant-design/icons'
+import { CopyOutlined, MinusOutlined } from '@ant-design/icons'
 import { Flex } from '@pancakeswap/uikit'
 import { useTokenSalesTransactionsQuery } from '@/hooks/queries/insight/token/useTokenSalesTransactionsQuery'
+import { message, Tooltip } from 'antd'
+import copy from 'copy-to-clipboard'
 
 type NFTValuationPageProps = {
   //
@@ -683,33 +685,49 @@ const Transactions: React.FC<{ assetContractAddress?: string, tokenId?: number }
   assetContractAddress,
   tokenId
 }) => {
+  const SimplyAddressWithTooltip: React.FC<{ address?: string }> = ({ address }) => {
+    return (
+      address ?
+        <Tooltip
+          title={
+            <>
+              {address} <CopyOutlined onClick={() => copy(address) && message.success('Copy successful')} />
+            </>
+          }
+        >
+          {thumbnailAddress(address)}
+        </Tooltip>
+        : <>-</>
+    )
+  }
+
   const columns = [
     {
       title: 'Type',
       key: 'eventType',
-      dataIndex: 'eventType'
+      dataIndex: 'eventType',
     },
     {
       title: 'From Address',
       key: 'transactionFromAccountAddress',
-      render: (row: any) => row.transactionFromAccountAddress ?? '-',
-      width: '240px'
+      // eslint-disable-next-line react/display-name
+      render: (row: any) => (<SimplyAddressWithTooltip address={row.transactionFromAccountAddress} />) ,
     },
     {
       title: 'To Address',
       key: 'transactionToAccountAddress',
-      render: (row: any) => row.transactionToAccountAddress ?? '-',
-      width: '240px'
+      // eslint-disable-next-line react/display-name
+      render: (row: any) => (<SimplyAddressWithTooltip address={row.transactionToAccountAddress} />) ,
     },
     {
       title: 'Values(Ξ)',
       key: 'price',
-      render: (row: any) => row.price ? numberWithCommas(row.price) : '-'
+      render: (row: any) => row.price ? numberWithCommas(row.price) : '-',
     },
     {
       title: 'Date',
       key: 'date',
-      render: (row: any) => new Date(row.date * 1000).toLocaleDateString()
+      render: (row: any) => new Date(row.date * 1000).toLocaleDateString(),
     }
   ]
 
