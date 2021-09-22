@@ -68,6 +68,14 @@ const routes: Route[] = [
   },
 
   {
+    path: '/pools/*',
+    match: /^\/pools/,
+    title: 'Pools',
+    icon: PoolsIcon,
+    component: PoolsPage
+  },
+
+  {
     path: '/collectibles',
     title: 'Marketplace',
     match: /^\/collectible\//,
@@ -86,7 +94,8 @@ const routes: Route[] = [
     path: '/ai-generators',
     title: 'Level Up',
     icon: LevelUpIcon,
-    component: AIGenerators
+    component: AIGenerators,
+    disable: true
   },
   {
     path: '/nft/create',
@@ -99,13 +108,6 @@ const routes: Route[] = [
     title: 'NFT Created successfully',
     component: NFTCreatedSuccess,
     hidden: true
-  },
-  {
-    path: '/pools/*',
-    match: /^\/pools/,
-    title: 'Pools',
-    icon: PoolsIcon,
-    component: PoolsPage
   },
 
   {
