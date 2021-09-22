@@ -533,7 +533,7 @@ const CollectionToken: React.FC<{ token: CollectionNft, index: number }> = ({ to
         <img src={token.nftImageUrl} alt={token.id} />
         <Flex justifyContent={'flex-end'}>
           <span>
-            {token.lastPrice && `Ξ${numberWithCommas(token.lastPrice)}`}
+            {token.valuation && `Ξ${numberWithCommas(token.valuation)}`}
           </span>
         </Flex>
       </div>
