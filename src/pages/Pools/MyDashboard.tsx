@@ -575,6 +575,13 @@ const NFTAvailableMortgages: React.FC<{ mortgageAvailable: any }> = ({ mortgageA
             </div>
           ))
         }
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
+        <div className="mortgages-item" style={{ height: 0 }} />
       </NFTMortgagesMain>
     </NFTMortgagesContainer>
   )
