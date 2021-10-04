@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const bankseaRequest = axios.create({
-  baseURL: 'https://banksea.finance/api/nft/web/v1',
+  baseURL: process.env.REACT_APP_BANKSEA_API_URL,
   timeout: 20000
 })
 
