@@ -7,7 +7,7 @@ import { Pagination, Tooltip } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
 import { CollectionExternalLink, CollectionValuationStatisticItem } from '@/types/CollectionValuation'
-import { CollectionHeatCompositionChart } from './components/charts/CollectionHeatCompositionChart'
+import { CollectionPopularityCompositionChart } from './components/charts/CollectionPopularityCompositionChart'
 import { PriceScatterChart } from './components/charts/PriceScatterChart'
 import { TotalMarketValueChart } from './components/charts/TotalMarketValueChart'
 import {
@@ -30,6 +30,7 @@ import {
   convertCollectionValuationDetailToCollectionValuationStatisticItems
 } from '@/converters/insight'
 import { SortOrder } from 'antd/es/table/interface'
+import { Flex } from '@pancakeswap/uikit'
 
 type CollectionValuationPageProps = {
   //
@@ -196,6 +197,7 @@ const ChartsContainer = styled.div`
 const ValuationTableContainer = styled.div`
   position: relative;
   overflow: visible;
+
   .title {
     font-size: 30px;
   }
@@ -294,11 +296,8 @@ const CollectionTokenContainer = styled.div`
 
   .first-page {
     margin-bottom: 30px;
-
-    .token-number {
-      display: flex;
-      justify-content: space-between;
-    }
+    font-size: 14px;
+    font-weight: 500;
 
     img {
       width: 190px;
@@ -306,12 +305,6 @@ const CollectionTokenContainer = styled.div`
       border-radius: 10px;
       margin: 10px 0;
       object-fit: cover;
-    }
-
-    .token-number, .id {
-      color: white;
-      font-size: 14px;
-      font-weight: 500;
     }
   }
 
@@ -324,7 +317,7 @@ const CollectionTokenContainer = styled.div`
 
     .item {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
       width: 80%;
 
@@ -403,9 +396,9 @@ const Charts: React.FC<{ seriesId?: string, contractAddress: string, seriesSlug?
 }) => {
   const items: { title: string, description: string, component: JSX.Element }[] = [
     {
-      title: 'Composition of Collection Heat',
+      title: 'Composition of Collection Popularity',
       description: 'Turnover rate indicates heat rate',
-      component: <CollectionHeatCompositionChart seriesSlug={seriesSlug} />
+      component: <CollectionPopularityCompositionChart seriesSlug={seriesSlug} />
     },
     {
       title: 'Price Scatter',
@@ -521,7 +514,7 @@ const ValuationTable: React.FC<{ id?: string }> = ({ id }) => {
   )
 }
 
-const CollectionToken: React.FC<{ token: CollectionNft }> = ({ token }) => {
+const CollectionToken: React.FC<{ token: CollectionNft, index: number }> = ({ token, index }) => {
   const { collectionSlug } = useParams<{ collectionSlug: string }>()
 
   return (
@@ -529,18 +522,25 @@ const CollectionToken: React.FC<{ token: CollectionNft }> = ({ token }) => {
       onClick={() => window.open(`#/insight/${collectionSlug}/${token.nftNumber}`)}
     >
       <div className="first-page">
-        <div className="token-number">
-          <div>#{token.nftNumber}</div>
-        </div>
+        <Flex justifyContent={'space-between'} alignItems={'center'}>
+          <span>
+            #{index + 1}
+          </span>
+          <span>
+            {token.nftName}
+          </span>
+        </Flex>
         <img src={token.nftImageUrl} alt={token.id} />
-        <div className="id">
-          {token.nftName}
-        </div>
+        <Flex justifyContent={'flex-end'}>
+          <span>
+            {token.valuation && `Ξ${numberWithCommas(token.valuation)}`}
+          </span>
+        </Flex>
       </div>
       <div className="second-page">
         <div className="item">
           <div className="key">Last Price</div>
-          <div className="value">{token.lastPrice === '-1' ? '-' : token.lastPrice}</div>
+          <div className="value">{token.lastPrice === '-1' ? '-' : `Ξ${numberWithCommas(token.lastPrice)}`}</div>
         </div>
         <div className="item">
           <div className="key">Valuation</div>
@@ -565,7 +565,7 @@ const CollectionToken: React.FC<{ token: CollectionNft }> = ({ token }) => {
 
 const CollectionTokenList: React.FC<{ collectionId?: string, collectionName?: string }> = ({
   collectionName,
-  collectionId,
+  collectionId
 }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
@@ -648,8 +648,9 @@ const CollectionTokenList: React.FC<{ collectionId?: string, collectionName?: st
       </div>
       <div className="list">
         {
-          data?.records?.map(item => (
+          data?.records?.map((item, index) => (
             <CollectionToken
+              index={index}
               token={item}
               key={item.id}
             />

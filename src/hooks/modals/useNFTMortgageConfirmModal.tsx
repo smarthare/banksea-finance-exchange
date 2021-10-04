@@ -3,6 +3,7 @@ import { Button, Modal } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import mortgageModalBac from '@/assets/images/allModalImg/mortgageModalBac.svg'
+import { useSuccessModal } from '@/hooks/modals/stateModals/useSuccessModal'
 
 const ConfirmModal = styled(Modal)`
   position: relative;
@@ -107,6 +108,12 @@ const ConfirmButton = styled(Button)`
 
 export const useMortgageConfirmModal = () => {
 
+  const { successModal, openSuccessModal } = useSuccessModal()
+
+  const confirm = () => {
+    openSuccessModal()
+  }
+
   const { modal, open, close } = useModal((_open, close, visible) => (
     <ConfirmModal
       title="Checking the Mortgage"
@@ -127,8 +134,11 @@ export const useMortgageConfirmModal = () => {
         <div className="MortgageValues-bottom">bToken:$26.02</div>
         <div className="MortgageValues-bottom">·Next Health value:2873.89</div>
       </MortgageValues>
-      <ConfirmButton>Confirm</ConfirmButton>
+      <ConfirmButton onClick={confirm}>Confirm</ConfirmButton>
       <img className="mortgageModalBac" src={mortgageModalBac} alt="mortgage" />
+      {
+        successModal
+      }
     </ConfirmModal>
   ))
 

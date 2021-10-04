@@ -8,8 +8,6 @@ import {
   ReactComponent as OfferIcon
 } from '@/assets/images/PersonalPageImg/activity.svg'
 import { ReactComponent as HeartIcon } from '@/assets/images/PersonalPageImg/heart.svg'
-
-import { SearchOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { getAccount } from '@/store/wallet'
 import NFTListItem from '@/components/NFTListItem'
@@ -17,7 +15,7 @@ import ListPageLoading from '@/components/ListPageLoading'
 import { usePersonalNFTsQuery } from '@/hooks/queries/usePersonalNFTsQuery'
 import { ChainSelector, OrderSelector, StatusSelector } from '@/components/NFTListSelectors'
 import { BankseaNftTransactionStatus, ChainType } from '@/apis/nft'
-import { ThemeInput } from '@/styles/ThemeInput'
+import { ThemeSearchInput } from '@/styles/ThemeSearchInput'
 
 const PersonalContainer = styled.div`
   width: 120.2rem;
@@ -115,6 +113,7 @@ const NFTListContainer = styled.div`
   padding-left: 4rem;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 `
 
 const CustomPagination = styled(Pagination)`
@@ -166,13 +165,23 @@ const CustomPagination = styled(Pagination)`
 const UserNFTList: React.FC<any> = ({ list }) => {
   return (
     <NFTListContainer>
-      {list?.map((nft: any, index: number) => (
-        <NFTListItem
-          data={nft}
-          key={index}
-          type="own"
-        />
-      ))}
+      {
+        list?.map((nft: any, index: number) => (
+          <NFTListItem
+            data={nft}
+            key={index}
+            type="own"
+          />
+        ))
+      }
+      {
+        new Array(4).fill({}).map((o, index) => (
+          <NFTListItem
+            key={index}
+            empty
+          />
+        ))
+      }
     </NFTListContainer>
   )
 }
@@ -224,8 +233,8 @@ const PersonalHomepage: React.FC = () => {
       </UserOptions>
       <div style={{ width: '100%', height: '15rem', position: 'relative' }}>
         <SelectorsContainer>
-          <ThemeInput onPressEnter={onPressEnter}
-            prefix={<SearchOutlined style={{ color: '#7C6DEB', width: '1.5rem' }} />}
+          <ThemeSearchInput
+            onSearch={onPressEnter}
           />
           <div className="gutter" />
           <ChainSelector onChange={setTypeChain} />

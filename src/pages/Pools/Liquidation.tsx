@@ -292,6 +292,7 @@ const LiquidationListPage: React.FC = () => {
               <div className="search">
                 <ThemeInput
                   prefix={<SearchOutlined style={{ color: 'white', width: '1.5rem' }} />}
+                  style={{ marginRight: '10px' }}
                 />
                 <LiquidationSelector />
               </div>

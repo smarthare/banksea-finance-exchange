@@ -4,8 +4,7 @@ import { useCollectionsHeatTrendQuery } from '@/hooks/queries/insight/overview/u
 import { EChartsOption } from 'echarts-for-react/src/types'
 import { numberWithCommas } from '@/utils'
 
-
-const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ seriesSlug }) => {
+const CollectionPopularityCompositionChart: React.FC<{ seriesSlug?: string }> = ({ seriesSlug }) => {
   const { data } = useCollectionsHeatTrendQuery(seriesSlug)
   const row = data?.[0]
   const time = row?.time.map(o => o * 1000) ?? []
@@ -102,5 +101,5 @@ const CollectionHeatCompositionChart: React.FC<{ seriesSlug?: string }> = ({ ser
 }
 
 export {
-  CollectionHeatCompositionChart
+  CollectionPopularityCompositionChart
 }

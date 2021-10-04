@@ -6,15 +6,11 @@ import { useValuationOverviewData } from '@/hooks/data/useValuationOverviewData'
 import {
   CollectionsHearTrendChart,
   CollectionsHeatTrendChartProps
-} from './components/charts/CollectionsHeatTrendChart'
+} from './components/charts/CollectionsPopularityTrendChart'
 import { AllNFTValuationChart } from './components/charts/AllNFTValuationChart'
 import { CurrencyMarketValue } from '@/hooks/queries/insight/overview/useCurrencyMarketValueQuery'
 import { formatTime, simplifyNumber } from '@/utils'
 import { NftMarketTotalValuation } from '@/hooks/queries/insight/overview/useNftMarketTotalValuationQuery'
-
-type InsightPageProps = {
-  //
-}
 
 const ValuationPageContainer = styled.div`
   color: white;
@@ -131,18 +127,15 @@ const AllNFTValuation: React.FC<{ data?: NftMarketTotalValuation }> = ({ data })
   )
 }
 
-const CollectionsHeatTrend: React.FC<{ data?: CollectionsHeatTrendChartProps }> = ({ data }) => {
+const CollectionsPopularityTrend: React.FC<{ data?: CollectionsHeatTrendChartProps }> = ({ data }) => {
   return (
     <div>
       <div style={{ textAlign: 'center', fontSize: '32px', marginBottom: '20px' }}>
-        Heat Trend of Collections
+        Popularity Trend of Collections
       </div>
       {
-        data && (
-          <CollectionsHearTrendChart {...data} />
-        )
+        data && <CollectionsHearTrendChart {...data} />
       }
-
     </div>
   )
 }
@@ -194,7 +187,7 @@ const Summary: React.FC<{
   )
 }
 
-const InsightPage: React.FC<InsightPageProps> = () => {
+const InsightPage: React.FC = () => {
   const {
     allWhitelistCollections,
     featureAddedWhitelistCollections,
@@ -210,7 +203,7 @@ const InsightPage: React.FC<InsightPageProps> = () => {
         <TitleDivider />
         <Summary currencyMarketValue={currencyMarketValue} marketTotalValuation={nftMarketTotalValuation} />
         <AllNFTValuation data={nftMarketTotalValuation} />
-        <CollectionsHeatTrend data={collectionsHeatTrendData} />
+        <CollectionsPopularityTrend data={collectionsHeatTrendData} />
         <FeatureAddedWhitelistCollections collections={featureAddedWhitelistCollections} />
         <AllWhitelistCollections collections={allWhitelistCollections} />
       </Wrapper>

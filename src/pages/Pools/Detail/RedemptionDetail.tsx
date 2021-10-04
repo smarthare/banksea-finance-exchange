@@ -366,8 +366,6 @@ const { Countdown } = Statistic
 
 const RedemptionDetailPage:React.FC = () => {
 
-  const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30
-
   return (
     <NFTMortgageDetailContainer>
       <Row>
@@ -379,9 +377,7 @@ const RedemptionDetailPage:React.FC = () => {
         <RightArea>
           <NFTBaseInfo />
         </RightArea>
-        <div className="time">
-          <Countdown value={deadline} />
-        </div>
+        <div className="time" />
       </Row>
       <Statistics />
     </NFTMortgageDetailContainer>

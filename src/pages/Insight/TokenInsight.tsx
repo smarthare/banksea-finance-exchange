@@ -22,11 +22,19 @@ import {
   TokenValuationChange,
   useTokenValuationBaseInfoQuery
 } from '@/hooks/queries/insight/token/useTokenValuationBaseInfoQuery'
-import { formatTime, numberWithCommas, simplifyNumber } from '@/utils'
-import { NftTransactionType, useTokenTransactionsQuery } from '@/hooks/queries/insight/token/useTokenTransactionsQuery'
+import { formatTime, numberWithCommas, simplifyNumber, thumbnailAddress } from '@/utils'
+import {
+  TokenTransaction,
+  TokenTransactionType,
+  useTokenTransactionsQuery
+} from '@/hooks/queries/insight/token/useTokenTransactionsQuery'
 import { ValuationHistoriesChart } from './components/charts/ValuationHistoriesChart'
 import { useTokenCountWithPropertiesQuery } from '@/hooks/queries/insight/token/useTokenCountWithPropertiesQuery'
-import { MinusOutlined } from '@ant-design/icons'
+import { CopyOutlined, MinusOutlined } from '@ant-design/icons'
+import { Flex } from '@pancakeswap/uikit'
+import { useTokenSalesTransactionsQuery } from '@/hooks/queries/insight/token/useTokenSalesTransactionsQuery'
+import { message, Tooltip } from 'antd'
+import copy from 'copy-to-clipboard'
 
 type NFTValuationPageProps = {
   //
@@ -256,12 +264,12 @@ const MarketDataContainer = styled.div`
 
       .value {
         color: white;
-        margin-right: 8px;
       }
 
-      .value-in-usd {
-        color: #b2b2b2;
+      .float {
+        text-align: right;
       }
+
     }
 
     .compare {
@@ -552,12 +560,17 @@ const MarketData: React.FC<{ valuation?: TokenValuation }> = ({ valuation }) => 
           <div className="key">Asking Price</div>
           <div className="value-box">
             <img src={ETHColoredIcon} alt="eth" className="icon" />
-            <div className="value">{valuation?.askingPrice ?? '-'}</div>
-            <div className="value-in-usd">{valuation?.askingPriceUsd}</div>
+            <Flex justifyContent={'space-between'} width={'80%'}>
+              <div className="value">{valuation?.askingPrice ?? '-'}</div>
+              <div
+                className="float"
+                style={{ color: (valuation?.askingPriceFloatEth ?? 0) < 0 ? 'rgb(227,76,69)' : 'rgb(40,167,69)' }}
+              >
+                {valuation?.askingPriceFloatUsd && numberWithCommas(valuation?.askingPriceFloatUsd, 2, true)}
+              </div>
+            </Flex>
           </div>
           <span className="compare">
-            {valuation?.askingPriceFloatEth && `${valuation.askingPriceFloatEth} ETH`}
-            {valuation?.askingPriceFloatUsd && `($${valuation.askingPriceFloatUsd})`}
             {valuation?.askingPriceBias && ` vs NFT Valuation: ${numberWithCommas(valuation.askingPriceBias * 100, 2, true)}%`}
           </span>
         </div>
@@ -641,8 +654,9 @@ const MarketData: React.FC<{ valuation?: TokenValuation }> = ({ valuation }) => 
   )
 }*/
 
-const ValuationHistory: React.FC<{ valuations?: AiValuation[] }> = ({
-  valuations
+const ValuationHistory: React.FC<{ valuations?: AiValuation[], salesTransactions?:TokenTransaction[] }> = ({
+  valuations,
+  salesTransactions
 }) => {
   return (
     <CollapsibleBox
@@ -653,7 +667,7 @@ const ValuationHistory: React.FC<{ valuations?: AiValuation[] }> = ({
     >
       <ValuationHistoryContainer>
         <div className="analyze">
-          <ValuationHistoriesChart valuations={valuations} />
+          <ValuationHistoriesChart valuations={valuations} salesTransactions={salesTransactions} />
           {/*<div className="title">Price Analyze</div>*/}
           {/*<div className="divider" />*/}
           {/*<div className="items">*/}
@@ -671,39 +685,55 @@ const Transactions: React.FC<{ assetContractAddress?: string, tokenId?: number }
   assetContractAddress,
   tokenId
 }) => {
+  const SimplyAddressWithTooltip: React.FC<{ address?: string }> = ({ address }) => {
+    return (
+      address ?
+        <Tooltip
+          title={
+            <>
+              {address} <CopyOutlined onClick={() => copy(address) && message.success('Copy successful')} />
+            </>
+          }
+        >
+          {thumbnailAddress(address)}
+        </Tooltip>
+        : <>-</>
+    )
+  }
+
   const columns = [
     {
       title: 'Type',
       key: 'eventType',
-      dataIndex: 'eventType'
+      dataIndex: 'eventType',
     },
     {
       title: 'From Address',
       key: 'transactionFromAccountAddress',
-      render: (row: any) => row.transactionFromAccountAddress ?? '-',
-      width: '240px'
+      // eslint-disable-next-line react/display-name
+      render: (row: any) => (<SimplyAddressWithTooltip address={row.transactionFromAccountAddress} />) ,
     },
     {
       title: 'To Address',
       key: 'transactionToAccountAddress',
-      render: (row: any) => row.transactionToAccountAddress ?? '-',
-      width: '240px'
+      // eslint-disable-next-line react/display-name
+      render: (row: any) => (<SimplyAddressWithTooltip address={row.transactionToAccountAddress} />) ,
     },
     {
       title: 'Values(Ξ)',
       key: 'price',
-      render: (row: any) => row.price ? numberWithCommas(row.price) : '-'
+      render: (row: any) => row.price ? numberWithCommas(row.price) : '-',
     },
     {
       title: 'Date',
       key: 'date',
-      render: (row: any) => new Date(row.date * 1000).toLocaleDateString()
+      render: (row: any) => new Date(row.date * 1000).toLocaleDateString(),
     }
   ]
 
-  const filterOptions: NftTransactionType[] = ['Sales', 'Transfers', 'Bids', 'Listings']
+  const filterOptions: TokenTransactionType[] = ['Sales', 'Transfers', 'Bids', 'Listings']
 
-  const [selectedOptions, setSelectedOptions] = useState<NftTransactionType[]>([])
+  const [selectedOptions, setSelectedOptions] = useState<TokenTransactionType[]>([])
 
   const handleChange = (value: any) => {
     setSelectedOptions(value)
@@ -864,7 +894,7 @@ const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
   const { tokenId, collectionSlug } = useParams<{ tokenId: string, collectionSlug: string }>()
 
   const { data } = useTokenValuationBaseInfoQuery(collectionSlug, tokenId)
-
+  const { data: salesTransactions } = useTokenSalesTransactionsQuery(collectionSlug, tokenId)
   useEffect(() => {
     document.getElementById('main')!.scrollTo(0, 0)
   }, [])
@@ -893,7 +923,7 @@ const NFTValuationPage: React.FC<NFTValuationPageProps> = () => {
         </FlexRow>
 
         <ValuationAnalyze valuation={data?.aiValuationVo} />
-        <ValuationHistory valuations={data?.aiValuationVoList} />
+        <ValuationHistory valuations={data?.aiValuationVoList} salesTransactions={salesTransactions} />
         <Transactions assetContractAddress={data?.assetContractAddress} tokenId={data?.tokenId} />
       </Wrapper>
     </NFTValuationPageContainer>

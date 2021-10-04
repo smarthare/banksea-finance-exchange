@@ -11,10 +11,12 @@ import { useHistory } from 'react-router-dom'
 import NFTListItem from '../../components/NFTListItem'
 import { useNFTsQuery } from '@/hooks/queries/useNFTsQuery'
 import { useMediaQuery } from 'react-responsive'
+import coding from '@/assets/images/mockImg/coding.png'
 
 const HomePageContainer = styled.div`
   font-family: 'PingFang SC';
   width: 100%;
+  position: relative;
 
   @media screen and (min-width: 300px) and (max-width: 600px) {
     width: 100vw !important;
@@ -455,7 +457,6 @@ const PanelIcon: React.FC<any> = ({ iconName }) => {
   )
 }
 
-
 const AIFlag: React.FC<any> = () => {
 
   const isMobile = useMediaQuery({ query:'(max-width: 1000px)' })
@@ -519,16 +520,9 @@ const HomePage: React.FC = () => {
 
   return (
     <HomePageContainer>
-      {/*<HeadLine>
-         <MyCarousel autoplay>
-          <div>
-            <img src={voteBanner} alt="logo" style={{ height: '30rem', margin: '0 auto' }} />
-          </div>
-        </MyCarousel>
-      </HeadLine>*/}
+      <img style={{ position: 'absolute', right: '0', top: '0', zIndex: 99, width: '20vw' }} src={coding} alt="" />
       <BodyContainer>
         <InfoContainer>
-
           <div className="row1">
             <div className="nft-mortgage-container" onClick={() => history.push('/pools/*')}>
               <AIFlag />
@@ -612,7 +606,6 @@ const HomePage: React.FC = () => {
           <div className="title">New NFTs</div>
           <NFTList list={data?.records} fetch={fetch} />
         </NFTContainer>
-
       </BodyContainer>
     </HomePageContainer>
   )

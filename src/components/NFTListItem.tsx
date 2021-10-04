@@ -3,21 +3,19 @@ import { Link } from 'react-router-dom'
 import { Spin } from 'antd'
 import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-// @ts-ignore
-// import LazyLoad from 'react-lazyload'
-import { useWalletSelectionModal } from '../contexts/WalletSelectionModal'
-import { useWeb3EnvContext } from '../contexts/Web3EnvProvider'
+import { useWalletSelectionModal } from '@/contexts/WalletSelectionModal'
+import { useWeb3EnvContext } from '@/contexts/Web3EnvProvider'
 import PriceIcon from '@/assets/images/homePageImg/price-icon.svg'
-import { ChainType, setNftFavorite } from '../apis/nft'
-import { NftListItem } from '../types/NFTDetail'
+import { ChainType, setNftFavorite } from '@/apis/nft'
+import { NftListItem } from '@/types/NFTDetail'
 
-const NFTItemCardContainer = styled.div`
+const NFTItemCardContainer = styled.div<{$empty?: boolean}>`
   color: #7c6deb;
   width: 26rem;
-  height: 37rem;
+  height: ${props => props.$empty ? '0' : '37rem'};
   background-color: #111C3A;
   border-radius: 1rem;
-  margin-bottom: 3rem;
+  margin-bottom: ${props => props.$empty ? '0' : '3rem'};;
   font-weight: bold;
   display: flex;
   flex-direction: column;
@@ -131,10 +129,10 @@ const TypeChainThumbnailMapper: { [key in ChainType]?: string } = {
   'Solana': 'Sol'
 }
 
-const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({ data, type }) => {
+const NFTListItem: React.FC<{ data?: NftListItem, type?: 'nftList' | 'own', empty?: boolean }> = ({ data, type, empty }) => {
   const { providerInitialized } = useWeb3EnvContext()
 
-  const [favorite, setFavorite] = useState<number>(data.favorite ?? 0)
+  const [favorite, setFavorite] = useState<number>(data?.favorite ?? 0)
   const [isHeart, setHeart] = useState<boolean>(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -142,7 +140,7 @@ const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({
   const { open: openWalletSelectionModal } = useWalletSelectionModal()
 
   const imageUrl = useCallback(() => {
-    const url = data?.image ?? data?.thumbnail
+    const url = data?.image ?? data?.thumbnail ?? ''
 
     if (url?.startsWith('https://gateway.pinata.cloud')) {
       return `https://banksy.mypinata.cloud${data?.image.slice(-52)}`
@@ -188,10 +186,10 @@ const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({
   }
 
   const detailUrl = '/collectible/nftdetail?' + new URLSearchParams({
-    id: data.name,
-    uri: data.valueUri,
-    addressContract: data.addressContract,
-    type
+    id: data?.name ?? '',
+    uri: data?.valueUri ?? '',
+    addressContract: data?.addressContract ?? '',
+    type: type ?? ''
   }).toString()
 
   useEffect(() => {
@@ -199,6 +197,10 @@ const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({
   }, [data])
 
   const favoriteHandle = () => {
+    if (!data) {
+      return
+    }
+
     if (!providerInitialized) {
       openWalletSelectionModal()
     } else {
@@ -213,11 +215,11 @@ const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({
   }
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', height: 'fit-content' }}>
       {
-        data.onSale && <CornerFlag status="On Sale" />
+        data?.onSale && <CornerFlag status="On Sale" />
       }
-      <NFTItemCardContainer>
+      <NFTItemCardContainer $empty={empty}>
         <Link to={detailUrl}>
           <div className="img-container">
             {/*<LazyLoad>*/}
@@ -228,7 +230,7 @@ const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({
                 borderTopRightRadius: '1rem',
                 height: '100%'
               }}
-              alt={data.name}
+              alt={data?.name}
               onLoad={() => {
                 setLoading(false)
               }}
@@ -240,10 +242,10 @@ const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({
             />
             {/*</LazyLoad>*/}
             {
-              loading && <Spin className="spin" />
+              loading && data && <Spin className="spin" />
             }
             {
-              error && <Spin className="spin" />
+              error && data && <Spin className="spin" />
             }
           </div>
         </Link>
@@ -264,11 +266,13 @@ const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({
               onClick={favoriteHandle}
             >
               {
-                isHeart
-                  ? <HeartFilled className="heart" />
-                  : <HeartOutlined className="heart" />
+                data && (
+                  isHeart
+                    ? <HeartFilled className="heart" />
+                    : <HeartOutlined className="heart" />
+                )
               }
-              {favorite ? favorite : 0}
+              {data && (favorite ? favorite : 0)}
             </div>
           </div>
         </div>
@@ -276,14 +280,19 @@ const NFTListItem: React.FC<{ data: NftListItem, type: 'nftList' | 'own' }> = ({
           <div className="artist-name"> {data?.nameArtist} </div>
           <div>
             <div className="price">
-              <img
-                src={PriceIcon}
-                style={{
-                  width: '1.2rem',
-                  height: '1.8rem'
-                }}
-                alt=""
-              />
+              {
+                data && (
+                  <img
+                    src={PriceIcon}
+                    style={{
+                      width: '1.2rem',
+                      height: '1.8rem'
+                    }}
+                    alt=""
+                  />
+                )
+              }
+
               <div className="price-value"> {data?.price} </div>
             </div>
           </div>

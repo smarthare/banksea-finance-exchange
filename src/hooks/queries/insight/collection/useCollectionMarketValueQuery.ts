@@ -10,9 +10,14 @@ export const useCollectionMarketValueQuery = (nftSeriesId?: string): UseQueryRes
   return useQuery(
     ['COLLECTION_MARKET_VALUE', nftSeriesId],
     async () => {
+      // fixme: mock
+      const CRYPTO_PUNKS_SERIES_ID = '1432621402511089665'
+
+      const url = nftSeriesId === CRYPTO_PUNKS_SERIES_ID ? '/oracle/chart/capitalization' : '/oracle/chart/cap'
+
       return await bankseaRequest
         .post<BankseaApiResponse<CollectionMarketValue>>(
-          '/oracle/chart/cap',
+          url,
           { nftSeriesId }
         )
         .then(r => r.data.data)

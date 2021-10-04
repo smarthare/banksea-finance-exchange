@@ -5,6 +5,7 @@ import { Property } from 'csstype'
 type DropdownSelectorProps = {
   backgroundColor?: Property.Color
   minWidth?: Property.MinWidth
+  height?: Property.Height
 }
 
 const DropdownSelector = styled(Select)<DropdownSelectorProps>`
@@ -12,14 +13,14 @@ const DropdownSelector = styled(Select)<DropdownSelectorProps>`
 
   &,
   .ant-select {
-    height: fit-content;
-    min-width: ${props => props.minWidth ?? '80px'};
+    height: ${props => props.height ?? 'fit-content'};
+    min-width: ${props => props.minWidth ?? 'fit-content'};
   }
 
   .ant-select-selector {
     max-width: 300px;
     min-width: ${props => props.minWidth ?? '80px'};
-    height: fit-content;
+    height: ${props => props.height ?? 'fit-content'} !important;
     border-color: #305099 !important;
     border-radius: 10px !important;
     background-color: ${({ backgroundColor }) => (backgroundColor ?? '#305099') + '!important;'}
