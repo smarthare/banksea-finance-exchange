@@ -83,7 +83,7 @@ export const useRepayCheckoutModal = () => {
       footer={null}
     >
       <div className="borrow-body">
-        <div className="borrow-title">Withdraw overview</div>
+        <div className="borrow-title">Repay overview</div>
         <div className="borrow-text">There are your transaction details. Make sure to check if this is correct before submitting.</div>
         <div className="borrow-main">
           <div className="borrow-main-item">
@@ -95,7 +95,7 @@ export const useRepayCheckoutModal = () => {
             <span>3.88%</span>
           </div>
         </div>
-        <BorrowButton >Withdraw</BorrowButton>
+        <BorrowButton >Repay</BorrowButton>
       </div>
     </RepayCheckoutModal>
   ))

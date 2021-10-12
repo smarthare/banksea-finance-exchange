@@ -58,6 +58,7 @@ const RightArea = styled.div`
 
 const NFTBaseInfoContainer = styled.div`
   .nft-name {
+    width: 60rem;
     font-size: 4.5rem;
     font-weight: 550;
     color: #98BDF9;
@@ -189,12 +190,15 @@ const NeuralNetworks = styled.div`
 `
 
 const StatisticsContainer = styled.div`
-  width: 100%;
-  height: 26rem;
-  background: #101D44;
-  border-radius: 1.5rem;
-  margin-bottom: 1.4rem;
-  margin-top: 2rem;
+
+  .statistics-price {
+    width: 100%;
+    background: #101D44;
+    border-radius: 1.5rem;
+    margin-bottom: 1.4rem;
+    margin-top: 2rem;
+  }
+
 `
 
 const AreaTitle = styled.div`
@@ -263,11 +267,13 @@ const Statistics:React.FC = () => {
 
   return (
     <StatisticsContainer>
-      <AreaTitle>Historical price</AreaTitle>
-      <Line />
-      <StatisticsMain>
-        <DepositAPY />
-      </StatisticsMain>
+      <div className="statistics-price">
+        <AreaTitle>Historical price</AreaTitle>
+        <Line />
+        <StatisticsMain>
+          <DepositAPY />
+        </StatisticsMain>
+      </div>
       <ScheduleFirst>
         <div className="title">Cancel overview</div>
         <div className="main-title">
