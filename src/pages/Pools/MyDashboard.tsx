@@ -454,7 +454,7 @@ const DepositInformationArea: React.FC<{ userInfo: any, depositList: any }> = ({
                 <div className="universal-item-text">
                   <p>{item?.depositApy}</p>
                 </div>
-                <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>deposit</DepositButton>
+                <DepositButton onClick={() => history.push(`/pools/deposit/detail/${item?.id}`)}>Deposit</DepositButton>
                 <DepositButton onClick={() => history.push(`/pools/withdraw/detail/${item?.id}`)}>Withdraw</DepositButton>
               </div>
             ))
