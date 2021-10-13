@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - v1
+      - 'dev/**'
     paths-ignore:
       - README.md
       - LICENSE
-      - .github
 
 jobs:
   deploy:
@@ -37,7 +37,7 @@ jobs:
           FOLDER: ./build/ # Folder to push. The path is relative to the root directory of the code repository
           SERVER_IP: ${{ secrets.SSH_HOST }}
           USERNAME: ${{ secrets.SSH_USER }}
-          SERVER_DESTINATION: /home/devops/banksea/banksea-finance-exchange/middleware/ui/
+          SERVER_DESTINATION: /home/devops/banksea_website/middleware/ui/app-testnet
 
       - name: Restart server
         uses: appleboy/ssh-action@master
@@ -46,4 +46,4 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: | # Script to restart, according to their own situation to change the corresponding,
-            docker-compose -f /home/devops/banksea/banksea-finance-exchange/middleware/docker-compose.yml restart banksea_nginx
+            docker-compose -f /home/devops/banksea_website/middleware/docker-compose.yml restart banksea_website_nginx
